@@ -597,6 +597,77 @@ const units10: UnitContent[] = [
       body: "Plantilla de contrato en el repo del design doc (sin datos reales). Ver /herramientas/#curso-10.",
     },
   },
+  {
+    courseSlug: "10-diseno-sistemas-ia",
+    unitId: "u04",
+    learningOutcomes: [
+      "Determinar el nivel de automatización según costo del error y supervisión real.",
+      "Diseñar presentación de incertidumbre y abstención.",
+      "Especificar reversión, apelación y registro.",
+    ],
+    blocks: [
+      {
+        title: "Niveles de automatización",
+        minutes: 60,
+        body: "Continuo de automatización; crítica del humano-en-el-loop nominal; umbrales.",
+      },
+      {
+        title: "Comunicación de la incertidumbre",
+        minutes: 60,
+        body: "Calibración, intervalos, abstención y efectos sobre la decisión humana.",
+      },
+      {
+        title: "Confianza y explicación",
+        minutes: 60,
+        body: "Sobreconfianza, aversión al algoritmo y fricción deliberada.",
+      },
+      {
+        title: "Reversión y registro",
+        minutes: 60,
+        body: "Caminos de corrección/escalamiento y registro técnico-compliance (Actividad 2).",
+      },
+    ],
+    readings: [
+      "Amershi et al. (2019)",
+      "Buçinca et al. (2021)",
+      "Parasuraman et al. (2000) — complementaria",
+    ],
+  },
+  {
+    courseSlug: "10-diseno-sistemas-ia",
+    unitId: "u05",
+    learningOutcomes: [
+      "Especificar evaluación en tres niveles (componente, sistema, organización).",
+      "Diseñar puesta en producción con reversión automática.",
+      "Identificar superficie de riesgo y controles proporcionales.",
+    ],
+    blocks: [
+      {
+        title: "Tres niveles de evaluación",
+        minutes: 60,
+        body: "Métricas de componente/sistema/resultado y métricas de vigilancia.",
+      },
+      {
+        title: "Evaluación en línea",
+        minutes: 60,
+        body: "Sombra, canaria, experimentación controlada y criterios de rollback.",
+      },
+      {
+        title: "Evaluación de sistemas generativos",
+        minutes: 60,
+        body: "Sets de dominio, jueces LLM y evaluación humana estructurada.",
+      },
+      {
+        title: "Superficie de riesgo",
+        minutes: 60,
+        body: "OOD, deriva, inyección indirecta y fuga por salida; controles de diseño.",
+      },
+    ],
+    readings: [
+      "Huyen (2022), caps. 6 y 9",
+      "Greshake et al. (2023)",
+    ],
+  },
 ];
 
 const units11: UnitContent[] = [
@@ -716,6 +787,41 @@ const units11: UnitContent[] = [
       title: "Lab — contenedor del healthcheck",
       body: "docker build -t mia-health labs/11/u01 && docker run --rm mia-health (LM Studio en el host).",
     },
+  },
+  {
+    courseSlug: "11-aiops-cloud",
+    unitId: "u04",
+    learningOutcomes: [
+      "Instrumentar observabilidad de servicio y de modelo.",
+      "Aplicar pruebas de deriva con control de falsas alarmas.",
+      "Definir SLOs, alertas y procedimientos de respuesta.",
+    ],
+    blocks: [
+      {
+        title: "Dos capas de observabilidad",
+        minutes: 60,
+        body: "Servicio vs modelo; falla silenciosa; muestreo de predicciones.",
+      },
+      {
+        title: "Deriva",
+        minutes: 60,
+        body: "Tipología, pruebas, ventana/frecuencia y falsas alarmas.",
+      },
+      {
+        title: "Etiqueta tardía o ausente",
+        minutes: 60,
+        body: "Proxies, muestreo manual y monitoreo por subgrupo.",
+      },
+      {
+        title: "SLOs y runbooks",
+        minutes: 60,
+        body: "Presupuestos de error, alertas accionables y manual de operación (Eval 2).",
+      },
+    ],
+    readings: [
+      "Gama et al. (2014)",
+      "Beyer et al. (2016), caps. 4 y 6",
+    ],
   },
 ];
 

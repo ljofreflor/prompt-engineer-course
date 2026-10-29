@@ -1,0 +1,54 @@
+{
+  "model": "google/gemma-4-e4b",
+  "base": "http://localhost:1234/v1",
+  "runs": {
+    "0.0": {
+      "outputs": [
+        "azul",
+        "azul",
+        "azul",
+        "azul",
+        "azul"
+      ],
+      "unique": 1,
+      "top": [
+        [
+          "azul",
+          5
+        ]
+      ]
+    },
+    "0.7": {
+      "outputs": [
+        "azul",
+        "azul",
+        "azul",
+        "azul",
+        "azul"
+      ],
+      "unique": 1,
+      "top": [
+        [
+          "azul",
+          5
+        ]
+      ]
+    },
+    "1.2": {
+      "outputs": [
+        "azul",
+        "azul",
+        "azul",
+        "azul",
+        "azul"
+      ],
+      "unique": 1,
+      "top": [
+        [
+          "azul",
+          5
+        ]
+      ]
+    }
+  }
+}

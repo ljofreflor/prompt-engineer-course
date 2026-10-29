@@ -173,14 +173,14 @@ export const courses: Course[] = [
         title: "Interacción humano-IA",
         hours: 4,
         summary: "Confianza calibrada, confirmación y diseño de interfaces.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u05",
         title: "Evaluación, monitoreo y superficie de riesgo",
         hours: 4,
         summary: "Métricas de sistema, deriva y controles arquitectónicos.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u06",
@@ -228,7 +228,7 @@ export const courses: Course[] = [
         title: "Observabilidad, deriva e incidentes",
         hours: 4,
         summary: "Métricas, alertas y respuesta ante fallas.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u05",

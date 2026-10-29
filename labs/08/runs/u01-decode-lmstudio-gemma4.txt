@@ -1,0 +1,6 @@
+T=0.0 unique=1/5 sample=['azul', 'azul', 'azul', 'azul', 'azul']
+T=0.7 unique=1/5 sample=['azul', 'azul', 'azul', 'azul', 'azul']
+T=1.2 unique=1/5 sample=['azul', 'azul', 'azul', 'azul', 'azul']
+{"model": "google/gemma-4-e4b", "temps": ["0.0", "0.7", "1.2"]}
+wrote labs/08/runs/u01-decode-lmstudio-gemma4.json
+stability_ok=True (unique@0=1 unique@1.2=1)
