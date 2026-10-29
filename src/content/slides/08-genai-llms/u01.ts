@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 08 · Unidad 1",
-    title: "Arquitectura del transformer generativo",
+    title: "Arquitectura del transformer",
     subtitle: "4 hrs · Generative AI y LLMs — UAI",
   },
   {

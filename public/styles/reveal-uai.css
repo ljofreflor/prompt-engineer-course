@@ -272,6 +272,7 @@ body {
 }
 
 .reveal .slides section.slide-title h1 {
+  font-size: 2.1em; /* un poco bajo el h1 genérico para caber en ≤2 líneas */
   max-width: 16ch;
   margin: 0;
 }
