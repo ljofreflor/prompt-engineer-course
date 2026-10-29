@@ -16,6 +16,16 @@
   };
 
   var mounted = new WeakSet();
+  var MOTION = !(
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+  function tDelay(ms) {
+    return MOTION ? ms : 0;
+  }
+  function tDur(ms) {
+    return MOTION ? ms : 0;
+  }
 
   function clear(el) {
     while (el.firstChild) el.removeChild(el.firstChild);
@@ -46,8 +56,8 @@
       .attr("opacity", 0)
       .text(text)
       .transition()
-      .delay(opts.delay || 0)
-      .duration(450)
+      .delay(tDelay(opts.delay || 0))
+      .duration(tDur(450))
       .attr("opacity", 1);
   }
 
@@ -96,8 +106,8 @@
         .attr("opacity", 0)
         .attr("marker-end", "url(#uai-arrow)")
         .transition()
-        .delay(200 + i * 180)
-        .duration(500)
+        .delay(tDelay(200 + i * 180))
+        .duration(tDur(500))
         .attr("opacity", 1);
     });
 
@@ -129,8 +139,8 @@
         .attr("opacity", 0)
         .attr("transform", "scale(0.85)")
         .transition()
-        .delay(80 + i * 120)
-        .duration(450)
+        .delay(tDelay(80 + i * 120))
+        .duration(tDur(450))
         .attr("opacity", 1)
         .attr("transform", "scale(1)");
       g.append("text")
@@ -143,8 +153,8 @@
         .attr("opacity", 0)
         .text(n.label)
         .transition()
-        .delay(160 + i * 120)
-        .duration(400)
+        .delay(tDelay(160 + i * 120))
+        .duration(tDur(400))
         .attr("opacity", 1);
     });
 
@@ -187,8 +197,8 @@
         .attr("opacity", 0)
         .attr("y", -12)
         .transition()
-        .delay(140 * i)
-        .duration(420)
+        .delay(tDelay(140 * i))
+        .duration(tDur(420))
         .attr("opacity", 1)
         .attr("y", -32);
       g.append("text")
@@ -201,8 +211,8 @@
         .attr("opacity", 0)
         .text(tok.t)
         .transition()
-        .delay(160 * i)
-        .duration(400)
+        .delay(tDelay(160 * i))
+        .duration(tDur(400))
         .attr("opacity", 1);
 
       if (i < tokens.length - 1) {
@@ -214,8 +224,8 @@
           .attr("opacity", 0)
           .attr("marker-end", "url(#uai-arrow-ar)")
           .transition()
-          .delay(200 + 140 * i)
-          .duration(350)
+          .delay(tDelay(200 + 140 * i))
+          .duration(tDur(350))
           .attr("opacity", 1);
       }
     });
@@ -274,8 +284,8 @@
         .attr("stroke-width", 2)
         .attr("opacity", 0)
         .transition()
-        .delay(100 + i * 120)
-        .duration(450)
+        .delay(tDelay(100 + i * 120))
+        .duration(tDur(450))
         .attr("opacity", 1);
       g.append("text")
         .attr("text-anchor", "middle")
@@ -287,10 +297,24 @@
         .attr("opacity", 0)
         .text(n.label)
         .transition()
-        .delay(160 + i * 120)
-        .duration(400)
+        .delay(tDelay(160 + i * 120))
+        .duration(tDur(400))
         .attr("opacity", 1);
     });
+
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "uai-arrow-ma")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", COLORS.primary);
 
     [1, 2, 3].forEach(function (i, k) {
       var b = nodes[i];
@@ -302,9 +326,10 @@
         .attr("y2", 108)
         .attr("stroke", COLORS.primary)
         .attr("stroke-width", 2)
+        .attr("marker-end", "url(#uai-arrow-ma)")
         .transition()
-        .delay(400 + k * 140)
-        .duration(400)
+        .delay(tDelay(400 + k * 140))
+        .duration(tDur(400))
         .attr("x2", b.x)
         .attr("y2", b.y - 28);
     });
@@ -344,8 +369,8 @@
         .attr("opacity", 0)
         .attr("transform", "translate(0,20)")
         .transition()
-        .delay(150 * i)
-        .duration(500)
+        .delay(tDelay(150 * i))
+        .duration(tDur(500))
         .attr("opacity", 1)
         .attr("transform", "translate(0,0)");
       svg
@@ -360,8 +385,8 @@
         .attr("opacity", 0)
         .text(L.label)
         .transition()
-        .delay(200 + 150 * i)
-        .duration(400)
+        .delay(tDelay(200 + 150 * i))
+        .duration(tDur(400))
         .attr("opacity", 1);
       svg
         .append("text")
@@ -374,8 +399,8 @@
         .attr("opacity", 0)
         .text(L.sub)
         .transition()
-        .delay(260 + 150 * i)
-        .duration(400)
+        .delay(tDelay(260 + 150 * i))
+        .duration(tDur(400))
         .attr("opacity", 1);
     });
   }
@@ -400,8 +425,8 @@
         .attr("r", 0)
         .attr("fill", COLORS.primary)
         .transition()
-        .delay(100 + i * 160)
-        .duration(400)
+        .delay(tDelay(100 + i * 160))
+        .duration(tDur(400))
         .attr("r", 18);
       g.append("text")
         .attr("text-anchor", "middle")
@@ -413,8 +438,8 @@
         .attr("opacity", 0)
         .text(s.label)
         .transition()
-        .delay(160 + i * 160)
-        .duration(400)
+        .delay(tDelay(160 + i * 160))
+        .duration(tDur(400))
         .attr("opacity", 1);
       g.append("text")
         .attr("text-anchor", "middle")
@@ -425,8 +450,8 @@
         .attr("opacity", 0)
         .text(s.sub)
         .transition()
-        .delay(200 + i * 160)
-        .duration(400)
+        .delay(tDelay(200 + i * 160))
+        .duration(tDur(400))
         .attr("opacity", 1);
 
       if (i < steps.length - 1) {
@@ -439,8 +464,8 @@
           .attr("stroke", COLORS.primary)
           .attr("stroke-width", 2.5)
           .transition()
-          .delay(220 + i * 160)
-          .duration(400)
+          .delay(tDelay(220 + i * 160))
+          .duration(tDur(400))
           .attr("x2", steps[i + 1].x - 28);
       }
     });
