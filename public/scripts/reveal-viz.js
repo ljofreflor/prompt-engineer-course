@@ -2815,6 +2815,207 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** LoRA: W congelado + ΔW = B·A de rango bajo (Hu et al. 2022). */
+  function vizLoraAdapters(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("LoRA: pesos congelados más adaptadores de bajo rango");
+
+    var gW = svg.append("g").attr("transform", "translate(80,60)");
+    gW.append("rect")
+      .attr("width", 220)
+      .attr("height", 220)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.negro)
+      .attr("stroke-width", 1.5);
+    // frozen grid
+    for (var i = 0; i < 5; i++) {
+      gW.append("line")
+        .attr("x1", 20 + i * 40)
+        .attr("y1", 30)
+        .attr("x2", 20 + i * 40)
+        .attr("y2", 190)
+        .attr("stroke", COLORS.border)
+        .attr("stroke-width", 1);
+      gW.append("line")
+        .attr("x1", 20)
+        .attr("y1", 30 + i * 40)
+        .attr("x2", 180)
+        .attr("y2", 30 + i * 40)
+        .attr("stroke", COLORS.border)
+        .attr("stroke-width", 1);
+    }
+    gW.append("text")
+      .attr("x", 110)
+      .attr("y", 28)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 20)
+      .text("W congelado");
+    gW.append("text")
+      .attr("x", 110)
+      .attr("y", 250)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("d × d · no se entrena");
+
+    var plus = svg
+      .append("text")
+      .attr("x", 340)
+      .attr("y", 180)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 28)
+      .text("+");
+
+    var gBA = svg.append("g").attr("transform", "translate(390,60)");
+    // B tall thin
+    gBA
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", 40)
+      .attr("width", 48)
+      .attr("height", 160)
+      .attr("rx", 2)
+      .attr("fill", COLORS.primary);
+    gBA
+      .append("text")
+      .attr("x", 24)
+      .attr("y", 128)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 18)
+      .text("B");
+    gBA
+      .append("text")
+      .attr("x", 24)
+      .attr("y", 220)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 12)
+      .text("d×r");
+    // A wide short
+    gBA
+      .append("rect")
+      .attr("x", 70)
+      .attr("y", 100)
+      .attr("width", 160)
+      .attr("height", 48)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro);
+    gBA
+      .append("text")
+      .attr("x", 150)
+      .attr("y", 132)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 18)
+      .text("A");
+    gBA
+      .append("text")
+      .attr("x", 150)
+      .attr("y", 175)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 12)
+      .text("r×d · r ≪ d");
+    gBA
+      .append("text")
+      .attr("x", 115)
+      .attr("y", 28)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 18)
+      .text("ΔW = B·A");
+
+    var eq = svg
+      .append("text")
+      .attr("x", 700)
+      .attr("y", 180)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 28)
+      .text("→");
+
+    var gOut = svg.append("g").attr("transform", "translate(760,90)");
+    gOut
+      .append("rect")
+      .attr("width", 120)
+      .attr("height", 160)
+      .attr("rx", 2)
+      .attr("fill", COLORS.white)
+      .attr("stroke", COLORS.primary)
+      .attr("stroke-width", 2.5);
+    gOut
+      .append("text")
+      .attr("x", 60)
+      .attr("y", 70)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 18)
+      .text("W + ΔW");
+    gOut
+      .append("text")
+      .attr("x", 60)
+      .attr("y", 100)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 700)
+      .attr("font-size", 13)
+      .text("inferencia");
+    gOut
+      .append("text")
+      .attr("x", 60)
+      .attr("y", 190)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 12)
+      .text("Hu et al. 2022");
+
+    var nodes = [gW.node(), plus.node(), gBA.node(), eq.node(), gOut.node()];
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes[0], { opacity: 1, duration: 0.35 }, 0.05)
+        .to(nodes[1], { opacity: 1, duration: 0.2 }, 0.3)
+        .to(nodes[2], { opacity: 1, duration: 0.4 }, 0.4)
+        .to(nodes[3], { opacity: 1, duration: 0.2 }, 0.7)
+        .to(nodes[4], { opacity: 1, duration: 0.4 }, 0.8);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 140))
+          .duration(tDur(380))
+          .attr("opacity", 1);
+      });
+    }
+  }
+
   function vizSftAlign(el) {
     cineManual(el);
     var w = 920;
@@ -2914,6 +3115,7 @@
     "abstain-escalate": vizAbstainEscalate,
     "lost-middle": vizLostMiddle,
     "sft-align": vizSftAlign,
+    "lora-adapters": vizLoraAdapters,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

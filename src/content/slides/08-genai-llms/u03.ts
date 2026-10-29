@@ -16,7 +16,6 @@ export const slides: Slide[] = [
       "Instrucción vs recuperación vs ajuste: errores distintos.",
       "Fine-tune no arregla hechos que cambian cada semana.",
       "LoRA/QLoRA: eficiencia, no magia.",
-      "Stack: Colab/HF para ajuste; APIs/local para prompting.",
     ],
   },
   {
@@ -89,6 +88,13 @@ export const slides: Slide[] = [
       "Dettmers et al. (2023) QLoRA: fine-tune sobre pesos cuantizados (VRAM ↓).",
       "Eficiencia ≠ garantía de calidad: medir olvido en tareas de control.",
     ],
+  },
+  {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Pesos congelados + adaptadores",
+    viz: "lora-adapters",
+    caption: "W queda fijo; entrenás B·A de rango r ≪ d (Hu et al. 2022).",
   },
   {
     type: "bullets",

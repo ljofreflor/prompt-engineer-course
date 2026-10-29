@@ -31,7 +31,8 @@ export type VizId =
   | "automation-levels"
   | "abstain-escalate"
   | "lost-middle"
-  | "sft-align";
+  | "sft-align"
+  | "lora-adapters";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
