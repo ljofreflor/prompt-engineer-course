@@ -42,6 +42,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "RAG cuando el conocimiento es externo",
+    items: [
+      "Lewis et al. (2020): recuperar + generar para tareas knowledge-intensive.",
+      "La evidencia entra en el contexto; el índice se puede actualizar sin reentrenar.",
+      "Falla típica: fine-tune para hechos que cambian — el peso no es un índice.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Regla",
     title: "Qué falla si elegís mal",
     items: [
@@ -72,6 +82,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Adaptación de bajo rango",
+    items: [
+      "Hu et al. (2022) LoRA: matrices de bajo rango sobre pesos congelados.",
+      "Dettmers et al. (2023) QLoRA: fine-tune sobre pesos cuantizados (VRAM ↓).",
+      "Eficiencia ≠ garantía de calidad: medir olvido en tareas de control.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Práctica",
     title: "Ajuste eficiente",
     items: [
@@ -94,6 +114,16 @@ export const slides: Slide[] = [
       "Mismo set de evaluación de dominio.",
       "Reportar costo, latencia y calidad.",
       "Contingencia CPU/local si cae la GPU gestionada.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Lewis et al. (2020), RAG — lewis2020rag",
+      "Hu et al. (2022), LoRA — hu2022lora",
+      "Dettmers et al. (2023), QLoRA — dettmers2023qlora",
     ],
   },
   {
