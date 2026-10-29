@@ -44,12 +44,21 @@ def main() -> int:
                     {"role": "user", "content": "Respondé solo: OK"},
                 ],
                 "temperature": 0,
-                "max_tokens": 16,
+                "max_tokens": 64,
             },
         )
         msg = chat["choices"][0]["message"]
-        text = (msg.get("content") or "").strip() or (msg.get("reasoning_content") or "").strip()
-        print("Respuesta:", text or "(vacío)")
+        content = (msg.get("content") or "").strip()
+        reasoning = (msg.get("reasoning_content") or "").strip()
+        text = content or reasoning
+        # Gemma-style reasoning may dump chain-of-thought; prefer a terminal OK.
+        display = text
+        for line in reversed(text.splitlines()):
+            s = line.strip().strip("\"'`")
+            if s.upper() in {"OK", "OK.", "OK!"}:
+                display = "OK"
+                break
+        print("Respuesta:", display[:200] or "(vacío)")
         if not text:
             print("Smoke WARN: content y reasoning_content vacíos", file=sys.stderr)
             return 1

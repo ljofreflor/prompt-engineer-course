@@ -41,7 +41,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 
 - Astro strips/bundling can drop plain `<script src>` for Reveal UMD — load with `<script is:inline src=…>` and call `Reveal.initialize()` after `load`
 - We ship `reveal.css` **without** a stock Reveal theme — set `.reveal { font-size: var(--r-main-font-size); }` **and** explicit `font-size` on `h1`/`h2`/`h3`. Variables alone do nothing; without `.reveal` font-size, `em` on headings collapses to the 16px root
-- LM Studio / Gemma reasoning: prefer `message.content`, fall back to `reasoning_content` (see `labs/09/common.py` and `labs/smoke_local.py`)
+- LM Studio / Gemma reasoning: prefer `message.content`, fall back to `reasoning_content` (see `labs/09/common.py` and `labs/smoke_local.py`). Smoke may need `max_tokens` ≥ 64 and should not print raw CoT when a terminal `OK` is present
 - Do **not** put chrome inside scaled `.slides section` (`position:absolute; bottom:0` sits mid-slide). Use **fixed** viewport topbar/footer outside Reveal
 - Section slides: kicker = `Bloque N · tiempo`; hero h2 = topic name — never make “Bloque N” the visual hero
 - Do **not** repeat the section subtitle as muted text under the hero (it duplicates kicker time + topic)
@@ -56,7 +56,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Keep Reveal overrides registered in `src/content/slides/index.ts` whenever adding `uNN.ts` decks; pair with `src/content/units` blocks when the unit page should show full syllabus copy
 - Content `h2` needs a wider measure (~32ch) than section heroes (~16ch); long Spanish titles otherwise wrap mid-phrase and look broken
 - Curso 08–11 Reveal overrides are complete (`08` through `u07`; `09`–`11` through `u06`) — rotate critique; prefer visual polish + labs over new skeleton decks
-- Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `16ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
+- Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `22ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
 - Reveal arrow controls stay low-opacity until hover so they don’t fight the UAI chrome in projection
 - D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Prefer a few concept diagrams with enter transitions over decorating every slide. Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting
 - Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`). Keep diagrams sparse — one idea per viz
