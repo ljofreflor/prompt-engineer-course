@@ -1,0 +1,70 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+import { guestSlots, defenseCohort } from "../../data/external-signal";
+import { asset } from "../../lib/base";
+
+const statusLabel: Record<string, string> = {
+  planned: "Por confirmar",
+  confirmed: "Confirmado",
+  done: "Realizado",
+};
+---
+<StudentLayout title="Señal externa — Magíster IA UAI" current="senal">
+  <section class="section">
+    <div class="container prose">
+      <p class="label-uai" style="margin-bottom:0.5rem">Comunidad y defensa</p>
+      <h1>Señal externa</h1>
+      <p>
+        El programa se distingue cuando hay <strong>invitados de oficio</strong>,
+        <strong>defensa pública del design doc</strong> y <strong>papers OA</strong> como sello
+        (no slides de tips). Ops académicas confirman fechas; el sitio solo publica lo real.
+      </p>
+
+      <h2>Defensa de capstone</h2>
+      <p>
+        <strong>{defenseCohort.label}</strong> — {defenseCohort.window}.
+      </p>
+      <p>{defenseCohort.format}</p>
+      <ul>
+        {defenseCohort.artifacts.map((a) => <li>{a}</li>)}
+      </ul>
+      <p>
+        Scaffold: <code>labs/capstone/</code> · matriz:
+        <a href={asset("competencias/")}>/competencias/</a>.
+      </p>
+
+      <h2>Invitados (1 por curso)</h2>
+      <p>Cupos temáticos. Nombres solo cuando el Magíster confirme — no inventar.</p>
+      <ul>
+        {
+          guestSlots.map((g) => (
+            <li>
+              <strong>Curso {g.course}</strong> — {g.theme}
+              <span style="color:var(--uai-gray)"> · {statusLabel[g.status]}</span>
+              {g.note ? (
+                <>
+                  <br />
+                  <span style="color:var(--uai-gray)">{g.note}</span>
+                </>
+              ) : null}
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>Sello bibliográfico</h2>
+      <p>
+        Lecturas OA en
+        <a href={asset("bibliografia/")}>/bibliografia/</a>
+        y citas author/year en clase. Si falta un paper OA: skill
+        <code>papers-download-mathpix</code> — nunca inventar.
+      </p>
+
+      <p style="margin-top:2rem">
+        <a href={asset("cambios/")}>Qué cambió</a>
+        {" · "}
+        <a href={asset("clases/")}>Clases</a>
+      </p>
+    </div>
+  </section>
+</StudentLayout>

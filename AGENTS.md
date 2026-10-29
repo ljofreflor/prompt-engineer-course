@@ -98,6 +98,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 - **Capstone:** scaffold en `labs/capstone/` (README + `DESIGN.md`); enlazar desde 10/u06 y cierres 08/11; cohorte versiona su copia, no el scaffold vacío
 - **Changelog:** `/cambios/` ← `src/data/changelog.ts`; al cerrar un hito de market/compliance, añadir 1 ítem (fecha + tags); no inventar
 - **Competencias:** `/competencias/` ← `src/data/competencies.ts` (literacidad → aplicado → artefacto); alinear labs/capstone con las celdas “certificado”
+- **Señal externa:** `/senal/` ← `src/data/external-signal.ts` (cupos de invitado + defensa); solo publicar nombres/fechas confirmadas por el Magíster
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
 - **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
 
@@ -149,7 +150,7 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 | 7 | Changelog trimestral | Página `/cambios/` (“Qué cambió”); editar `src/data/changelog.ts` cada trimestre (modelos, MCP, labs, papers). No inventar entradas | `src/data/changelog.ts`, `src/pages/cambios/` |
 | 8 | Atractivo = claridad | Viz que enseña en ~30 s; 1 idea; motion sobrio UAI — no más slides ornamentales | L4 + densidad viz (≥1 por bloque cuando el tema admite) |
 | 9 | Abierto ↔ cerrado | Criterio soberanía / costo / riesgo con evidencia (08/u03–u04); no “solo GPT” | decks 08, labs dual-stack |
-| 10 | Señal externa | Invitados (1/curso), demos de cohorte, defensa pública del design doc, papers OA como sello | ops académicas + sitio |
+| 10 | Señal externa | Invitados (1/curso), defensa pública del design doc, papers OA. Página `/senal/` ← `src/data/external-signal.ts` (sin nombres inventados) | `src/data/external-signal.ts`, `src/pages/senal/` |
 
 Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar citas ni papers para “rellenar” casos LATAM.
 

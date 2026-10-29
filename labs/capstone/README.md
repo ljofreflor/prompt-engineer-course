@@ -26,3 +26,7 @@ Matriz del programa: sitio `/competencias/` (fuente `src/data/competencies.ts`).
 ## Dominio preferido
 
 Casos Chile / LATAM (SII, ClaveÚnica, minería, banca, retail, sector público). Misma teoría OA del programa; no inventar papers “locales”.
+
+## Señal externa
+
+Defensa pública e invitados: sitio `/senal/` (`src/data/external-signal.ts`).

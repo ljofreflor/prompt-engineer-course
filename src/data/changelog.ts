@@ -23,6 +23,13 @@ export const changelogQuarters: ChangelogQuarter[] = [
     items: [
       {
         date: "2026-10-29",
+        title: "Señal externa",
+        detail:
+          "Página /senal/ — defensa de capstone + cupos de invitado por curso (sin nombres inventados).",
+        tags: ["programa", "capstone"],
+      },
+      {
+        date: "2026-10-29",
         title: "Matriz de competencias",
         detail:
           "Página /competencias/ — literacidad → aplicado → certificado por artefacto (08–11).",
