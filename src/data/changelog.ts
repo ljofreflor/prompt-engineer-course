@@ -23,6 +23,13 @@ export const changelogQuarters: ChangelogQuarter[] = [
     items: [
       {
         date: "2026-10-29",
+        title: "Matriz de competencias",
+        detail:
+          "Página /competencias/ — literacidad → aplicado → certificado por artefacto (08–11).",
+        tags: ["programa", "capstone"],
+      },
+      {
+        date: "2026-10-29",
         title: "Viz juez LLM",
         detail: "Ilustración judge-bias (posición · longitud · familia) en 08/u06.",
         tags: ["08", "viz", "eval"],

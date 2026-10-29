@@ -13,6 +13,8 @@ Entregable único de cohorte: un problema real (empresa / sector público / domi
 
 Copiá `DESIGN.md` a tu repo de proyecto (o carpeta de cohorte) y versioná cada iteración.
 
+Matriz del programa: sitio `/competencias/` (fuente `src/data/competencies.ts`).
+
 ## Rúbrica de defensa (oral ~10 min)
 
 1. **Problema y decisión** — ¿qué cambia en el flujo de trabajo?

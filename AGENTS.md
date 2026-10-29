@@ -97,6 +97,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 - **Casos Chile / LATAM:** preferir escenarios locales (SII, ClaveÚnica, minería, banca, sector público, PII) en golden sets y talleres — misma teoría OA; no inventar papers “locales”
 - **Capstone:** scaffold en `labs/capstone/` (README + `DESIGN.md`); enlazar desde 10/u06 y cierres 08/11; cohorte versiona su copia, no el scaffold vacío
 - **Changelog:** `/cambios/` ← `src/data/changelog.ts`; al cerrar un hito de market/compliance, añadir 1 ítem (fecha + tags); no inventar
+- **Competencias:** `/competencias/` ← `src/data/competencies.ts` (literacidad → aplicado → artefacto); alinear labs/capstone con las celdas “certificado”
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
 - **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
 
@@ -144,7 +145,7 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 | 3 | Eval-first | Cada lab: golden set chico + rúbrica (calidad / formato / seguridad / costo) + regresión al cambiar modelo/prompt. Método del programa, no solo 09/u02·u06 | `labs/**`, slides evaluación, `/herramientas` |
 | 4 | Labs cero fricción | `make smoke` / `make lab-09-u0N` / `make labs-09` (Makefile raíz); evidencia en `/herramientas` y `labs/09/runs/` | `Makefile`, `labs/`, `/herramientas` |
 | 5 | Casos Chile / LATAM | Misma teoría OA; escenarios minería, retail, banca, sector público, español/legal, datos sensibles — valor = rediseño de flujo, no la tool | decks `Teoría`/`Taller`, labs |
-| 6 | Competency matrix | Literacidad → labs por rol → certificación con artefacto (prompt versionado, trayectoria, design doc, runbook) | página programa / profesor, rúbricas |
+| 6 | Competency matrix | Literacidad → aplicado → certificado por artefacto. Página `/competencias/` ← `src/data/competencies.ts` | `src/data/competencies.ts`, `src/pages/competencias/` |
 | 7 | Changelog trimestral | Página `/cambios/` (“Qué cambió”); editar `src/data/changelog.ts` cada trimestre (modelos, MCP, labs, papers). No inventar entradas | `src/data/changelog.ts`, `src/pages/cambios/` |
 | 8 | Atractivo = claridad | Viz que enseña en ~30 s; 1 idea; motion sobrio UAI — no más slides ornamentales | L4 + densidad viz (≥1 por bloque cuando el tema admite) |
 | 9 | Abierto ↔ cerrado | Criterio soberanía / costo / riesgo con evidencia (08/u03–u04); no “solo GPT” | decks 08, labs dual-stack |

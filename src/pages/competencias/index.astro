@@ -1,0 +1,87 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+import { competencyLevels, competencyMatrix } from "../../data/competencies";
+import { asset } from "../../lib/base";
+---
+<StudentLayout title="Competencias — Magíster IA UAI" current="competencias">
+  <section class="section">
+    <div class="container prose">
+      <p class="label-uai" style="margin-bottom:0.5rem">Certificación por artefacto</p>
+      <h1>Matriz de competencias</h1>
+      <p>
+        Literacidad → aplicado → certificado. El programa no certifica “completé el quiz”:
+        certifica un artefacto revisable (prompt, set, design doc, runbook). Capstone:
+        <a href={asset("cursos/10-diseno-sistemas-ia/u06/clase/")}>10/u06</a>
+        · scaffold <code>labs/capstone/</code>.
+      </p>
+
+      <h2>Niveles</h2>
+      <ul>
+        {
+          competencyLevels.map((l) => (
+            <li>
+              <strong>{l.label}</strong> — {l.meaning}
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>Por curso</h2>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Habilidad</th>
+              <th>Literacidad</th>
+              <th>Aplicado</th>
+              <th>Certificado (artefacto)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              competencyMatrix.map((r) => (
+                <tr>
+                  <td>{r.course}</td>
+                  <td>{r.skill}</td>
+                  <td>{r.literacidad}</td>
+                  <td>{r.aplicado}</td>
+                  <td>{r.certificado}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top:2rem">
+        <a href={asset("cambios/")}>Qué cambió</a>
+        {" · "}
+        <a href={asset("herramientas/")}>Stack / labs</a>
+        {" · "}
+        <a href={asset("clases/")}>Clases</a>
+      </p>
+    </div>
+  </section>
+</StudentLayout>
+
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  th,
+  td {
+    border: 1px solid var(--uai-border, #e5e7eb);
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--uai-soft, #f3f5f7);
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: 800;
+    color: var(--uai-negro, #15171a);
+  }
+</style>
