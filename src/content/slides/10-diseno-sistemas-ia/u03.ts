@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Datos como primer ciudadano",
+    items: [
+      "Sambasivan et al. (2021): “data cascades” — fallas de datos se componen y llegan tarde.",
+      "Huyen (2022), caps. 3–4: contratos, linaje y train/serve skew como diseño.",
+      "Breck et al. (2017): el ML Test Score exige tests de datos, no solo de código.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Especificación",
     title: "Qué acordar productor ↔ consumidor",
     items: [
@@ -98,6 +108,16 @@ export const slides: Slide[] = [
       "Puntos de desalineación potencial.",
       "Versionar en Git; diagramar con Mermaid/draw.io.",
       "Stack local del curso: página Herramientas, sección curso 10.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Sambasivan et al. (2021) — sambasivan2021datacascades",
+      "Breck et al. (2017) — breck2017mltest",
+      "Huyen (2022), caps. 3–4 — huyen2022designing",
     ],
   },
   {

@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "El design doc como contrato",
+    items: [
+      "Huyen (2022): producción exige especificación revisable — no slides sueltas.",
+      "Amershi et al. (2019): workflows SE+ML; el doc fija datos, modelos y fronteras.",
+      "Cada claim de valor lleva métrica, línea base y umbral (viz claim-evidence).",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Plantilla",
     title: "Secciones no negociables",
     items: [
@@ -95,6 +105,16 @@ export const slides: Slide[] = [
       "Problema → diseño → evidencia → riesgos → pregunta abierta.",
       "No demos: decisiones y trade-offs.",
       "Criterio de “listo para construir”.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Huyen (2022) — huyen2022designing (caps. design / production)",
+      "Amershi et al. (2019) — amershi2019se4ml",
+      "Plantilla de design doc del Magíster (material del curso)",
     ],
   },
   {

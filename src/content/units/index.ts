@@ -598,9 +598,9 @@ const units10: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022), caps. 3–4",
-      "Sambasivan et al. (2021)",
-      "Breck et al. (2017) — complementaria",
+      "Sambasivan et al. (2021) — sambasivan2021datacascades",
+      "Breck et al. (2017) — breck2017mltest",
+      "Huyen (2022), caps. 3–4 — huyen2022designing",
     ],
     lab: {
       title: "Taller — contrato de datos",
@@ -638,9 +638,9 @@ const units10: UnitContent[] = [
       },
     ],
     readings: [
-      "Amershi et al. (2019)",
-      "Buçinca et al. (2021)",
-      "Parasuraman et al. (2000) — complementaria",
+      "Parasuraman et al. (2000) — parasuraman2000automation",
+      "Buçinca et al. (2021) — bucinca2021trust",
+      "Amershi et al. (2019) — amershi2019se4ml",
     ],
   },
   {
@@ -674,8 +674,9 @@ const units10: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022), caps. 6 y 9",
-      "Greshake et al. (2023)",
+      "Huyen (2022), caps. 6 y 9 — huyen2022designing",
+      "Greshake et al. (2023) — greshake2023injection",
+      "Breck et al. (2017) — breck2017mltest",
     ],
   },
   {
@@ -709,7 +710,8 @@ const units10: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022) — capítulos de design / production",
+      "Huyen (2022) — huyen2022designing (caps. design / production)",
+      "Amershi et al. (2019) — amershi2019se4ml",
       "Design docs internos del Magíster (plantilla del curso)",
     ],
   },

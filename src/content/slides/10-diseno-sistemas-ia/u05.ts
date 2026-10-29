@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Evaluar en tres niveles",
+    items: [
+      "Huyen (2022), caps. 6 y 9: métricas de componente ≠ sistema ≠ organización.",
+      "Breck et al. (2017): checklist de tests/monitoreo antes de llamar “producción”.",
+      "Goodhart: cuando la métrica deja de ser buena — declarar vigilancia.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Métricas",
     title: "Componente · sistema · organización",
     items: [
@@ -89,6 +99,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Superficie de riesgo en GenAI",
+    items: [
+      "Greshake et al. (2023): inyección indirecta cuando el sistema lee contenido externo.",
+      "Controles proporcionales al riesgo de la decisión — no “seguridad ofensiva” en clase.",
+      "OOD, deriva y fuga por la salida son requisitos de diseño.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Controles",
     title: "Superficie de ataque / falla",
     items: [
@@ -96,6 +116,16 @@ export const slides: Slide[] = [
       "Inyección indirecta en sistemas que leen contenido.",
       "Fuga por la salida.",
       "Diseño proporcional al riesgo de la decisión.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Huyen (2022), caps. 6 y 9 — huyen2022designing",
+      "Greshake et al. (2023) — greshake2023injection",
+      "Breck et al. (2017) — breck2017mltest",
     ],
   },
   {

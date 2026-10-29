@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Niveles de automatización",
+    items: [
+      "Parasuraman et al. (2000): tipos (adquisición → acción) × niveles de automatización.",
+      "Amershi et al. (2019): el workflow de ML en producto no es el notebook — datos y acoplamiento.",
+      "El nivel se deriva del costo del error y de la reversibilidad, no del marketing “HITL”.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Continuo",
     title: "De información pasiva a pleno automático",
     items: [
@@ -66,6 +76,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Sobreconfianza y fricción cognitiva",
+    items: [
+      "Buçinca et al. (2021): explicaciones simples no bastan; forcing functions reducen overreliance.",
+      "Trade-off: menos overreliance a menudo empeora ratings subjetivos.",
+      "Diseñar abstención y fricción deliberada como requisitos, no como UX “nice to have”.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Riesgos",
     title: "Sobreconfianza y aversión",
     items: [
@@ -88,6 +108,16 @@ export const slides: Slide[] = [
       "Registro técnico + de cumplimiento.",
       "Diagramar el flujo en el design doc.",
       "Stack local del curso: página Herramientas, sección curso 10.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Parasuraman et al. (2000) — parasuraman2000automation",
+      "Buçinca et al. (2021) — bucinca2021trust",
+      "Amershi et al. (2019) — amershi2019se4ml",
     ],
   },
   {

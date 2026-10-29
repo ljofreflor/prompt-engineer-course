@@ -134,6 +134,27 @@
   },
   "huyen2022designing": {
     "title": "Designing Machine Learning Systems",
-    "note": "book — not OA; cite chapters only"
+    "note": "book \u2014 not OA; cite chapters only"
+  },
+  "amershi2019se4ml": {
+    "title": "Software Engineering for Machine Learning",
+    "url": "https://www.microsoft.com/en-us/research/publication/software-engineering-for-machine-learning-a-case-study/"
+  },
+  "bucinca2021trust": {
+    "title": "To Trust or to Think",
+    "eprint": "2102.09692",
+    "url": "https://arxiv.org/abs/2102.09692"
+  },
+  "sambasivan2021datacascades": {
+    "title": "Data Cascades in High-Stakes AI",
+    "url": "https://www.shivanikapania.com/assets/chi2021paper.pdf"
+  },
+  "breck2017mltest": {
+    "title": "The ML Test Score",
+    "url": "https://research.google.com/pubs/archive/aad9f93b86b7addfea4c419b9100c6cdd26cacea.pdf"
+  },
+  "parasuraman2000automation": {
+    "title": "Types and Levels of Human Interaction with Automation",
+    "url": "https://annieburke.com/research/assets/sheridan-autonomy.pdf"
   }
 }
