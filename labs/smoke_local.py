@@ -47,8 +47,12 @@ def main() -> int:
                 "max_tokens": 16,
             },
         )
-        text = chat["choices"][0]["message"]["content"]
-        print("Respuesta:", text.strip())
+        msg = chat["choices"][0]["message"]
+        text = (msg.get("content") or "").strip() or (msg.get("reasoning_content") or "").strip()
+        print("Respuesta:", text or "(vacío)")
+        if not text:
+            print("Smoke WARN: content y reasoning_content vacíos", file=sys.stderr)
+            return 1
         print("Smoke OK")
         return 0
     except urllib.error.URLError as exc:

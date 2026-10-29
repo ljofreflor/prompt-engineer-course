@@ -41,7 +41,7 @@ export const slides: Slide[] = [
     items: [
       "Extracción desde PDF/imagen con límites medibles.",
       "Error de OCR vs error de razonamiento.",
-      "Costo y latencia tipicamente peores que texto.",
+      "Costo y latencia típicamente peores que texto.",
     ],
   },
   {

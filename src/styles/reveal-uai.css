@@ -68,16 +68,20 @@ body {
 .reveal h1 {
   font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
   font-weight: 300;
+  font-size: 2.35em; /* reveal.css sin theme no aplica --r-heading1-size */
   color: var(--uai-negro);
   letter-spacing: -0.02em;
   max-width: 18ch;
+  line-height: 1.12;
 }
 
 .reveal h2 {
   font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
   font-weight: 800;
+  font-size: 1.45em;
   color: var(--uai-negro);
   max-width: 28ch;
+  line-height: 1.15;
 }
 
 .reveal .slides section.slide-content h2 {
@@ -87,6 +91,7 @@ body {
 .reveal h3 {
   font-family: "Roboto", system-ui, sans-serif;
   font-weight: 700;
+  font-size: 1.1em;
   color: var(--uai-negro);
 }
 
