@@ -11,7 +11,8 @@ export type VizId =
   | "claim-evidence"
   | "make-buy"
   | "guardrails"
-  | "reliability-product";
+  | "reliability-product"
+  | "decision-chain";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

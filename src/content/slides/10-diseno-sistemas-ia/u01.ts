@@ -52,9 +52,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Predicción → acción",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Cadena",
     title: "Predicción · decisión · acción · resultado",
+    viz: "decision-chain",
+    caption: "Sin acción (y sin resultado medible) la predicción no crea valor.",
+  },
+  {
+    type: "bullets",
+    kicker: "Implicancias",
+    title: "Qué acota la arquitectura",
     items: [
       "Una predicción correcta sin acción no crea valor.",
       "La ventana temporal de la decisión acota la arquitectura.",
