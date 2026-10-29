@@ -36,6 +36,7 @@ Source of truth: `src/styles/uai-tokens.css` (from uai.cl Magíster IA).
 - Labels like site `h4.label-uai`: primary, Roboto 800, no ALL CAPS
 - Brand must read in the first viewport without depending on chrome alone (logo in black top bar, same as `Header.astro`)
 - Avoid “tech dark” decks, purple glow, left accent rails, and floating badge clutter — they read as generic product UI, not UAI
+- **Diseño sigue a la función:** las clases deben destacarse por atractivo visual **sin exagerar**. Tipografía, espacio, un diagrama claro y motion sobrio > ornamentación. Si un elemento no enseña o no jerarquiza, no va. Nada de partículas, glow, confetti ni “wow” vacío
 
 Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reveal-uai.css`). Class page: `src/pages/cursos/[slug]/[unit]/clase/index.astro`.
 
@@ -61,7 +62,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Curso 08–11 Reveal overrides are complete (`08` through `u07`; `09`–`11` through `u06`) — rotate critique; prefer visual polish + labs over new skeleton decks
 - Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `22ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
 - Reveal arrow controls stay low-opacity until hover so they don’t fight the UAI chrome in projection
-- **Clase = cine ilustrado, no tip deck:** cada unidad debe tener **más** slides `type: "viz"` (objetivo: ≥1 diagrama conceptual fuerte por bloque de 60 min cuando el tema lo admite). La animación debe sentirse dirigida (beats claros, hold, revelación), no un fade genérico de cajas. D3 sigue siendo el motor de geometría/datos; la barra de calidad es “proyección de magíster”, no slideware SaaS
+- **Clase = atractivo funcional, no tip deck ni showreel:** cada unidad debe tener **más** slides `type: "viz"` (objetivo: ≥1 diagrama conceptual fuerte por bloque de 60 min cuando el tema lo admite). Motion dirigido (beats, hold, revelación) solo para aclarar el concepto; si distrae, recortar. D3 = geometría/datos; GSAP = timing. Barra: legible en proyección de magíster, no slideware SaaS ni motion-design reel
 - D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting. One idea per viz — sparse, large type, readable from the back row
 - Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`)
 - Available viz ids: `react-loop`, `prompt-anatomy`, `prompt-sensitivity`, `cot-verify`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers` — **expand the registry** when adding concepts; do not leave theory-only blocks without a visual
@@ -69,9 +70,9 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - D3 / GSAP motion must respect `prefers-reduced-motion: reduce` (`tDelay`/`tDur` → 0; kill timelines)
 - Clase page loads `reveal-uai.css` and `reveal-viz.js` with `?v=<sha1-8>` from file contents so Pages/CDN do not keep stale theme or D3 registry after deploy
 
-### Motion stack (cine) — D3 + complements
+### Motion stack — D3 + GSAP (sobrio)
 
-Deck transition stays `fade` (institutional). **All cinematic motion lives inside viz**, not in Reveal transitions.
+Deck transition stays `fade` (institutional). **Motion lives inside viz**, not in Reveal transitions. Prefer fewer, clearer beats over longer timelines.
 
 | Role | Library | Why |
 |------|---------|-----|
