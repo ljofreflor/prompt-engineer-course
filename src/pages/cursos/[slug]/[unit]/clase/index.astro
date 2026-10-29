@@ -1,0 +1,151 @@
+---
+import { courses, getCourse } from "../../../../../data/courses";
+import { getProgram } from "../../../../../data/programs";
+import { slidesFromUnit, type Slide } from "../../../../../lib/slides";
+import { getSlideOverride } from "../../../../../content/slides";
+import { asset } from "../../../../../lib/base";
+import "../../../../../styles/uai-tokens.css";
+import "../../../../../styles/reveal-uai.css";
+
+export function getStaticPaths() {
+  return courses.flatMap((c) =>
+    c.units.map((u) => ({
+      params: { slug: c.slug, unit: u.id },
+    })),
+  );
+}
+
+const course = getCourse(Astro.params.slug!);
+if (!course) throw new Error("curso");
+const program = getProgram(course.slug);
+const unit = program?.unidades.find((u) => u.id === Astro.params.unit);
+if (!program || !unit) throw new Error("unidad");
+
+const slides: Slide[] =
+  getSlideOverride(course.slug, unit.id) ?? slidesFromUnit(course, program, unit);
+
+const fonts = {
+  corp300: asset("fonts/uai-corp-300.otf"),
+  corp800: asset("fonts/uai-corp-800.otf"),
+  roboto400: asset("fonts/roboto-400.ttf"),
+  roboto800: asset("fonts/roboto-900.ttf"),
+};
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{`Clase · ${unit.title} · Curso ${course.code} UAI`}</title>
+    <link rel="stylesheet" href={asset("vendor/reveal/reveal.css")} />
+    <style define:vars={fonts}>
+      @font-face {
+        font-family: "UAI Corporativo";
+        src: url(var(--corp300)) format("opentype");
+        font-weight: 300;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "UAI Corporativo";
+        src: url(var(--corp800)) format("opentype");
+        font-weight: 800;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Roboto";
+        src: url(var(--roboto400)) format("truetype");
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Roboto";
+        src: url(var(--roboto800)) format("truetype");
+        font-weight: 800;
+        font-display: swap;
+      }
+      html, body { margin: 0; background: #15171a; }
+      .reveal-exit {
+        position: fixed;
+        top: 12px;
+        right: 14px;
+        z-index: 40;
+        font: 600 13px/1 Roboto, system-ui, sans-serif;
+        color: #fff;
+        text-decoration: none;
+        background: rgba(0, 175, 216, 0.92);
+        padding: 8px 12px;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="reveal-exit" href={asset(`cursos/${course.slug}/${unit.id}/`)}>Salir de la clase</a>
+    <div class="reveal">
+      <div class="slides">
+        {
+          slides.map((s) => {
+            if (s.type === "title") {
+              return (
+                <section class="center" data-background-color="#15171a">
+                  <p class="uai-kicker">{s.kicker}</p>
+                  <h1>{s.title}</h1>
+                  {s.subtitle && <p class="uai-muted">{s.subtitle}</p>}
+                  <p class="slide-footer">UAI · Magíster en Inteligencia Artificial</p>
+                </section>
+              );
+            }
+            if (s.type === "section") {
+              return (
+                <section class="center" data-background-color="#0b2b3a">
+                  <p class="uai-kicker">{s.subtitle || "Sección"}</p>
+                  <h2>{s.title}</h2>
+                </section>
+              );
+            }
+            if (s.type === "bullets") {
+              return (
+                <section>
+                  {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
+                  <h2>{s.title}</h2>
+                  <ul>
+                    {s.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            }
+            return (
+              <section>
+                {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
+                <h2>{s.title}</h2>
+                {s.paragraphs.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </section>
+            );
+          })
+        }
+      </div>
+    </div>
+    <script src={asset("vendor/reveal/reveal.js")}></script>
+    <script is:inline>
+      window.addEventListener("load", function () {
+        if (!window.Reveal) return;
+        var deck = new window.Reveal({
+          hash: true,
+          slideNumber: "c/t",
+          controls: true,
+          progress: true,
+          center: false,
+          transition: "fade",
+          backgroundTransition: "fade",
+          width: 1280,
+          height: 720,
+          margin: 0.08,
+        });
+        deck.initialize();
+      });
+    </script>
+  </body>
+</html>

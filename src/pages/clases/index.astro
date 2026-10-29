@@ -1,0 +1,43 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+import { courses } from "../../data/courses";
+import { asset } from "../../lib/base";
+import { getSlideOverride } from "../../content/slides";
+---
+<StudentLayout title="Clases Reveal.js — Magíster IA UAI" current="cursos">
+  <section class="section">
+    <div class="container">
+      <span class="section__eyebrow">Dictado</span>
+      <h1>Clases en Reveal.js</h1>
+      <p style="color:var(--uai-gray);max-width:40rem">
+        Una presentación por unidad. Las marcadas como “enriquecida” tienen guion didáctico
+        propio; el resto se genera desde el programa del syllabus.
+      </p>
+      {
+        courses.map((c) => (
+          <div style="margin-top:2rem">
+            <h4 class="label-uai">Curso {c.code}</h4>
+            <h2 style="margin-top:0.25rem">{c.title}</h2>
+            <ul class="unit-list">
+              {c.units.map((u) => {
+                const enriched = Boolean(getSlideOverride(c.slug, u.id));
+                return (
+                  <li>
+                    <a href={asset(`cursos/${c.slug}/${u.id}/clase/`)}>
+                      <strong>
+                        {u.id.toUpperCase()} · {u.title}
+                      </strong>
+                      <span>
+                        {u.hours} hrs · {enriched ? "deck enriquecido" : "deck desde programa"}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</StudentLayout>

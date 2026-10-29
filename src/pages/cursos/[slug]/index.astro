@@ -2,6 +2,7 @@
 import StudentLayout from "../../../layouts/StudentLayout.astro";
 import { courses, getCourse } from "../../../data/courses";
 import { getProgram } from "../../../data/programs";
+import { asset } from "../../../lib/base";
 
 export function getStaticPaths() {
   return courses.map((c) => ({ params: { slug: c.slug } }));
@@ -11,13 +12,12 @@ const { slug } = Astro.params;
 const course = getCourse(slug!);
 if (!course) throw new Error(`Curso no encontrado: ${slug}`);
 const program = getProgram(course.slug);
-const base = import.meta.env.BASE_URL;
 ---
 <StudentLayout title={`${course.title} — UAI`} description={course.short}>
   <section class="section">
     <div class="container">
       <p style="margin:0 0 0.75rem">
-        <a href={`${base}cursos/`}>← Cursos</a>
+        <a href={asset("cursos/")}>← Cursos</a>
       </p>
       <h4 class="label-uai">Curso {course.code}</h4>
       <h1>
@@ -164,9 +164,11 @@ const base = import.meta.env.BASE_URL;
                     </>
                   )}
                   <p style="margin-top:1rem">
-                    <a href={`${base}cursos/${course.slug}/${u.id}/`}>Guía de estudio de la unidad →</a>
+                    <a href={asset(`cursos/${course.slug}/${u.id}/clase/`)}>Clase Reveal.js</a>
                     {" · "}
-                    <a href={`${base}profesor/cursos/${course.slug}/${u.id}/`}>Guion profesor</a>
+                    <a href={asset(`cursos/${course.slug}/${u.id}/`)}>Guía de estudio</a>
+                    {" · "}
+                    <a href={asset(`profesor/cursos/${course.slug}/${u.id}/`)}>Guion profesor</a>
                   </p>
                 </article>
               ))}
@@ -195,7 +197,7 @@ const base = import.meta.env.BASE_URL;
               </>
             )}
             <p>
-              Papers OA del catálogo: <a href={`${base}bibliografia/`}>Bibliografía local</a>.
+              Papers OA del catálogo: <a href={asset("bibliografia/")}>Bibliografía local</a>.
             </p>
           </div>
         </section>
