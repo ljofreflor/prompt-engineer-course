@@ -38,7 +38,8 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
   const time = raw.match(/^(\d+\s*min)/i)?.[1];
   const topic = raw.replace(/^\d+\s*min\s*[—–-]\s*/i, "").trim() || s.title;
   const kicker = time ? `${s.title} · ${time}` : s.title;
-  return { kicker, topic, timeLabel: raw && raw !== topic ? raw : undefined };
+  // No muted line: raw subtitle repeats kicker time + topic hero.
+  return { kicker, topic };
 }
 ---
 <!doctype html>
@@ -107,9 +108,10 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
               const parts = sectionParts(s);
               return (
                 <section class="slide-section" data-background-color="#f3f5f7">
-                  <p class="uai-kicker">{parts.kicker}</p>
-                  <h2>{parts.topic}</h2>
-                  {parts.timeLabel && <p class="uai-muted">{parts.timeLabel}</p>}
+                  <div class="slide-section__inner">
+                    <p class="uai-kicker">{parts.kicker}</p>
+                    <h2>{parts.topic}</h2>
+                  </div>
                 </section>
               );
             }

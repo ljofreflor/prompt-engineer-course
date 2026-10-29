@@ -668,6 +668,41 @@ const units10: UnitContent[] = [
       "Greshake et al. (2023)",
     ],
   },
+  {
+    courseSlug: "10-diseno-sistemas-ia",
+    unitId: "u06",
+    learningOutcomes: [
+      "Redactar un design doc completo y revisable por un tercero.",
+      "Exponer riesgos, mitigaciones y plan de evaluación.",
+      "Defender decisiones de arquitectura ante revisión crítica.",
+    ],
+    blocks: [
+      {
+        title: "Estructura del design doc",
+        minutes: 60,
+        body: "Contexto, decisión, requisitos, arquitectura, datos, evaluación, operación y riesgos.",
+      },
+      {
+        title: "Claims con evidencia",
+        minutes: 60,
+        body: "Línea base, delta esperado, experimentos y supuestos no validados.",
+      },
+      {
+        title: "Revisión adversaria",
+        minutes: 60,
+        body: "Peer review: ambigüedad, Goodhart, rollback y superficie de riesgo.",
+      },
+      {
+        title: "Defensa oral",
+        minutes: 60,
+        body: "Pitch de 10 minutos: problema → diseño → evidencia → riesgos (Eval final).",
+      },
+    ],
+    readings: [
+      "Huyen (2022) — capítulos de design / production",
+      "Design docs internos del Magíster (plantilla del curso)",
+    ],
+  },
 ];
 
 const units11: UnitContent[] = [
@@ -821,6 +856,76 @@ const units11: UnitContent[] = [
     readings: [
       "Gama et al. (2014)",
       "Beyer et al. (2016), caps. 4 y 6",
+    ],
+  },
+  {
+    courseSlug: "11-aiops-cloud",
+    unitId: "u05",
+    learningOutcomes: [
+      "Comparar managed vs self-host con criterios NFR explícitos.",
+      "Diseñar una capa de abstracción mínima sobre el proveedor.",
+      "Estimar lock-in y un plan de salida.",
+    ],
+    blocks: [
+      {
+        title: "Mapa de plataformas",
+        minutes: 60,
+        body: "Notebooks, training, serving, observabilidad y secretos gestionados.",
+      },
+      {
+        title: "Make vs buy",
+        minutes: 60,
+        body: "Costo total, residencia de datos, velocidad del equipo y control.",
+      },
+      {
+        title: "Contratos portables",
+        minutes: 60,
+        body: "OpenAI-compatible / OpenAPI, imágenes versionadas y config por ambiente.",
+      },
+      {
+        title: "Taller de justificación",
+        minutes: 60,
+        body: "Caso con PII: tabla managed vs local+CI vs híbrido y plan de salida 90 días.",
+      },
+    ],
+    readings: [
+      "Kreuzberger et al. (2023)",
+      "Documentación de programas académicos cloud (verificar al dictado)",
+    ],
+  },
+  {
+    courseSlug: "11-aiops-cloud",
+    unitId: "u06",
+    learningOutcomes: [
+      "Definir presupuesto de tokens/costo y alertas accionables.",
+      "Montar evaluación continua de salidas generativas.",
+      "Operar incidentes de calidad con degradación controlada.",
+    ],
+    blocks: [
+      {
+        title: "Economía del token",
+        minutes: 60,
+        body: "In/out, caché, reintentos, presupuesto diario y kill-switch.",
+      },
+      {
+        title: "Calidad continua",
+        minutes: 60,
+        body: "Golden set, muestreo de tráfico, abstención y deriva de prompts.",
+      },
+      {
+        title: "Guardrails",
+        minutes: 60,
+        body: "Validación de salida, límites de herramienta y human-in-the-loop.",
+      },
+      {
+        title: "Runbook GenAI",
+        minutes: 60,
+        body: "Síntomas de costo/calidad, pin de prompt/modelo, canaria atrás y postmortem.",
+      },
+    ],
+    readings: [
+      "Huyen (2022), caps. de serving y monitoreo",
+      "Material del curso 09 (evaluación agéntica) — puente",
     ],
   },
 ];

@@ -232,7 +232,11 @@ body {
 
 /* Portada: brand first, left composition like sitio */
 .reveal .slides section.slide-title {
-  padding-top: calc(2.2rem + var(--uai-top-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  padding-top: calc(1.2rem + var(--uai-top-h));
 }
 
 .reveal .slides section.slide-title h1 {
@@ -248,20 +252,24 @@ body {
   border: 0;
 }
 
-/* Separadores: tema grande, bloque como label */
+/* Separadores: tema grande, bloque como label; fill vertical sin “vacío muerto” */
 .reveal .slides section.slide-section {
   background: var(--uai-bg-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.reveal .slides section.slide-section .slide-section__inner {
+  max-width: 18ch;
 }
 
 .reveal .slides section.slide-section h2 {
   font-weight: 300;
-  font-size: 2.1em;
+  font-size: 2.2em;
   max-width: 16ch;
   margin: 0;
-}
-
-.reveal .slides section.slide-section .uai-muted {
-  margin-top: 0.85em;
 }
 
 .reveal .progress {

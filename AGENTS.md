@@ -42,9 +42,12 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Astro strips/bundling can drop plain `<script src>` for Reveal UMD — load with `<script is:inline src=…>` and call `Reveal.initialize()` after `load`
 - Do **not** put chrome inside scaled `.slides section` (`position:absolute; bottom:0` sits mid-slide). Use **fixed** viewport topbar/footer outside Reveal
 - Section slides: kicker = `Bloque N · tiempo`; hero h2 = topic name — never make “Bloque N” the visual hero
+- Do **not** repeat the section subtitle as muted text under the hero (it duplicates kicker time + topic)
+- Title/section slides: flex-center content in the safe area between fixed topbar and footer; avoid “stuck in the corner” emptiness
 - Title slides: left-aligned composition (label → cyan rule → Corporativo 300 title → muted subtitle), not centered void
 - After visual changes: screenshot title + section + bullets locally; then verify live Pages once deploy lands
 - Critique log (scratch): `tmp/reveal-uai-critique.md` — promote durable lessons into **this file**
+- Keep Reveal overrides registered in `src/content/slides/index.ts` whenever adding `uNN.ts` decks; pair with `src/content/units` blocks when the unit page should show full syllabus copy
 
 ## Content model
 
