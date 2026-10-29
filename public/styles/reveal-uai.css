@@ -72,7 +72,7 @@ body {
   font-size: 2.35em; /* reveal.css sin theme no aplica --r-heading1-size */
   color: var(--uai-negro);
   letter-spacing: -0.02em;
-  max-width: 18ch;
+  max-width: 20ch; /* títulos ES largos (p.ej. Operación de sistemas…) */
   line-height: 1.12;
 }
 
@@ -315,6 +315,13 @@ body {
   color: var(--uai-primary);
   right: 14px;
   bottom: calc(var(--uai-chrome-h) + 12px);
+  opacity: 0.28;
+  transition: opacity 0.2s ease;
+}
+
+.reveal:hover .controls,
+.reveal .controls:focus-within {
+  opacity: 1;
 }
 
 .reveal .slide-number {

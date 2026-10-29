@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 10 · Unidad 2",
-    title: "Patrones de arquitectura para sistemas de IA",
+    title: "Patrones de arquitectura",
     subtitle: "4 hrs · Inferencia, composición y falla — UAI",
   },
   {

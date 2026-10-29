@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 08 · Unidad 3",
-    title: "Vías de adaptación y criterio de decisión",
+    title: "Vías de adaptación",
     subtitle: "4 hrs · Prompting · RAG · fine-tuning — UAI",
   },
   {

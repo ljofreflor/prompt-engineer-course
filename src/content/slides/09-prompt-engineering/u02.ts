@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 09 · Unidad 2",
-    title: "El prompt como artefacto de ingeniería",
+    title: "El prompt como artefacto",
     subtitle: "4 hrs · Versionado, sensibilidad y regresión — UAI",
   },
   {

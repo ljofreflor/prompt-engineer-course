@@ -1,0 +1,5 @@
+PASS invoice {'categoria': 'facturacion', 'confianza': 1.0, 'abstener': False, 'motivo': 'Consulta sobre factura faltante de marzo'}
+PASS vpn {'categoria': 'tecnico', 'confianza': 1.0, 'abstener': False, 'motivo': 'Desconexión automática del VPN a los 5 minutos.'}
+PASS ood {'categoria': 'otro', 'confianza': 1.0, 'abstener': True, 'motivo': 'No es un ticket de soporte.'}
+PASS empty {'categoria': 'otro', 'confianza': 1.0, 'abstener': True, 'motivo': 'Mensaje vacío.'}
+score 4/4 prompt=v1

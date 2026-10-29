@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 08 · Unidad 7",
-    title: "Multimodalidad, riesgos e integración",
+    title: "Multimodalidad y riesgos",
     subtitle: "4 hrs · Visión · imagen · riesgos · cierre — UAI",
   },
   {

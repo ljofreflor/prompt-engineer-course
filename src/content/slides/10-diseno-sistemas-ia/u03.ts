@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 10 · Unidad 3",
-    title: "Datos como infraestructura del sistema",
+    title: "Datos como infraestructura",
     subtitle: "4 hrs · Contratos, train/serve skew, bucles — UAI",
   },
   {

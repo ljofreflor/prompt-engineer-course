@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 10 · Unidad 5",
-    title: "Evaluación, monitoreo y superficie de riesgo",
+    title: "Evaluación y superficie de riesgo",
     subtitle: "4 hrs · Tres niveles · online · GenAI · controles — UAI",
   },
   {

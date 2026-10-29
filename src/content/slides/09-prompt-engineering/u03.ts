@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 09 · Unidad 3",
-    title: "Razonamiento, descomposición y verificación",
+    title: "Razonamiento y verificación",
     subtitle: "4 hrs · CoT con criterio — UAI",
   },
   {

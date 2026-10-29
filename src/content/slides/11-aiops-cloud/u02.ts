@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 11 · Unidad 2",
-    title: "Empaquetado y automatización del ciclo",
+    title: "Empaquetado y automatización",
     subtitle: "4 hrs · Contenedores y CI — UAI",
   },
   {

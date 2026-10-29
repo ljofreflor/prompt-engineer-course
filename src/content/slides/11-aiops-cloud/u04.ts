@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 11 · Unidad 4",
-    title: "Observabilidad, deriva y respuesta ante incidentes",
+    title: "Observabilidad y deriva",
     subtitle: "4 hrs · Falla silenciosa · SLOs — UAI",
   },
   {

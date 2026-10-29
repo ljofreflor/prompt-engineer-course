@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 08 · Unidad 5",
-    title: "Inferencia — costo, latencia y contexto",
+    title: "Inferencia: costo y latencia",
     subtitle: "4 hrs · TTFT · TPOT · cuantización — UAI",
   },
   {

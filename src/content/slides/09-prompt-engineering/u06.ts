@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 09 · Unidad 6",
-    title: "Evaluación agéntica, robustez y límites del control",
+    title: "Evaluación agéntica y control",
     subtitle: "4 hrs · Trayectorias e inyección — UAI",
   },
   {

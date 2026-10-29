@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 11 · Unidad 3",
-    title: "Servicio de inferencia y estrategias de despliegue",
+    title: "Inferencia y despliegue",
     subtitle: "4 hrs · Serving · canary · orquestación — UAI",
   },
   {
