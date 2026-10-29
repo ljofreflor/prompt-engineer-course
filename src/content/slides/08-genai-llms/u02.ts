@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 08 · Unidad 2",
-    title: "El pipeline de post-entrenamiento",
+    title: "Post-entrenamiento",
     subtitle: "4 hrs · Pretrain · SFT · alineación — UAI",
   },
   {
@@ -28,6 +28,13 @@ export const slides: Slide[] = [
       "Atribuir comportamientos a pretrain / SFT / alineación.",
       "Reconocer impuesto de alineación y sesgo de longitud.",
     ],
+  },
+  {
+    type: "viz",
+    kicker: "Mapa",
+    title: "Tres etapas, tres responsabilidades",
+    viz: "posttrain-pipeline",
+    caption: "Atribuir el síntoma a la etapa evita “más prompt” como única respuesta.",
   },
   {
     type: "section",

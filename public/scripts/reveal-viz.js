@@ -405,6 +405,101 @@
     });
   }
 
+  /** Pipeline post-entrenamiento: Pretrain → SFT → Alineación. */
+  function vizPosttrainPipeline(el) {
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Pipeline: pretrain, SFT y alineación");
+
+    var steps = [
+      { x: 160, label: "Pretrain", sub: "continuar texto" },
+      { x: 460, label: "SFT", sub: "seguir instrucciones" },
+      { x: 760, label: "Alineación", sub: "preferencias" },
+    ];
+
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "uai-arrow-pt")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", COLORS.primary);
+
+    steps.forEach(function (s, i) {
+      var g = svg.append("g").attr("transform", "translate(" + s.x + ",150)");
+      g.append("rect")
+        .attr("x", -90)
+        .attr("y", -40)
+        .attr("width", 180)
+        .attr("height", 80)
+        .attr("rx", 2)
+        .attr("fill", i === 0 ? COLORS.negro : COLORS.soft)
+        .attr("stroke", i === 0 ? COLORS.negro : COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .attr("transform", "scale(0.9)")
+        .transition()
+        .delay(tDelay(100 + i * 150))
+        .duration(tDur(450))
+        .attr("opacity", 1)
+        .attr("transform", "scale(1)");
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -6)
+        .attr("fill", i === 0 ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 17)
+        .attr("opacity", 0)
+        .text(s.label)
+        .transition()
+        .delay(tDelay(160 + i * 150))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 20)
+        .attr("fill", i === 0 ? "rgba(255,255,255,0.75)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .attr("opacity", 0)
+        .text(s.sub)
+        .transition()
+        .delay(tDelay(200 + i * 150))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+
+      if (i < steps.length - 1) {
+        svg
+          .append("line")
+          .attr("x1", s.x + 96)
+          .attr("y1", 150)
+          .attr("x2", s.x + 96)
+          .attr("y2", 150)
+          .attr("stroke", COLORS.primary)
+          .attr("stroke-width", 2.5)
+          .attr("marker-end", "url(#uai-arrow-pt)")
+          .transition()
+          .delay(tDelay(220 + i * 150))
+          .duration(tDur(380))
+          .attr("x2", steps[i + 1].x - 96);
+      }
+    });
+
+    label(svg, 460, 280, "Cada etapa explica fallas distintas — no mezclar el diagnóstico", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 780,
+    });
+  }
+
   /** Observabilidad: capa servicio ≠ capa modelo. */
   function vizObsLayers(el) {
     var w = 920;
@@ -1499,6 +1594,7 @@
     "ci-pipeline": vizCiPipeline,
     "canary-deploy": vizCanaryDeploy,
     "obs-layers": vizObsLayers,
+    "posttrain-pipeline": vizPosttrainPipeline,
   };
 
   function mount(el) {
