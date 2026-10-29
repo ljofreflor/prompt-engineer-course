@@ -23,6 +23,12 @@ export const changelogQuarters: ChangelogQuarter[] = [
     items: [
       {
         date: "2026-10-29",
+        title: "Viz juez LLM",
+        detail: "Ilustración judge-bias (posición · longitud · familia) en 08/u06.",
+        tags: ["08", "viz", "eval"],
+      },
+      {
+        date: "2026-10-29",
         title: "Labs con Makefile",
         detail:
           "make smoke / make lab-09-u0N / make labs-09 — un comando por lab contra LM Studio.",

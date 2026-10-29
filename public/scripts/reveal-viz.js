@@ -2815,6 +2815,99 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Sesgos del juez LLM: posición, longitud, auto-preferencia (Zheng et al. 2023). */
+  function vizJudgeBias(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Sesgos del juez: posición, longitud, familia del modelo");
+
+    var biases = [
+      { title: "Posición", sub: "A vs B primero", fix: "swap de orden" },
+      { title: "Longitud", sub: "más tokens ≠ mejor", fix: "rúbrica fija" },
+      { title: "Familia", sub: "auto-preferencia", fix: "juez distinto" },
+    ];
+    var cardW = 240;
+    var gap = 36;
+    var startX = (w - (biases.length * cardW + (biases.length - 1) * gap)) / 2;
+    var nodes = [];
+
+    biases.forEach(function (b, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",55)");
+      var fill = i === 1 ? COLORS.primary : COLORS.soft;
+      var ink = i === 1 ? COLORS.white : COLORS.negro;
+      var muted = i === 1 ? "rgba(255,255,255,0.85)" : COLORS.gray;
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 200)
+        .attr("rx", 2)
+        .attr("fill", fill)
+        .attr("stroke", fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 48)
+        .attr("text-anchor", "middle")
+        .attr("fill", ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 20)
+        .text(b.title);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 90)
+        .attr("text-anchor", "middle")
+        .attr("fill", muted)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 14)
+        .text(b.sub);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 150)
+        .attr("text-anchor", "middle")
+        .attr("fill", i === 1 ? COLORS.white : COLORS.primary)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 13)
+        .text("→ " + b.fix);
+      nodes.push(g.node());
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 300)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Zheng et al. 2023 — concordancia humano–juez como gate")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes, { opacity: 1, duration: 0.35, stagger: 0.12 }, 0.05).to(
+        foot,
+        { opacity: 1, duration: 0.3 },
+        0.55
+      );
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 120))
+          .duration(tDur(380))
+          .attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(550)).duration(tDur(300)).attr("opacity", 1);
+    }
+  }
+
   /** Prompt ⊂ contexto: system, tools/MCP, retrieval, historial, turno usuario. */
   function vizContextStack(el) {
     cineManual(el);
@@ -3412,6 +3505,7 @@
     "openness-axes": vizOpennessAxes,
     "quant-ladder": vizQuantLadder,
     "context-stack": vizContextStack,
+    "judge-bias": vizJudgeBias,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

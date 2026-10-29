@@ -82,6 +82,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Tres sesgos del juez",
+    viz: "judge-bias",
+    caption: "Sin swap / rúbrica / concordancia humano, el score del juez es frágil.",
+  },
+  {
     type: "bullets",
     kicker: "LLM-as-judge",
     title: "Sesgos y concordancia",

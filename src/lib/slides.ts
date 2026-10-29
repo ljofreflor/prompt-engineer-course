@@ -35,7 +35,8 @@ export type VizId =
   | "lora-adapters"
   | "openness-axes"
   | "quant-ladder"
-  | "context-stack";
+  | "context-stack"
+  | "judge-bias";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
