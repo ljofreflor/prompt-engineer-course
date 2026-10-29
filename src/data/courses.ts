@@ -214,7 +214,7 @@ export const courses: Course[] = [
         title: "Empaquetado y automatización del ciclo",
         hours: 4,
         summary: "Contenedores, CI y automatización del ciclo de vida.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u03",

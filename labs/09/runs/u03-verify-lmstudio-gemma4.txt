@@ -1,0 +1,4 @@
+PASS a model= 42.0 prog= 42 raw= $. Paso 2: Sumar las unidades restantes: $7 + 5 = 12$. Paso 3: Sumar los resultados parciales: $30 + 12 = 42$.  FINAL=42
+PASS b model= 69.0 prog= 69 raw= $9 \times 8 = 72$ $72 - 3 = 69$  FINAL=69
+PASS c model= 12.0 prog= 12.0 raw= : Restar los valores dentro del paréntesis. $100 - 40 = 60$  Paso 2: Dividir el resultado por 5. $60 / 5 = 12$  FINAL=12
+score 3/3 verify=programmatic

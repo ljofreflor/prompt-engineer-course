@@ -122,6 +122,10 @@ const units09: UnitContent[] = [
       "Wang et al. (2023), Self-consistency",
       "Yao et al. (2023), Tree of Thoughts (complementaria)",
     ],
+    lab: {
+      title: "Lab — CoT + verificación programática",
+      body: "labs/09/u03/run_verify.py: el modelo propone FINAL=<n>; el script valida con eval. No alcanza con “la cadena se ve bien”.",
+    },
   },
   {
     courseSlug: "09-prompt-engineering",
@@ -593,6 +597,45 @@ const units11: UnitContent[] = [
     lab: {
       title: "Lab — healthcheck local",
       body: "Levantá un wrapper HTTP mínimo que llame a LM Studio (/v1/models + /v1/chat/completions) y exponga /health con modelo y latencia.",
+    },
+  },
+  {
+    courseSlug: "11-aiops-cloud",
+    unitId: "u02",
+    learningOutcomes: [
+      "Empaquetar un servicio de inferencia reproducible.",
+      "Definir pipeline CI mínimo (build, test, smoke).",
+      "Separar secretos de configuración por ambiente.",
+    ],
+    blocks: [
+      {
+        title: "Contenedores como artefacto",
+        minutes: 60,
+        body: "Imagen con deps fijadas, healthcheck y etiquetas (git sha + semver).",
+      },
+      {
+        title: "CI y gates",
+        minutes: 60,
+        body: "Lint/unit, smoke /health, regresión de contrato OpenAI-compatible.",
+      },
+      {
+        title: "Config por ambiente",
+        minutes: 60,
+        body: "BASE_URL por env, secretos fuera de git, rollback de imagen.",
+      },
+      {
+        title: "Taller de smoke",
+        minutes: 60,
+        body: "Reusar labs/11/u01/health_wrapper.py como gate local o de CI.",
+      },
+    ],
+    readings: [
+      "Kreuzberger et al. (2023)",
+      "Beyer et al. (2016), SRE — capítulos de release engineering (complementaria)",
+    ],
+    lab: {
+      title: "Lab — smoke CI local",
+      body: "Correr health_wrapper.py; fallar si status≠ok o chat>umbral (p.ej. 5s).",
     },
   },
 ];

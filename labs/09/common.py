@@ -44,4 +44,9 @@ def chat(messages: list[dict], *, temperature: float = 0, max_tokens: int = 512)
     )
     with urllib.request.urlopen(req, timeout=120) as resp:
         body = json.loads(resp.read().decode())
-    return body["choices"][0]["message"]["content"]
+    msg = body["choices"][0]["message"]
+    content = (msg.get("content") or "").strip()
+    if content:
+        return content
+    # Algunos modelos (p.ej. Gemma 4 reasoning) dejan la salida en reasoning_content.
+    return (msg.get("reasoning_content") or "").strip()
