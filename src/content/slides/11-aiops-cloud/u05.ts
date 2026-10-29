@@ -50,9 +50,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Criterios",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Decisión",
-    title: "Make vs buy",
+    title: "Make vs buy bajo un contrato",
+    viz: "make-buy",
+    caption: "Local, híbrido o managed: el borde portable es lo que se puede migrar.",
+  },
+  {
+    type: "bullets",
+    kicker: "Criterios",
+    title: "Qué pesar en la tabla",
     items: [
       "Costo total: idle, egress, soporte, personal.",
       "Datos y residencia; auditoría.",

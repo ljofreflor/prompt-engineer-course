@@ -405,6 +405,114 @@
     });
   }
 
+  /** Make vs buy: local · híbrido · managed bajo un contrato portable. */
+  function vizMakeBuy(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Opciones local, híbrido y managed bajo un contrato portable");
+
+    var opts = [
+      { x: 160, label: "Local", sub: "control · ops propias" },
+      { x: 460, label: "Híbrido", sub: "borde propio + API" },
+      { x: 760, label: "Managed", sub: "velocidad · acoplamiento" },
+    ];
+
+    svg
+      .append("rect")
+      .attr("x", 60)
+      .attr("y", 48)
+      .attr("width", 800)
+      .attr("height", 56)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro)
+      .attr("opacity", 0)
+      .transition()
+      .delay(tDelay(40))
+      .duration(tDur(450))
+      .attr("opacity", 1);
+    svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 82)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .attr("opacity", 0)
+      .text("Contrato portable — API · artefactos · secretos fuera del vendor")
+      .transition()
+      .delay(tDelay(120))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+
+    opts.forEach(function (o, i) {
+      var g = svg.append("g").attr("transform", "translate(" + o.x + ",220)");
+      g.append("rect")
+        .attr("x", -100)
+        .attr("y", -48)
+        .attr("width", 200)
+        .attr("height", 96)
+        .attr("rx", 2)
+        .attr("fill", COLORS.soft)
+        .attr("stroke", i === 1 ? COLORS.primary : COLORS.negro)
+        .attr("stroke-width", i === 1 ? 2.5 : 1.5)
+        .attr("opacity", 0)
+        .attr("transform", "translate(0,16)")
+        .transition()
+        .delay(tDelay(200 + i * 140))
+        .duration(tDur(450))
+        .attr("opacity", 1)
+        .attr("transform", "translate(0,0)");
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -8)
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 17)
+        .attr("opacity", 0)
+        .text(o.label)
+        .transition()
+        .delay(tDelay(260 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 18)
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .attr("opacity", 0)
+        .text(o.sub)
+        .transition()
+        .delay(tDelay(300 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+
+      svg
+        .append("line")
+        .attr("x1", o.x)
+        .attr("y1", 104)
+        .attr("x2", o.x)
+        .attr("y2", 104)
+        .attr("stroke", COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("stroke-dasharray", "5 4")
+        .transition()
+        .delay(tDelay(180 + i * 140))
+        .duration(tDur(380))
+        .attr("y2", 170);
+    });
+
+    label(svg, 460, 340, "Decidir por NFR; el plan de salida vive en el contrato", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 780,
+    });
+  }
+
   /** Cadena claim → evidencia (design doc). */
   function vizClaimEvidence(el) {
     var w = 920;
@@ -600,6 +708,7 @@
     "notebook-to-service": vizNotebookToService,
     multiagent: vizMultiagent,
     "claim-evidence": vizClaimEvidence,
+    "make-buy": vizMakeBuy,
   };
 
   function mount(el) {
