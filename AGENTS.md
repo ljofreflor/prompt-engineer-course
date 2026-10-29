@@ -25,9 +25,11 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
-## Brand UAI (sitio + Reveal)
+## Brand UAI (sitio + clase)
 
 Source of truth: `src/styles/uai-tokens.css` (from uai.cl Magíster IA).
+
+- **UI never names Reveal.js** — alumno/profesor see “Clase” / “Abrir clase”. Reveal is an implementation detail (dev docs / `AGENTS.md` only).
 
 - Negro navbar `#15171a`, primary `#00AFD8`, soft bg `#f3f5f7`, gray `#616365`
 - Fonts: **UAI Corporativo** 300 (h1) / 800 (h2); body **Roboto**

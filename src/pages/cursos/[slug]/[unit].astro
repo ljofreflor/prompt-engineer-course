@@ -30,7 +30,7 @@ const content = getUnitContent(course.slug, unitMeta.id);
       <p>{unitMeta.summary}</p>
       <p>
         <a class="btn btn--primary" href={asset(`cursos/${course.slug}/${unitMeta.id}/clase/`)}>
-          Abrir clase (Reveal.js)
+          Abrir clase
         </a>
       </p>
 
@@ -77,7 +77,7 @@ const content = getUnitContent(course.slug, unitMeta.id);
       }
 
       <p style="margin-top:2rem">
-        <a href={asset(`cursos/${course.slug}/${unitMeta.id}/clase/`)}>Clase Reveal.js</a>
+        <a href={asset(`cursos/${course.slug}/${unitMeta.id}/clase/`)}>Clase</a>
         {" · "}
         <a href={asset(`profesor/cursos/${course.slug}/${unitMeta.id}/`)}>Guion profesor →</a>
       </p>

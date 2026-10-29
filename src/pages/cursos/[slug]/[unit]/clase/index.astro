@@ -182,7 +182,7 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
       (function bootReveal() {
         function start() {
           if (!window.Reveal || typeof window.Reveal.initialize !== "function") {
-            console.error("Reveal.js no cargó (window.Reveal ausente).");
+            console.error("Motor de diapositivas no cargó (window.Reveal ausente).");
             return;
           }
           window.Reveal.initialize({
