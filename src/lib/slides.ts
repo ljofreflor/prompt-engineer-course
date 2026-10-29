@@ -19,7 +19,8 @@ export type VizId =
   | "canary-deploy"
   | "obs-layers"
   | "posttrain-pipeline"
-  | "adapt-routes";
+  | "adapt-routes"
+  | "cost-crossover";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

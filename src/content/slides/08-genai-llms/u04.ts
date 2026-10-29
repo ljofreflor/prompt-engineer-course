@@ -65,13 +65,20 @@ export const slides: Slide[] = [
     subtitle: "60 min — Cruce",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Ejercicio",
     title: "Punto de cruce por volumen",
+    viz: "cost-crossover",
+    caption: "Sin idle ni precio/token explícitos, el “más barato” es un eslogan.",
+  },
+  {
+    type: "bullets",
+    kicker: "Cálculo",
+    title: "Qué incluir en la hoja",
     items: [
       "10k requests/día: local cuantizado vs API.",
       "Sensibilidad a precio/token y a GPU idle.",
-      "Lab: labs del curso / estimaciones en herramientas.",
+      "Estimaciones y stack: página Herramientas (curso 08).",
     ],
   },
   {

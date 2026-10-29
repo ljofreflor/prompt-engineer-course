@@ -405,6 +405,102 @@
     });
   }
 
+  /** Punto de cruce de costo: API variable vs local con idle. */
+  function vizCostCrossover(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Costo API vs local: el cruce depende del volumen y del idle");
+
+    var margin = { l: 80, r: 40, t: 60, b: 70 };
+    var iw = w - margin.l - margin.r;
+    var ih = h - margin.t - margin.b;
+
+    svg
+      .append("line")
+      .attr("x1", margin.l)
+      .attr("y1", margin.t + ih)
+      .attr("x2", margin.l + iw)
+      .attr("y2", margin.t + ih)
+      .attr("stroke", COLORS.border)
+      .attr("stroke-width", 2);
+    svg
+      .append("line")
+      .attr("x1", margin.l)
+      .attr("y1", margin.t)
+      .attr("x2", margin.l)
+      .attr("y2", margin.t + ih)
+      .attr("stroke", COLORS.border)
+      .attr("stroke-width", 2);
+
+    // API: rising line
+    var api = svg
+      .append("path")
+      .attr("d", "M" + margin.l + "," + (margin.t + ih - 20) + " L" + (margin.l + iw) + "," + (margin.t + 30))
+      .attr("fill", "none")
+      .attr("stroke", COLORS.primary)
+      .attr("stroke-width", 3)
+      .attr("opacity", 0);
+    api
+      .transition()
+      .delay(tDelay(120))
+      .duration(tDur(600))
+      .attr("opacity", 1);
+
+    // Local: flatter with fixed + idle
+    var loc = svg
+      .append("path")
+      .attr("d", "M" + margin.l + "," + (margin.t + ih - 90) + " L" + (margin.l + iw) + "," + (margin.t + ih - 70))
+      .attr("fill", "none")
+      .attr("stroke", COLORS.negro)
+      .attr("stroke-width", 3)
+      .attr("opacity", 0);
+    loc
+      .transition()
+      .delay(tDelay(280))
+      .duration(tDur(600))
+      .attr("opacity", 1);
+
+    // Crossover marker
+    var cx = margin.l + iw * 0.45;
+    var cy = margin.t + ih - 82;
+    svg
+      .append("circle")
+      .attr("cx", cx)
+      .attr("cy", cy)
+      .attr("r", 0)
+      .attr("fill", COLORS.primary)
+      .transition()
+      .delay(tDelay(700))
+      .duration(tDur(400))
+      .attr("r", 8);
+
+    label(svg, margin.l + iw - 20, margin.t + 50, "API ($/req)", {
+      anchor: "end",
+      size: 13,
+      fill: COLORS.primary,
+      weight: 700,
+      delay: 200,
+    });
+    label(svg, margin.l + 120, margin.t + ih - 110, "Local (GPU + idle)", {
+      anchor: "start",
+      size: 13,
+      fill: COLORS.negro,
+      weight: 700,
+      delay: 360,
+    });
+    label(svg, cx, cy - 18, "cruce", {
+      size: 12,
+      fill: COLORS.gray,
+      delay: 820,
+    });
+    label(svg, margin.l + iw / 2, h - 28, "Volumen →", {
+      size: 12,
+      fill: COLORS.gray,
+      delay: 500,
+    });
+  }
+
   /** Tres vías de adaptación: prompting · RAG · fine-tune. */
   function vizAdaptRoutes(el) {
     var w = 920;
@@ -1674,6 +1770,7 @@
     "obs-layers": vizObsLayers,
     "posttrain-pipeline": vizPosttrainPipeline,
     "adapt-routes": vizAdaptRoutes,
+    "cost-crossover": vizCostCrossover,
   };
 
   function mount(el) {
