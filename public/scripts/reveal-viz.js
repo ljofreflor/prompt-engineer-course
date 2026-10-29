@@ -405,6 +405,128 @@
     });
   }
 
+  /** Cadena claim → evidencia (design doc). */
+  function vizClaimEvidence(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Cadena claim, métrica, línea base, umbral; sin medir es riesgo");
+
+    var steps = [
+      { x: 110, label: "Claim", sub: "valor prometido" },
+      { x: 310, label: "Métrica", sub: "observable" },
+      { x: 510, label: "Baseline", sub: "hoy" },
+      { x: 710, label: "Umbral", sub: "aceptar / no" },
+    ];
+
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "uai-arrow-ce")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", COLORS.primary);
+
+    steps.forEach(function (s, i) {
+      var g = svg.append("g").attr("transform", "translate(" + s.x + ",140)");
+      g.append("rect")
+        .attr("x", -72)
+        .attr("y", -36)
+        .attr("width", 144)
+        .attr("height", 72)
+        .attr("rx", 2)
+        .attr("fill", i === 0 ? COLORS.negro : COLORS.soft)
+        .attr("stroke", i === 0 ? COLORS.negro : COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .attr("transform", "scale(0.9)")
+        .transition()
+        .delay(tDelay(100 + i * 140))
+        .duration(tDur(450))
+        .attr("opacity", 1)
+        .attr("transform", "scale(1)");
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -4)
+        .attr("fill", i === 0 ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .attr("opacity", 0)
+        .text(s.label)
+        .transition()
+        .delay(tDelay(160 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 18)
+        .attr("fill", i === 0 ? "rgba(255,255,255,0.75)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .attr("opacity", 0)
+        .text(s.sub)
+        .transition()
+        .delay(tDelay(200 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+
+      if (i < steps.length - 1) {
+        svg
+          .append("line")
+          .attr("x1", s.x + 78)
+          .attr("y1", 140)
+          .attr("x2", s.x + 78)
+          .attr("y2", 140)
+          .attr("stroke", COLORS.primary)
+          .attr("stroke-width", 2.5)
+          .attr("marker-end", "url(#uai-arrow-ce)")
+          .transition()
+          .delay(tDelay(220 + i * 140))
+          .duration(tDur(380))
+          .attr("x2", steps[i + 1].x - 78);
+      }
+    });
+
+    var risk = svg.append("g").attr("transform", "translate(460,300)");
+    risk
+      .append("rect")
+      .attr("x", -200)
+      .attr("y", -28)
+      .attr("width", 400)
+      .attr("height", 56)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.negro)
+      .attr("stroke-width", 1.5)
+      .attr("stroke-dasharray", "6 4")
+      .attr("opacity", 0)
+      .transition()
+      .delay(tDelay(780))
+      .duration(tDur(450))
+      .attr("opacity", 1);
+    risk
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("dy", "0.35em")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 700)
+      .attr("font-size", 14)
+      .attr("opacity", 0)
+      .text("Sin medir → riesgo explícito en el doc")
+      .transition()
+      .delay(tDelay(860))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+  }
+
   /** De notebook a servicio (AI.Ops). */
   function vizNotebookToService(el) {
     var w = 920;
@@ -477,6 +599,7 @@
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
     multiagent: vizMultiagent,
+    "claim-evidence": vizClaimEvidence,
   };
 
   function mount(el) {

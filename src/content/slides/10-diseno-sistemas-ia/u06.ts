@@ -51,9 +51,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Evidencia",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Claims",
     title: "Afirmar con prueba",
+    viz: "claim-evidence",
+    caption: "Sin métrica / umbral, el claim es riesgo — no diseño.",
+  },
+  {
+    type: "bullets",
+    kicker: "Evidencia",
+    title: "Qué contar en el doc",
     items: [
       "Línea base vs propuesta: delta esperado.",
       "Experimentos / canarias / sets de dominio.",

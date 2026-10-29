@@ -7,7 +7,8 @@ export type VizId =
   | "autoregressive"
   | "eval-levels"
   | "notebook-to-service"
-  | "multiagent";
+  | "multiagent"
+  | "claim-evidence";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
