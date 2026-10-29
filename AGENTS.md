@@ -79,11 +79,43 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
 - **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
 
+## Program compliance (coverage × quality)
+
+Fuente de verdad del **qué** debe existir: syllabi en `src/data/programs/<slug>.json` (`unidades[]`). El **cómo de calidad** se mide por niveles por unidad — no basta “hay deck”.
+
+### Levels (per unit)
+
+| Level | Name | Meaning |
+|------:|------|---------|
+| L0 | absent / partial | Missing deck override or file, or only placeholder |
+| L1 | skeleton | Deck registered + unit page with ≥3 blocks and learning outcomes |
+| L2 | theory | L1 + slides `Teoría` and `Lecturas`; claims cited (author/year); reading keys resolve in `bibliography.bib` / `papers_config.json` |
+| L3 | practice | L2 + valid `viz` ids (if any) + lab present when `lab:` is declared on the unit (or `Lab:` path in deck) |
+| L4 | polish | Manual: UAI brand critique (portada ≤2 lines, chrome, tokens, viz contrast) — not auto-scored |
+
+Target for shippable class material: **≥ L2 for every unit**; prefer **L3** where the syllabus expects taller/lab. L4 is the brand loop, not a bib check.
+
+### Automated check
+
+```bash
+python3 scripts/compliance_check.py          # writes tmp/compliance.md
+python3 scripts/compliance_check.py --strict # exit 1 if any unit < L2
+```
+
+Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.
+
+Prioritize loop work by **lowest level first**, then by course order 08→11. Do not invent readings to “pass” L2 — only OA / licensed sources; books (Huyen, etc.) may be cited without local PDF.
+
+### Manual L4 (brand) — still required in the loop
+
+Screenshot title + section + content; verify Corporativo/Roboto, `.slide-topbar`, no purple/tech-dark. Log in `tmp/reveal-uai-critique.md`; promote durable rules here.
+
 ## Continuous improvement (coursebuild loop)
 
 Every loop tick should:
 
-1. Screenshot + critique one Reveal clase vs UAI brand; fix the highest-severity issue
-2. Advance e2e gaps (units / decks / labs) **y huecos de teoría/citas** (Lecturas + claims citados; bajar papers OA si faltan)
-3. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, deploy check) — short bullet under the right section; do not dump tick noise here
-4. Build + push if there are repo changes; never version `tmp/`
+1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗)
+2. Screenshot + critique one Reveal clase vs UAI brand (L4); fix the highest-severity issue
+3. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
+4. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion) — short bullet under the right section; do not dump tick noise here
+5. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`)
