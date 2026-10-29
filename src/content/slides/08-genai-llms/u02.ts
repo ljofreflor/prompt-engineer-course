@@ -16,7 +16,7 @@ export const slides: Slide[] = [
       "Pretrain ≠ seguir instrucciones.",
       "SFT enseña formato y tareas; no “conoce” todo.",
       "Alineación (RLHF/DPO) mueve preferencias — con costos.",
-      "El stack del curso: Colab/HF + API cerrada + local (contingencia).",
+      "Atribuir el síntoma a la etapa evita “más prompt” como única respuesta.",
     ],
   },
   {
@@ -100,6 +100,13 @@ export const slides: Slide[] = [
       "Constitutional / principios: otra vía, mismos trade-offs de especificación.",
       "Atribuir el síntoma a pretrain / SFT / alineación antes de “más prompt”.",
     ],
+  },
+  {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Instrucción ≠ preferencia",
+    viz: "sft-align",
+    caption: "SFT enseña a seguir el formato; la alineación mueve qué se prefiere decir.",
   },
   {
     type: "section",

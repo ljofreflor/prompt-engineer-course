@@ -2814,6 +2814,96 @@
     }
   }
 
+  /** SFT vs alineación: dos objetivos distintos. */
+  function vizSftAlign(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("SFT enseña formato; alineación mueve preferencias");
+
+    var cards = [
+      {
+        x: 100,
+        title: "SFT",
+        lines: ["Seguir instrucciones", "Formato y tareas", "Ouyang et al. 2022"],
+        fill: COLORS.soft,
+      },
+      {
+        x: 500,
+        title: "Alineación",
+        lines: ["Preferencias humanas", "RLHF o DPO", "Rafailov et al. 2023"],
+        fill: COLORS.primary,
+      },
+    ];
+    var nodes = [];
+
+    cards.forEach(function (c) {
+      var g = svg.append("g").attr("transform", "translate(" + c.x + ",70)");
+      var ink = c.fill === COLORS.primary ? COLORS.white : COLORS.negro;
+      var muted = c.fill === COLORS.primary ? COLORS.white : COLORS.gray;
+      g.append("rect")
+        .attr("width", 320)
+        .attr("height", 200)
+        .attr("rx", 2)
+        .attr("fill", c.fill)
+        .attr("stroke", c.fill === COLORS.primary ? "none" : COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 160)
+        .attr("y", 48)
+        .attr("text-anchor", "middle")
+        .attr("fill", ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 22)
+        .text(c.title);
+      c.lines.forEach(function (line, i) {
+        g.append("text")
+          .attr("x", 160)
+          .attr("y", 100 + i * 28)
+          .attr("text-anchor", "middle")
+          .attr("fill", i === 2 ? muted : ink)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", i === 2 ? 13 : 15)
+          .attr("font-weight", i === 2 ? 500 : 500)
+          .text(line);
+      });
+      nodes.push(g.node());
+    });
+
+    var plus = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 180)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 28)
+      .attr("opacity", 0)
+      .text("→")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes[0], { opacity: 1, duration: 0.4 }, 0.05)
+        .to(plus, { opacity: 1, duration: 0.25 }, 0.35)
+        .to(nodes[1], { opacity: 1, duration: 0.4 }, 0.45);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 200))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      d3.select(plus).transition().delay(tDelay(280)).duration(tDur(300)).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -2823,6 +2913,7 @@
     "automation-levels": vizAutomationLevels,
     "abstain-escalate": vizAbstainEscalate,
     "lost-middle": vizLostMiddle,
+    "sft-align": vizSftAlign,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

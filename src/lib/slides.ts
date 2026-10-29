@@ -30,7 +30,8 @@ export type VizId =
   | "injection-surface"
   | "automation-levels"
   | "abstain-escalate"
-  | "lost-middle";
+  | "lost-middle"
+  | "sft-align";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
