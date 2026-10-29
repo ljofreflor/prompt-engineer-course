@@ -69,21 +69,18 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
   </head>
   <body>
     <a class="reveal-exit" href={asset(`cursos/${course.slug}/${unit.id}/`)}>Salir de la clase</a>
+    <div class="slide-chrome" aria-hidden="true">
+      <span class="slide-chrome__accent"></span>
+      <span class="slide-chrome__brand">
+        <img class="slide-chrome__logo" src={logo} alt="" />
+        <span>Universidad Adolfo Ibáñez</span>
+      </span>
+      <span class="slide-chrome__meta">{chromeMeta}</span>
+    </div>
     <div class="reveal">
       <div class="slides">
         {
           slides.map((s) => {
-            const chrome = (
-              <div class="slide-chrome" aria-hidden="true">
-                <span class="slide-chrome__accent" />
-                <span class="slide-chrome__brand">
-                  <img class="slide-chrome__logo" src={logo} alt="" />
-                  <span>Universidad Adolfo Ibáñez</span>
-                </span>
-                <span class="slide-chrome__meta">{chromeMeta}</span>
-              </div>
-            );
-
             if (s.type === "title") {
               return (
                 <section class="center slide-title" data-background-color="#ffffff">
@@ -91,7 +88,6 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
                   <hr class="title-rule" />
                   <h1>{s.title}</h1>
                   {s.subtitle && <p class="uai-muted">{s.subtitle}</p>}
-                  {chrome}
                 </section>
               );
             }
@@ -100,7 +96,6 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
                 <section class="center slide-section" data-background-color="#f3f5f7">
                   <p class="uai-kicker">{s.subtitle || "Sección"}</p>
                   <h2>{s.title}</h2>
-                  {chrome}
                 </section>
               );
             }
@@ -114,7 +109,6 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
                       <li>{item}</li>
                     ))}
                   </ul>
-                  {chrome}
                 </section>
               );
             }
@@ -125,7 +119,6 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
                   <h2>{s.title}</h2>
                   <img class="slide-shot" src={asset(s.src)} alt={s.alt} />
                   {s.caption && <p class="uai-muted slide-caption">{s.caption}</p>}
-                  {chrome}
                 </section>
               );
             }
@@ -136,7 +129,6 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
                 {s.paragraphs.map((p) => (
                   <p>{p}</p>
                 ))}
-                {chrome}
               </section>
             );
           })

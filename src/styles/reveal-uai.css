@@ -13,6 +13,7 @@
   --uai-celeste: #6493b5;
   --uai-gray: #616365;
   --uai-border: #e5e7eb;
+  --uai-chrome-h: 48px;
 
   --r-background-color: #ffffff;
   --r-main-font: "Roboto", "Open Sans", system-ui, sans-serif;
@@ -55,7 +56,7 @@ body {
 
 .reveal .slides section {
   text-align: left;
-  padding: 2.2rem 2.6rem 3.2rem;
+  padding: 2rem 2.6rem calc(2rem + var(--uai-chrome-h));
   box-sizing: border-box;
 }
 
@@ -63,7 +64,6 @@ body {
   text-align: center;
 }
 
-/* Títulos: Corporativo light (como h1 del sitio); h2 más marcado */
 .reveal h1 {
   font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
   font-weight: 300;
@@ -132,13 +132,13 @@ body {
   border-radius: 1px;
 }
 
-/* Barra inferior institucional */
-.reveal .slide-chrome {
-  position: absolute;
+/* Barra inferior fija (viewport), no dentro del slide escalado */
+.slide-chrome {
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 44px;
+  height: var(--uai-chrome-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,28 +148,28 @@ body {
   font-family: "Roboto", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 500;
-  z-index: 2;
+  z-index: 35;
   pointer-events: none;
 }
 
-.reveal .slide-chrome__brand {
+.slide-chrome__brand {
   display: flex;
   align-items: center;
   gap: 0.65rem;
 }
 
-.reveal .slide-chrome__logo {
+.slide-chrome__logo {
   height: 22px;
   width: auto;
   filter: brightness(0) invert(1);
 }
 
-.reveal .slide-chrome__meta {
+.slide-chrome__meta {
   color: rgba(255, 255, 255, 0.72);
   font-size: 12px;
 }
 
-.reveal .slide-chrome__accent {
+.slide-chrome__accent {
   position: absolute;
   left: 0;
   top: 0;
@@ -180,7 +180,7 @@ body {
 
 /* Portada */
 .reveal .slides section.slide-title {
-  padding-top: 3.5rem;
+  padding-top: 3.2rem;
 }
 
 .reveal .slides section.slide-title h1 {
@@ -224,7 +224,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  bottom: 44px;
+  bottom: 0;
   width: 5px;
   background: var(--uai-primary);
 }
@@ -232,18 +232,19 @@ body {
 .reveal .progress {
   color: var(--uai-primary);
   height: 3px;
-  z-index: 30;
+  bottom: var(--uai-chrome-h);
+  z-index: 36;
 }
 
 .reveal .controls {
   color: var(--uai-primary);
   right: 14px;
-  bottom: 52px;
+  bottom: calc(var(--uai-chrome-h) + 14px);
 }
 
 .reveal .slide-number {
   right: 18px;
-  bottom: 52px;
+  bottom: calc(var(--uai-chrome-h) + 14px);
   background: transparent;
   color: var(--uai-gray);
   font-family: "Roboto", system-ui, sans-serif;
@@ -290,7 +291,6 @@ body {
   margin-top: 0.35em;
 }
 
-/* Fragments: mantener contraste UAI */
 .reveal .slides section .fragment {
   opacity: 0.15;
 }
