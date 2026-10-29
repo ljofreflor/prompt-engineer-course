@@ -12,7 +12,8 @@ export type VizId =
   | "make-buy"
   | "guardrails"
   | "reliability-product"
-  | "decision-chain";
+  | "decision-chain"
+  | "rag-pipeline";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

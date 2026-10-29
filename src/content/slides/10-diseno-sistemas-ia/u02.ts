@@ -68,9 +68,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — RAG y tools",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Arquitectura",
-    title: "Recuperación aumentada como patrón",
+    title: "RAG como patrón, no como prompt",
+    viz: "rag-pipeline",
+    caption: "Cada etapa tiene NFR propios: frescura del índice, recall, latencia, costo.",
+  },
+  {
+    type: "bullets",
+    kicker: "Detalle",
+    title: "Qué diseñar en cada etapa",
     items: [
       "Indexación, segmentación, retrieval, rerank, ensamblaje.",
       "Verificación posterior y jueces: sesgos conocidos.",
