@@ -479,7 +479,12 @@ const units08: UnitContent[] = [
         body: "Presentaciones; articulación hacia Prompt Engineering y Diseño de Sistemas.",
       },
     ],
-    readings: ["Bommasani et al. (2021); Carlini et al. (2021) — enlace editorial / OA si disponible"],
+    readings: [
+      "Carlini et al. (2021) — carlini2021extracting",
+      "Bommasani et al. (2021) — bommasani2021foundation",
+      "Greshake et al. (2023) — greshake2023injection",
+      "Perez & Ribeiro (2022) — perez2022ignore",
+    ],
   },
 ];
 

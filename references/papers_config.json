@@ -84,6 +84,11 @@
     "eprint": "2108.07258",
     "url": "https://arxiv.org/abs/2108.07258"
   },
+  "carlini2021extracting": {
+    "title": "Extracting Training Data from Large Language Models",
+    "eprint": "2012.07805",
+    "url": "https://arxiv.org/abs/2012.07805"
+  },
   "dettmers2023qlora": {
     "title": "QLoRA",
     "eprint": "2305.14314",

@@ -73,6 +73,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Extracción y superficie de ataque",
+    items: [
+      "Carlini et al. (2021): se pueden extraer ejemplos de entrenamiento de LMs.",
+      "Greshake et al. (2023) / Perez & Ribeiro (2022): inyección e “ignore previous” — el prompt no es perímetro.",
+      "Bommasani et al. (2021): riesgos sistémicos del modelo base ≠ controles del producto.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Detalle",
     title: "Extracción y límites del prompt",
     items: [
@@ -94,6 +104,16 @@ export const slides: Slide[] = [
       "09: la instrucción como especificación y agentes.",
       "10: del modelo al sistema y design doc.",
       "11: operar lo que aquí solo se prototipa.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Carlini et al. (2021), Extracting Training Data — carlini2021extracting",
+      "Bommasani et al. (2021), Foundation Models — bommasani2021foundation",
+      "Greshake et al. (2023) — greshake2023injection; Perez & Ribeiro (2022) — perez2022ignore",
     ],
   },
   {
