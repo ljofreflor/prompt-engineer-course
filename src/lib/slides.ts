@@ -6,7 +6,8 @@ export type VizId =
   | "react-loop"
   | "autoregressive"
   | "eval-levels"
-  | "notebook-to-service";
+  | "notebook-to-service"
+  | "multiagent";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

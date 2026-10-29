@@ -163,67 +163,156 @@
     var svg = svgRoot(el, w, h);
     svg.append("title").text("Generación autorregresiva token a token");
 
-    var tokens = ["El", "modelo", "predice", "xₜ", "|", "x_<t"];
-    var startX = 80;
-    var y = 160;
-    var gap = 118;
+    var tokens = [
+      { t: "El", ctx: true },
+      { t: "modelo", ctx: true },
+      { t: "predice", ctx: true },
+      { t: "x_t", next: true },
+    ];
+    var startX = 140;
+    var y = 170;
+    var gap = 160;
 
-    tokens.forEach(function (t, i) {
+    tokens.forEach(function (tok, i) {
       var g = svg.append("g").attr("transform", "translate(" + (startX + i * gap) + "," + y + ")");
       g.append("rect")
-        .attr("x", -48)
-        .attr("y", -30)
-        .attr("width", 96)
-        .attr("height", 60)
+        .attr("x", -56)
+        .attr("y", -32)
+        .attr("width", 112)
+        .attr("height", 64)
         .attr("rx", 2)
-        .attr("fill", i >= 3 ? COLORS.primary : COLORS.soft)
+        .attr("fill", tok.next ? COLORS.primary : COLORS.soft)
         .attr("stroke", COLORS.negro)
         .attr("stroke-width", 1.5)
         .attr("opacity", 0)
-        .attr("y", -10)
+        .attr("y", -12)
         .transition()
-        .delay(120 * i)
+        .delay(140 * i)
         .duration(420)
         .attr("opacity", 1)
-        .attr("y", -30);
+        .attr("y", -32);
       g.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
         .attr("font-family", "Roboto, system-ui, sans-serif")
-        .attr("font-weight", i >= 3 ? 800 : 500)
-        .attr("font-size", 16)
-        .attr("fill", i >= 3 ? COLORS.white : COLORS.negro)
+        .attr("font-weight", tok.next ? 800 : 500)
+        .attr("font-size", 17)
+        .attr("fill", tok.next ? COLORS.white : COLORS.negro)
         .attr("opacity", 0)
-        .text(t)
+        .text(tok.t)
         .transition()
-        .delay(140 * i)
+        .delay(160 * i)
         .duration(400)
         .attr("opacity", 1);
 
-      if (i < tokens.length - 1 && t !== "|" && tokens[i + 1] !== "|") {
+      if (i < tokens.length - 1) {
         svg
           .append("path")
-          .attr("d", "M" + (startX + i * gap + 52) + "," + y + " L" + (startX + (i + 1) * gap - 52) + "," + y)
+          .attr("d", "M" + (startX + i * gap + 60) + "," + y + " L" + (startX + (i + 1) * gap - 60) + "," + y)
           .attr("stroke", COLORS.primary)
-          .attr("stroke-width", 2)
+          .attr("stroke-width", 2.5)
           .attr("opacity", 0)
+          .attr("marker-end", "url(#uai-arrow-ar)")
           .transition()
-          .delay(180 + 120 * i)
+          .delay(200 + 140 * i)
           .duration(350)
           .attr("opacity", 1);
       }
     });
 
-    label(svg, 460, 60, "P(xₜ | x_<t) — cada paso condiciona al siguiente", {
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "uai-arrow-ar")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", COLORS.primary);
+
+    label(svg, 460, 56, "P(x_t | contexto) — cada paso condiciona al siguiente", {
       size: 15,
       weight: 700,
       fill: COLORS.negro,
       delay: 200,
     });
-    label(svg, 460, 290, "Errores tempranos se propagan; el formato se decide paso a paso", {
+    label(svg, 460, 280, "Errores tempranos se propagan; el formato se decide paso a paso", {
       size: 13,
       fill: COLORS.gray,
-      delay: 800,
+      delay: 750,
+    });
+  }
+
+  /** Topología multiagente simple: supervisor → especialistas. */
+  function vizMultiagent(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Topología supervisor con agentes especialistas");
+
+    var nodes = [
+      { id: "sup", label: "Supervisor", x: 460, y: 80 },
+      { id: "a", label: "Agente A", x: 200, y: 260 },
+      { id: "b", label: "Agente B", x: 460, y: 260 },
+      { id: "c", label: "Agente C", x: 720, y: 260 },
+    ];
+
+    nodes.forEach(function (n, i) {
+      var g = svg.append("g").attr("transform", "translate(" + n.x + "," + n.y + ")");
+      g.append("rect")
+        .attr("x", -72)
+        .attr("y", -28)
+        .attr("width", 144)
+        .attr("height", 56)
+        .attr("rx", 2)
+        .attr("fill", n.id === "sup" ? COLORS.negro : COLORS.soft)
+        .attr("stroke", n.id === "sup" ? COLORS.negro : COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .transition()
+        .delay(100 + i * 120)
+        .duration(450)
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .attr("fill", n.id === "sup" ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .attr("opacity", 0)
+        .text(n.label)
+        .transition()
+        .delay(160 + i * 120)
+        .duration(400)
+        .attr("opacity", 1);
+    });
+
+    [1, 2, 3].forEach(function (i, k) {
+      var b = nodes[i];
+      svg
+        .append("line")
+        .attr("x1", 460)
+        .attr("y1", 108)
+        .attr("x2", 460)
+        .attr("y2", 108)
+        .attr("stroke", COLORS.primary)
+        .attr("stroke-width", 2)
+        .transition()
+        .delay(400 + k * 140)
+        .duration(400)
+        .attr("x2", b.x)
+        .attr("y2", b.y - 28);
+    });
+
+    label(svg, 460, 350, "Cada hop multiplica latencia, costo y probabilidad de falla", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 900,
     });
   }
 
@@ -362,6 +451,7 @@
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
+    multiagent: vizMultiagent,
   };
 
   function mount(el) {

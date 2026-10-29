@@ -59,6 +59,8 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `16ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
 - Reveal arrow controls stay low-opacity until hover so they don’t fight the UAI chrome in projection
 - D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Prefer a few concept diagrams with enter transitions over decorating every slide. Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting
+- Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`). Keep diagrams sparse — one idea per viz
+- Available viz ids: `react-loop`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`
 
 ## Reveal transitions
 

@@ -46,6 +46,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Supervisor y especialistas",
+    viz: "multiagent",
+    caption: "Más hops = más costo y más modos de falla; justificar cada agente.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Topologías",
