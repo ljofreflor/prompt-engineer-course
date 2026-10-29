@@ -63,7 +63,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`). Keep diagrams sparse — one idea per viz
 - Available viz ids: `react-loop`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`
 - D3 enter animations respect `prefers-reduced-motion: reduce` (`tDelay`/`tDur` → 0)
-- Clase page loads `reveal-viz.js?v=<sha1-8>` from file contents so Pages/CDN do not keep a stale registry after deploy
+- Clase page loads `reveal-uai.css` and `reveal-viz.js` with `?v=<sha1-8>` from file contents so Pages/CDN do not keep stale theme or D3 registry after deploy
 
 ## Reveal transitions
 

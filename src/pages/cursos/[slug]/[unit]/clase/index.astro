@@ -25,11 +25,16 @@ if (!program || !unit) throw new Error("unidad");
 const slides: Slide[] =
   getSlideOverride(course.slug, unit.id) ?? slidesFromUnit(course, program, unit);
 
-/** Bust CDN/browser cache when the D3 registry changes (Pages can keep a stale reveal-viz.js). */
-const vizJsV = createHash("sha1")
-  .update(readFileSync(join(process.cwd(), "public/scripts/reveal-viz.js")))
-  .digest("hex")
-  .slice(0, 8);
+function assetHash(relPath: string) {
+  return createHash("sha1")
+    .update(readFileSync(join(process.cwd(), relPath)))
+    .digest("hex")
+    .slice(0, 8);
+}
+
+/** Bust CDN/browser cache when Reveal assets change (Pages often keeps stale CSS/JS). */
+const vizJsV = assetHash("public/scripts/reveal-viz.js");
+const revealCssV = assetHash("public/styles/reveal-uai.css");
 
 const fonts = {
   corp300: asset("fonts/uai-corp-300.otf"),
@@ -58,7 +63,7 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{`Clase · ${unit.title} · Curso ${course.code} UAI`}</title>
     <link rel="stylesheet" href={asset("vendor/reveal/reveal.css")} />
-    <link rel="stylesheet" href={asset("styles/reveal-uai.css")} />
+    <link rel="stylesheet" href={`${asset("styles/reveal-uai.css")}?v=${revealCssV}`} />
     <style is:global define:vars={fonts}>
       @font-face {
         font-family: "UAI Corporativo";
