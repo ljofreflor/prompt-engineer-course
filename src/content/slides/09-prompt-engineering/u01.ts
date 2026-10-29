@@ -67,6 +67,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Few-shot como aprendizaje en contexto",
+    items: [
+      "Brown et al. (2020): el LM grande puede “aprender” la tarea desde ejemplos en el prompt (§§1–3).",
+      "Schulhoff et al. (2024), Prompt Report §§1–2.2: taxonomía de componentes y evidencia de qué ayuda (y qué no).",
+      "Orden, formato y cobertura de casos límite suelen pesar más que “más ejemplos”.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Evidencia",
     title: "Aprendizaje en contexto",
     items: [
@@ -128,10 +138,10 @@ export const slides: Slide[] = [
   {
     type: "bullets",
     kicker: "Lecturas",
-    title: "Para la próxima",
+    title: "Para profundizar",
     items: [
-      "Schulhoff et al. (2024), The Prompt Report — §§1 y 2.2",
-      "Brown et al. (2020), few-shot — §§1–3",
+      "Schulhoff et al. (2024), The Prompt Report — schulhoff2024prompt (§§1 y 2.2)",
+      "Brown et al. (2020), Language models are few-shot learners — brown2020fewshot (§§1–3)",
     ],
   },
   {

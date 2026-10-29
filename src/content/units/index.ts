@@ -39,8 +39,8 @@ const units09: UnitContent[] = [
       },
     ],
     readings: [
-      "Schulhoff et al. (2024), The Prompt Report — §§1 y 2.2 (arXiv:2406.06608)",
-      "Brown et al. (2020), Language models are few-shot learners — §§1–3",
+      "Schulhoff et al. (2024), The Prompt Report — schulhoff2024prompt (§§1 y 2.2)",
+      "Brown et al. (2020) — brown2020fewshot (§§1–3)",
     ],
     lab: {
       title: "Lab local — especificación + validación",
@@ -78,9 +78,8 @@ const units09: UnitContent[] = [
       },
     ],
     readings: [
-      "Sclar et al. (2024), Quantifying sensitivity to spurious prompt features",
-      "Schulhoff et al. (2024), sección de ingeniería de prompts",
-      "Zhou et al. (2023), Large language models are human-level prompt engineers (complementaria)",
+      "Sclar et al. (2024) — sclar2024sensitivity",
+      "Schulhoff et al. (2024) — schulhoff2024prompt",
     ],
     lab: {
       title: "Lab — prompt como artefacto",
@@ -118,9 +117,9 @@ const units09: UnitContent[] = [
       },
     ],
     readings: [
-      "Wei et al. (2022), Chain-of-thought prompting",
-      "Wang et al. (2023), Self-consistency",
-      "Yao et al. (2023), Tree of Thoughts (complementaria)",
+      "Wei et al. (2022) — wei2022cot",
+      "Wang et al. (2023) — wang2023selfconsistency",
+      "Yao et al. (2023), Tree of Thoughts — yao2023tot (complementaria)",
     ],
     lab: {
       title: "Lab — CoT + verificación programática",

@@ -24,6 +24,11 @@
     "eprint": "2210.03629",
     "url": "https://arxiv.org/abs/2210.03629"
   },
+  "yao2023tot": {
+    "title": "Tree of Thoughts",
+    "eprint": "2305.10601",
+    "url": "https://arxiv.org/abs/2305.10601"
+  },
   "zheng2023judge": {
     "title": "Judging LLM-as-a-Judge",
     "eprint": "2306.05685",

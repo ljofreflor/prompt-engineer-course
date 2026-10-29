@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "CoT y cuándo usarlo",
+    items: [
+      "Wei et al. (2022): “pensemos paso a paso” mejora tareas multi-paso (aritmética, lógica).",
+      "No es gratis: latencia, tokens y a veces ruido — medir pass rate × costo.",
+      "Clasificación corta con schema: CoT a menudo sobra.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Cuándo",
     title: "Chain-of-thought con criterio",
     items: [
@@ -49,6 +59,16 @@ export const slides: Slide[] = [
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Ensamblado",
+  },
+  {
+    type: "bullets",
+    kicker: "Teoría",
+    title: "Self-consistency y búsqueda",
+    items: [
+      "Wang et al. (2023): varias cadenas + voto (self-consistency) estabiliza la respuesta final.",
+      "Yao et al. (2023), Tree of Thoughts: exploración cara; justificar presupuesto.",
+      "Diversidad de paths ≠ mayor verdad — verificar afuera del modelo.",
+    ],
   },
   {
     type: "bullets",
@@ -99,6 +119,16 @@ export const slides: Slide[] = [
     src: "labs/screenshots/lmstudio-server-status.png",
     alt: "Servidor LM Studio",
     caption: "Verificación fuera del modelo · gemma-4-e4b",
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Wei et al. (2022), Chain-of-Thought — wei2022cot",
+      "Wang et al. (2023), Self-Consistency — wang2023selfconsistency",
+      "Yao et al. (2023), Tree of Thoughts — yao2023tot (complementaria)",
+    ],
   },
   {
     type: "title",

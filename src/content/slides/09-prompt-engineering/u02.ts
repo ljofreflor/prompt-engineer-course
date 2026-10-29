@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Sensibilidad a features espurias",
+    items: [
+      "Sclar et al. (2024): separadores, mayúsculas y orden pueden mover el score tanto como cambiar de modelo.",
+      "Schulhoff et al. (2024): la “ingeniería de prompts” exige medir, no solo reescribir.",
+      "Implicación: el formato canónico vive en el repo; “mismo significado” no implica misma salida.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Evidencia",
     title: "Sclar et al.: features espurias",
     items: [
@@ -101,10 +111,10 @@ export const slides: Slide[] = [
   {
     type: "bullets",
     kicker: "Lecturas",
-    title: "Para la próxima",
+    title: "Para profundizar",
     items: [
-      "Sclar et al. (2024) — sensibilidad a features espurias",
-      "Schulhoff et al. (2024) — ingeniería de prompts",
+      "Sclar et al. (2024) — sclar2024sensitivity",
+      "Schulhoff et al. (2024) — schulhoff2024prompt",
     ],
   },
   {
