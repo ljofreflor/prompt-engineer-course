@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -51,14 +52,14 @@ def main() -> int:
         content = (msg.get("content") or "").strip()
         reasoning = (msg.get("reasoning_content") or "").strip()
         text = content or reasoning
-        # Gemma-style reasoning may dump chain-of-thought; prefer a terminal OK.
-        display = text
-        for line in reversed(text.splitlines()):
-            s = line.strip().strip("\"'`")
-            if s.upper() in {"OK", "OK.", "OK!"}:
-                display = "OK"
-                break
-        print("Respuesta:", display[:200] or "(vacío)")
+        # Gemma-style reasoning may dump CoT without a clean final line.
+        if content:
+            display = content[:200]
+        elif re.search(r"\bOK\b", text, flags=re.I):
+            display = "OK"
+        else:
+            display = (text[:120] + "…") if len(text) > 120 else text
+        print("Respuesta:", display or "(vacío)")
         if not text:
             print("Smoke WARN: content y reasoning_content vacíos", file=sys.stderr)
             return 1
