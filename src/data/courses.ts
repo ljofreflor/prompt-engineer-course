@@ -166,7 +166,7 @@ export const courses: Course[] = [
         title: "Datos como infraestructura",
         hours: 4,
         summary: "Calidad, linaje y contratos de datos del sistema.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u04",
@@ -221,7 +221,7 @@ export const courses: Course[] = [
         title: "Servicio de inferencia y despliegue",
         hours: 4,
         summary: "Estrategias de serving y despliegue.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u04",

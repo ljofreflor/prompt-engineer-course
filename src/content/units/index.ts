@@ -557,6 +557,46 @@ const units10: UnitContent[] = [
       "Gao et al. (2024), RAG survey §§1–3",
     ],
   },
+  {
+    courseSlug: "10-diseno-sistemas-ia",
+    unitId: "u03",
+    learningOutcomes: [
+      "Redactar un contrato de datos con esquema, semántica y SLAs.",
+      "Prevenir desalineación entrenamiento–servicio.",
+      "Diseñar captura de etiquetas y reserva no intervenida.",
+    ],
+    blocks: [
+      {
+        title: "Contratos de datos y linaje",
+        minutes: 60,
+        body: "Esquema, semántica, frecuencia, completitud, estabilidad, validación de entrada y versionado.",
+      },
+      {
+        title: "Desalineación entrenamiento-servicio",
+        minutes: 60,
+        body: "Features duplicadas, fugas temporales y arquitecturas que unifican el cálculo.",
+      },
+      {
+        title: "Etiquetas, retroalimentación y bucles",
+        minutes: 60,
+        body: "Etiquetas tardías/proxy, sesgo inducido por el sistema y reserva no intervenida.",
+      },
+      {
+        title: "Taller de contratos",
+        minutes: 60,
+        body: "Sección de datos del design doc versionada en Git; diagramas Mermaid/draw.io.",
+      },
+    ],
+    readings: [
+      "Huyen (2022), caps. 3–4",
+      "Sambasivan et al. (2021)",
+      "Breck et al. (2017) — complementaria",
+    ],
+    lab: {
+      title: "Taller — contrato de datos",
+      body: "Plantilla de contrato en el repo del design doc (sin datos reales). Ver /herramientas/#curso-10.",
+    },
+  },
 ];
 
 const units11: UnitContent[] = [
@@ -636,6 +676,45 @@ const units11: UnitContent[] = [
     lab: {
       title: "Lab — smoke CI local",
       body: "Correr health_wrapper.py; fallar si status≠ok o chat>umbral (p.ej. 5s).",
+    },
+  },
+  {
+    courseSlug: "11-aiops-cloud",
+    unitId: "u03",
+    learningOutcomes: [
+      "Seleccionar patrón de servicio según NFR.",
+      "Configurar autoscaling y mitigar cold start.",
+      "Implementar despliegue progresivo con rollback automático.",
+    ],
+    blocks: [
+      {
+        title: "Patrones de servicio",
+        minutes: 60,
+        body: "Batch, online, stream, edge; dimensionamiento, batching y cold start.",
+      },
+      {
+        title: "Estrategias de despliegue",
+        minutes: 60,
+        body: "Sombra, canaria, azul-verde; criterios de promoción y reversión.",
+      },
+      {
+        title: "Orquestación",
+        minutes: 60,
+        body: "Pipelines multi-paso, reintentos y conceptos de orquestación de contenedores.",
+      },
+      {
+        title: "Laboratorio de serving",
+        minutes: 60,
+        body: "Despliegue con autoscaling + canaria; contingencia Docker + LM Studio (labs/11/u01).",
+      },
+    ],
+    readings: [
+      "Huyen (2022), caps. 7 y 9",
+      "Burns et al. (2022) — complementaria",
+    ],
+    lab: {
+      title: "Lab — contenedor del healthcheck",
+      body: "docker build -t mia-health labs/11/u01 && docker run --rm mia-health (LM Studio en el host).",
     },
   },
 ];
