@@ -28,7 +28,8 @@ export type VizId =
   | "prompt-sensitivity"
   | "cot-verify"
   | "injection-surface"
-  | "automation-levels";
+  | "automation-levels"
+  | "abstain-escalate";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

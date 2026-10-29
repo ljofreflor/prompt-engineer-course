@@ -2638,6 +2638,110 @@
     }
   }
 
+  /** Incertidumbre: actuar / abstenerse / escalar a humano. */
+  function vizAbstainEscalate(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Ante incertidumbre: decidir, abstenerse o escalar");
+
+    var start = svg.append("g").attr("transform", "translate(80,140)");
+    start
+      .append("rect")
+      .attr("width", 160)
+      .attr("height", 72)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.negro)
+      .attr("stroke-width", 1.5);
+    start
+      .append("text")
+      .attr("x", 80)
+      .attr("y", 42)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 15)
+      .text("Predicción");
+
+    var ends = [
+      { x: 360, y: 60, label: "Actuar", sub: "bajo umbral de riesgo", fill: COLORS.soft },
+      { x: 360, y: 144, label: "Abstenerse", sub: "salida legítima", fill: COLORS.primary },
+      { x: 360, y: 228, label: "Escalar", sub: "humano / otro sistema", fill: COLORS.soft },
+    ];
+    var nodes = [start.node()];
+    var lines = [];
+
+    ends.forEach(function (e) {
+      var g = svg.append("g").attr("transform", "translate(" + e.x + "," + e.y + ")");
+      g.append("rect")
+        .attr("width", 220)
+        .attr("height", 72)
+        .attr("rx", 2)
+        .attr("fill", e.fill)
+        .attr("stroke", e.fill === COLORS.primary ? "none" : COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 110)
+        .attr("y", 32)
+        .attr("text-anchor", "middle")
+        .attr("fill", e.fill === COLORS.primary ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .text(e.label);
+      g.append("text")
+        .attr("x", 110)
+        .attr("y", 54)
+        .attr("text-anchor", "middle")
+        .attr("fill", e.fill === COLORS.primary ? COLORS.white : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .text(e.sub);
+      nodes.push(g.node());
+      lines.push(
+        svg
+          .append("line")
+          .attr("x1", 240)
+          .attr("y1", 176)
+          .attr("x2", e.x)
+          .attr("y2", e.y + 36)
+          .attr("stroke", COLORS.primary)
+          .attr("stroke-width", 2)
+          .attr("opacity", 0)
+          .node()
+      );
+    });
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes, { opacity: 1, duration: 0.4, stagger: 0.12 }, 0.05).to(
+        lines,
+        { opacity: 1, duration: 0.35, stagger: 0.08 },
+        0.4
+      );
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 100))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      lines.forEach(function (n, i) {
+        d3.select(n)
+          .transition()
+          .delay(tDelay(350 + i * 80))
+          .duration(tDur(300))
+          .attr("opacity", 1);
+      });
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -2645,6 +2749,7 @@
     "cot-verify": vizCotVerify,
     "injection-surface": vizInjectionSurface,
     "automation-levels": vizAutomationLevels,
+    "abstain-escalate": vizAbstainEscalate,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

@@ -16,7 +16,7 @@ export const slides: Slide[] = [
       "El nivel de automatización se deriva del costo del error.",
       "Confianza del modelo ≠ probabilidad calibrada.",
       "Abstención y caminos de salida son requisitos de diseño.",
-      "Stack: Excalidraw / Mermaid para flujos de interacción.",
+      "Diagramar el flujo de decisión antes de elegir widgets.",
     ],
   },
   {
@@ -75,6 +75,13 @@ export const slides: Slide[] = [
       "Abstención como salida legítima.",
       "Efectos documentados sobre la decisión humana.",
     ],
+  },
+  {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Decidir, abstenerse o escalar",
+    viz: "abstain-escalate",
+    caption: "La incertidumbre no es un badge: es una rama de diseño con dueño.",
   },
   {
     type: "section",
