@@ -230,9 +230,10 @@ body {
   font-weight: 700;
 }
 
-/* Portada: brand first, left composition like sitio */
+/* Portada: brand first, left composition like sitio.
+   Reveal fuerza display:block en section — hay que ganar con !important. */
 .reveal .slides section.slide-title {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   justify-content: center;
   min-height: 100%;
@@ -255,7 +256,7 @@ body {
 /* Separadores: tema grande, bloque como label; fill vertical sin “vacío muerto” */
 .reveal .slides section.slide-section {
   background: var(--uai-bg-soft);
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   justify-content: center;
   min-height: 100%;

@@ -1,0 +1,98 @@
+import type { Slide } from "../../../lib/slides";
+
+/** Clase Reveal — Curso 08 Unidad 5. */
+export const slides: Slide[] = [
+  {
+    type: "title",
+    kicker: "Curso 08 · Unidad 5",
+    title: "Inferencia — costo, latencia y contexto",
+    subtitle: "4 hrs · TTFT · TPOT · cuantización — UAI",
+  },
+  {
+    type: "bullets",
+    kicker: "Tesis",
+    title: "La UX la define la cola de decode",
+    items: [
+      "TTFT y TPOT no son intercambiables según la interfaz.",
+      "El costo unitario se diseña; no se “descubre” en prod.",
+      "Cuantización es un trade-off de calidad medible.",
+      "Contexto largo ≠ siempre mejor que RAG.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Al finalizar",
+    title: "Resultados de aprendizaje",
+    items: [
+      "Descomponer latencia (TTFT vs TPOT) y estimar costo unitario.",
+      "Medir efecto de cuantización sobre calidad.",
+      "Comparar contexto extenso vs recuperación.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 1",
+    subtitle: "60 min — Latencia",
+  },
+  {
+    type: "bullets",
+    kicker: "Anatomía",
+    title: "Prefill vs decode",
+    items: [
+      "Qué siente el usuario en chat vs batch.",
+      "p95/p99 como presupuesto de producto.",
+      "Medición local con LM Studio / OpenAI-compatible.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 2",
+    subtitle: "60 min — Costo",
+  },
+  {
+    type: "bullets",
+    kicker: "Unidad",
+    title: "Tokens in/out y proyección",
+    items: [
+      "Caché de prefijo y reintentos.",
+      "Proyección mensual con tráfico realista.",
+      "Kill-switch de presupuesto.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 3",
+    subtitle: "60 min — Optimización",
+  },
+  {
+    type: "bullets",
+    kicker: "Palancas",
+    title: "Cuantización, batching, tamaño",
+    items: [
+      "Calidad post-cuantización en set propio.",
+      "Batching vs latencia interactiva.",
+      "Modelo chico + herramientas vs modelo grande solo.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 4",
+    subtitle: "60 min — Contexto",
+  },
+  {
+    type: "bullets",
+    kicker: "Eval 2",
+    title: "Contexto largo vs RAG",
+    items: [
+      "Lost-in-the-middle y saturación de atención.",
+      "Costo de contexto vs índice recuperable.",
+      "Medición comparativa en la misma tarea.",
+    ],
+  },
+  {
+    type: "title",
+    kicker: "Cierre",
+    title: "Preguntas",
+    subtitle: "Siguiente: evaluación de modelos generativos (Unidad 6)",
+  },
+];

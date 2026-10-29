@@ -44,6 +44,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Section slides: kicker = `Bloque N · tiempo`; hero h2 = topic name — never make “Bloque N” the visual hero
 - Do **not** repeat the section subtitle as muted text under the hero (it duplicates kicker time + topic)
 - Title/section slides: flex-center content in the safe area between fixed topbar and footer; avoid “stuck in the corner” emptiness
+- Reveal sets `display:block` on `section` — use `display: flex !important` on `.slide-title` / `.slide-section` or centering will silently no-op
 - Title slides: left-aligned composition (label → cyan rule → Corporativo 300 title → muted subtitle), not centered void
 - After visual changes: screenshot title + section + bullets locally; then verify live Pages once deploy lands
 - Critique log (scratch): `tmp/reveal-uai-critique.md` — promote durable lessons into **this file**

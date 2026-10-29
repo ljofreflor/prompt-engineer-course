@@ -2,6 +2,8 @@ import type { Slide } from "../../lib/slides";
 import { slides as s08u01 } from "./08-genai-llms/u01";
 import { slides as s08u02 } from "./08-genai-llms/u02";
 import { slides as s08u03 } from "./08-genai-llms/u03";
+import { slides as s08u04 } from "./08-genai-llms/u04";
+import { slides as s08u05 } from "./08-genai-llms/u05";
 import { slides as s09u01 } from "./09-prompt-engineering/u01";
 import { slides as s09u02 } from "./09-prompt-engineering/u02";
 import { slides as s09u03 } from "./09-prompt-engineering/u03";
@@ -25,6 +27,8 @@ const overrides: Record<string, Slide[]> = {
   "08-genai-llms/u01": s08u01,
   "08-genai-llms/u02": s08u02,
   "08-genai-llms/u03": s08u03,
+  "08-genai-llms/u04": s08u04,
+  "08-genai-llms/u05": s08u05,
   "09-prompt-engineering/u01": s09u01,
   "09-prompt-engineering/u02": s09u02,
   "09-prompt-engineering/u03": s09u03,
