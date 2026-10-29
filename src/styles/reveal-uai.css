@@ -89,3 +89,18 @@
   font-size: 0.55em;
   margin-top: 0.35em;
 }
+
+/* Contraste forzado (GitHub Pages / Astro) */
+.reveal,
+.reveal .slides,
+.reveal .slides section {
+  color: #ffffff;
+}
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal p,
+.reveal li {
+  color: #ffffff;
+}

@@ -4,8 +4,6 @@ import { getProgram } from "../../../../../data/programs";
 import { slidesFromUnit, type Slide } from "../../../../../lib/slides";
 import { getSlideOverride } from "../../../../../content/slides";
 import { asset } from "../../../../../lib/base";
-import "../../../../../styles/uai-tokens.css";
-import "../../../../../styles/reveal-uai.css";
 
 export function getStaticPaths() {
   return courses.flatMap((c) =>
@@ -38,7 +36,9 @@ const fonts = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{`Clase · ${unit.title} · Curso ${course.code} UAI`}</title>
     <link rel="stylesheet" href={asset("vendor/reveal/reveal.css")} />
-    <style define:vars={fonts}>
+    {/* Estilos globales: un import scoped dejaba h1/h2 negros sobre fondo oscuro. */}
+    <link rel="stylesheet" href={asset("styles/reveal-uai.css")} />
+    <style is:global define:vars={fonts}>
       @font-face {
         font-family: "UAI Corporativo";
         src: url(var(--corp300)) format("opentype");
@@ -63,7 +63,12 @@ const fonts = {
         font-weight: 800;
         font-display: swap;
       }
-      html, body { margin: 0; background: #15171a; }
+      html,
+      body {
+        margin: 0;
+        background: #15171a;
+        color: #fff;
+      }
       .reveal-exit {
         position: fixed;
         top: 12px;
