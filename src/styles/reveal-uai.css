@@ -1,106 +1,299 @@
-/* Tema Reveal alineado a UAI (navbar negra + primary #00AFD8) */
+/*
+  Tema Reveal — identidad Magíster IA / uai.cl
+  Fondo claro institucional, tipografía UAI Corporativo + Roboto,
+  acento primary #00AFD8, chrome negro como la navbar.
+*/
 :root {
-  --r-background-color: #15171a;
-  --r-main-font: "Roboto", system-ui, sans-serif;
-  --r-main-font-size: 36px;
-  --r-main-color: #ffffff;
-  --r-block-margin: 18px;
-  --r-heading-margin: 0 0 24px 0;
+  --uai-negro: #15171a;
+  --uai-blanco: #ffffff;
+  --uai-bg-soft: #f3f5f7;
+  --uai-primary: #00afd8;
+  --uai-primary-dark: #007fb5;
+  --uai-cyan: #009fe3;
+  --uai-celeste: #6493b5;
+  --uai-gray: #616365;
+  --uai-border: #e5e7eb;
+
+  --r-background-color: #ffffff;
+  --r-main-font: "Roboto", "Open Sans", system-ui, sans-serif;
+  --r-main-font-size: 32px;
+  --r-main-color: #15171a;
+  --r-block-margin: 16px;
+  --r-heading-margin: 0 0 0.55em 0;
   --r-heading-font: "UAI Corporativo", "Roboto", system-ui, sans-serif;
-  --r-heading-color: #ffffff;
+  --r-heading-color: #15171a;
   --r-heading-line-height: 1.15;
   --r-heading-letter-spacing: -0.01em;
   --r-heading-text-transform: none;
   --r-heading-text-shadow: none;
-  --r-heading-font-weight: 800;
-  --r-heading1-size: 2.1em;
-  --r-heading2-size: 1.45em;
-  --r-heading3-size: 1.15em;
+  --r-heading-font-weight: 300;
+  --r-heading1-size: 2.05em;
+  --r-heading2-size: 1.35em;
+  --r-heading3-size: 1.1em;
   --r-heading4-size: 1em;
-  --r-link-color: #00afd8;
-  --r-link-color-dark: #007fb5;
-  --r-link-color-hover: #28c4e8;
+  --r-link-color: #007fb5;
+  --r-link-color-dark: #005f88;
+  --r-link-color-hover: #00afd8;
   --r-selection-background-color: #00afd8;
   --r-selection-color: #fff;
 }
 
+html,
+body {
+  background: var(--uai-blanco);
+  color: var(--uai-negro);
+}
+
+.reveal {
+  font-weight: 400;
+  color: var(--uai-negro);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
 .reveal .slides section {
   text-align: left;
+  padding: 2.2rem 2.6rem 3.2rem;
+  box-sizing: border-box;
 }
 
 .reveal .slides section.center {
   text-align: center;
 }
 
+/* Títulos: Corporativo light (como h1 del sitio); h2 más marcado */
+.reveal h1 {
+  font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
+  font-weight: 300;
+  color: var(--uai-negro);
+  letter-spacing: -0.02em;
+}
+
+.reveal h2 {
+  font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
+  font-weight: 800;
+  color: var(--uai-negro);
+}
+
+.reveal h3 {
+  font-family: "Roboto", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--uai-negro);
+}
+
+.reveal p,
+.reveal li {
+  color: var(--uai-negro);
+  font-family: "Roboto", system-ui, sans-serif;
+}
+
 .reveal .uai-kicker {
-  color: #00afd8;
+  color: var(--uai-primary);
   font-family: "Roboto", system-ui, sans-serif;
   font-weight: 800;
-  font-size: 0.55em;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.6em;
+  font-size: 0.52em;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.75em;
+  text-transform: none;
 }
 
 .reveal .uai-muted {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.7em;
+  color: var(--uai-gray);
+  font-size: 0.62em;
+  font-weight: 400;
+  line-height: 1.45;
 }
 
 .reveal ul {
   display: block;
-  margin-left: 0.2em;
+  margin: 0.4em 0 0;
+  padding-left: 1.05em;
+  list-style: none;
 }
 
 .reveal li {
-  margin: 0.35em 0;
+  position: relative;
+  margin: 0.42em 0;
+  padding-left: 0.15em;
+  line-height: 1.35;
+  font-size: 0.92em;
 }
 
-.reveal .slide-footer {
+.reveal li::before {
+  content: "";
+  position: absolute;
+  left: -0.95em;
+  top: 0.55em;
+  width: 0.42em;
+  height: 0.42em;
+  background: var(--uai-primary);
+  border-radius: 1px;
+}
+
+/* Barra inferior institucional */
+.reveal .slide-chrome {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 18px;
-  font-size: 0.42em;
-  color: rgba(255, 255, 255, 0.45);
+  bottom: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.35rem;
+  background: var(--uai-negro);
+  color: #fff;
   font-family: "Roboto", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reveal .slide-chrome__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.reveal .slide-chrome__logo {
+  height: 22px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.reveal .slide-chrome__meta {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+}
+
+.reveal .slide-chrome__accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--uai-primary);
+}
+
+/* Portada */
+.reveal .slides section.slide-title {
+  padding-top: 3.5rem;
+}
+
+.reveal .slides section.slide-title h1 {
+  max-width: 16ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal .slides section.slide-title .uai-kicker {
+  font-size: 0.58em;
+}
+
+.reveal .title-rule {
+  width: 72px;
+  height: 4px;
+  background: var(--uai-primary);
+  margin: 1.1em auto 1.2em;
+  border: 0;
+}
+
+/* Separadores de bloque */
+.reveal .slides section.slide-section {
+  background: var(--uai-bg-soft);
+}
+
+.reveal .slides section.slide-section h2 {
+  font-weight: 300;
+  font-size: 1.85em;
+  max-width: 18ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal .slides section.slide-section .uai-kicker {
+  margin-bottom: 1rem;
+}
+
+/* Contenido: acento izquierdo sutil */
+.reveal .slides section.slide-content::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 44px;
+  width: 5px;
+  background: var(--uai-primary);
 }
 
 .reveal .progress {
-  color: #00afd8;
+  color: var(--uai-primary);
   height: 3px;
+  z-index: 30;
 }
 
 .reveal .controls {
-  color: #00afd8;
+  color: var(--uai-primary);
+  right: 14px;
+  bottom: 52px;
+}
+
+.reveal .slide-number {
+  right: 18px;
+  bottom: 52px;
+  background: transparent;
+  color: var(--uai-gray);
+  font-family: "Roboto", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reveal .slide-number a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.reveal-exit {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 40;
+  font: 700 13px/1 "Roboto", system-ui, sans-serif;
+  color: #fff;
+  text-decoration: none;
+  background: var(--uai-primary);
+  padding: 10px 14px;
+  border-radius: 2px;
+}
+
+.reveal-exit:hover {
+  background: var(--uai-primary-dark);
 }
 
 .reveal .slide-shot {
   display: block;
   max-width: 100%;
-  max-height: 420px;
-  margin: 0.4em auto 0.3em;
-  border: 1px solid rgba(0, 175, 216, 0.35);
-  border-radius: 4px;
-  background: #0a1218;
+  max-height: 380px;
+  margin: 0.5em auto 0.35em;
+  border: 1px solid var(--uai-border);
+  border-radius: 2px;
+  background: var(--uai-bg-soft);
 }
 
 .reveal .slide-caption {
   text-align: center;
-  font-size: 0.55em;
+  font-size: 0.5em;
+  color: var(--uai-gray);
   margin-top: 0.35em;
 }
 
-/* Contraste forzado (GitHub Pages / Astro) */
-.reveal,
-.reveal .slides,
-.reveal .slides section {
-  color: #ffffff;
+/* Fragments: mantener contraste UAI */
+.reveal .slides section .fragment {
+  opacity: 0.15;
 }
-.reveal h1,
-.reveal h2,
-.reveal h3,
-.reveal h4,
-.reveal p,
-.reveal li {
-  color: #ffffff;
+.reveal .slides section .fragment.visible {
+  opacity: 1;
 }

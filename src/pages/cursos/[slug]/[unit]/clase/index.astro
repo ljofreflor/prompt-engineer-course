@@ -28,6 +28,9 @@ const fonts = {
   roboto400: asset("fonts/roboto-400.ttf"),
   roboto800: asset("fonts/roboto-900.ttf"),
 };
+
+const logo = asset("brand/uai-logo-web.png");
+const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster en IA`;
 ---
 <!doctype html>
 <html lang="es">
@@ -36,7 +39,6 @@ const fonts = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{`Clase · ${unit.title} · Curso ${course.code} UAI`}</title>
     <link rel="stylesheet" href={asset("vendor/reveal/reveal.css")} />
-    {/* Estilos globales: un import scoped dejaba h1/h2 negros sobre fondo oscuro. */}
     <link rel="stylesheet" href={asset("styles/reveal-uai.css")} />
     <style is:global define:vars={fonts}>
       @font-face {
@@ -63,24 +65,6 @@ const fonts = {
         font-weight: 800;
         font-display: swap;
       }
-      html,
-      body {
-        margin: 0;
-        background: #15171a;
-        color: #fff;
-      }
-      .reveal-exit {
-        position: fixed;
-        top: 12px;
-        right: 14px;
-        z-index: 40;
-        font: 600 13px/1 Roboto, system-ui, sans-serif;
-        color: #fff;
-        text-decoration: none;
-        background: rgba(0, 175, 216, 0.92);
-        padding: 8px 12px;
-        border-radius: 2px;
-      }
     </style>
   </head>
   <body>
@@ -89,27 +73,40 @@ const fonts = {
       <div class="slides">
         {
           slides.map((s) => {
+            const chrome = (
+              <div class="slide-chrome" aria-hidden="true">
+                <span class="slide-chrome__accent" />
+                <span class="slide-chrome__brand">
+                  <img class="slide-chrome__logo" src={logo} alt="" />
+                  <span>Universidad Adolfo Ibáñez</span>
+                </span>
+                <span class="slide-chrome__meta">{chromeMeta}</span>
+              </div>
+            );
+
             if (s.type === "title") {
               return (
-                <section class="center" data-background-color="#15171a">
+                <section class="center slide-title" data-background-color="#ffffff">
                   <p class="uai-kicker">{s.kicker}</p>
+                  <hr class="title-rule" />
                   <h1>{s.title}</h1>
                   {s.subtitle && <p class="uai-muted">{s.subtitle}</p>}
-                  <p class="slide-footer">UAI · Magíster en Inteligencia Artificial</p>
+                  {chrome}
                 </section>
               );
             }
             if (s.type === "section") {
               return (
-                <section class="center" data-background-color="#0b2b3a">
+                <section class="center slide-section" data-background-color="#f3f5f7">
                   <p class="uai-kicker">{s.subtitle || "Sección"}</p>
                   <h2>{s.title}</h2>
+                  {chrome}
                 </section>
               );
             }
             if (s.type === "bullets") {
               return (
-                <section>
+                <section class="slide-content" data-background-color="#ffffff">
                   {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
                   <h2>{s.title}</h2>
                   <ul>
@@ -117,46 +114,43 @@ const fonts = {
                       <li>{item}</li>
                     ))}
                   </ul>
+                  {chrome}
                 </section>
               );
             }
             if (s.type === "image") {
               return (
-                <section>
+                <section class="slide-content" data-background-color="#ffffff">
                   {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
                   <h2>{s.title}</h2>
                   <img class="slide-shot" src={asset(s.src)} alt={s.alt} />
                   {s.caption && <p class="uai-muted slide-caption">{s.caption}</p>}
+                  {chrome}
                 </section>
               );
             }
             return (
-              <section>
+              <section class="slide-content" data-background-color="#ffffff">
                 {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
                 <h2>{s.title}</h2>
                 {s.paragraphs.map((p) => (
                   <p>{p}</p>
                 ))}
+                {chrome}
               </section>
             );
           })
         }
       </div>
     </div>
-    {/* is:inline obligatorio: Astro vacía <script src> procesados y Reveal nunca carga. */}
     <script is:inline src={asset("vendor/reveal/reveal.js")}></script>
     <script is:inline>
       (function bootReveal() {
         function start() {
           if (!window.Reveal || typeof window.Reveal.initialize !== "function") {
             console.error("Reveal.js no cargó (window.Reveal ausente).");
-            document.body.insertAdjacentHTML(
-              "afterbegin",
-              '<p style="color:#fff;padding:2rem;font:16px system-ui">No se pudo cargar Reveal.js. Recargá o revisá /vendor/reveal/reveal.js.</p>',
-            );
             return;
           }
-          // Reveal 4/5: Reveal.initialize(config) — no `new Reveal(config)`.
           window.Reveal.initialize({
             hash: true,
             slideNumber: "c/t",
@@ -167,7 +161,7 @@ const fonts = {
             backgroundTransition: "fade",
             width: 1280,
             height: 720,
-            margin: 0.08,
+            margin: 0.06,
           }).catch(function (err) {
             console.error("Reveal.initialize falló", err);
           });
