@@ -23,6 +23,13 @@ export const changelogQuarters: ChangelogQuarter[] = [
     items: [
       {
         date: "2026-10-29",
+        title: "Labs con Makefile",
+        detail:
+          "make smoke / make lab-09-u0N / make labs-09 — un comando por lab contra LM Studio.",
+        tags: ["labs", "09"],
+      },
+      {
+        date: "2026-10-29",
         title: "Capstone transversal",
         detail:
           "Scaffold labs/capstone/ (README + DESIGN.md) enlazado desde la clase 10/u06.",

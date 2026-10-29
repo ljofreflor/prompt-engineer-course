@@ -92,6 +92,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 - Course meta: `src/data/courses.ts` · programs/syllabi: `src/data/programs.ts` · stack: `src/data/stack.ts`
 - Unit copy: `src/content/units/` · Reveal overrides: `src/content/slides/<course>/<unit>.ts`
 - Labs under `labs/`; LM Studio default `http://localhost:1234` (OpenAI-compatible). Prefer `content` then fall back to `reasoning_content` for models that only emit reasoning
+- **Labs 1 comando:** `Makefile` en la raíz (`make smoke`, `make lab-09-u02`, `make labs-09`). Documentar nuevos labs ahí y en `/herramientas`
 - **Eval-first (curso 09):** rúbrica compartida en `labs/09/RUBRIC.md` (formato · calidad · seguridad · costo); golden sets en el repo; scripts de regresión escriben JSON en `labs/09/runs/`. Extender el mismo patrón a 08/10/11 cuando toque el lab
 - **Casos Chile / LATAM:** preferir escenarios locales (SII, ClaveÚnica, minería, banca, sector público, PII) en golden sets y talleres — misma teoría OA; no inventar papers “locales”
 - **Capstone:** scaffold en `labs/capstone/` (README + `DESIGN.md`); enlazar desde 10/u06 y cierres 08/11; cohorte versiona su copia, no el scaffold vacío
@@ -141,7 +142,7 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 | 1 | Capstone transversal 08→11 | Un deliverable de cohorte: problema real → design doc (10) + RAG/agente (09) + make/buy·costo (08) + deploy/obs (11); rúbrica + demo/portfolio. Scaffold: `labs/capstone/` (`README.md` + `DESIGN.md`) | `labs/capstone/`, 10/u06, cierres de curso |
 | 2 | Context engineering | Prompt ⊂ contexto (tools, memoria, retrieval, historial, MCP). Renombrar/anclar hilo en 09 sin tirar u01–u02; ≥1 viz nuevo cuando el concepto lo pida | decks 09, `reveal-viz.js`, copy tesis |
 | 3 | Eval-first | Cada lab: golden set chico + rúbrica (calidad / formato / seguridad / costo) + regresión al cambiar modelo/prompt. Método del programa, no solo 09/u02·u06 | `labs/**`, slides evaluación, `/herramientas` |
-| 4 | Labs cero fricción | `make lab` / 1 comando; evidencia (run + screenshot) en `/herramientas`; antes/después en clase | `labs/`, Makefile, evidencia pública |
+| 4 | Labs cero fricción | `make smoke` / `make lab-09-u0N` / `make labs-09` (Makefile raíz); evidencia en `/herramientas` y `labs/09/runs/` | `Makefile`, `labs/`, `/herramientas` |
 | 5 | Casos Chile / LATAM | Misma teoría OA; escenarios minería, retail, banca, sector público, español/legal, datos sensibles — valor = rediseño de flujo, no la tool | decks `Teoría`/`Taller`, labs |
 | 6 | Competency matrix | Literacidad → labs por rol → certificación con artefacto (prompt versionado, trayectoria, design doc, runbook) | página programa / profesor, rúbricas |
 | 7 | Changelog trimestral | Página `/cambios/` (“Qué cambió”); editar `src/data/changelog.ts` cada trimestre (modelos, MCP, labs, papers). No inventar entradas | `src/data/changelog.ts`, `src/pages/cambios/` |

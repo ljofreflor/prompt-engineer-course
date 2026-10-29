@@ -63,9 +63,11 @@ const shots = [
       <pre><code>export OPENAI_BASE_URL=http://localhost:1234/v1
 export OPENAI_API_KEY=lm-studio
 export OPENAI_MODEL=google/gemma-4-e4b
-python labs/smoke_local.py
-python labs/09/u01/run_structured.py
-python labs/11/u01/health_wrapper.py</code></pre>
+make smoke          # o: python3 labs/smoke_local.py
+make lab-09-u02     # regresión + rúbrica → labs/09/runs/
+make labs-09        # u01→u04 en serie
+python3 labs/11/u01/health_wrapper.py</code></pre>
+      <p class="note">Makefile en la raíz del repo: un comando por lab (market #4 · cero fricción).</p>
 
       <h3>Evidencia de corrida</h3>
       <div class="lab-gallery">
