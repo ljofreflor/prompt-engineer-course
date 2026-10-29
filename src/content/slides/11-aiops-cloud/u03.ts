@@ -51,8 +51,15 @@ export const slides: Slide[] = [
     subtitle: "60 min — Despliegue",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Estrategias",
+    title: "Canaria con rollback automático",
+    viz: "canary-deploy",
+    caption: "Promoción y reversión por métrica — no por chat bajo presión.",
+  },
+  {
+    type: "bullets",
+    kicker: "Criterios",
     title: "Sombra · canaria · azul-verde",
     items: [
       "Criterios automáticos de promoción.",
@@ -88,9 +95,9 @@ export const slides: Slide[] = [
     title: "Nube académica + contingencia",
     items: [
       "AWS / Azure / GCP (crédito fijo).",
-      "Dockerizar el health wrapper (labs/11/u01).",
+      "Dockerizar el health wrapper del lab 11/u01.",
       "Smoke en GitHub Actions.",
-      "Si cae el proveedor: LM Studio local — /herramientas/#curso-11",
+      "Si cae el proveedor: LM Studio local (página Herramientas, curso 11).",
     ],
   },
   {

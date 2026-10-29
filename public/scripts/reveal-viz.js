@@ -405,6 +405,107 @@
     });
   }
 
+  /** Despliegue canario: tráfico estable vs canaria + promote/rollback. */
+  function vizCanaryDeploy(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Despliegue canario con promoción o rollback automático");
+
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "uai-arrow-canary")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", COLORS.primary);
+
+    var boxes = [
+      { x: 140, y: 160, label: "Estable", sub: "~90% tráfico", fill: COLORS.soft, ink: COLORS.negro },
+      { x: 140, y: 280, label: "Canaria", sub: "~10% tráfico", fill: COLORS.negro, ink: COLORS.white },
+      { x: 460, y: 220, label: "Métricas", sub: "error · latencia · costo", fill: COLORS.soft, ink: COLORS.negro },
+      { x: 760, y: 140, label: "Promover", sub: "ampliar canaria", fill: COLORS.primary, ink: COLORS.white },
+      { x: 760, y: 300, label: "Rollback", sub: "volver a estable", fill: COLORS.soft, ink: COLORS.negro },
+    ];
+
+    boxes.forEach(function (b, i) {
+      var g = svg.append("g").attr("transform", "translate(" + b.x + "," + b.y + ")");
+      g.append("rect")
+        .attr("x", -90)
+        .attr("y", -32)
+        .attr("width", 180)
+        .attr("height", 64)
+        .attr("rx", 2)
+        .attr("fill", b.fill)
+        .attr("stroke", b.fill === COLORS.soft ? COLORS.primary : b.fill)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .transition()
+        .delay(tDelay(80 + i * 100))
+        .duration(tDur(420))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -4)
+        .attr("fill", b.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .attr("opacity", 0)
+        .text(b.label)
+        .transition()
+        .delay(tDelay(140 + i * 100))
+        .duration(tDur(350))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 18)
+        .attr("fill", b.ink === COLORS.white ? "rgba(255,255,255,0.75)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .attr("opacity", 0)
+        .text(b.sub)
+        .transition()
+        .delay(tDelay(180 + i * 100))
+        .duration(tDur(350))
+        .attr("opacity", 1);
+    });
+
+    [
+      { x1: 230, y1: 160, x2: 370, y2: 210 },
+      { x1: 230, y1: 280, x2: 370, y2: 230 },
+      { x1: 550, y1: 200, x2: 670, y2: 150 },
+      { x1: 550, y1: 240, x2: 670, y2: 290 },
+    ].forEach(function (L, i) {
+      svg
+        .append("line")
+        .attr("x1", L.x1)
+        .attr("y1", L.y1)
+        .attr("x2", L.x1)
+        .attr("y2", L.y1)
+        .attr("stroke", COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("marker-end", "url(#uai-arrow-canary)")
+        .transition()
+        .delay(tDelay(500 + i * 90))
+        .duration(tDur(350))
+        .attr("x2", L.x2)
+        .attr("y2", L.y2);
+    });
+
+    label(svg, 460, 48, "Sombra observa; canaria decide con umbrales", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 900,
+    });
+  }
+
   /** CI mínimo: lint → test → smoke → gate. */
   function vizCiPipeline(el) {
     var w = 920;
@@ -1299,6 +1400,7 @@
     "rag-pipeline": vizRagPipeline,
     "train-serve-skew": vizTrainServeSkew,
     "ci-pipeline": vizCiPipeline,
+    "canary-deploy": vizCanaryDeploy,
   };
 
   function mount(el) {
