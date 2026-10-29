@@ -10,7 +10,8 @@ export type VizId =
   | "multiagent"
   | "claim-evidence"
   | "make-buy"
-  | "guardrails";
+  | "guardrails"
+  | "reliability-product";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

@@ -74,11 +74,17 @@ export const slides: Slide[] = [
     subtitle: "60 min — Fiabilidad",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Matemática cruda",
     title: "Fiabilidad compuesta ≈ producto",
+    viz: "reliability-product",
+    caption: "Independientes: el sistema solo es tan fiable como el producto de los hops.",
+  },
+  {
+    type: "bullets",
+    kicker: "Diseño",
+    title: "Mitigar el producto",
     items: [
-      "Tres pasos a 0.9 ⇒ ~0.73 si son independientes.",
       "Checkpoints: validar salidas intermedias.",
       "Reintentos acotados; no loops infinitos entre agentes.",
       "Degradación: fallback a regla o a humano.",

@@ -1,4 +1,7 @@
 ---
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { courses, getCourse } from "../../../../../data/courses";
 import { getProgram } from "../../../../../data/programs";
 import { slidesFromUnit, type Slide } from "../../../../../lib/slides";
@@ -21,6 +24,12 @@ if (!program || !unit) throw new Error("unidad");
 
 const slides: Slide[] =
   getSlideOverride(course.slug, unit.id) ?? slidesFromUnit(course, program, unit);
+
+/** Bust CDN/browser cache when the D3 registry changes (Pages can keep a stale reveal-viz.js). */
+const vizJsV = createHash("sha1")
+  .update(readFileSync(join(process.cwd(), "public/scripts/reveal-viz.js")))
+  .digest("hex")
+  .slice(0, 8);
 
 const fonts = {
   corp300: asset("fonts/uai-corp-300.otf"),
@@ -163,7 +172,7 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
     </div>
     <script is:inline src={asset("vendor/reveal/reveal.js")}></script>
     <script is:inline src={asset("vendor/d3/d3.min.js")}></script>
-    <script is:inline src={asset("scripts/reveal-viz.js")}></script>
+    <script is:inline src={`${asset("scripts/reveal-viz.js")}?v=${vizJsV}`}></script>
     <script is:inline>
       (function bootReveal() {
         function start() {

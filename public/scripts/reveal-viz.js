@@ -405,6 +405,145 @@
     });
   }
 
+  /** Fiabilidad compuesta ≈ producto de hops independientes. */
+  function vizReliabilityProduct(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Tres hops a 0.9 dan fiabilidad compuesta ~0.73");
+
+    var hops = [
+      { x: 140, p: "0.90" },
+      { x: 340, p: "0.90" },
+      { x: 540, p: "0.90" },
+    ];
+
+    hops.forEach(function (h0, i) {
+      var g = svg.append("g").attr("transform", "translate(" + h0.x + ",160)");
+      g.append("rect")
+        .attr("x", -56)
+        .attr("y", -40)
+        .attr("width", 112)
+        .attr("height", 80)
+        .attr("rx", 2)
+        .attr("fill", COLORS.soft)
+        .attr("stroke", COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .transition()
+        .delay(tDelay(100 + i * 140))
+        .duration(tDur(420))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -6)
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .attr("opacity", 0)
+        .text("hop " + (i + 1))
+        .transition()
+        .delay(tDelay(140 + i * 140))
+        .duration(tDur(350))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 22)
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 22)
+        .attr("opacity", 0)
+        .text(h0.p)
+        .transition()
+        .delay(tDelay(160 + i * 140))
+        .duration(tDur(350))
+        .attr("opacity", 1);
+
+      if (i < hops.length - 1) {
+        svg
+          .append("text")
+          .attr("x", (h0.x + hops[i + 1].x) / 2)
+          .attr("y", 168)
+          .attr("text-anchor", "middle")
+          .attr("fill", COLORS.primary)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-weight", 800)
+          .attr("font-size", 28)
+          .attr("opacity", 0)
+          .text("×")
+          .transition()
+          .delay(tDelay(220 + i * 140))
+          .duration(tDur(300))
+          .attr("opacity", 1);
+      }
+    });
+
+    var out = svg.append("g").attr("transform", "translate(760,160)");
+    out
+      .append("rect")
+      .attr("x", -64)
+      .attr("y", -40)
+      .attr("width", 128)
+      .attr("height", 80)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro)
+      .attr("opacity", 0)
+      .transition()
+      .delay(tDelay(620))
+      .duration(tDur(450))
+      .attr("opacity", 1);
+    out
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", -6)
+      .attr("fill", "rgba(255,255,255,0.7)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 12)
+      .attr("opacity", 0)
+      .text("sistema")
+      .transition()
+      .delay(tDelay(700))
+      .duration(tDur(350))
+      .attr("opacity", 1);
+    out
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", 22)
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 22)
+      .attr("opacity", 0)
+      .text("~0.73")
+      .transition()
+      .delay(tDelay(720))
+      .duration(tDur(350))
+      .attr("opacity", 1);
+
+    svg
+      .append("text")
+      .attr("x", 650)
+      .attr("y", 168)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 28)
+      .attr("opacity", 0)
+      .text("=")
+      .transition()
+      .delay(tDelay(560))
+      .duration(tDur(300))
+      .attr("opacity", 1);
+
+    label(svg, 460, 280, "Independientes: cada hop multiplica la chance de éxito", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 900,
+    });
+  }
+
   /** Guardrails = política + medición + rollback (capas). */
   function vizGuardrails(el) {
     var w = 920;
@@ -773,6 +912,7 @@
     "claim-evidence": vizClaimEvidence,
     "make-buy": vizMakeBuy,
     guardrails: vizGuardrails,
+    "reliability-product": vizReliabilityProduct,
   };
 
   function mount(el) {
