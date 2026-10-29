@@ -6,8 +6,16 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Material del Magíster en Inteligencia Artificial — UAI" } = Astro.props;
+const { title, description = "Material del Magíster en Inteligencia Artificial — Universidad Adolfo Ibáñez" } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const fonts = {
+  corp300: `${base}fonts/uai-corp-300.otf`,
+  corp400: `${base}fonts/uai-corp-400.otf`,
+  corp800: `${base}fonts/uai-corp-800.otf`,
+  roboto400: `${base}fonts/roboto-400.ttf`,
+  roboto700: `${base}fonts/roboto-700.ttf`,
+  roboto900: `${base}fonts/roboto-900.ttf`,
+};
 ---
 <!doctype html>
 <html lang="es">
@@ -18,10 +26,58 @@ const base = import.meta.env.BASE_URL;
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&family=Young+Serif&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style define:vars={fonts}>
+      @font-face {
+        font-family: "UAI Corporativo";
+        src: url(var(--corp300)) format("opentype");
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "UAI Corporativo";
+        src: url(var(--corp400)) format("opentype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "UAI Corporativo";
+        src: url(var(--corp800)) format("opentype");
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Roboto";
+        src: url(var(--roboto400)) format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Roboto";
+        src: url(var(--roboto700)) format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Roboto";
+        src: url(var(--roboto900)) format("truetype");
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Roboto";
+        src: url(var(--roboto900)) format("truetype");
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
     <title>{title}</title>
   </head>
   <body>

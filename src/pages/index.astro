@@ -4,34 +4,59 @@ import { courses } from "../data/courses";
 
 const base = import.meta.env.BASE_URL;
 ---
-<StudentLayout title="Magíster en IA UAI — Cursos" current="home">
+<StudentLayout title="Magíster en Inteligencia Artificial — UAI" current="home">
   <section class="hero">
     <img class="hero__media" src={`${base}brand/mia-hero.jpg`} alt="" />
     <div class="hero__scrim"></div>
     <div class="container hero__content">
-      <img class="hero__brand" src={`${base}brand/uai-logo.svg`} alt="Universidad Adolfo Ibáñez" />
-      <h1>Magíster en Inteligencia Artificial</h1>
+      <h1>
+        <span class="w-heavy">Magíster en</span><br />
+        Inteligencia Artificial
+      </h1>
       <p>
-        Desarrollo de los cursos GenAI/LLMs, Prompt Engineering, Diseño de Sistemas y AI.Ops:
-        unidades, labs locales (LM Studio / Ollama) y bibliografía.
+        Formamos especialistas capaces de automatizar tareas complejas a través del desarrollo,
+        diseño y evaluación de sistemas. Material de los cursos GenAI, Prompt Engineering,
+        Diseño de Sistemas y AI.Ops.
       </p>
       <div class="hero__actions">
-        <a class="btn btn--primary" href={`${base}cursos/09-prompt-engineering/`}>Ir a Prompt Engineering</a>
-        <a class="btn btn--ghost" href={`${base}herramientas/`} style="background:#fff">Herramientas locales</a>
+        <a class="btn btn--primary" href={`${base}cursos/`}>Cursos</a>
+        <a class="btn btn--primary" href={`${base}herramientas/`}>Herramientas</a>
+        <a class="btn btn--ghost" href={`${base}profesor/`}>Acceso profesor</a>
       </div>
     </div>
   </section>
 
-  <section class="section section--soft">
+  <section class="section">
     <div class="container">
       <div class="section__head">
-        <span class="badge">Malla 2026 · cursos 08–11</span>
-        <h2>Cursos del arco técnico</h2>
+        <span class="section__eyebrow">Conoce nuestros</span>
+        <h2>Cursos</h2>
         <p>
-          Vista alumno pública. La vista profesor (guiones, claves de taller y soluciones)
-          requiere usuario y contraseña.
+          Arco técnico de la malla 2026 (cursos 08–11). Vista alumno pública;
+          la vista profesor requiere credenciales.
         </p>
       </div>
+
+      <div class="tabs" role="tablist" aria-label="Vista">
+        <span class="is-active">Material de estudio</span>
+        <a href={`${base}profesor/`}>Vista profesor</a>
+      </div>
+
+      <div class="info-grid" style="margin-bottom: 1.75rem">
+        <div class="info-card">
+          <h4 class="label-uai">Modalidad</h4>
+          <p style="margin:0.5rem 0 0;color:var(--uai-gray)">Online / híbrida según dictado · labs locales (LM Studio / Ollama)</p>
+        </div>
+        <div class="info-card">
+          <h4 class="label-uai">Carga</h4>
+          <p style="margin:0.5rem 0 0;color:var(--uai-gray)">24–28 hrs lectivas por asignatura · 4 créditos</p>
+        </div>
+        <div class="info-card info-card--destacado">
+          <h4 class="label-uai">Destacado</h4>
+          <p style="margin:0.5rem 0 0">Curso 09 Prompt Engineering con labs ejecutables y bibliografía OA descargada.</p>
+        </div>
+      </div>
+
       <div class="grid-courses">
         {
           courses.map((c) => (

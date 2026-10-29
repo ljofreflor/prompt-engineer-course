@@ -1,32 +1,37 @@
+/*
+  Tokens tomados de uai.cl (ficha Magíster en IA / Ingeniería).
+  Computed: navbar rgb(21,23,26), CTA rgb(0,175,216), labels #00AFD8 extrabold.
+*/
 :root {
-  /* Universidad Adolfo Ibáñez — tokens alineados a uai.cl */
-  --uai-blue: #009fe3;
-  --uai-blue-deep: #007fb5;
-  --uai-carbon: #1d1e20;
-  --uai-orange: #ff6500;
-  --uai-magenta: #e6007e;
-  --uai-bg: #ffffff;
-  --uai-bg-soft: #eef3f6;
-  --uai-bg-mute: #aebdc2;
-  --uai-border: #dfe3e6;
-  --uai-slate: #6493b5;
-  --uai-text: #1d1e20;
-  --uai-text-muted: #616365;
+  --clr-negro: 21, 23, 26;
+  --clr-blanco: 255, 255, 255;
+  --clr-blanco-dark: 235, 235, 235;
+  --clr-cyan: 0, 159, 227;
+  --clr-primary: 0, 175, 216;
+  --clr-primary-dark: 0, 127, 181;
+  --clr-celeste: 100, 147, 181;
+  --clr-gray: 97, 99, 101;
+  --clr-gray-dark: 68, 69, 71;
+  --clr-gray-light: 126, 128, 131;
+  --clr-magenta: 230, 0, 126;
+  --clr-destacado: 74, 138, 165;
 
-  --font-ui: "Roboto", system-ui, sans-serif;
-  --font-body: "Open Sans", system-ui, sans-serif;
-  --font-display: "Young Serif", Georgia, serif;
+  --uai-negro: rgb(var(--clr-negro));
+  --uai-blanco: rgb(var(--clr-blanco));
+  --uai-primary: rgb(var(--clr-primary));
+  --uai-primary-dark: rgb(var(--clr-primary-dark));
+  --uai-cyan: rgb(var(--clr-cyan));
+  --uai-celeste: rgb(var(--clr-celeste));
+  --uai-gray: rgb(var(--clr-gray));
+  --uai-border: #e5e7eb;
+  --uai-bg-soft: #f3f5f7;
 
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4rem;
+  --font-corp: "UAI Corporativo", "Roboto", system-ui, sans-serif;
+  --font-primary: "Roboto", system-ui, sans-serif;
+  --font-secondary: "Open Sans", "Roboto", system-ui, sans-serif;
 
+  --header-h: 72px;
   --radius: 2px;
   --max: 72rem;
-  --header-h: 4.25rem;
+  --pad-btn: 12px 28px;
 }
