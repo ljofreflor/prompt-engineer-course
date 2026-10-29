@@ -130,7 +130,7 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
             }
             if (s.type === "image") {
               return (
-                <section class="slide-content" data-background-color="#ffffff">
+                <section class="slide-content slide-image" data-background-color="#ffffff">
                   {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
                   <h2>{s.title}</h2>
                   <img class="slide-shot" src={asset(s.src)} alt={s.alt} />
@@ -139,11 +139,11 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
               );
             }
             return (
-              <section class="slide-content" data-background-color="#ffffff">
+              <section class="slide-content slide-prose" data-background-color="#ffffff">
                 {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
                 <h2>{s.title}</h2>
                 {s.paragraphs.map((p) => (
-                  <p>{p}</p>
+                  <p class={/^Lab\b/i.test(p) ? "uai-lab" : undefined}>{p}</p>
                 ))}
               </section>
             );

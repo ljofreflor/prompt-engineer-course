@@ -102,6 +102,27 @@ body {
   font-family: "Roboto", system-ui, sans-serif;
 }
 
+.reveal .slides section.slide-prose p {
+  max-width: 34em;
+  font-size: 0.82em;
+  line-height: 1.4;
+  margin: 0 0 0.55em;
+}
+
+.reveal .slides section.slide-prose p.uai-lab {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.62em;
+  color: var(--uai-gray);
+  background: var(--uai-bg-soft);
+  border-left: 3px solid var(--uai-primary);
+  padding: 0.55em 0.75em;
+  max-width: 42em;
+}
+
+.reveal .slides section.slide-image .slide-shot {
+  margin-top: 0.35em;
+}
+
 /* Igual que h4.label-uai del sitio */
 .reveal .uai-kicker {
   color: var(--uai-primary);

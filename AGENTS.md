@@ -48,7 +48,9 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Title/section slides: flex-center content in the safe area between fixed topbar and footer; avoid “stuck in the corner” emptiness
 - Reveal sets `display:block` on `section` — use `display: flex !important` on `.slide-title` / `.slide-section` or centering will silently no-op
 - Title slides: left-aligned composition (label → cyan rule → Corporativo 300 title → muted subtitle), not centered void
-- After visual changes: screenshot title + section + bullets locally; then verify live Pages once deploy lands
+- After visual changes: screenshot title + section + bullets locally; then verify live Pages once deploy lands (CDP/`getComputedStyle` on `h1` ≈ 80px and `.slide-topbar` present)
+- `devToolbar.enabled: false` in `astro.config.mjs` — keeps clase screenshots clean; re-enable temporarily if debugging Astro islands
+- Prose paragraphs that start with `Lab:` render as `.uai-lab` (mono + soft strip); keep lab paths in that form in slide copy
 - Critique log (scratch): `tmp/reveal-uai-critique.md` — promote durable lessons into **this file**
 - Keep Reveal overrides registered in `src/content/slides/index.ts` whenever adding `uNN.ts` decks; pair with `src/content/units` blocks when the unit page should show full syllabus copy
 - Content `h2` needs a wider measure (~32ch) than section heroes (~16ch); long Spanish titles otherwise wrap mid-phrase and look broken
