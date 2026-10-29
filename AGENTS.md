@@ -94,6 +94,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 - Labs under `labs/`; LM Studio default `http://localhost:1234` (OpenAI-compatible). Prefer `content` then fall back to `reasoning_content` for models that only emit reasoning
 - **Eval-first (curso 09):** rúbrica compartida en `labs/09/RUBRIC.md` (formato · calidad · seguridad · costo); golden sets en el repo; scripts de regresión escriben JSON en `labs/09/runs/`. Extender el mismo patrón a 08/10/11 cuando toque el lab
 - **Casos Chile / LATAM:** preferir escenarios locales (SII, ClaveÚnica, minería, banca, sector público, PII) en golden sets y talleres — misma teoría OA; no inventar papers “locales”
+- **Capstone:** scaffold en `labs/capstone/` (README + `DESIGN.md`); enlazar desde 10/u06 y cierres 08/11; cohorte versiona su copia, no el scaffold vacío
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
 - **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
 
@@ -136,7 +137,7 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 
 | # | Tema | Qué hacer poco a poco | Dónde toca |
 |--:|------|----------------------|------------|
-| 1 | Capstone transversal 08→11 | Un deliverable de cohorte: problema real → design doc (10) + RAG/agente (09) + make/buy·costo (08) + deploy/obs (11); rúbrica + demo/portfolio | `labs/`, páginas unidad, cierre de cursos |
+| 1 | Capstone transversal 08→11 | Un deliverable de cohorte: problema real → design doc (10) + RAG/agente (09) + make/buy·costo (08) + deploy/obs (11); rúbrica + demo/portfolio. Scaffold: `labs/capstone/` (`README.md` + `DESIGN.md`) | `labs/capstone/`, 10/u06, cierres de curso |
 | 2 | Context engineering | Prompt ⊂ contexto (tools, memoria, retrieval, historial, MCP). Renombrar/anclar hilo en 09 sin tirar u01–u02; ≥1 viz nuevo cuando el concepto lo pida | decks 09, `reveal-viz.js`, copy tesis |
 | 3 | Eval-first | Cada lab: golden set chico + rúbrica (calidad / formato / seguridad / costo) + regresión al cambiar modelo/prompt. Método del programa, no solo 09/u02·u06 | `labs/**`, slides evaluación, `/herramientas` |
 | 4 | Labs cero fricción | `make lab` / 1 comando; evidencia (run + screenshot) en `/herramientas`; antes/después en clase | `labs/`, Makefile, evidencia pública |

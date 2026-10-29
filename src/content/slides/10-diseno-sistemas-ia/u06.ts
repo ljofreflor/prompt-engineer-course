@@ -108,13 +108,21 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "prose",
+    kicker: "Capstone",
+    title: "Puente 08 → 11",
+    paragraphs: [
+      "Lab: labs/capstone/ — README + plantilla DESIGN.md (make/buy, prompt/agente, design doc, operación).",
+      "Un problema, un repo, una defensa: no demos sueltos por unidad.",
+    ],
+  },
+  {
     type: "bullets",
     kicker: "Lecturas",
     title: "Para profundizar",
     items: [
       "Huyen (2022) — huyen2022designing (caps. design / production)",
       "Amershi et al. (2019) — amershi2019se4ml",
-      "Plantilla de design doc del Magíster (material del curso)",
     ],
   },
   {
