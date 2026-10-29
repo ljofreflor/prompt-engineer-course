@@ -405,6 +405,103 @@
     });
   }
 
+  /** Observabilidad: capa servicio ≠ capa modelo. */
+  function vizObsLayers(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Observabilidad de servicio versus observabilidad del modelo");
+
+    var cols = [
+      {
+        x: 240,
+        title: "Servicio",
+        fill: COLORS.negro,
+        ink: COLORS.white,
+        items: ["latencia p95/p99", "errores · saturación", "costo / request"],
+      },
+      {
+        x: 680,
+        title: "Modelo",
+        fill: COLORS.soft,
+        ink: COLORS.negro,
+        items: ["distribución inputs", "preds · subgrupos", "calidad / etiqueta"],
+      },
+    ];
+
+    cols.forEach(function (c, ci) {
+      svg
+        .append("rect")
+        .attr("x", c.x - 150)
+        .attr("y", 60)
+        .attr("width", 300)
+        .attr("height", 250)
+        .attr("rx", 2)
+        .attr("fill", c.fill)
+        .attr("stroke", ci === 0 ? COLORS.negro : COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .transition()
+        .delay(tDelay(80 + ci * 160))
+        .duration(tDur(450))
+        .attr("opacity", 1);
+      svg
+        .append("text")
+        .attr("x", c.x)
+        .attr("y", 100)
+        .attr("text-anchor", "middle")
+        .attr("fill", c.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .attr("opacity", 0)
+        .text(c.title)
+        .transition()
+        .delay(tDelay(140 + ci * 160))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+
+      c.items.forEach(function (t, i) {
+        svg
+          .append("text")
+          .attr("x", c.x)
+          .attr("y", 150 + i * 42)
+          .attr("text-anchor", "middle")
+          .attr("fill", ci === 0 ? "rgba(255,255,255,0.85)" : COLORS.negro)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", 14)
+          .attr("opacity", 0)
+          .text(t)
+          .transition()
+          .delay(tDelay(220 + ci * 120 + i * 70))
+          .duration(tDur(350))
+          .attr("opacity", 1);
+      });
+    });
+
+    svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 200)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 22)
+      .attr("opacity", 0)
+      .text("≠")
+      .transition()
+      .delay(tDelay(650))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+
+    label(svg, 460, 340, "Deriva y sesgo viven en la capa modelo", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 850,
+    });
+  }
+
   /** Despliegue canario: tráfico estable vs canaria + promote/rollback. */
   function vizCanaryDeploy(el) {
     var w = 920;
@@ -1401,6 +1498,7 @@
     "train-serve-skew": vizTrainServeSkew,
     "ci-pipeline": vizCiPipeline,
     "canary-deploy": vizCanaryDeploy,
+    "obs-layers": vizObsLayers,
   };
 
   function mount(el) {

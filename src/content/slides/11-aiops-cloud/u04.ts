@@ -35,9 +35,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Dos capas",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Instrumentación",
-    title: "Servicio y modelo",
+    title: "Dos capas que no se sustituyen",
+    viz: "obs-layers",
+    caption: "Uptime verde con predicciones sesgadas = falla silenciosa.",
+  },
+  {
+    type: "bullets",
+    kicker: "Detalle",
+    title: "Qué medir en cada capa",
     items: [
       "Disponibilidad, latencia p95/p99, errores, saturación, costo.",
       "Distribución de inputs/preds, desempeño con etiqueta, por subgrupo.",

@@ -16,7 +16,8 @@ export type VizId =
   | "rag-pipeline"
   | "train-serve-skew"
   | "ci-pipeline"
-  | "canary-deploy";
+  | "canary-deploy"
+  | "obs-layers";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
