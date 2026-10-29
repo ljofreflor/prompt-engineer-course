@@ -55,6 +55,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Elegir el nivel, no el eslogan",
+    viz: "automation-levels",
+    caption: "Informar → sugerir → consentir → actuar; el salto se justifica con el costo del error.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Incertidumbre",

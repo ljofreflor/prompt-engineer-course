@@ -26,7 +26,9 @@ export type VizId =
   | "risk-layers"
   | "prompt-anatomy"
   | "prompt-sensitivity"
-  | "cot-verify";
+  | "cot-verify"
+  | "injection-surface"
+  | "automation-levels";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

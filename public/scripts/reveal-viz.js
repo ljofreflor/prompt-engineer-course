@@ -2433,11 +2433,218 @@
     }
   }
 
+  /** Instrucción vs contenido: la inyección indirecta cruza el canal de datos. */
+  function vizInjectionSurface(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Superficie de inyección: instrucción vs contenido");
+
+    var left = svg.append("g").attr("transform", "translate(80,80)");
+    left
+      .append("rect")
+      .attr("width", 320)
+      .attr("height", 180)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.negro)
+      .attr("stroke-width", 1.5);
+    left
+      .append("text")
+      .attr("x", 160)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 15)
+      .text("Canal instrucción");
+    left
+      .append("text")
+      .attr("x", 160)
+      .attr("y", 100)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 16)
+      .text("System / developer");
+    left
+      .append("text")
+      .attr("x", 160)
+      .attr("y", 130)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("intención del producto");
+
+    var right = svg.append("g").attr("transform", "translate(520,80)");
+    right
+      .append("rect")
+      .attr("width", 320)
+      .attr("height", 180)
+      .attr("rx", 2)
+      .attr("fill", COLORS.white)
+      .attr("stroke", COLORS.primary)
+      .attr("stroke-width", 2.5);
+    right
+      .append("text")
+      .attr("x", 160)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 15)
+      .text("Canal contenido");
+    right
+      .append("text")
+      .attr("x", 160)
+      .attr("y", 100)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 16)
+      .text("Web · correo · doc");
+    right
+      .append("text")
+      .attr("x", 160)
+      .attr("y", 130)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("puede traer “instrucciones”");
+
+    var arrow = svg
+      .append("line")
+      .attr("x1", 410)
+      .attr("y1", 170)
+      .attr("x2", 510)
+      .attr("y2", 170)
+      .attr("stroke", COLORS.primaryDark)
+      .attr("stroke-width", 2.5)
+      .attr("stroke-dasharray", "6 4")
+      .attr("opacity", 0)
+      .node();
+
+    var note = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 310)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("El modelo mezcla canales — el perímetro es de arquitectura")
+      .node();
+
+    var panels = [left.node(), right.node()];
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(panels, { opacity: 0 });
+      tl.to(panels, { opacity: 1, duration: 0.4, stagger: 0.15 }, 0.05)
+        .to(arrow, { opacity: 1, duration: 0.35 }, 0.45)
+        .to(note, { opacity: 1, duration: 0.35 }, 0.7);
+    } else {
+      panels.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 120))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      d3.select(arrow).transition().delay(tDelay(400)).duration(tDur(350)).attr("opacity", 1);
+      d3.select(note).transition().delay(tDelay(650)).duration(tDur(350)).attr("opacity", 1);
+    }
+  }
+
+  /** Continuo de automatización (Parasuraman): de información a acción plena. */
+  function vizAutomationLevels(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Niveles de automatización: de informar a actuar");
+
+    var steps = [
+      { label: "Informar", x: 100 },
+      { label: "Sugerir", x: 300 },
+      { label: "Consentir", x: 500 },
+      { label: "Actuar", x: 700 },
+    ];
+    var nodes = [];
+
+    svg
+      .append("line")
+      .attr("x1", 140)
+      .attr("y1", 160)
+      .attr("x2", 780)
+      .attr("y2", 160)
+      .attr("stroke", COLORS.border)
+      .attr("stroke-width", 3);
+
+    steps.forEach(function (s, i) {
+      var g = svg.append("g").attr("transform", "translate(" + s.x + ",160)");
+      g.append("circle")
+        .attr("r", 18)
+        .attr("fill", i === 3 ? COLORS.primary : COLORS.white)
+        .attr("stroke", COLORS.negro)
+        .attr("stroke-width", 2);
+      g.append("text")
+        .attr("y", 56)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .text(s.label);
+      nodes.push(g.node());
+    });
+
+    var note = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 280)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("El nivel se elige por costo del error y reversibilidad — no por moda HITL")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes, { opacity: 1, duration: 0.4, stagger: 0.12 }, 0.08).to(
+        note,
+        { opacity: 1, duration: 0.35 },
+        0.65
+      );
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 100))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      d3.select(note).transition().delay(tDelay(600)).duration(tDur(350)).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
     "prompt-sensitivity": vizPromptSensitivity,
     "cot-verify": vizCotVerify,
+    "injection-surface": vizInjectionSurface,
+    "automation-levels": vizAutomationLevels,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

@@ -98,6 +98,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Dos canales, un modelo",
+    viz: "injection-surface",
+    caption: "El prompt no separa instrucción de dato; la arquitectura sí debe hacerlo.",
+  },
+  {
     type: "section",
     title: "Bloque 4",
     subtitle: "60 min — Controles",
