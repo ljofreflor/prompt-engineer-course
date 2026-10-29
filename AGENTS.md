@@ -92,6 +92,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 - Course meta: `src/data/courses.ts` · programs/syllabi: `src/data/programs.ts` · stack: `src/data/stack.ts`
 - Unit copy: `src/content/units/` · Reveal overrides: `src/content/slides/<course>/<unit>.ts`
 - Labs under `labs/`; LM Studio default `http://localhost:1234` (OpenAI-compatible). Prefer `content` then fall back to `reasoning_content` for models that only emit reasoning
+- **Eval-first (curso 09):** rúbrica compartida en `labs/09/RUBRIC.md` (formato · calidad · seguridad · costo); golden sets en el repo; scripts de regresión escriben JSON en `labs/09/runs/`. Extender el mismo patrón a 08/10/11 cuando toque el lab
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
 - **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
 

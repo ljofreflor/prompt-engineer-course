@@ -85,10 +85,10 @@ export const slides: Slide[] = [
   {
     type: "prose",
     kicker: "Lab vivo",
-    title: "prompts/v1.md + cases.yaml",
+    title: "prompts/v1.md + cases.yaml + rúbrica",
     paragraphs: [
-      "Script: labs/09/u02/run_regression.py contra LM Studio (gemma-4-e4b).",
-      "Resultado local: score 4/4 con prompt=v1. Cualquier cambio de prompt o modelo debe re-correr la suite.",
+      "Lab: labs/09/u02/run_regression.py contra LM Studio — reporta formato · calidad · seguridad · costo (labs/09/RUBRIC.md) y escribe labs/09/runs/u02-regression-report.json.",
+      "Cualquier cambio de prompt o modelo debe re-correr la suite; el pass no es “se ve bien”.",
     ],
   },
   {

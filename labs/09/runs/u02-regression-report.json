@@ -1,0 +1,55 @@
+{
+  "lab": "09/u02",
+  "prompt": "prompts/v1.md",
+  "rubric": [
+    "formato",
+    "calidad",
+    "seguridad",
+    "costo"
+  ],
+  "score": "4/4",
+  "passed": true,
+  "ts": "2026-10-29T22:51:07.462132+00:00",
+  "cases": [
+    {
+      "id": "invoice",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    },
+    {
+      "id": "vpn",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    },
+    {
+      "id": "ood",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    },
+    {
+      "id": "empty",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    }
+  ]
+}
