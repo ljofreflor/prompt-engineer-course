@@ -1,0 +1,48 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+import { changelogQuarters } from "../../data/changelog";
+import { asset } from "../../lib/base";
+---
+<StudentLayout title="Qué cambió — Magíster IA UAI" current="cambios">
+  <section class="section">
+    <div class="container prose">
+      <p class="label-uai" style="margin-bottom:0.5rem">Actualización del material</p>
+      <h1>Qué cambió</h1>
+      <p>
+        Registro trimestral de lo que se sumó al sitio, las clases y los labs.
+        Fuente editable: <code>src/data/changelog.ts</code>. No sustituye el syllabus;
+        complementa bibliografía y compliance.
+      </p>
+
+      {
+        changelogQuarters.map((q) => (
+          <section style="margin-top:2.5rem">
+            <h2>{q.label}</h2>
+            <p>{q.summary}</p>
+            <ul>
+              {q.items.map((it) => (
+                <li>
+                  <strong>{it.title}</strong>
+                  <span style="color:var(--uai-gray)"> · {it.date}</span>
+                  {it.tags?.length ? (
+                    <span style="color:var(--uai-gray)"> · {it.tags.join(" · ")}</span>
+                  ) : null}
+                  <br />
+                  {it.detail}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <p style="margin-top:2rem">
+        <a href={asset("herramientas/")}>Stack y labs</a>
+        {" · "}
+        <a href={asset("bibliografia/")}>Bibliografía OA</a>
+        {" · "}
+        <a href={asset("clases/")}>Clases</a>
+      </p>
+    </div>
+  </section>
+</StudentLayout>
