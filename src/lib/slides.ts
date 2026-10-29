@@ -24,7 +24,9 @@ export type VizId =
   | "latency-ttft-tpot"
   | "eval-domain"
   | "risk-layers"
-  | "prompt-anatomy";
+  | "prompt-anatomy"
+  | "prompt-sensitivity"
+  | "cot-verify";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

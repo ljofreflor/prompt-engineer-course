@@ -2248,9 +2248,196 @@
     }
   }
 
+  /** Misma semántica, distinto formato → score distinto (Sclar). */
+  function vizPromptSensitivity(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Sensibilidad a features espurias del prompt");
+
+    var rows = [
+      { label: "Formato A · JSON + # headers", score: 0.92 },
+      { label: "Formato B · mismo texto, bullets", score: 0.71 },
+      { label: "Formato C · MAYÚSCULAS / orden", score: 0.58 },
+    ];
+    var x0 = 280;
+    var maxW = 520;
+    var bars = [];
+
+    rows.forEach(function (r, i) {
+      var y = 80 + i * 90;
+      svg
+        .append("text")
+        .attr("x", x0 - 16)
+        .attr("y", y + 18)
+        .attr("text-anchor", "end")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 14)
+        .attr("font-weight", 500)
+        .attr("opacity", 0)
+        .text(r.label)
+        .attr("class", "uai-sens-label");
+      var g = svg.append("g");
+      g.append("rect")
+        .attr("x", x0)
+        .attr("y", y)
+        .attr("width", maxW * r.score)
+        .attr("height", 36)
+        .attr("rx", 2)
+        .attr("fill", i === 0 ? COLORS.primary : COLORS.soft)
+        .attr("stroke", i === 0 ? "none" : COLORS.negro)
+        .attr("stroke-width", i === 0 ? 0 : 1.5);
+      g.append("text")
+        .attr("x", x0 + maxW * r.score + 12)
+        .attr("y", y + 24)
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .text(Math.round(r.score * 100) + "%");
+      bars.push(g.node());
+    });
+
+    var cap = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 350)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("“Mismo significado” ≠ misma salida — fijá el formato canónico en el repo")
+      .node();
+
+    var labels = svg.selectAll(".uai-sens-label").nodes();
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(labels.concat(bars), { opacity: 0 });
+      tl.to(labels, { opacity: 1, duration: 0.3, stagger: 0.12 }, 0.05)
+        .to(bars, { opacity: 1, duration: 0.45, stagger: 0.14 }, 0.2)
+        .to(cap, { opacity: 1, duration: 0.35 }, 0.85);
+    } else {
+      labels.concat(bars).forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 100))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      d3.select(cap).transition().delay(tDelay(700)).duration(tDur(400)).attr("opacity", 1);
+    }
+  }
+
+  /** CoT interno + verificación fuera del modelo. */
+  function vizCotVerify(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Razonar adentro; verificar afuera");
+
+    var boxes = [
+      { x: 140, y: 140, w: 200, h: 100, title: "Scratchpad", sub: "pasos (privado)", fill: COLORS.soft },
+      { x: 360, y: 140, w: 200, h: 100, title: "Respuesta", sub: "FINAL = n", fill: COLORS.soft },
+      { x: 580, y: 140, w: 220, h: 100, title: "Verificador", sub: "eval / schema", fill: COLORS.primary },
+    ];
+    var nodes = [];
+
+    boxes.forEach(function (b) {
+      var g = svg.append("g").attr("transform", "translate(" + b.x + "," + b.y + ")");
+      g.append("rect")
+        .attr("width", b.w)
+        .attr("height", b.h)
+        .attr("rx", 2)
+        .attr("fill", b.fill)
+        .attr("stroke", b.fill === COLORS.primary ? "none" : COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", b.w / 2)
+        .attr("y", 42)
+        .attr("text-anchor", "middle")
+        .attr("fill", b.fill === COLORS.primary ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .text(b.title);
+      g.append("text")
+        .attr("x", b.w / 2)
+        .attr("y", 68)
+        .attr("text-anchor", "middle")
+        .attr("fill", b.fill === COLORS.primary ? COLORS.white : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .text(b.sub);
+      nodes.push(g.node());
+    });
+
+    var arrows = [];
+    [
+      [340, 190, 360, 190],
+      [560, 190, 580, 190],
+    ].forEach(function (a) {
+      arrows.push(
+        svg
+          .append("line")
+          .attr("x1", a[0])
+          .attr("y1", a[1])
+          .attr("x2", a[2])
+          .attr("y2", a[3])
+          .attr("stroke", COLORS.primary)
+          .attr("stroke-width", 2.5)
+          .attr("opacity", 0)
+          .node()
+      );
+    });
+
+    var note = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 300)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("La cadena no es evidencia legal — el check externo sí")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0, scale: 0.88, transformOrigin: "50% 50%" });
+      tl.to(nodes, { opacity: 1, scale: 1, duration: 0.42, stagger: 0.16 }, 0.05)
+        .to(arrows, { opacity: 1, duration: 0.35, stagger: 0.12 }, 0.45)
+        .to(note, { opacity: 1, duration: 0.35 }, 0.9);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 140))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      arrows.forEach(function (n, i) {
+        d3.select(n)
+          .transition()
+          .delay(tDelay(400 + i * 120))
+          .duration(tDur(350))
+          .attr("opacity", 1);
+      });
+      d3.select(note).transition().delay(tDelay(800)).duration(tDur(400)).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
+    "prompt-sensitivity": vizPromptSensitivity,
+    "cot-verify": vizCotVerify,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

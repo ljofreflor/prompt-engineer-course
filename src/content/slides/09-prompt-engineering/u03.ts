@@ -56,6 +56,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Razonar adentro, verificar afuera",
+    viz: "cot-verify",
+    caption: "El scratchpad no sustituye un check programático o un segundo paso.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Ensamblado",

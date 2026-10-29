@@ -55,6 +55,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Misma tarea, tres formatos",
+    viz: "prompt-sensitivity",
+    caption: "Ilustrativo: el formato canónico se versiona; no se improvisa en producción.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Suites de prueba",
