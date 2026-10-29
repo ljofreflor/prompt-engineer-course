@@ -521,9 +521,9 @@ const units10: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022), caps. 1–2",
-      "Kleinberg et al. (2015), Prediction policy problems",
-      "Paleyes, Urma y Lawrence (2022) — complementaria",
+      "Kleinberg et al. (2015) — kleinberg2015prediction",
+      "Huyen (2022), caps. 1–2 — huyen2022designing",
+      "Paleyes et al. (2022) — paleyes2022challenges (complementaria)",
     ],
     lab: {
       title: "Taller — ficha de especificación",
@@ -561,9 +561,10 @@ const units10: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022), caps. 7–8",
-      "Zaharia et al. (2024), Compound AI systems",
-      "Gao et al. (2024), RAG survey §§1–3",
+      "Zaharia et al. (2024) — zaharia2024compound",
+      "Lewis et al. (2020) — lewis2020rag",
+      "Gao et al. (2024) — gao2024ragsurvey",
+      "Huyen (2022), caps. 7–8 — huyen2022designing",
     ],
   },
   {

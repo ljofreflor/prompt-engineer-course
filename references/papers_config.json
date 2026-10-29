@@ -113,5 +113,27 @@
     "title": "Direct Preference Optimization",
     "eprint": "2305.18290",
     "url": "https://arxiv.org/abs/2305.18290"
+  },
+  "kleinberg2015prediction": {
+    "title": "Prediction Policy Problems",
+    "url": "https://www.cs.cornell.edu/home/kleinber/aer15-prediction.pdf"
+  },
+  "paleyes2022challenges": {
+    "title": "Challenges in Deploying Machine Learning",
+    "eprint": "2011.09926",
+    "url": "https://arxiv.org/abs/2011.09926"
+  },
+  "gao2024ragsurvey": {
+    "title": "RAG for LLMs: A Survey",
+    "eprint": "2312.10997",
+    "url": "https://arxiv.org/abs/2312.10997"
+  },
+  "zaharia2024compound": {
+    "title": "The Shift from Models to Compound AI Systems",
+    "url": "https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/"
+  },
+  "huyen2022designing": {
+    "title": "Designing Machine Learning Systems",
+    "note": "book — not OA; cite chapters only"
   }
 }

@@ -37,6 +37,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "De modelos a sistemas compuestos",
+    items: [
+      "Zaharia et al. (2024): el estado del arte se mueve a compound AI systems (varios componentes + control).",
+      "Huyen (2022), caps. 7–8: batch/online/streaming se eligen desde NFR, no desde moda.",
+      "Diseñar asumiendo falla del modelo y del proveedor.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Inferencia",
     title: "Elegir el ritmo de la predicción",
     items: [
@@ -66,6 +76,16 @@ export const slides: Slide[] = [
     type: "section",
     title: "Bloque 3",
     subtitle: "60 min — RAG y tools",
+  },
+  {
+    type: "bullets",
+    kicker: "Teoría",
+    title: "RAG como patrón de sistema",
+    items: [
+      "Lewis et al. (2020): retrieval + generación para conocimiento externo al peso del modelo.",
+      "Gao et al. (2024) survey §§1–3: indexación → retrieval → generación — cada etapa con NFR propios.",
+      "Aquí es arquitectura; el prompting fino vive en el curso 09.",
+    ],
   },
   {
     type: "viz",
@@ -99,6 +119,16 @@ export const slides: Slide[] = [
       "Degradación elegante y default seguro.",
       "Estrategia de reversión.",
       "Ejercicio: rediseñar bajo un NFR más duro.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Zaharia et al. (2024) — zaharia2024compound (BAIR blog, OA)",
+      "Lewis et al. (2020) — lewis2020rag",
+      "Gao et al. (2024) survey — gao2024ragsurvey; Huyen (2022) caps. 7–8",
     ],
   },
   {

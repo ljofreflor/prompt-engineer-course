@@ -37,6 +37,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Predicción ≠ causalidad",
+    items: [
+      "Kleinberg et al. (2015): hay políticas donde basta predicción (“paraguas”), no inferencia causal (“danza de la lluvia”).",
+      "Huyen (2022), caps. 1–2: partir de la decisión y la línea base, no del modelo.",
+      "Si no hay acción ni resultado medible, la predicción no crea valor.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Ficha",
     title: "Qué documentar primero",
     items: [
@@ -99,6 +109,16 @@ export const slides: Slide[] = [
       "Presentación breve + crítica cruzada.",
       "Sin números inventados: declarar supuestos.",
       "Este curso produce especificación, no despliegue (→ curso 11).",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Kleinberg et al. (2015) — kleinberg2015prediction (OA author copy)",
+      "Huyen (2022), caps. 1–2 — huyen2022designing (libro; no OA)",
+      "Paleyes et al. (2022) — paleyes2022challenges (complementaria)",
     ],
   },
   {
