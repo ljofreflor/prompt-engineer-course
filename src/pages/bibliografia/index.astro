@@ -1,38 +1,48 @@
 ---
 import StudentLayout from "../../layouts/StudentLayout.astro";
+import papers from "../../../references/papers_config.json";
+
+const base = import.meta.env.BASE_URL;
+const entries = Object.entries(papers).map(([key, meta]) => ({
+  key,
+  ...(meta as { title: string; eprint: string; url: string }),
+}));
 ---
 <StudentLayout title="Bibliografía — Magíster IA UAI" current="bibliografia">
   <section class="section">
     <div class="container prose">
       <h1>Bibliografía</h1>
       <p>
-        Referencias de los syllabi 08–11. Los papers open-access se irán descargando a
-        <code>references/papers/</code>. Libros: solo enlace legal.
+        Papers open-access descargados en <code>references/papers/&lt;key&gt;/</code>
+        (no versionados en git). Config: <code>references/papers_config.json</code>.
       </p>
+      <p class="note">{entries.length} PDFs locales disponibles vía arXiv.</p>
 
-      <h2>Curso 09 — obligatoria</h2>
+      <h2>Catálogo local</h2>
       <ul>
-        <li>Brown et al. (2020). Language models are few-shot learners. NeurIPS.</li>
-        <li>Greshake et al. (2023). Indirect prompt injection. AISec.</li>
-        <li>Kapoor et al. (2024). AI agents that matter. arXiv:2407.01502.</li>
-        <li>Schulhoff et al. (2024). The Prompt Report. arXiv:2406.06608.</li>
-        <li>Wei et al. (2022). Chain-of-thought prompting. NeurIPS.</li>
-        <li>Yao et al. (2023). ReAct. ICLR.</li>
-        <li>Zheng et al. (2023). Judging LLM-as-a-judge. NeurIPS.</li>
+        {
+          entries.map((e) => (
+            <li>
+              <strong>{e.key}</strong> — {e.title}
+              {" · "}
+              <a href={e.url}>arXiv:{e.eprint}</a>
+            </li>
+          ))
+        }
       </ul>
 
-      <h2>Curso 09 — complementaria (selección)</h2>
+      <h2>Por curso (syllabi)</h2>
+      <h3>09 Prompt Engineering — obligatoria</h3>
       <ul>
-        <li>Sclar et al. (2024). Sensitivity to spurious prompt features. ICLR.</li>
-        <li>Wang et al. (2023). Self-consistency. ICLR.</li>
-        <li>Wu et al. (2023). AutoGen. arXiv:2308.08155.</li>
-        <li>Shinn et al. (2023). Reflexion. NeurIPS.</li>
-        <li>Perez & Ribeiro (2022). Ignore previous prompt. arXiv:2211.09527.</li>
+        <li>brown2020fewshot, greshake2023injection, kapoor2024agents, schulhoff2024prompt, wei2022cot, yao2023react, zheng2023judge</li>
+      </ul>
+      <h3>08 GenAI / LLMs — selección</h3>
+      <ul>
+        <li>vaswani2017attention, brown2020fewshot, ouyang2022instruct, hu2022lora, lewis2020rag, bommasani2021foundation, dettmers2023qlora, liu2024lostmiddle, rafailov2023dpo, zheng2023judge</li>
       </ul>
 
-      <p class="note">
-        Nota de vigencia (syllabi): marcos y precios cambian rápido; las referencias anclan
-        mecanismos estables. Verificá documentación de proveedores al dictado.
+      <p>
+        Labs: <a href={`${base}herramientas/`}>herramientas locales</a>.
       </p>
     </div>
   </section>

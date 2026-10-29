@@ -1,0 +1,18 @@
+# Suite mínima de regresión de prompt (Taller 1)
+cases:
+  - id: invoice
+    input: "No me llegó la factura de marzo"
+    expect_categoria: facturacion
+    expect_abstener: false
+  - id: vpn
+    input: "El VPN corta a los 5 minutos"
+    expect_categoria: tecnico
+    expect_abstener: false
+  - id: ood
+    input: "¿Cuál es la capital de Francia?"
+    expect_categoria: otro
+    expect_abstener: true
+  - id: empty
+    input: ""
+    expect_categoria: otro
+    expect_abstener: true

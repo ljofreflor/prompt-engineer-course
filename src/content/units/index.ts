@@ -234,7 +234,250 @@ const units09: UnitContent[] = [
   },
 ];
 
-const byKey = new Map(units09.map((u) => [`${u.courseSlug}/${u.unitId}`, u]));
+const units08: UnitContent[] = [
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u01",
+    learningOutcomes: [
+      "Explicar generación autorregresiva y atribuir comportamientos a ella.",
+      "Determinar efectos de la tokenización en español y en costo.",
+      "Configurar decodificación (temperatura, top-p) según la tarea.",
+    ],
+    blocks: [
+      {
+        title: "Del LM al transformer generativo",
+        minutes: 60,
+        body: "Modelado autorregresivo, atención y costo cuadrático, decoder-only vs encoder.",
+      },
+      {
+        title: "Tokenización y ventana de contexto",
+        minutes: 60,
+        body: "Subpalabras, efectos en español/números, KV-cache y degradación por posición (lost in the middle).",
+      },
+      {
+        title: "Generación y control de la salida",
+        minutes: 60,
+        body: "Temperatura, nucleus sampling, salida estructurada, límites del determinismo.",
+      },
+      {
+        title: "Escalamiento",
+        minutes: 60,
+        body: "Leyes de escalamiento y asignación óptima de cómputo (Kaplan / Chinchilla).",
+      },
+    ],
+    readings: [
+      "Vaswani et al. (2017) — vaswani2017attention",
+      "Liu et al. (2024) Lost in the Middle — liu2024lostmiddle",
+    ],
+    lab: {
+      title: "Lab local — tokenización y decodificación",
+      body: "Con LM Studio: medí tokens de un párrafo en español vs inglés; variá temperature/top_p y registrá diversidad en 10 corridas.",
+    },
+  },
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u02",
+    learningOutcomes: [
+      "Describir etapas del pipeline de un modelo de instrucción.",
+      "Atribuir comportamientos a pretrain / SFT / alineación.",
+      "Reconocer impuesto de alineación y sesgo de longitud.",
+    ],
+    blocks: [
+      {
+        title: "Pre-entrenamiento",
+        minutes: 60,
+        body: "Objetivo auto-supervisado, filtrado de corpus, contaminación de benchmarks.",
+      },
+      {
+        title: "Ajuste por instrucciones",
+        minutes: 60,
+        body: "De continuación a seguimiento de instrucciones; datos sintéticos y destilación.",
+      },
+      {
+        title: "Alineación por preferencias",
+        minutes: 60,
+        body: "RLHF vs DPO; constitutional AI; costos de alineación.",
+      },
+      {
+        title: "Razonamiento y taller de atribución",
+        minutes: 60,
+        body: "Modelos de razonamiento extendido; taller: atribuir comportamientos a etapas.",
+      },
+    ],
+    readings: [
+      "Ouyang et al. (2022) — ouyang2022instruct",
+      "Brown et al. (2020) §§1–3 — brown2020fewshot",
+      "Rafailov et al. (2023) DPO — rafailov2023dpo",
+    ],
+  },
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u03",
+    learningOutcomes: [
+      "Elegir entre prompting, RAG y fine-tuning con criterios explícitos.",
+      "Preparar datos LoRA y detectar olvido catastrófico.",
+    ],
+    blocks: [
+      {
+        title: "Qué modifica cada vía",
+        minutes: 60,
+        body: "Instrucción vs recuperación vs ajuste: error de fine-tune para hechos.",
+      },
+      {
+        title: "Árbol de decisión",
+        minutes: 60,
+        body: "Naturaleza de lo que falta, datos, frescura, trazabilidad, presupuesto, control.",
+      },
+      {
+        title: "Fine-tuning eficiente",
+        minutes: 60,
+        body: "LoRA/QLoRA, volumen mínimo, evaluación post-ajuste.",
+      },
+      {
+        title: "Taller (Eval 1)",
+        minutes: 60,
+        body: "Ajustar modelo abierto moderado vs misma tarea por instrucción.",
+      },
+    ],
+    readings: [
+      "Hu et al. (2022) LoRA — hu2022lora",
+      "Lewis et al. (2020) RAG — lewis2020rag",
+      "Dettmers et al. (2023) QLoRA — dettmers2023qlora",
+    ],
+  },
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u04",
+    learningOutcomes: [
+      "Distinguir grados de apertura y licencias.",
+      "Calcular punto de cruce de costo abierto vs cerrado.",
+    ],
+    blocks: [
+      {
+        title: "Qué significa abierto",
+        minutes: 60,
+        body: "Pesos, licencias y restricciones comerciales en Chile.",
+      },
+      {
+        title: "Dimensiones que deciden",
+        minutes: 60,
+        body: "Costo, latencia, especialización, soberanía, estabilidad de versiones.",
+      },
+      {
+        title: "Ejercicio cuantitativo",
+        minutes: 60,
+        body: "Punto de cruce por volumen; sensibilidad a supuestos.",
+      },
+      {
+        title: "Dependencia y mitigación",
+        minutes: 60,
+        body: "Abstracción de proveedor y alternativa evaluada.",
+      },
+    ],
+    readings: ["Bommasani et al. (2021) — bommasani2021foundation"],
+    lab: {
+      title: "Lab — costo local vs API",
+      body: "Estimá costo/hora de un 7B cuantizado en laptop vs precio por token de un API cerrado para 10k requests/día.",
+    },
+  },
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u05",
+    learningOutcomes: [
+      "Descomponer latencia (TTFT vs TPOT) y estimar costo unitario.",
+      "Medir efecto de cuantización sobre calidad.",
+    ],
+    blocks: [
+      {
+        title: "Anatomía de la latencia",
+        minutes: 60,
+        body: "Prefill vs decode; qué importa según la UI.",
+      },
+      {
+        title: "Anatomía del costo",
+        minutes: 60,
+        body: "Tokens in/out, caché de prefijo, proyección mensual.",
+      },
+      {
+        title: "Optimización",
+        minutes: 60,
+        body: "Cuantización, batching, tamaño de modelo como variable de diseño.",
+      },
+      {
+        title: "Contexto extenso (Eval 2)",
+        minutes: 60,
+        body: "Contexto largo vs RAG; medición comparativa.",
+      },
+    ],
+    readings: ["Liu et al. (2024) — liu2024lostmiddle"],
+  },
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u06",
+    learningOutcomes: [
+      "Construir un set de evaluación de dominio.",
+      "Usar modelo juez con mitigación de sesgos.",
+    ],
+    blocks: [
+      {
+        title: "Evaluaciones públicas y límites",
+        minutes: 60,
+        body: "Contaminación, saturación, validez externa.",
+      },
+      {
+        title: "Set propio",
+        minutes: 60,
+        body: "Tarea, muestreo (incl. difíciles), tamaño y potencia.",
+      },
+      {
+        title: "Jueces y evaluación humana",
+        minutes: 60,
+        body: "Sesgos de longitud/posición/estilo; concordancia.",
+      },
+      {
+        title: "Propiedades específicas (Eval 3)",
+        minutes: 60,
+        body: "Fidelidad a fuente, alucinación, sensibilidad al formato.",
+      },
+    ],
+    readings: ["Zheng et al. (2023) — zheng2023judge"],
+  },
+  {
+    courseSlug: "08-genai-llms",
+    unitId: "u07",
+    learningOutcomes: [
+      "Evaluar aplicabilidad multimodal y riesgo de memorización.",
+      "Distinguir riesgos del modelo vs del sistema.",
+    ],
+    blocks: [
+      {
+        title: "Modelos multimodales",
+        minutes: 60,
+        body: "Espacio común; extracción desde documentos.",
+      },
+      {
+        title: "Generación de imagen",
+        minutes: 60,
+        body: "Difusión, control, costo y procedencia de datos.",
+      },
+      {
+        title: "Riesgos del modelo",
+        minutes: 60,
+        body: "Extracción de datos de entrenamiento; límites de la instrucción como control.",
+      },
+      {
+        title: "Proyectos y cierre",
+        minutes: 60,
+        body: "Presentaciones; articulación hacia Prompt Engineering y Diseño de Sistemas.",
+      },
+    ],
+    readings: ["Bommasani et al. (2021); Carlini et al. (2021) — enlace editorial / OA si disponible"],
+  },
+];
+
+const byKey = new Map(
+  [...units09, ...units08].map((u) => [`${u.courseSlug}/${u.unitId}`, u] as const),
+);
 
 export function getUnitContent(courseSlug: string, unitId: string) {
   return byKey.get(`${courseSlug}/${unitId}`);

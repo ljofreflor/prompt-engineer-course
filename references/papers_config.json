@@ -1,0 +1,102 @@
+{
+  "schulhoff2024prompt": {
+    "title": "The Prompt Report",
+    "eprint": "2406.06608",
+    "url": "https://arxiv.org/abs/2406.06608"
+  },
+  "kapoor2024agents": {
+    "title": "AI Agents That Matter",
+    "eprint": "2407.01502",
+    "url": "https://arxiv.org/abs/2407.01502"
+  },
+  "brown2020fewshot": {
+    "title": "Language Models are Few-Shot Learners",
+    "eprint": "2005.14165",
+    "url": "https://arxiv.org/abs/2005.14165"
+  },
+  "wei2022cot": {
+    "title": "Chain-of-Thought Prompting",
+    "eprint": "2201.11903",
+    "url": "https://arxiv.org/abs/2201.11903"
+  },
+  "yao2023react": {
+    "title": "ReAct",
+    "eprint": "2210.03629",
+    "url": "https://arxiv.org/abs/2210.03629"
+  },
+  "zheng2023judge": {
+    "title": "Judging LLM-as-a-Judge",
+    "eprint": "2306.05685",
+    "url": "https://arxiv.org/abs/2306.05685"
+  },
+  "greshake2023injection": {
+    "title": "Not what you've signed up for",
+    "eprint": "2302.12173",
+    "url": "https://arxiv.org/abs/2302.12173"
+  },
+  "sclar2024sensitivity": {
+    "title": "Quantifying language models sensitivity",
+    "eprint": "2310.11324",
+    "url": "https://arxiv.org/abs/2310.11324"
+  },
+  "wang2023selfconsistency": {
+    "title": "Self-Consistency Improves CoT",
+    "eprint": "2203.11171",
+    "url": "https://arxiv.org/abs/2203.11171"
+  },
+  "wu2023autogen": {
+    "title": "AutoGen",
+    "eprint": "2308.08155",
+    "url": "https://arxiv.org/abs/2308.08155"
+  },
+  "perez2022ignore": {
+    "title": "Ignore Previous Prompt",
+    "eprint": "2211.09527",
+    "url": "https://arxiv.org/abs/2211.09527"
+  },
+  "shinn2023reflexion": {
+    "title": "Reflexion",
+    "eprint": "2303.11366",
+    "url": "https://arxiv.org/abs/2303.11366"
+  },
+  "vaswani2017attention": {
+    "title": "Attention Is All You Need",
+    "eprint": "1706.03762",
+    "url": "https://arxiv.org/abs/1706.03762"
+  },
+  "hu2022lora": {
+    "title": "LoRA",
+    "eprint": "2106.09685",
+    "url": "https://arxiv.org/abs/2106.09685"
+  },
+  "lewis2020rag": {
+    "title": "Retrieval-Augmented Generation",
+    "eprint": "2005.11401",
+    "url": "https://arxiv.org/abs/2005.11401"
+  },
+  "ouyang2022instruct": {
+    "title": "Training language models to follow instructions",
+    "eprint": "2203.02155",
+    "url": "https://arxiv.org/abs/2203.02155"
+  },
+  "bommasani2021foundation": {
+    "title": "On the Opportunities and Risks of Foundation Models",
+    "eprint": "2108.07258",
+    "url": "https://arxiv.org/abs/2108.07258"
+  },
+  "dettmers2023qlora": {
+    "title": "QLoRA",
+    "eprint": "2305.14314",
+    "url": "https://arxiv.org/abs/2305.14314"
+  },
+  "liu2024lostmiddle": {
+    "title": "Lost in the Middle",
+    "eprint": "2307.03172",
+    "url": "https://arxiv.org/abs/2307.03172"
+  },
+  "rafailov2023dpo": {
+    "title": "Direct Preference Optimization",
+    "eprint": "2305.18290",
+    "url": "https://arxiv.org/abs/2305.18290"
+  }
+}
