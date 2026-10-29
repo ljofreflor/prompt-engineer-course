@@ -2815,6 +2815,97 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Apertura ≠ booleano: pesos, código, datos, licencia (Bommasani et al. 2021). */
+  function vizOpennessAxes(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Apertura en cuatro ejes: pesos, código, datos, licencia");
+
+    var axes = [
+      { title: "Pesos", sub: "descargables", fill: COLORS.soft, ink: COLORS.negro },
+      { title: "Código", sub: "entrenar / servir", fill: COLORS.soft, ink: COLORS.negro },
+      { title: "Datos", sub: "trazables", fill: COLORS.soft, ink: COLORS.negro },
+      { title: "Licencia", sub: "uso comercial", fill: COLORS.primary, ink: COLORS.white },
+    ];
+    var cardW = 190;
+    var gap = 28;
+    var startX = (w - (axes.length * cardW + (axes.length - 1) * gap)) / 2;
+    var nodes = [];
+
+    axes.forEach(function (a, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",70)");
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 180)
+        .attr("rx", 2)
+        .attr("fill", a.fill)
+        .attr("stroke", a.fill === COLORS.primary ? "none" : COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 70)
+        .attr("text-anchor", "middle")
+        .attr("fill", a.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 22)
+        .text(a.title);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 110)
+        .attr("text-anchor", "middle")
+        .attr("fill", a.fill === COLORS.primary ? "rgba(255,255,255,0.85)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 14)
+        .text(a.sub);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 150)
+        .attr("text-anchor", "middle")
+        .attr("fill", a.fill === COLORS.primary ? COLORS.white : COLORS.primary)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 13)
+        .text("eje " + (i + 1));
+      nodes.push(g.node());
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 300)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Bommasani et al. 2021 — homogeneización si todos apuntan al mismo upstream")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes, { opacity: 1, duration: 0.35, stagger: 0.1 }, 0.05).to(
+        foot,
+        { opacity: 1, duration: 0.3 },
+        0.55
+      );
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 120))
+          .duration(tDur(380))
+          .attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(600)).duration(tDur(300)).attr("opacity", 1);
+    }
+  }
+
   /** LoRA: W congelado + ΔW = B·A de rango bajo (Hu et al. 2022). */
   function vizLoraAdapters(el) {
     cineManual(el);
@@ -3116,6 +3207,7 @@
     "lost-middle": vizLostMiddle,
     "sft-align": vizSftAlign,
     "lora-adapters": vizLoraAdapters,
+    "openness-axes": vizOpennessAxes,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

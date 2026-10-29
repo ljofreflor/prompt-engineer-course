@@ -45,6 +45,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Cuatro ejes, no un switch",
+    viz: "openness-axes",
+    caption: "Pesos descargables ≠ licencia permisiva; cada eje se decide por separado.",
+  },
+  {
     type: "bullets",
     kicker: "Definiciones",
     title: "Qué significa abierto",
