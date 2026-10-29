@@ -34,9 +34,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Qué modifica cada vía",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Mapa",
     title: "Instrucción · recuperación · ajuste",
+    viz: "adapt-routes",
+    caption: "Elegí la vía por el hueco: formato, hechos externos o dominio estable.",
+  },
+  {
+    type: "bullets",
+    kicker: "Regla",
+    title: "Qué falla si elegís mal",
     items: [
       "Comportamiento / formato → prompting o SFT liviano.",
       "Conocimiento externo / trazabilidad → RAG.",

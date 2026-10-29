@@ -405,6 +405,84 @@
     });
   }
 
+  /** Tres vías de adaptación: prompting · RAG · fine-tune. */
+  function vizAdaptRoutes(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Vías: prompting, RAG y fine-tuning");
+
+    var routes = [
+      { x: 160, label: "Prompting", sub: "formato · tarea", gap: "falta instrucción" },
+      { x: 460, label: "RAG", sub: "hechos · citas", gap: "falta conocimiento" },
+      { x: 760, label: "Fine-tune", sub: "estilo · dominio", gap: "falta comportamiento" },
+    ];
+
+    routes.forEach(function (r, i) {
+      var g = svg.append("g").attr("transform", "translate(" + r.x + ",170)");
+      g.append("rect")
+        .attr("x", -110)
+        .attr("y", -70)
+        .attr("width", 220)
+        .attr("height", 140)
+        .attr("rx", 2)
+        .attr("fill", i === 1 ? COLORS.negro : COLORS.soft)
+        .attr("stroke", i === 1 ? COLORS.negro : COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .attr("transform", "translate(0,16)")
+        .transition()
+        .delay(tDelay(100 + i * 140))
+        .duration(tDur(450))
+        .attr("opacity", 1)
+        .attr("transform", "translate(0,0)");
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -28)
+        .attr("fill", i === 1 ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 17)
+        .attr("opacity", 0)
+        .text(r.label)
+        .transition()
+        .delay(tDelay(160 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 4)
+        .attr("fill", i === 1 ? "rgba(255,255,255,0.8)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .attr("opacity", 0)
+        .text(r.sub)
+        .transition()
+        .delay(tDelay(200 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 36)
+        .attr("fill", i === 1 ? COLORS.primary : COLORS.primaryDark)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 12)
+        .attr("opacity", 0)
+        .text(r.gap)
+        .transition()
+        .delay(tDelay(240 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+    });
+
+    label(svg, 460, 320, "Fine-tune no sustituye un índice fresco; RAG no enseña un schema", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 780,
+    });
+  }
+
   /** Pipeline post-entrenamiento: Pretrain → SFT → Alineación. */
   function vizPosttrainPipeline(el) {
     var w = 920;
@@ -1595,6 +1673,7 @@
     "canary-deploy": vizCanaryDeploy,
     "obs-layers": vizObsLayers,
     "posttrain-pipeline": vizPosttrainPipeline,
+    "adapt-routes": vizAdaptRoutes,
   };
 
   function mount(el) {

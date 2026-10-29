@@ -18,7 +18,8 @@ export type VizId =
   | "ci-pipeline"
   | "canary-deploy"
   | "obs-layers"
-  | "posttrain-pipeline";
+  | "posttrain-pipeline"
+  | "adapt-routes";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
