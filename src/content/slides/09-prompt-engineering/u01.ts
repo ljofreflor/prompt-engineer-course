@@ -15,7 +15,7 @@ export const slides: Slide[] = [
     items: [
       "El lenguaje natural no tiene semántica precisa.",
       "El destinatario no es determinista.",
-      "No hay compilador que rechace una especificación mal formada.",
+      "El prompt es una capa: el contexto de inferencia también incluye tools, retrieval e historial.",
       "La disciplina viene del método, no de la herramienta.",
     ],
   },
@@ -55,6 +55,13 @@ export const slides: Slide[] = [
     title: "Seis capas de la especificación",
     viz: "prompt-anatomy",
     caption: "La tarea es el núcleo; el resto acota semántica, riesgo y parseo.",
+  },
+  {
+    type: "viz",
+    kicker: "Marco",
+    title: "Prompt ⊂ contexto de inferencia",
+    viz: "context-stack",
+    caption: "Escribir el prompt es necesario; curar qué entra al contexto cada turno es el siguiente oficio.",
   },
   {
     type: "bullets",

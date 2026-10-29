@@ -2815,6 +2815,92 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Prompt ⊂ contexto: system, tools/MCP, retrieval, historial, turno usuario. */
+  function vizContextStack(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("El prompt es una capa del contexto de inferencia");
+
+    var layers = [
+      { label: "System / instrucciones", note: "prompt base", fill: COLORS.negro, ink: COLORS.white },
+      { label: "Tools · MCP · schemas", note: "capacidades", fill: COLORS.soft, ink: COLORS.negro },
+      { label: "Retrieval / evidencias", note: "hechos externos", fill: COLORS.soft, ink: COLORS.negro },
+      { label: "Historial · memoria", note: "estado multi-turno", fill: COLORS.soft, ink: COLORS.negro },
+      { label: "Turno del usuario", note: "pedido actual", fill: COLORS.primary, ink: COLORS.white },
+    ];
+    var boxW = 520;
+    var boxH = 44;
+    var gap = 10;
+    var totalH = layers.length * boxH + (layers.length - 1) * gap;
+    var startY = (h - totalH) / 2;
+    var x = (w - boxW) / 2 - 40;
+    var nodes = [];
+
+    layers.forEach(function (L, i) {
+      var y = startY + i * (boxH + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + "," + y + ")");
+      g.append("rect")
+        .attr("width", boxW)
+        .attr("height", boxH)
+        .attr("rx", 2)
+        .attr("fill", L.fill)
+        .attr("stroke", L.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 18)
+        .attr("y", 28)
+        .attr("fill", L.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .text(L.label);
+      g.append("text")
+        .attr("x", boxW - 18)
+        .attr("y", 28)
+        .attr("text-anchor", "end")
+        .attr("fill", L.fill === COLORS.soft ? COLORS.primary : L.fill === COLORS.negro ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.9)")
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .attr("font-weight", 600)
+        .text(L.note);
+      nodes.push(g.node());
+    });
+
+    var brace = svg
+      .append("text")
+      .attr("x", x + boxW + 36)
+      .attr("y", startY + totalH / 2 + 6)
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 14)
+      .attr("opacity", 0)
+      .text("ventana")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes, { opacity: 1, duration: 0.3, stagger: 0.08 }, 0.05).to(
+        brace,
+        { opacity: 1, duration: 0.25 },
+        0.55
+      );
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 90))
+          .duration(tDur(320))
+          .attr("opacity", 1);
+      });
+      d3.select(brace).transition().delay(tDelay(550)).duration(tDur(280)).attr("opacity", 1);
+    }
+  }
+
   /** Escalera de cuantización: FP16 → INT8 → INT4 (memoria ↓, riesgo de calidad ↑). */
   function vizQuantLadder(el) {
     cineManual(el);
@@ -3325,6 +3411,7 @@
     "lora-adapters": vizLoraAdapters,
     "openness-axes": vizOpennessAxes,
     "quant-ladder": vizQuantLadder,
+    "context-stack": vizContextStack,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

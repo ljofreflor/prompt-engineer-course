@@ -65,7 +65,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - **Clase = atractivo funcional, no tip deck ni showreel:** cada unidad debe tener **más** slides `type: "viz"` (objetivo: ≥1 diagrama conceptual fuerte por bloque de 60 min cuando el tema lo admite). Motion dirigido (beats, hold, revelación) solo para aclarar el concepto; si distrae, recortar. D3 = geometría/datos; GSAP = timing. Barra: legible en proyección de magíster, no slideware SaaS ni motion-design reel
 - D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting. One idea per viz — sparse, large type, readable from the back row
 - Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`)
-- Available viz ids: `react-loop`, `prompt-anatomy`, `prompt-sensitivity`, `cot-verify`, `injection-surface`, `automation-levels`, `abstain-escalate`, `lost-middle`, `sft-align`, `lora-adapters`, `openness-axes`, `quant-ladder`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers` — **expand the registry** when adding concepts; do not leave theory-only blocks without a visual
+- Available viz ids: `react-loop`, `prompt-anatomy`, `prompt-sensitivity`, `cot-verify`, `injection-surface`, `automation-levels`, `abstain-escalate`, `lost-middle`, `sft-align`, `lora-adapters`, `openness-axes`, `quant-ladder`, `context-stack`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers` — **expand the registry** when adding concepts; do not leave theory-only blocks without a visual
 - Thesis slides: keep stack/tool paths out of the hero bullets — put Colab/HF/LM in `Lab:` prose or práctica; otherwise the portada reads like a tooling dump
 - Slide bullets stay human prose — no bare repo paths or hash URLs as list items (put links in `Lab:` prose or unit pages)
 - D3 / GSAP motion must respect `prefers-reduced-motion: reduce` (`tDelay`/`tDur` → 0; kill timelines)
@@ -126,6 +126,27 @@ Prioritize loop work by **lowest level first**, then by course order 08→11. Do
 
 Screenshot title + section + content; verify Corporativo/Roboto, `.slide-topbar`, no purple/tech-dark. Log in `tmp/reveal-uai-critique.md`; promote durable rules here.
 
+## Market differentiation (avance gradual)
+
+Objetivo: magíster que forme gente que **lleva GenAI a producción con criterio** (no short-course de tips). Competencia: DL.AI (labs cortos), HF (open models), Stanford CS329Z / Anthropic (agentes + context engineering), bootcamps con capstone. Demanda LATAM: AI fluency × rediseño de procesos + gobernanza (McKinsey / avisos Chile).
+
+Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño de esta lista (rotar; no intentar todo de golpe). Marcar progreso en `tmp/market-backlog.md` (gitignored); promover a durable aquí solo cuando el patrón ya está en el repo.
+
+| # | Tema | Qué hacer poco a poco | Dónde toca |
+|--:|------|----------------------|------------|
+| 1 | Capstone transversal 08→11 | Un deliverable de cohorte: problema real → design doc (10) + RAG/agente (09) + make/buy·costo (08) + deploy/obs (11); rúbrica + demo/portfolio | `labs/`, páginas unidad, cierre de cursos |
+| 2 | Context engineering | Prompt ⊂ contexto (tools, memoria, retrieval, historial, MCP). Renombrar/anclar hilo en 09 sin tirar u01–u02; ≥1 viz nuevo cuando el concepto lo pida | decks 09, `reveal-viz.js`, copy tesis |
+| 3 | Eval-first | Cada lab: golden set chico + rúbrica (calidad / formato / seguridad / costo) + regresión al cambiar modelo/prompt. Método del programa, no solo 09/u02·u06 | `labs/**`, slides evaluación, `/herramientas` |
+| 4 | Labs cero fricción | `make lab` / 1 comando; evidencia (run + screenshot) en `/herramientas`; antes/después en clase | `labs/`, Makefile, evidencia pública |
+| 5 | Casos Chile / LATAM | Misma teoría OA; escenarios minería, retail, banca, sector público, español/legal, datos sensibles — valor = rediseño de flujo, no la tool | decks `Teoría`/`Taller`, labs |
+| 6 | Competency matrix | Literacidad → labs por rol → certificación con artefacto (prompt versionado, trayectoria, design doc, runbook) | página programa / profesor, rúbricas |
+| 7 | Changelog trimestral | Página o sección “Qué cambió este trimestre” (modelos, MCP, fallas multiagente, papers nuevos) alimentada por bib + compliance | sitio, `references/` |
+| 8 | Atractivo = claridad | Viz que enseña en ~30 s; 1 idea; motion sobrio UAI — no más slides ornamentales | L4 + densidad viz (≥1 por bloque cuando el tema admite) |
+| 9 | Abierto ↔ cerrado | Criterio soberanía / costo / riesgo con evidencia (08/u03–u04); no “solo GPT” | decks 08, labs dual-stack |
+| 10 | Señal externa | Invitados (1/curso), demos de cohorte, defensa pública del design doc, papers OA como sello | ops académicas + sitio |
+
+Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar citas ni papers para “rellenar” casos LATAM.
+
 ## Continuous improvement (coursebuild loop)
 
 Every loop tick should:
@@ -133,5 +154,6 @@ Every loop tick should:
 1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗)
 2. Screenshot + critique one Reveal clase vs UAI brand (L4); fix the highest-severity issue
 3. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
-4. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion) — short bullet under the right section; do not dump tick noise here
-5. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`)
+4. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md`
+5. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion, market pattern shipped) — short bullet under the right section; do not dump tick noise here
+6. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/market-backlog.md`)
