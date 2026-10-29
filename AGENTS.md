@@ -77,12 +77,13 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Unit copy: `src/content/units/` · Reveal overrides: `src/content/slides/<course>/<unit>.ts`
 - Labs under `labs/`; LM Studio default `http://localhost:1234` (OpenAI-compatible). Prefer `content` then fall back to `reasoning_content` for models that only emit reasoning
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
+- **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
 
 ## Continuous improvement (coursebuild loop)
 
 Every loop tick should:
 
 1. Screenshot + critique one Reveal clase vs UAI brand; fix the highest-severity issue
-2. Advance e2e gaps (units / decks / labs)
+2. Advance e2e gaps (units / decks / labs) **y huecos de teoría/citas** (Lecturas + claims citados; bajar papers OA si faltan)
 3. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, deploy check) — short bullet under the right section; do not dump tick noise here
 4. Build + push if there are repo changes; never version `tmp/`

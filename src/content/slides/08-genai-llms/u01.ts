@@ -39,10 +39,10 @@ export const slides: Slide[] = [
     kicker: "Arquitectura",
     title: "Piezas que importan en clase",
     items: [
-      "Modelado autorregresivo: P(x_t | x_<t).",
-      "Atención y costo cuadrático con la longitud.",
+      "Modelado autorregresivo: P(x_t | x_<t) (Brown et al., 2020).",
+      "Atención y costo O(n²) con la longitud (Vaswani et al., 2017).",
       "Decoder-only vs encoder: implicancias de uso.",
-      "KV-cache: por qué el prefijo se reutiliza.",
+      "KV-cache: por qué el prefijo se reutiliza en decode.",
     ],
   },
   {
@@ -53,9 +53,29 @@ export const slides: Slide[] = [
     caption: "Cada token condiciona al siguiente; un error temprano se propaga.",
   },
   {
+    type: "bullets",
+    kicker: "Teoría",
+    title: "Qué fijó el transformer",
+    items: [
+      "Vaswani et al. (2017): atención como mecanismo central, sin recurrencia.",
+      "El paralelismo en entrenamiento no elimina el costo cuadrático en contexto.",
+      "En clase usamos decoder-only: generación condicionada al prefijo.",
+    ],
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Tokenización y contexto",
+  },
+  {
+    type: "bullets",
+    kicker: "Evidencia",
+    title: "Lost in the middle",
+    items: [
+      "Liu et al. (2024): el desempeño cae cuando la evidencia está en el medio del contexto.",
+      "Implicancia: más tokens ≠ mejor retrieval si el orden es malo.",
+      "Diseño: poner lo crítico al inicio/fin o recuperar menos y mejor.",
+    ],
   },
   {
     type: "bullets",
@@ -65,7 +85,6 @@ export const slides: Slide[] = [
       "Mismo párrafo en español vs inglés: conteo de tokens.",
       "Números y nombres propios: fragmentación.",
       "Ventana de contexto y degradación por posición.",
-      "Lost in the middle: evidencia Liu et al. (2024).",
     ],
   },
   {
@@ -102,10 +121,20 @@ export const slides: Slide[] = [
     kicker: "Leyes",
     title: "Cómputo, datos y parámetros",
     items: [
-      "Kaplan / Chinchilla: asignación de cómputo.",
-      "Más parámetros ≠ mejor para tu tarea sin evaluación.",
+      "Kaplan / Chinchilla: asignación de cómputo entre tamaño y tokens.",
+      "Más parámetros ≠ mejor para tu tarea sin evaluación de dominio.",
       "Cuantización local: trade-off calidad/latencia/VRAM.",
       "Taller: registrar temperature/top_p × diversidad en 10 corridas.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Vaswani et al. (2017), Attention Is All You Need — vaswani2017attention",
+      "Liu et al. (2024), Lost in the Middle — liu2024lostmiddle",
+      "Brown et al. (2020) §§1–3 — brown2020fewshot (marco autorregresivo)",
     ],
   },
   {

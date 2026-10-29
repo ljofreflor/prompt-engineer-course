@@ -46,9 +46,9 @@ export const slides: Slide[] = [
     kicker: "Base",
     title: "Objetivo auto-supervisado",
     items: [
-      "Corpus, filtrado, contaminación de benchmarks.",
-      "Capacidades emergentes vs mitos de marketing.",
-      "Límite: el pretrain no garantiza obediencia a tu schema.",
+      "Brown et al. (2020): el LM aprende a continuar; el few-shot emerge del pretrain.",
+      "Corpus, filtrado y contaminación de benchmarks son riesgos de validez.",
+      "Límite: el pretrain no garantiza obediencia a tu schema ni a políticas.",
     ],
   },
   {
@@ -58,12 +58,22 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "InstructGPT en una diapositiva",
+    items: [
+      "Ouyang et al. (2022): SFT + RLHF mejora seguimiento de instrucciones vs GPT-3.",
+      "La etiqueta humana define el objetivo; sesgos del labeler entran al modelo.",
+      "Qué se gana: formato, tareas, estilo. Qué no: hechos frescos ni abstención garantizada.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Instrucción",
     title: "De continuación a seguimiento",
     items: [
-      "Datos de instrucción (humanos / sintéticos / destilación).",
-      "Qué se gana: formato, tareas, estilo.",
-      "Qué no se gana: hechos frescos ni garantías de abstención.",
+      "Datos de instrucción: humanos, sintéticos o destilación.",
+      "Evaluar con set de dominio, no solo con demos de chat.",
+      "Si el fallo es de conocimiento fresco → no es (solo) un problema de SFT.",
     ],
   },
   {
@@ -73,12 +83,22 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
-    kicker: "Preferencias",
-    title: "RLHF, DPO y trade-offs",
+    kicker: "Teoría",
+    title: "RLHF vs DPO",
     items: [
-      "Modelo de recompensa vs optimización directa.",
-      "Impuesto de alineación, complacencia, sesgo de longitud.",
-      "Constitutional / principios: otra vía, mismos trade-offs.",
+      "RLHF: modelo de recompensa + política (pipeline largo, inestable).",
+      "Rafailov et al. (2023) DPO: optimiza preferencias sin entrenar reward explícito.",
+      "Trade-offs comunes: impuesto de alineación, complacencia, sesgo de longitud.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Preferencias",
+    title: "Qué diagnosticar en clase",
+    items: [
+      "¿El modelo “no sabe” o “no quiere” (preferencia / rechazo)?",
+      "Constitutional / principios: otra vía, mismos trade-offs de especificación.",
+      "Atribuir el síntoma a pretrain / SFT / alineación antes de “más prompt”.",
     ],
   },
   {
@@ -95,6 +115,16 @@ export const slides: Slide[] = [
       "API cerrada para comparación (clave de equipo).",
       "LM Studio si cae la cuota GPU — contenido de U5.",
       "Detalle del stack en la página Herramientas (curso 08).",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Ouyang et al. (2022), InstructGPT — ouyang2022instruct",
+      "Rafailov et al. (2023), DPO — rafailov2023dpo",
+      "Brown et al. (2020) §§1–3 — brown2020fewshot",
     ],
   },
   {
