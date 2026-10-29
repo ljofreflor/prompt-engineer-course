@@ -37,11 +37,25 @@ def load_cases():
     return cases
 
 
+def extract_json(raw: str) -> dict:
+    text = raw.strip()
+    if text.startswith("```"):
+        # quita fence ```json ... ```
+        parts = text.split("```")
+        text = parts[1] if len(parts) > 1 else text
+        if text.lstrip().lower().startswith("json"):
+            text = text.lstrip()[4:]
+    start, end = text.find("{"), text.rfind("}")
+    if start < 0 or end <= start:
+        raise ValueError("no json object")
+    return json.loads(text[start : end + 1])
+
+
 def score_case(c: dict, raw: str) -> dict:
     dims = {d: 0 for d in RUBRIC_DIMS}
     obj = None
     try:
-        obj = json.loads(raw[raw.find("{") : raw.rfind("}") + 1])
+        obj = extract_json(raw)
         dims["formato"] = 1
     except Exception:
         return {"id": c["id"], "ok": False, "dims": dims, "raw": raw[:160], "obj": None}
@@ -64,7 +78,11 @@ def main() -> int:
     results = []
     passed = 0
     for c in cases:
-        raw = chat([{"role": "user", "content": prompt + (c["input"] or "(vacío)")}], temperature=0)
+        raw = chat(
+            [{"role": "user", "content": prompt + (c["input"] or "(vacío)")}],
+            temperature=0,
+            max_tokens=1024,
+        )
         row = score_case(c, raw)
         passed += int(row["ok"])
         d = row["dims"]

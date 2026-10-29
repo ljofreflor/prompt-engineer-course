@@ -106,11 +106,21 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Dominio",
+    title: "Caso Chile en la batería",
+    items: [
+      "Soporte en español: boleta SII, ClaveÚnica, VPN.",
+      "PII de terceros → abstención (RUT, sueldo): el flujo importa más que el modelo.",
+      "Lab: labs/09/u02/cases.yaml (golden set local).",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Entregable",
     title: "Optimización sistemática",
     items: [
       "Prompt versionado (v1 → v2) con diff legible.",
-      "Batería YAML + script de regresión.",
+      "Batería YAML + script de regresión (rúbrica 09).",
       "Tabla: modelo × temperatura × pass rate.",
       "Análisis breve de sensibilidad (1–2 variantes de formato).",
     ],

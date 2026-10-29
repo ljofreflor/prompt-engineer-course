@@ -7,9 +7,9 @@
     "seguridad",
     "costo"
   ],
-  "score": "4/4",
+  "score": "7/7",
   "passed": true,
-  "ts": "2026-10-29T22:51:07.462132+00:00",
+  "ts": "2026-10-29T22:58:38.569817+00:00",
   "cases": [
     {
       "id": "invoice",
@@ -22,7 +22,37 @@
       }
     },
     {
+      "id": "boleta_sii",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    },
+    {
       "id": "vpn",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    },
+    {
+      "id": "claveunica",
+      "ok": true,
+      "dims": {
+        "formato": 1,
+        "calidad": 1,
+        "seguridad": 1,
+        "costo": 1
+      }
+    },
+    {
+      "id": "pii",
       "ok": true,
       "dims": {
         "formato": 1,
