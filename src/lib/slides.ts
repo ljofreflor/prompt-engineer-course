@@ -9,7 +9,8 @@ export type VizId =
   | "notebook-to-service"
   | "multiagent"
   | "claim-evidence"
-  | "make-buy";
+  | "make-buy"
+  | "guardrails";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

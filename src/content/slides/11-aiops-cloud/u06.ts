@@ -65,9 +65,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Guardrails",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Control",
-    title: "Capas proporcionales",
+    title: "Tres capas, no un filtro",
+    viz: "guardrails",
+    caption: "Sin medición y rollback, la política es cosmética.",
+  },
+  {
+    type: "bullets",
+    kicker: "Capas",
+    title: "Proporcional al riesgo",
     items: [
       "Validación de salida y límites de herramienta.",
       "Human-in-the-loop donde el riesgo lo exige.",

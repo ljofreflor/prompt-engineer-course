@@ -405,6 +405,69 @@
     });
   }
 
+  /** Guardrails = política + medición + rollback (capas). */
+  function vizGuardrails(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Guardrails: política, medición y rollback");
+
+    var layers = [
+      { y: 70, label: "Política", sub: "límites · schema · herramientas", fill: COLORS.negro, ink: COLORS.white },
+      { y: 170, label: "Medición", sub: "sample · jueces · señales de deriva", fill: COLORS.soft, ink: COLORS.negro },
+      { y: 270, label: "Rollback", sub: "pin · canaria atrás · degradación", fill: COLORS.soft, ink: COLORS.negro },
+    ];
+
+    layers.forEach(function (L, i) {
+      svg
+        .append("rect")
+        .attr("x", 120)
+        .attr("y", L.y)
+        .attr("width", 680)
+        .attr("height", 78)
+        .attr("rx", 2)
+        .attr("fill", L.fill)
+        .attr("stroke", i === 0 ? COLORS.negro : COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .attr("transform", "translate(0,18)")
+        .transition()
+        .delay(tDelay(120 * i))
+        .duration(tDur(480))
+        .attr("opacity", 1)
+        .attr("transform", "translate(0,0)");
+      svg
+        .append("text")
+        .attr("x", 460)
+        .attr("y", L.y + 32)
+        .attr("text-anchor", "middle")
+        .attr("fill", L.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .attr("opacity", 0)
+        .text(L.label)
+        .transition()
+        .delay(tDelay(160 + 120 * i))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      svg
+        .append("text")
+        .attr("x", 460)
+        .attr("y", L.y + 56)
+        .attr("text-anchor", "middle")
+        .attr("fill", i === 0 ? "rgba(255,255,255,0.75)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .attr("opacity", 0)
+        .text(L.sub)
+        .transition()
+        .delay(tDelay(220 + 120 * i))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+    });
+  }
+
   /** Make vs buy: local · híbrido · managed bajo un contrato portable. */
   function vizMakeBuy(el) {
     var w = 920;
@@ -709,6 +772,7 @@
     multiagent: vizMultiagent,
     "claim-evidence": vizClaimEvidence,
     "make-buy": vizMakeBuy,
+    guardrails: vizGuardrails,
   };
 
   function mount(el) {
