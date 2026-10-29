@@ -61,17 +61,27 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Curso 08–11 Reveal overrides are complete (`08` through `u07`; `09`–`11` through `u06`) — rotate critique; prefer visual polish + labs over new skeleton decks
 - Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `22ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
 - Reveal arrow controls stay low-opacity until hover so they don’t fight the UAI chrome in projection
-- D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Prefer a few concept diagrams with enter transitions over decorating every slide. Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting
-- Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`). Keep diagrams sparse — one idea per viz
-- Available viz ids: `react-loop`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers`
+- **Clase = cine ilustrado, no tip deck:** cada unidad debe tener **más** slides `type: "viz"` (objetivo: ≥1 diagrama conceptual fuerte por bloque de 60 min cuando el tema lo admite). La animación debe sentirse dirigida (beats claros, hold, revelación), no un fade genérico de cajas. D3 sigue siendo el motor de geometría/datos; la barra de calidad es “proyección de magíster”, no slideware SaaS
+- D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting. One idea per viz — sparse, large type, readable from the back row
+- Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`)
+- Available viz ids: `react-loop`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers` — **expand the registry** when adding concepts; do not leave theory-only blocks without a visual
 - Slide bullets stay human prose — no bare repo paths or hash URLs as list items (put links in `Lab:` prose or unit pages)
-- D3 enter animations respect `prefers-reduced-motion: reduce` (`tDelay`/`tDur` → 0)
+- D3 / GSAP motion must respect `prefers-reduced-motion: reduce` (`tDelay`/`tDur` → 0; kill timelines)
 - Clase page loads `reveal-uai.css` and `reveal-viz.js` with `?v=<sha1-8>` from file contents so Pages/CDN do not keep stale theme or D3 registry after deploy
 
-## Reveal transitions
+### Motion stack (cine) — D3 + complements
 
-- Deck transition stays `fade` (institutional, not flashy)
-- Motion lives inside D3 viz (staggered enter) — that is the intentional motion budget for classes
+Deck transition stays `fade` (institutional). **All cinematic motion lives inside viz**, not in Reveal transitions.
+
+| Role | Library | Why |
+|------|---------|-----|
+| Geometry / data → SVG | **D3** (already) | Scales, joins, paths, force; source of truth for diagrams |
+| Timeline / choreography | **GSAP** (add) | Cinematic beats, stagger, scrub-free timelines that D3 transitions alone do poorly; pairs with SVG nodes D3 creates |
+| Path morph between states | **flubber** or GSAP MorphSVG | “Before → after” architecture morphs (RAG stages, train/serve) without redrawing from scratch |
+| Authored hero moments (optional) | **lottie-web** / DotLottie | 1–2 signature loops designed in AE/Rive when code-drawn SVG is too costly — still UAI colors only |
+| Avoid for clase projection | Three.js / particles / WebGL glow | Hard to read in bright rooms; fights UAI light institutional look unless a rare 3D-teaching exception |
+
+Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add libraries that pull purple/dark “AI product” aesthetics. Vendor under `public/vendor/` like D3; initialize after `load` with `is:inline`.
 
 ## Content model
 
