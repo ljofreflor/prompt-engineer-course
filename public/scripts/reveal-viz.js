@@ -405,6 +405,108 @@
     });
   }
 
+  /** Train/serve skew: dos caminos de features que divergen. */
+  function vizTrainServeSkew(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Train/serve skew: features distintas en entrenamiento y servicio");
+
+    var cols = [
+      { x: 220, title: "Train", items: ["feature A", "feature B", "label t+k"], ink: COLORS.negro },
+      { x: 700, title: "Serve", items: ["feature A′", "feature B?", "score ahora"], ink: COLORS.negro },
+    ];
+
+    cols.forEach(function (c, ci) {
+      svg
+        .append("rect")
+        .attr("x", c.x - 130)
+        .attr("y", 56)
+        .attr("width", 260)
+        .attr("height", 240)
+        .attr("rx", 2)
+        .attr("fill", COLORS.soft)
+        .attr("stroke", COLORS.primary)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .transition()
+        .delay(tDelay(80 + ci * 160))
+        .duration(tDur(450))
+        .attr("opacity", 1);
+      svg
+        .append("text")
+        .attr("x", c.x)
+        .attr("y", 92)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .attr("opacity", 0)
+        .text(c.title)
+        .transition()
+        .delay(tDelay(140 + ci * 160))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+
+      c.items.forEach(function (t, i) {
+        svg
+          .append("rect")
+          .attr("x", c.x - 100)
+          .attr("y", 118 + i * 52)
+          .attr("width", 200)
+          .attr("height", 40)
+          .attr("rx", 2)
+          .attr("fill", ci === 1 && i > 0 ? COLORS.white : COLORS.white)
+          .attr("stroke", ci === 1 && i > 0 ? COLORS.negro : COLORS.primary)
+          .attr("stroke-width", ci === 1 && i > 0 ? 1.5 : 1.5)
+          .attr("stroke-dasharray", ci === 1 && i > 0 ? "5 4" : null)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(220 + ci * 120 + i * 80))
+          .duration(tDur(350))
+          .attr("opacity", 1);
+        svg
+          .append("text")
+          .attr("x", c.x)
+          .attr("y", 144 + i * 52)
+          .attr("text-anchor", "middle")
+          .attr("fill", COLORS.negro)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", 14)
+          .attr("font-weight", 500)
+          .attr("opacity", 0)
+          .text(t)
+          .transition()
+          .delay(tDelay(260 + ci * 120 + i * 80))
+          .duration(tDur(350))
+          .attr("opacity", 1);
+      });
+    });
+
+    svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 180)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .attr("opacity", 0)
+      .text("≠ skew")
+      .transition()
+      .delay(tDelay(700))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+
+    label(svg, 460, 330, "Unificar el cálculo de features es el remedio de arquitectura", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 900,
+    });
+  }
+
   /** Pipeline RAG como patrón de arquitectura. */
   function vizRagPipeline(el) {
     var w = 920;
@@ -1107,6 +1209,7 @@
     "reliability-product": vizReliabilityProduct,
     "decision-chain": vizDecisionChain,
     "rag-pipeline": vizRagPipeline,
+    "train-serve-skew": vizTrainServeSkew,
   };
 
   function mount(el) {

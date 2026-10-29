@@ -13,7 +13,8 @@ export type VizId =
   | "guardrails"
   | "reliability-product"
   | "decision-chain"
-  | "rag-pipeline";
+  | "rag-pipeline"
+  | "train-serve-skew";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

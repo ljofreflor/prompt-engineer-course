@@ -51,9 +51,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Train/serve",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Skew",
-    title: "Formas típicas",
+    title: "Misma feature, dos mundos",
+    viz: "train-serve-skew",
+    caption: "Código o datos distintos entre entrenamiento y servicio = falla silenciosa.",
+  },
+  {
+    type: "bullets",
+    kicker: "Formas",
+    title: "Cómo aparece el desalineamiento",
     items: [
       "Dos bases de código para features.",
       "Features no disponibles en inferencia.",
@@ -90,7 +97,7 @@ export const slides: Slide[] = [
       "Contratos del caso propio.",
       "Puntos de desalineación potencial.",
       "Versionar en Git; diagramar con Mermaid/draw.io.",
-      "/herramientas/#curso-10",
+      "Stack local del curso: página Herramientas, sección curso 10.",
     ],
   },
   {

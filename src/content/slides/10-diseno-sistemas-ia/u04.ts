@@ -87,7 +87,7 @@ export const slides: Slide[] = [
       "Caminos de corrección y escalamiento.",
       "Registro técnico + de cumplimiento.",
       "Diagramar el flujo en el design doc.",
-      "/herramientas/#curso-10",
+      "Stack local del curso: página Herramientas, sección curso 10.",
     ],
   },
   {
