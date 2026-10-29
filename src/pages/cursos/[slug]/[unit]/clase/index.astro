@@ -138,24 +138,38 @@ const fonts = {
         }
       </div>
     </div>
-    <script src={asset("vendor/reveal/reveal.js")}></script>
+    {/* is:inline obligatorio: Astro vacía <script src> procesados y Reveal nunca carga. */}
+    <script is:inline src={asset("vendor/reveal/reveal.js")}></script>
     <script is:inline>
-      window.addEventListener("load", function () {
-        if (!window.Reveal) return;
-        var deck = new window.Reveal({
-          hash: true,
-          slideNumber: "c/t",
-          controls: true,
-          progress: true,
-          center: false,
-          transition: "fade",
-          backgroundTransition: "fade",
-          width: 1280,
-          height: 720,
-          margin: 0.08,
-        });
-        deck.initialize();
-      });
+      (function bootReveal() {
+        function start() {
+          if (!window.Reveal || typeof window.Reveal.initialize !== "function") {
+            console.error("Reveal.js no cargó (window.Reveal ausente).");
+            document.body.insertAdjacentHTML(
+              "afterbegin",
+              '<p style="color:#fff;padding:2rem;font:16px system-ui">No se pudo cargar Reveal.js. Recargá o revisá /vendor/reveal/reveal.js.</p>',
+            );
+            return;
+          }
+          // Reveal 4/5: Reveal.initialize(config) — no `new Reveal(config)`.
+          window.Reveal.initialize({
+            hash: true,
+            slideNumber: "c/t",
+            controls: true,
+            progress: true,
+            center: false,
+            transition: "fade",
+            backgroundTransition: "fade",
+            width: 1280,
+            height: 720,
+            margin: 0.08,
+          }).catch(function (err) {
+            console.error("Reveal.initialize falló", err);
+          });
+        }
+        if (document.readyState === "complete") start();
+        else window.addEventListener("load", start);
+      })();
     </script>
   </body>
 </html>
