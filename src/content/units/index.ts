@@ -413,7 +413,11 @@ const units08: UnitContent[] = [
         body: "Contexto largo vs RAG; medición comparativa.",
       },
     ],
-    readings: ["Liu et al. (2024) — liu2024lostmiddle"],
+    readings: [
+      "Liu et al. (2024) — liu2024lostmiddle",
+      "Lewis et al. (2020) — lewis2020rag",
+      "Dettmers et al. (2023) — dettmers2023qlora",
+    ],
   },
   {
     courseSlug: "08-genai-llms",

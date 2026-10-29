@@ -73,6 +73,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Cuantización como trade-off",
+    items: [
+      "Dettmers et al. (2023) QLoRA: cuantizar pesos libera VRAM para adaptar.",
+      "En inferencia: menor precisión ↔ más throughput / menos memoria.",
+      "La calidad se mide en el set propio, no en el claim del blog.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Palancas",
     title: "Cuantización, batching, tamaño",
     items: [
@@ -88,12 +98,32 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Contexto largo no sustituye retrieval",
+    items: [
+      "Liu et al. (2024): desempeño cae cuando la evidencia está “en el medio”.",
+      "Lewis et al. (2020): RAG separa índice actualizable de generación.",
+      "Costo: tokens de contexto vs retrieve + prompt corto — medir en la misma tarea.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Eval 2",
     title: "Contexto largo vs RAG",
     items: [
       "Lost-in-the-middle y saturación de atención.",
       "Costo de contexto vs índice recuperable.",
       "Medición comparativa en la misma tarea.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Liu et al. (2024), Lost in the Middle — liu2024lostmiddle",
+      "Lewis et al. (2020), RAG — lewis2020rag",
+      "Dettmers et al. (2023), QLoRA — dettmers2023qlora",
     ],
   },
   {
