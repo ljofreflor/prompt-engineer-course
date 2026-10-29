@@ -20,7 +20,8 @@ export type VizId =
   | "obs-layers"
   | "posttrain-pipeline"
   | "adapt-routes"
-  | "cost-crossover";
+  | "cost-crossover"
+  | "latency-ttft-tpot";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

@@ -35,8 +35,15 @@ export const slides: Slide[] = [
     subtitle: "60 min — Latencia",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Anatomía",
+    title: "TTFT y TPOT no son lo mismo",
+    viz: "latency-ttft-tpot",
+    caption: "Chat siente TTFT; batch y streaming largos viven en TPOT.",
+  },
+  {
+    type: "bullets",
+    kicker: "Producto",
     title: "Prefill vs decode",
     items: [
       "Qué siente el usuario en chat vs batch.",

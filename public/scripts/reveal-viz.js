@@ -405,6 +405,134 @@
     });
   }
 
+  /** Latencia de inferencia: TTFT (prefill) vs TPOT (decode). */
+  function vizLatencyTtftTpot(el) {
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("TTFT es prefill; TPOT es el ritmo de decode token a token");
+
+    var y = 160;
+    var x0 = 80;
+    var prefillW = 220;
+    var decodeW = 520;
+
+    svg
+      .append("rect")
+      .attr("x", x0)
+      .attr("y", y - 36)
+      .attr("width", prefillW)
+      .attr("height", 72)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro)
+      .attr("opacity", 0)
+      .transition()
+      .delay(tDelay(80))
+      .duration(tDur(450))
+      .attr("opacity", 1);
+    svg
+      .append("text")
+      .attr("x", x0 + prefillW / 2)
+      .attr("y", y - 4)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .attr("opacity", 0)
+      .text("Prefill")
+      .transition()
+      .delay(tDelay(140))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+    svg
+      .append("text")
+      .attr("x", x0 + prefillW / 2)
+      .attr("y", y + 22)
+      .attr("text-anchor", "middle")
+      .attr("fill", "rgba(255,255,255,0.75)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("TTFT")
+      .transition()
+      .delay(tDelay(180))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+
+    svg
+      .append("rect")
+      .attr("x", x0 + prefillW + 24)
+      .attr("y", y - 36)
+      .attr("width", decodeW)
+      .attr("height", 72)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.primary)
+      .attr("stroke-width", 2)
+      .attr("opacity", 0)
+      .transition()
+      .delay(tDelay(280))
+      .duration(tDur(450))
+      .attr("opacity", 1);
+    svg
+      .append("text")
+      .attr("x", x0 + prefillW + 24 + decodeW / 2)
+      .attr("y", y - 4)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .attr("opacity", 0)
+      .text("Decode")
+      .transition()
+      .delay(tDelay(340))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+    svg
+      .append("text")
+      .attr("x", x0 + prefillW + 24 + decodeW / 2)
+      .attr("y", y + 22)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("TPOT × tokens out")
+      .transition()
+      .delay(tDelay(380))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+
+    // token ticks on decode
+    for (var i = 0; i < 8; i++) {
+      svg
+        .append("line")
+        .attr("x1", x0 + prefillW + 50 + i * 58)
+        .attr("y1", y + 48)
+        .attr("x2", x0 + prefillW + 50 + i * 58)
+        .attr("y2", y + 48)
+        .attr("stroke", COLORS.primary)
+        .attr("stroke-width", 3)
+        .transition()
+        .delay(tDelay(450 + i * 60))
+        .duration(tDur(250))
+        .attr("y2", y + 62);
+    }
+
+    label(svg, 460, 80, "Tiempo de una generación", {
+      size: 14,
+      weight: 700,
+      delay: 100,
+    });
+    label(svg, 460, 280, "Optimizar solo TTFT no arregla un stream lento", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 900,
+    });
+  }
+
   /** Punto de cruce de costo: API variable vs local con idle. */
   function vizCostCrossover(el) {
     var w = 920;
@@ -1771,6 +1899,7 @@
     "posttrain-pipeline": vizPosttrainPipeline,
     "adapt-routes": vizAdaptRoutes,
     "cost-crossover": vizCostCrossover,
+    "latency-ttft-tpot": vizLatencyTtftTpot,
   };
 
   function mount(el) {
