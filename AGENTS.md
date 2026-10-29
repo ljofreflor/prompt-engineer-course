@@ -51,6 +51,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - After visual changes: screenshot title + section + bullets locally; then verify live Pages once deploy lands (CDP/`getComputedStyle` on `h1` ≈ 80px and `.slide-topbar` present)
 - `devToolbar.enabled: false` in `astro.config.mjs` — keeps clase screenshots clean; re-enable temporarily if debugging Astro islands
 - Prose paragraphs that start with `Lab:` render as `.uai-lab` (mono + soft strip); keep lab paths in that form in slide copy
+- Never use a filesystem path as the slide `title` / h2 — human title in Corporativo; path only in a `Lab:` prose line
 - Critique log (scratch): `tmp/reveal-uai-critique.md` — promote durable lessons into **this file**
 - Keep Reveal overrides registered in `src/content/slides/index.ts` whenever adding `uNN.ts` decks; pair with `src/content/units` blocks when the unit page should show full syllabus copy
 - Content `h2` needs a wider measure (~32ch) than section heroes (~16ch); long Spanish titles otherwise wrap mid-phrase and look broken

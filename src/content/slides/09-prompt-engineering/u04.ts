@@ -80,10 +80,11 @@ export const slides: Slide[] = [
   {
     type: "prose",
     kicker: "Lab vivo",
-    title: "labs/09/u04/run_agent.py",
+    title: "Agente ReAct mínimo",
     paragraphs: [
       "Contra LM Studio gemma-4-e4b: lee readme.txt del sandbox, calcula 17+25 y cierra con finish.",
       "Traza observada: file_read → calculator → finish. FINAL OK en ≤4 pasos.",
+      "Lab: labs/09/u04/run_agent.py",
     ],
   },
   {

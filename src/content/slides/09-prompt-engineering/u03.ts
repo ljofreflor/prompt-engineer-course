@@ -85,11 +85,11 @@ export const slides: Slide[] = [
   {
     type: "prose",
     kicker: "Lab vivo",
-    title: "labs/09/u03/run_verify.py",
+    title: "Razonar y verificar afuera",
     paragraphs: [
       "Paso 1: modelo resuelve con pasos breves + respuesta final numérica.",
       "Paso 2: verificación programática (eval de expresión) — no confiar solo en el texto.",
-      "Correr contra LM Studio en localhost:1234.",
+      "Lab: labs/09/u03/run_verify.py",
     ],
   },
   {
