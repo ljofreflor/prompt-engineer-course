@@ -29,7 +29,8 @@ export type VizId =
   | "cot-verify"
   | "injection-surface"
   | "automation-levels"
-  | "abstain-escalate";
+  | "abstain-escalate"
+  | "lost-middle";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

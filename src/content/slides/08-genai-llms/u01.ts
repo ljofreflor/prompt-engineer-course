@@ -78,6 +78,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Dónde poner la evidencia",
+    viz: "lost-middle",
+    caption: "Inicio y fin se usan mejor; el medio es el punto ciego típico.",
+  },
+  {
     type: "bullets",
     kicker: "Práctica",
     title: "Lo que se mide en el lab",

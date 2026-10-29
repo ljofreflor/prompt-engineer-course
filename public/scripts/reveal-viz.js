@@ -2742,6 +2742,78 @@
     }
   }
 
+  /** Lost in the middle: uso del contexto por posición (Liu et al.). */
+  function vizLostMiddle(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Uso del contexto: peor en el medio");
+
+    var zones = [
+      { label: "Inicio", x: 120, h: 180, fill: COLORS.primary },
+      { label: "Medio", x: 360, h: 90, fill: COLORS.soft },
+      { label: "Final", x: 600, h: 165, fill: COLORS.primary },
+    ];
+    var bars = [];
+    var baseY = 260;
+
+    zones.forEach(function (z) {
+      var g = svg.append("g");
+      g.append("rect")
+        .attr("x", z.x)
+        .attr("y", baseY - z.h)
+        .attr("width", 160)
+        .attr("height", z.h)
+        .attr("rx", 2)
+        .attr("fill", z.fill)
+        .attr("stroke", z.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", z.x + 80)
+        .attr("y", baseY + 28)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .text(z.label);
+      bars.push(g.node());
+    });
+
+    var note = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Más contexto no basta si lo crítico queda en el valle")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(bars, { opacity: 0 });
+      tl.to(bars, { opacity: 1, duration: 0.4, stagger: 0.14 }, 0.06).to(
+        note,
+        { opacity: 1, duration: 0.35 },
+        0.55
+      );
+    } else {
+      bars.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 120))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      d3.select(note).transition().delay(tDelay(500)).duration(tDur(350)).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -2750,6 +2822,7 @@
     "injection-surface": vizInjectionSurface,
     "automation-levels": vizAutomationLevels,
     "abstain-escalate": vizAbstainEscalate,
+    "lost-middle": vizLostMiddle,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
