@@ -40,7 +40,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 ### Reveal lessons learned
 
 - Astro strips/bundling can drop plain `<script src>` for Reveal UMD — load with `<script is:inline src=…>` and call `Reveal.initialize()` after `load`
-- We ship `reveal.css` **without** a stock Reveal theme — set explicit `font-size` on `h1`/`h2`/`h3` in `reveal-uai.css`; CSS variables `--r-heading*-size` alone will leave titles at body size (~32px)
+- We ship `reveal.css` **without** a stock Reveal theme — set `.reveal { font-size: var(--r-main-font-size); }` **and** explicit `font-size` on `h1`/`h2`/`h3`. Variables alone do nothing; without `.reveal` font-size, `em` on headings collapses to the 16px root
 - LM Studio / Gemma reasoning: prefer `message.content`, fall back to `reasoning_content` (see `labs/09/common.py` and `labs/smoke_local.py`)
 - Do **not** put chrome inside scaled `.slides section` (`position:absolute; bottom:0` sits mid-slide). Use **fixed** viewport topbar/footer outside Reveal
 - Section slides: kicker = `Bloque N · tiempo`; hero h2 = topic name — never make “Bloque N” the visual hero
