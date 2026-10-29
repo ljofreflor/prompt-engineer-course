@@ -87,7 +87,7 @@ export const slides: Slide[] = [
       "Colab/Kaggle para demos con pesos abiertos (HF).",
       "API cerrada para comparación (clave de equipo).",
       "LM Studio si cae la cuota GPU — contenido de U5.",
-      "Ver /herramientas/#curso-08",
+      "Detalle del stack en la página Herramientas (curso 08).",
     ],
   },
   {

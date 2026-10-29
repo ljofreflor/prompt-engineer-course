@@ -87,7 +87,7 @@ export const slides: Slide[] = [
       "Presupuestos de error.",
       "Alertas sin fatiga.",
       "Manual de operación e incidentes.",
-      "Dashboards nativos de AWS/Azure/GCP — /herramientas/#curso-11",
+      "Dashboards nativos de AWS/Azure/GCP (página Herramientas, curso 11).",
     ],
   },
   {

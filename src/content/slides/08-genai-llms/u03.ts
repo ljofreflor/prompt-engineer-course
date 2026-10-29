@@ -71,7 +71,7 @@ export const slides: Slide[] = [
       "Volumen mínimo y calidad de datos.",
       "Evaluación post-ajuste vs baseline por instrucción.",
       "Olvido catastrófico: medir tareas de control.",
-      "Colab/Kaggle + HF — /herramientas/#curso-08",
+      "Colab/Kaggle + HF (página Herramientas, curso 08).",
     ],
   },
   {

@@ -99,7 +99,7 @@ export const slides: Slide[] = [
     title: "Labs locales medibles",
     src: "labs/screenshots/lab-u01-lmstudio-result.png",
     alt: "Evidencia lab local",
-    caption: "Sin datos productivos · ver /herramientas/#curso-09",
+    caption: "Sin datos productivos · stack en Herramientas (curso 09)",
   },
   {
     type: "title",
