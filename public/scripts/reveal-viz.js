@@ -2815,6 +2815,122 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Escalera de cuantización: FP16 → INT8 → INT4 (memoria ↓, riesgo de calidad ↑). */
+  function vizQuantLadder(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Cuantización: menos bits, menos memoria, más riesgo de calidad");
+
+    var steps = [
+      { bits: "FP16", mem: "baseline", risk: "calidad ref.", fill: COLORS.negro, ink: COLORS.white },
+      { bits: "INT8", mem: "memoria ↓", risk: "caída leve", fill: COLORS.soft, ink: COLORS.negro },
+      { bits: "INT4", mem: "memoria ↓↓", risk: "medir set", fill: COLORS.primary, ink: COLORS.white },
+    ];
+    var cardW = 200;
+    var gap = 40;
+    var startX = (w - (steps.length * cardW + (steps.length - 1) * gap)) / 2;
+    var nodes = [];
+    var arrows = [];
+
+    steps.forEach(function (s, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",70)");
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 200)
+        .attr("rx", 2)
+        .attr("fill", s.fill)
+        .attr("stroke", s.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 58)
+        .attr("text-anchor", "middle")
+        .attr("fill", s.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 26)
+        .text(s.bits);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 110)
+        .attr("text-anchor", "middle")
+        .attr("fill", s.fill === COLORS.primary ? "rgba(255,255,255,0.9)" : s.fill === COLORS.negro ? "rgba(255,255,255,0.85)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 15)
+        .text(s.mem);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 150)
+        .attr("text-anchor", "middle")
+        .attr("fill", s.fill === COLORS.soft ? COLORS.primary : s.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 14)
+        .text(s.risk);
+      nodes.push(g.node());
+
+      if (i < steps.length - 1) {
+        var ax = x + cardW + gap / 2;
+        var arrow = svg
+          .append("text")
+          .attr("x", ax)
+          .attr("y", 180)
+          .attr("text-anchor", "middle")
+          .attr("fill", COLORS.gray)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-weight", 800)
+          .attr("font-size", 24)
+          .attr("opacity", 0)
+          .text("→")
+          .node();
+        arrows.push(arrow);
+      }
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 320)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Dettmers et al. 2023 — el claim de blog no reemplaza tu set de evaluación")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes.concat(arrows), { opacity: 0 });
+      tl.to(nodes[0], { opacity: 1, duration: 0.35 }, 0.05)
+        .to(arrows[0], { opacity: 1, duration: 0.2 }, 0.3)
+        .to(nodes[1], { opacity: 1, duration: 0.35 }, 0.4)
+        .to(arrows[1], { opacity: 1, duration: 0.2 }, 0.65)
+        .to(nodes[2], { opacity: 1, duration: 0.35 }, 0.75)
+        .to(foot, { opacity: 1, duration: 0.3 }, 1.05);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(80 + i * 180))
+          .duration(tDur(380))
+          .attr("opacity", 1);
+      });
+      arrows.forEach(function (a, i) {
+        d3.select(a)
+          .transition()
+          .delay(tDelay(160 + i * 180))
+          .duration(tDur(250))
+          .attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(700)).duration(tDur(300)).attr("opacity", 1);
+    }
+  }
+
   /** Apertura ≠ booleano: pesos, código, datos, licencia (Bommasani et al. 2021). */
   function vizOpennessAxes(el) {
     cineManual(el);
@@ -3208,6 +3324,7 @@
     "sft-align": vizSftAlign,
     "lora-adapters": vizLoraAdapters,
     "openness-axes": vizOpennessAxes,
+    "quant-ladder": vizQuantLadder,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

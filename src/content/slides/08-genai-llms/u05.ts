@@ -82,6 +82,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Precisión ↔ memoria",
+    viz: "quant-ladder",
+    caption: "Bajar bits libera VRAM; la calidad se valida en el set propio.",
+  },
+  {
     type: "bullets",
     kicker: "Palancas",
     title: "Cuantización, batching, tamaño",

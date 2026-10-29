@@ -33,7 +33,8 @@ export type VizId =
   | "lost-middle"
   | "sft-align"
   | "lora-adapters"
-  | "openness-axes";
+  | "openness-axes"
+  | "quant-ladder";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
