@@ -405,6 +405,94 @@
     });
   }
 
+  /** CI mínimo: lint → test → smoke → gate. */
+  function vizCiPipeline(el) {
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Pipeline CI: lint, test, smoke y gate");
+
+    var steps = [
+      { x: 120, label: "Lint", sub: "estilo" },
+      { x: 320, label: "Test", sub: "unidad" },
+      { x: 520, label: "Smoke", sub: "/health" },
+      { x: 720, label: "Gate", sub: "pasar / fallar" },
+    ];
+
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "uai-arrow-ci")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", COLORS.primary);
+
+    steps.forEach(function (s, i) {
+      var last = i === steps.length - 1;
+      var g = svg.append("g").attr("transform", "translate(" + s.x + ",150)");
+      g.append("circle")
+        .attr("r", 0)
+        .attr("fill", last ? COLORS.negro : COLORS.primary)
+        .transition()
+        .delay(tDelay(100 + i * 140))
+        .duration(tDur(400))
+        .attr("r", 20);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -48)
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .attr("opacity", 0)
+        .text(s.label)
+        .transition()
+        .delay(tDelay(160 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", 52)
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .attr("opacity", 0)
+        .text(s.sub)
+        .transition()
+        .delay(tDelay(200 + i * 140))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+
+      if (i < steps.length - 1) {
+        svg
+          .append("line")
+          .attr("x1", s.x + 26)
+          .attr("y1", 150)
+          .attr("x2", s.x + 26)
+          .attr("y2", 150)
+          .attr("stroke", COLORS.primary)
+          .attr("stroke-width", 2.5)
+          .attr("marker-end", "url(#uai-arrow-ci)")
+          .transition()
+          .delay(tDelay(220 + i * 140))
+          .duration(tDur(380))
+          .attr("x2", steps[i + 1].x - 26);
+      }
+    });
+
+    label(svg, 460, 280, "LM Studio puede ser el backend del smoke — sin cloud de pago", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 800,
+    });
+  }
+
   /** Train/serve skew: dos caminos de features que divergen. */
   function vizTrainServeSkew(el) {
     var w = 920;
@@ -1210,6 +1298,7 @@
     "decision-chain": vizDecisionChain,
     "rag-pipeline": vizRagPipeline,
     "train-serve-skew": vizTrainServeSkew,
+    "ci-pipeline": vizCiPipeline,
   };
 
   function mount(el) {

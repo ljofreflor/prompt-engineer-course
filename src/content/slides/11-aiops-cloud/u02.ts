@@ -51,8 +51,15 @@ export const slides: Slide[] = [
     subtitle: "60 min — CI",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Gates",
+    title: "Pipeline mínimo que puede fallar",
+    viz: "ci-pipeline",
+    caption: "Sin smoke de health, el build verde no garantiza servicio usable.",
+  },
+  {
+    type: "bullets",
+    kicker: "Checks",
     title: "Qué debe fallar el pipeline",
     items: [
       "Lint / unit tests del wrapper.",
@@ -87,7 +94,8 @@ export const slides: Slide[] = [
     kicker: "Lab",
     title: "Smoke del health wrapper",
     paragraphs: [
-      "Reusar labs/11/u01/health_wrapper.py en un job CI o script local.",
+      "Reusar el health wrapper del lab 11/u01 en un job CI o script local.",
+      "Lab: labs/11/u01/health_wrapper.py",
       "Gate: status=ok y latencia de chat bajo umbral acordado.",
     ],
   },

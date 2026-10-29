@@ -14,7 +14,8 @@ export type VizId =
   | "reliability-product"
   | "decision-chain"
   | "rag-pipeline"
-  | "train-serve-skew";
+  | "train-serve-skew"
+  | "ci-pipeline";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
