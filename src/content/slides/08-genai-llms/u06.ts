@@ -73,6 +73,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "LLM-as-a-judge",
+    items: [
+      "Zheng et al. (2023): MT-Bench / Arena — el juez LLM se acerca al humano, con sesgos.",
+      "Sesgos documentados: posición, longitud, auto-preferencia de familia.",
+      "Mitigar: swap de orden, rúbricas, y medir concordancia humano–juez.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "LLM-as-judge",
     title: "Sesgos y concordancia",
     items: [
@@ -94,6 +104,14 @@ export const slides: Slide[] = [
       "Definición operativa + umbral.",
       "Sensibilidad al prompt de evaluación.",
       "Puente a labs del curso 09 (salida estructurada).",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Zheng et al. (2023), Judging LLM-as-a-Judge — zheng2023judge",
     ],
   },
   {
