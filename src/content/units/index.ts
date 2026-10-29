@@ -749,8 +749,8 @@ const units11: UnitContent[] = [
       },
     ],
     readings: [
-      "Kreuzberger et al. (2023), MLOps overview",
-      "Breck et al. (2017), ML test score",
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Breck et al. (2017) — breck2017mltest",
     ],
     lab: {
       title: "Lab — healthcheck local",
@@ -788,8 +788,8 @@ const units11: UnitContent[] = [
       },
     ],
     readings: [
-      "Kreuzberger et al. (2023)",
-      "Beyer et al. (2016), SRE — capítulos de release engineering (complementaria)",
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Beyer et al. (2016), SRE — beyer2016sre (caps. release; OA sre.google)",
     ],
     lab: {
       title: "Lab — smoke CI local",
@@ -827,8 +827,9 @@ const units11: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022), caps. 7 y 9",
-      "Burns et al. (2022) — complementaria",
+      "Huyen (2022), caps. 7 y 9 — huyen2022designing",
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Burns et al. — burns2022kubernetes (complementaria)",
     ],
     lab: {
       title: "Lab — contenedor del healthcheck",
@@ -866,8 +867,8 @@ const units11: UnitContent[] = [
       },
     ],
     readings: [
-      "Gama et al. (2014)",
-      "Beyer et al. (2016), caps. 4 y 6",
+      "Gama et al. (2014) — gama2014conceptdrift",
+      "Beyer et al. (2016), caps. 4 y 6 — beyer2016sre",
     ],
   },
   {
@@ -901,7 +902,7 @@ const units11: UnitContent[] = [
       },
     ],
     readings: [
-      "Kreuzberger et al. (2023)",
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
       "Documentación de programas académicos cloud (verificar al dictado)",
     ],
   },
@@ -936,8 +937,9 @@ const units11: UnitContent[] = [
       },
     ],
     readings: [
-      "Huyen (2022), caps. de serving y monitoreo",
-      "Material del curso 09 (evaluación agéntica) — puente",
+      "Huyen (2022) — huyen2022designing (serving / monitoreo)",
+      "Kapoor et al. (2024) — kapoor2024agents",
+      "Greshake et al. (2023) — greshake2023injection",
     ],
   },
 ];

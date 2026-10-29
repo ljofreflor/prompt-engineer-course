@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "CI/CD como principio MLOps",
+    items: [
+      "Kreuzberger et al. (2023): automatización CI/CD es principio P1 de MLOps.",
+      "Beyer et al. (2016), SRE — release engineering: el artefacto debe ser promovible y reversible.",
+      "Sin smoke de health, el build verde no garantiza servicio usable.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Imagen",
     title: "Qué entra en el artefacto",
     items: [
@@ -106,6 +116,15 @@ export const slides: Slide[] = [
     src: "labs/screenshots/lmstudio-server-status.png",
     alt: "Servidor LM Studio",
     caption: "Smoke sin proveedor cloud · localhost:1234",
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Beyer et al. (2016), SRE — beyer2016sre (caps. release; texto OA en sre.google)",
+    ],
   },
   {
     type: "title",

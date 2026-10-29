@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Plataforma = trade-off",
+    items: [
+      "Kreuzberger et al. (2023): roles y componentes — decidir qué externalizar.",
+      "Make vs buy se decide por NFR (latencia, costo, compliance, equipo), no por moda.",
+      "Portabilidad = contratos (API, artefactos), no fe en un vendor.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Oferta",
     title: "Qué suele estar gestionado",
     items: [
@@ -94,6 +104,15 @@ export const slides: Slide[] = [
       "Caso: servicio de chat interno con PII.",
       "Tabla: managed vs local+CI vs híbrido.",
       "Plan de salida de 90 días si el vendor falla.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Documentación de programas académicos cloud (verificar al dictado)",
     ],
   },
   {

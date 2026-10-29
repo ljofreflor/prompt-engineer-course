@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Serving desde NFR",
+    items: [
+      "Huyen (2022), caps. 7 y 9: el patrón de servicio se deriva de latencia/costo/volumen.",
+      "Kreuzberger et al. (2023): serving y deployment son componentes del mapa MLOps.",
+      "Promoción/reversión automáticas — no chat bajo presión.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Serving",
     title: "Dimensionamiento",
     items: [
@@ -107,6 +117,16 @@ export const slides: Slide[] = [
     src: "labs/screenshots/lmstudio-server-status.png",
     alt: "LM Studio server status",
     caption: "Misma API OpenAI-compatible que el serving en nube",
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Huyen (2022), caps. 7 y 9 — huyen2022designing",
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Burns et al. — burns2022kubernetes (complementaria; conceptos, no admin)",
+    ],
   },
   {
     type: "title",

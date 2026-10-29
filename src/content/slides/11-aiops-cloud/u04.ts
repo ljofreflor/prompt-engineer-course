@@ -35,6 +35,16 @@ export const slides: Slide[] = [
     subtitle: "60 min — Dos capas",
   },
   {
+    type: "bullets",
+    kicker: "Teoría",
+    title: "Falla silenciosa y dos capas",
+    items: [
+      "Beyer et al. (2016), SRE caps. 4 y 6: SLOs y error budgets — alertas accionables.",
+      "Observabilidad de servicio ≠ del modelo: uptime verde con preds sesgadas = falla silenciosa.",
+      "Gama et al. (2014): concept drift — cambia P(y|x); hay que detectar y adaptar.",
+    ],
+  },
+  {
     type: "viz",
     kicker: "Instrumentación",
     title: "Dos capas que no se sustituyen",
@@ -55,6 +65,16 @@ export const slides: Slide[] = [
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Deriva",
+  },
+  {
+    type: "bullets",
+    kicker: "Teoría",
+    title: "Concept drift",
+    items: [
+      "Gama et al. (2014): tipología y estrategias de adaptación ante deriva.",
+      "Covariables / objetivo / concepto — no confundir con estacionalidad.",
+      "Etiqueta tardía → indicadores sustitutos y muestreo para etiquetado.",
+    ],
   },
   {
     type: "bullets",
@@ -95,6 +115,15 @@ export const slides: Slide[] = [
       "Alertas sin fatiga.",
       "Manual de operación e incidentes.",
       "Dashboards nativos de AWS/Azure/GCP (página Herramientas, curso 11).",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Gama et al. (2014) — gama2014conceptdrift",
+      "Beyer et al. (2016), SRE caps. 4 y 6 — beyer2016sre (OA en sre.google)",
     ],
   },
   {

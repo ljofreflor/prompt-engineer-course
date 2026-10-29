@@ -156,5 +156,23 @@
   "parasuraman2000automation": {
     "title": "Types and Levels of Human Interaction with Automation",
     "url": "https://annieburke.com/research/assets/sheridan-autonomy.pdf"
+  },
+  "kreuzberger2023mlops": {
+    "title": "MLOps Overview",
+    "eprint": "2205.02302",
+    "url": "https://arxiv.org/abs/2205.02302"
+  },
+  "gama2014conceptdrift": {
+    "title": "Concept Drift Adaptation Survey",
+    "url": "https://eprints.bournemouth.ac.uk/22491/"
+  },
+  "beyer2016sre": {
+    "title": "Site Reliability Engineering",
+    "url": "https://sre.google/sre-book/table-of-contents/",
+    "note": "book chapters OA on sre.google"
+  },
+  "burns2022kubernetes": {
+    "title": "Kubernetes Up and Running",
+    "note": "book \u2014 not OA; cite concepts only"
   }
 }

@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Operar incertidumbre acotada",
+    items: [
+      "Huyen (2022): serving y monitoreo — costo/latencia son variables de producto.",
+      "Kapoor et al. (2024): medir agentes/sistemas por costo, no solo success rate.",
+      "Greshake et al. (2023): contenido externo amplía superficie — guardrails fuera del prompt.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Costo",
     title: "Tokens como unidad operativa",
     items: [
@@ -94,6 +104,16 @@ export const slides: Slide[] = [
       "Síntomas: alza de costo, caída de parseo, quejas de tono.",
       "Acciones: pin de prompt/modelo, canaria atrás, postmortem.",
       "Puente al design doc del curso 10.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Huyen (2022) — huyen2022designing (serving / monitoreo)",
+      "Kapoor et al. (2024) — kapoor2024agents",
+      "Greshake et al. (2023) — greshake2023injection; puente eval agéntica (curso 09)",
     ],
   },
   {

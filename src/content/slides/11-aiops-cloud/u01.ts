@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "MLOps: del experimento al producto",
+    items: [
+      "Kreuzberger et al. (2023): MLOps = principios + componentes + roles para operar ML.",
+      "Breck et al. (2017): readiness exige tests de datos/modelo/serving — no solo “corre en mi laptop”.",
+      "Producción = contrato de reproducibilidad (código, datos, pesos, config).",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Pérdidas",
     title: "Qué se rompe al salir del notebook",
     items: [
@@ -95,6 +105,15 @@ export const slides: Slide[] = [
       "Latencia de un chat mínimo.",
       "Versión del servicio en la respuesta.",
       "Sin exponer API keys reales.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Kreuzberger et al. (2023) — kreuzberger2023mlops",
+      "Breck et al. (2017) — breck2017mltest",
     ],
   },
   {
