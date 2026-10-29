@@ -362,6 +362,31 @@ body {
   max-width: 52ch;
 }
 
+/* Ilustraciones D3 */
+.reveal .slides section.slide-viz h2 {
+  margin-bottom: 0.35em;
+}
+
+.reveal .uai-viz {
+  width: 100%;
+  height: 380px;
+  margin: 0.15em 0 0.2em;
+  background: var(--uai-blanco);
+  border: 1px solid var(--uai-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.reveal .uai-viz svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.reveal .uai-viz text {
+  pointer-events: none;
+}
+
 .reveal .slides section .fragment {
   opacity: 0.15;
 }

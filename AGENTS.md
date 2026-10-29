@@ -58,6 +58,12 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Curso 08–11 Reveal overrides are complete (`08` through `u07`; `09`–`11` through `u06`) — rotate critique; prefer visual polish + labs over new skeleton decks
 - Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `16ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
 - Reveal arrow controls stay low-opacity until hover so they don’t fight the UAI chrome in projection
+- D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Prefer a few concept diagrams with enter transitions over decorating every slide. Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting
+
+## Reveal transitions
+
+- Deck transition stays `fade` (institutional, not flashy)
+- Motion lives inside D3 viz (staggered enter) — that is the intentional motion budget for classes
 
 ## Content model
 

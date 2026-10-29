@@ -46,6 +46,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Del cuaderno al servicio",
+    viz: "notebook-to-service",
+    caption: "Cada flecha exige artefacto versionado; el notebook solo no es desplegable.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Artefactos",

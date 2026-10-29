@@ -46,6 +46,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Generación token a token",
+    viz: "autoregressive",
+    caption: "Cada token condiciona al siguiente; un error temprano se propaga.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Tokenización y contexto",

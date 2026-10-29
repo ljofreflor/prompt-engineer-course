@@ -138,6 +138,16 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
                 </section>
               );
             }
+            if (s.type === "viz") {
+              return (
+                <section class="slide-content slide-viz" data-background-color="#ffffff">
+                  {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
+                  <h2>{s.title}</h2>
+                  <div class="uai-viz" data-viz={s.viz} aria-label={s.title}></div>
+                  {s.caption && <p class="uai-muted slide-caption">{s.caption}</p>}
+                </section>
+              );
+            }
             return (
               <section class="slide-content slide-prose" data-background-color="#ffffff">
                 {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
@@ -152,6 +162,8 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
       </div>
     </div>
     <script is:inline src={asset("vendor/reveal/reveal.js")}></script>
+    <script is:inline src={asset("vendor/d3/d3.min.js")}></script>
+    <script is:inline src={asset("scripts/reveal-viz.js")}></script>
     <script is:inline>
       (function bootReveal() {
         function start() {
@@ -167,12 +179,19 @@ function sectionParts(s: Extract<Slide, { type: "section" }>) {
             center: false,
             transition: "fade",
             backgroundTransition: "fade",
+            transitionSpeed: "default",
             width: 1280,
             height: 720,
             margin: 0.04,
-          }).catch(function (err) {
-            console.error("Reveal.initialize falló", err);
-          });
+          })
+            .then(function () {
+              if (window.UaiRevealViz && typeof window.UaiRevealViz.scan === "function") {
+                window.UaiRevealViz.scan(document);
+              }
+            })
+            .catch(function (err) {
+              console.error("Reveal.initialize falló", err);
+            });
         }
         if (document.readyState === "complete") start();
         else window.addEventListener("load", start);

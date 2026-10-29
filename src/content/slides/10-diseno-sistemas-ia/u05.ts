@@ -45,6 +45,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Tres niveles que no coinciden solos",
+    viz: "eval-levels",
+    caption: "Una métrica de componente buena puede fallar a nivel sistema u organización.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Online",

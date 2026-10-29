@@ -46,6 +46,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "El loop con presupuesto",
+    viz: "react-loop",
+    caption: "Thought → Action → Observation; Finish sale del ciclo con tope de pasos/tiempo/costo.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Tools",

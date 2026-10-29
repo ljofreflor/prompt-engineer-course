@@ -1,6 +1,13 @@
 import type { Program, ProgramUnit } from "../data/programs";
 import type { Course } from "../data/courses";
 
+/** Claves registradas en public/scripts/reveal-viz.js */
+export type VizId =
+  | "react-loop"
+  | "autoregressive"
+  | "eval-levels"
+  | "notebook-to-service";
+
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
   | { type: "bullets"; kicker?: string; title: string; items: string[] }
@@ -12,6 +19,13 @@ export type Slide =
       title: string;
       src: string;
       alt: string;
+      caption?: string;
+    }
+  | {
+      type: "viz";
+      kicker?: string;
+      title: string;
+      viz: VizId;
       caption?: string;
     };
 
