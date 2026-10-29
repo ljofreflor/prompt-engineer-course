@@ -1,0 +1,86 @@
+---
+import StudentLayout from "../../../../layouts/StudentLayout.astro";
+import TeacherGate from "../../../../components/TeacherGate.astro";
+import { courses, getCourse } from "../../../../data/courses";
+import { getUnitContent } from "../../../../content/units";
+
+export function getStaticPaths() {
+  return courses.flatMap((c) =>
+    c.units.map((u) => ({ params: { slug: c.slug, unit: u.id } })),
+  );
+}
+
+const course = getCourse(Astro.params.slug!);
+if (!course) throw new Error("curso");
+const unitMeta = course.units.find((u) => u.id === Astro.params.unit);
+if (!unitMeta) throw new Error("unit");
+const content = getUnitContent(course.slug, unitMeta.id);
+const base = import.meta.env.BASE_URL;
+---
+<StudentLayout title={`Guion · ${unitMeta.title}`} current="profesor">
+  <TeacherGate>
+    <section class="section">
+      <div class="container prose">
+        <p>
+          <a href={`${base}profesor/cursos/${course.slug}/`}>← Material docente curso {course.code}</a>
+        </p>
+        <span class="badge">Guion profesor · {unitMeta.id.toUpperCase()}</span>
+        <h1>{unitMeta.title}</h1>
+
+        <h2>Objetivo de la sesión</h2>
+        <p>{unitMeta.summary}</p>
+
+        <h2>Guion por bloques</h2>
+        {
+          content ? (
+            content.blocks.map((b, i) => (
+              <div>
+                <h3>
+                  Bloque {i + 1} — {b.title} ({b.minutes} min)
+                </h3>
+                <p>{b.body}</p>
+                <ul>
+                  <li>
+                    <strong>Demo viva:</strong> proyectar un caso corto; pedir predicción de la
+                    falla antes de correr el modelo.
+                  </li>
+                  <li>
+                    <strong>Pregunta disparadora:</strong> “¿Qué evidencia descartaría tu
+                    intuición sobre este prompt/agente?”
+                  </li>
+                  <li>
+                    <strong>Contingencia:</strong> si cae el proveedor cloud, usar LM Studio /
+                    Ollama; comparar calidad es contenido, no fracaso.
+                  </li>
+                </ul>
+              </div>
+            ))
+          ) : (
+            <p class="note">Guion detallado pendiente; usar syllabus en programs/ mientras tanto.</p>
+          )
+        }
+
+        {
+          content?.lab && (
+            <>
+              <h2>Claves del taller (no proyectar)</h2>
+              <p>{content.lab.body}</p>
+              <ul>
+                <li>Exigir batería de casos antes de “se ve bien”.</li>
+                <li>Registrar modelo, temperatura y seed/config en el informe.</li>
+                <li>Rechazar entregas sin tope de iteraciones/costo/tiempo en agentes.</li>
+              </ul>
+            </>
+          )
+        }
+
+        <h2>Checklist cierre</h2>
+        <ul>
+          <li>Articulación con la unidad siguiente / curso vecino.</li>
+          <li>Recordar lectura previa de la próxima sesión.</li>
+          <li>Recoger dudas sobre lab autónomo.</li>
+        </ul>
+      </div>
+    </section>
+  </TeacherGate>
+</StudentLayout>

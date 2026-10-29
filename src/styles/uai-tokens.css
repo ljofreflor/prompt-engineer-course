@@ -1,0 +1,32 @@
+:root {
+  /* Universidad Adolfo Ibáñez — tokens alineados a uai.cl */
+  --uai-blue: #009fe3;
+  --uai-blue-deep: #007fb5;
+  --uai-carbon: #1d1e20;
+  --uai-orange: #ff6500;
+  --uai-magenta: #e6007e;
+  --uai-bg: #ffffff;
+  --uai-bg-soft: #eef3f6;
+  --uai-bg-mute: #aebdc2;
+  --uai-border: #dfe3e6;
+  --uai-slate: #6493b5;
+  --uai-text: #1d1e20;
+  --uai-text-muted: #616365;
+
+  --font-ui: "Roboto", system-ui, sans-serif;
+  --font-body: "Open Sans", system-ui, sans-serif;
+  --font-display: "Young Serif", Georgia, serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius: 2px;
+  --max: 72rem;
+  --header-h: 4.25rem;
+}

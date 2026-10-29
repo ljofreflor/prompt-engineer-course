@@ -1,0 +1,49 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+---
+<StudentLayout title="Herramientas locales — UAI" current="herramientas">
+  <section class="section">
+    <div class="container prose">
+      <h1>Herramientas locales</h1>
+      <p>
+        Los labs priorizan modelos de pesos abiertos en tu máquina vía API compatible con OpenAI.
+        Así podés trabajar sin subir datos sensibles a terceros.
+      </p>
+
+      <h2>1. LM Studio (recomendado)</h2>
+      <ol>
+        <li>Descargá e instalá <a href="https://lmstudio.ai/">LM Studio</a>.</li>
+        <li>Descargá un modelo instruct de tamaño moderado (p.ej. 7B–14B cuantizado).</li>
+        <li>Activá <strong>Local Server</strong> (por defecto <code>http://localhost:1234/v1</code>).</li>
+        <li>Probá: <code>curl http://localhost:1234/v1/models</code></li>
+      </ol>
+
+      <h2>2. Ollama (alternativa)</h2>
+      <ol>
+        <li>Instalá <a href="https://ollama.com/">Ollama</a>.</li>
+        <li><code>ollama pull llama3.2</code> (u otro instruct).</li>
+        <li>API: <code>http://localhost:11434/v1</code> (activar compat OpenAI según versión).</li>
+      </ol>
+
+      <h2>3. Otras</h2>
+      <ul>
+        <li><strong>llama.cpp</strong> — inferencia liviana en CPU/GPU.</li>
+        <li><strong>Open WebUI</strong> — chat UI sobre Ollama/LM Studio.</li>
+      </ul>
+
+      <h2>Variables de entorno para labs</h2>
+      <pre><code>export OPENAI_BASE_URL=http://localhost:1234/v1
+export OPENAI_API_KEY=lm-studio
+export OPENAI_MODEL=local-model</code></pre>
+
+      <h2>Smoke test</h2>
+      <p>Desde la raíz del repo:</p>
+      <pre><code>python labs/smoke_local.py</code></pre>
+
+      <div class="note">
+        Agentes del curso: solo tools sobre sandbox y datos sintéticos. Declará siempre
+        límite de iteraciones, presupuesto y tiempo máximo. Sin credenciales de sistemas productivos.
+      </div>
+    </div>
+  </section>
+</StudentLayout>

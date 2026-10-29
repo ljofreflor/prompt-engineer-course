@@ -1,0 +1,79 @@
+---
+import StudentLayout from "../../../layouts/StudentLayout.astro";
+import { courses, getCourse } from "../../../data/courses";
+import { getUnitContent } from "../../../content/units";
+
+export function getStaticPaths() {
+  return courses.flatMap((c) =>
+    c.units.map((u) => ({
+      params: { slug: c.slug, unit: u.id },
+    })),
+  );
+}
+
+const { slug, unit: unitId } = Astro.params;
+const course = getCourse(slug!);
+if (!course) throw new Error(`Curso no encontrado: ${slug}`);
+const unitMeta = course.units.find((u) => u.id === unitId);
+if (!unitMeta) throw new Error(`Unidad no encontrada: ${unitId}`);
+const content = getUnitContent(course.slug, unitMeta.id);
+const base = import.meta.env.BASE_URL;
+---
+<StudentLayout title={`${unitMeta.title} — ${course.code} UAI`}>
+  <section class="section">
+    <div class="container prose">
+      <p>
+        <a href={`${base}cursos/${course.slug}/`}>← Curso {course.code}</a>
+      </p>
+      <span class="badge">{unitMeta.id.toUpperCase()} · {unitMeta.hours} hrs</span>
+      <h1>{unitMeta.title}</h1>
+      <p>{unitMeta.summary}</p>
+
+      {
+        content ? (
+          <>
+            <h2>Resultados de aprendizaje</h2>
+            <ul>
+              {content.learningOutcomes.map((o) => (
+                <li>{o}</li>
+              ))}
+            </ul>
+            <h2>Estructura de la sesión</h2>
+            {content.blocks.map((b) => (
+              <div>
+                <h3>
+                  {b.title} <small>({b.minutes} min)</small>
+                </h3>
+                <p>{b.body}</p>
+              </div>
+            ))}
+            <h2>Lecturas</h2>
+            <ul>
+              {content.readings.map((r) => (
+                <li>{r}</li>
+              ))}
+            </ul>
+            {content.lab && (
+              <>
+                <h2>{content.lab.title}</h2>
+                <p>{content.lab.body}</p>
+                <p>
+                  Ver <a href={`${base}herramientas/`}>configuración LM Studio / Ollama</a>.
+                </p>
+              </>
+            )}
+          </>
+        ) : (
+          <p class="note">
+            Mapa de unidad publicado. El desarrollo completo de contenidos se irá cargando;
+            el syllabus fuente está en <code>programs/</code>.
+          </p>
+        )
+      }
+
+      <p style="margin-top:2rem">
+        <a href={`${base}profesor/cursos/${course.slug}/${unitMeta.id}/`}>Guion profesor de esta unidad →</a>
+      </p>
+    </div>
+  </section>
+</StudentLayout>

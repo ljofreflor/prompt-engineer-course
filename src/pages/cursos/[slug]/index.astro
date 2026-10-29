@@ -1,0 +1,71 @@
+---
+import StudentLayout from "../../../layouts/StudentLayout.astro";
+import { courses, getCourse } from "../../../data/courses";
+import { getUnitContent } from "../../../content/units";
+
+export function getStaticPaths() {
+  return courses.map((c) => ({ params: { slug: c.slug } }));
+}
+
+const { slug } = Astro.params;
+const course = getCourse(slug!);
+if (!course) throw new Error(`Curso no encontrado: ${slug}`);
+
+const base = import.meta.env.BASE_URL;
+---
+<StudentLayout title={`${course.title} — UAI`} description={course.short}>
+  <section class="section">
+    <div class="container prose">
+      <span class="badge">Curso {course.code}</span>
+      <h1>{course.title}</h1>
+      <p>{course.short}</p>
+      <p class="note">
+        {course.hours} hrs lectivas · {course.autonomousHours} hrs autónomas · {course.credits} créditos
+        {
+          course.status === "skeleton" && (
+            <> · Contenido en desarrollo (syllabus y mapa de unidades publicados)</>
+          )
+        }
+      </p>
+
+      <h2>Unidades</h2>
+      <ul class="unit-list">
+        {
+          course.units.map((u) => {
+            const hasContent = Boolean(getUnitContent(course.slug, u.id));
+            return (
+              <li>
+                <a href={`${base}cursos/${course.slug}/${u.id}/`}>
+                  <strong>
+                    {u.id.toUpperCase()} · {u.title}
+                  </strong>
+                  <span>
+                    {u.hours} hrs — {u.summary}
+                    {!hasContent ? " (resumen)" : ""}
+                  </span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      {
+        course.slug === "09-prompt-engineering" && (
+          <>
+            <h2>Labs y proyecto</h2>
+            <p>
+              Los talleres usan API OpenAI-compatible contra <a href={`${base}herramientas/`}>LM Studio u Ollama</a>.
+              No subir datos personales ni de la organización (Ley 21.719).
+            </p>
+            <ul>
+              <li>Taller 1 — Prompt versionado con pruebas (Sesión 2)</li>
+              <li>Taller 2 — Agente con tools y terminación (Sesión 4)</li>
+              <li>Proyecto final — Sistema multiagente + evaluación de trayectorias</li>
+            </ul>
+          </>
+        )
+      }
+    </div>
+  </section>
+</StudentLayout>

@@ -1,0 +1,255 @@
+SYLLABUS
+MAGÍSTER / DIPLOMADO EN INTELIGENCIA ARTIFICIAL — AÑO 2026
+Asignatura : Generative AI y Large Language Models (28 hrs lectivas, 92 hrs autónomas, 4 créditos)
+Ubicación en la malla : Octavo curso del programa
+Nombre Profesor :
+E-mail :
+1. Introducción
+El curso Generative AI y Large Language Models ocupa el punto de convergencia del arco técnico del programa. Las asignaturas precedentes recorrieron el aprendizaje supervisado, las arquitecturas profundas y sus especializaciones por estructura del dato: visión, lenguaje, decisión secuencial. Este curso introduce el cambio de régimen que atraviesa todas esas modalidades: el paso desde el entrenamiento de un modelo para una tarea hacia la adaptación de un modelo pre-entrenado a escala. Ese desplazamiento no es una técnica más dentro del catálogo; modifica la estructura de costos, la distribución de responsabilidad, la naturaleza del trabajo de ingeniería y el criterio con que se evalúa una solución.
+La tesis que organiza el curso es que el objeto de estudio es el modelo, no la plataforma. Un profesional que trabaja con modelos generativos debe poder responder cuatro preguntas y ninguna de ellas es de infraestructura: qué explica el comportamiento observado de un modelo dado; qué vía de adaptación corresponde a un problema concreto y bajo qué criterio; qué modelo elegir y con qué compromiso de costo, latencia y control; y cómo saber si el resultado es suficientemente bueno para el dominio en que se usará. El curso está construido alrededor de esas cuatro preguntas.
+Esta delimitación es deliberada y responde a un criterio de malla. La construcción de pipelines, la contenerización, la orquestación, la observabilidad instrumentada y las plataformas gestionadas de los tres grandes proveedores corresponden íntegramente a AI.Ops y Sistemas Cloud. El diseño de instrucciones, la coordinación entre agentes y la evaluación de trayectorias agénticas corresponden a Prompt Engineering y Sistemas Multiagentes. La topología del sistema completo —cascadas, ruteo, recuperación aumentada como patrón arquitectónico, degradación elegante— corresponde a Diseño de Sistemas y Aplicaciones de IA. Este curso entrega lo que ninguno de los tres puede entregar: el conocimiento del modelo como artefacto, sus mecanismos, sus modos de falla característicos y los criterios técnicos de su selección y adaptación.
+La segunda característica del curso es su tratamiento de la evaluación. La afirmación de que un modelo es adecuado para un caso de uso rara vez se sostiene en las evaluaciones públicas generalistas, cuya capacidad de predecir desempeño en un dominio específico es limitada y está documentadamente sobrestimada. El curso dedica una unidad completa a la construcción de conjuntos de evaluación propios, al uso de modelos jueces con conocimiento explícito de sus sesgos, y al reconocimiento de que la evaluación de sistemas generativos permanece como problema abierto.
+La tercera característica es el énfasis en el criterio de decisión por sobre el inventario de herramientas. Los modelos, los marcos de trabajo y los precios de este campo cambian en horizonte de meses. Lo que no cambia con esa velocidad es el conjunto de compromisos que estructuran la decisión: control frente a conveniencia, costo fijo frente a costo marginal, capacidad general frente a especialización, calidad frente a latencia. El curso enseña a razonar sobre esos compromisos, y trata las herramientas concretas como ilustración perecible de ellos.
+2. Objetivos de la Asignatura
+Objetivo General
+Desarrollar en el/la estudiante la capacidad de comprender el funcionamiento de los modelos generativos de gran escala, seleccionar el modelo y la vía de adaptación apropiados a un problema concreto, implementar esa adaptación con técnicas eficientes, y evaluar el resultado con instrumentos construidos para el dominio de aplicación.
+Objetivos Específicos
+Al finalizar el curso, el/la estudiante será capaz de:
+	•	Explicar la arquitectura del transformer generativo y los mecanismos que determinan su comportamiento: atención, generación autorregresiva, tokenización y ventana de contexto.
+	•	Describir el pipeline de entrenamiento completo de un modelo de instrucción y atribuir comportamientos observados a etapas específicas de ese pipeline.
+	•	Interpretar las leyes de escalamiento y su papel en la relación entre tamaño del modelo, volumen de datos y cómputo disponible.
+	•	Seleccionar entre prompting, recuperación aumentada y ajuste fino a partir de criterios explícitos de naturaleza del conocimiento requerido, volumen de datos disponibles, costo y control.
+	•	Implementar ajuste fino eficiente en parámetros y cuantización, y evaluar su efecto sobre calidad, memoria y latencia.
+	•	Comparar modelos de pesos abiertos y de acceso cerrado en términos de costo, control, soberanía del dato y dependencia de proveedor.
+	•	Analizar las variables técnicas que determinan el costo y la latencia de la inferencia, y estimar el costo unitario de una operación.
+	•	Construir un conjunto de evaluación específico de un dominio y aplicarlo para decidir entre alternativas de modelo.
+	•	Emplear modelos jueces reconociendo sus sesgos documentados y las condiciones bajo las cuales su resultado es confiable.
+	•	Identificar los modos de falla característicos de los modelos generativos: alucinación, sensibilidad al formato de entrada, memorización del conjunto de entrenamiento y degradación en contextos extensos.
+	•	Justificar una decisión de selección y adaptación de modelo ante una audiencia técnica, con evidencia propia.
+3. Metodología
+Clases online en vivo (Zoom) o híbrida, según la versión del programa, con enfoque teórico-práctico. Cada sesión de cuatro horas combina exposición conceptual, demostración en vivo y trabajo en cuadernos.
+El trabajo práctico se realiza sobre modelos de pesos abiertos de tamaño moderado, ejecutables en entornos de cómputo accesibles, y sobre interfaces de programación de modelos de acceso cerrado. La elección de trabajar con ambos es deliberada: la comparación entre las dos vías es uno de los objetos del curso y no puede enseñarse desde una sola de ellas.
+Las 92 horas autónomas se destinan a la lectura previa, a la ejecución de los cuadernos, a los tres talleres evaluados y al proyecto final. Se advierte a los estudiantes que la construcción del conjunto de evaluación del proyecto final —la actividad de mayor valor formativo del curso— es también la que más tiempo consume y la que con más frecuencia se subestima.
+Requisitos técnicos y plataforma
+Entorno de ejecución. Cuadernos gestionados con cómputo acelerado para el trabajo con modelos de pesos abiertos, e interfaces de programación de proveedores de modelos de acceso cerrado para el trabajo comparativo. La Unidad 4 exige ambos por diseño, ya que la comparación entre vías de aprovisionamiento es uno de los objetos del curso y no puede enseñarse desde una sola de ellas.
+Provisión y costos. La Universidad provee el acceso. El consumo por token opera con clave por equipo, límite de gasto propio por clave y crédito prepagado, no facturación mensual. Los pesos de los modelos abiertos utilizados se alojan en almacenamiento institucional, para evitar descargas repetidas que consumen cuota sin aportar al aprendizaje.
+	•	Datos. No se suben datos personales, confidenciales ni de la organización del estudiante a entornos de terceros. Los trabajos se realizan sobre datos públicos o sintéticos. Cualquier excepción requiere autorización previa de la coordinación y base de licitud declarada conforme a la Ley N° 21.719.
+	•	Ajuste fino con datos internos. La Unidad 7 trata el riesgo de memorización y extracción. Coherentemente, ningún ejercicio de ajuste fino del curso utiliza datos internos sensibles, aunque el estudiante los tenga disponibles.
+Contingencia. Si se agota la cuota de cómputo acelerado o un proveedor presenta indisponibilidad, los ejercicios se ejecutan sobre un modelo abierto de menor tamaño en CPU. La comparación de calidad entre ambas configuraciones es en sí misma contenido de la Unidad 5.
+Control de gasto en plataformas de pago por uso
+Los recursos son provistos por la Universidad. Ningún estudiante recibe permisos de facturación ni acceso a un medio de pago institucional. El control opera por mecanismos que detienen el consumo y no únicamente por alertas, dado que una alerta notifica un gasto que ya ocurrió.
+	•	Prioridad a programas académicos. Se utilizan en primer lugar los programas educacionales de los proveedores, que operan con crédito fijo, sin medio de pago asociado y con detención del servicio al agotarse la asignación.
+	•	Segmentación por equipo. Cuando se requiera una cuenta con facturación, cada equipo opera en un proyecto o subcuenta propia, con presupuesto asignado. El agotamiento de una asignación no afecta a los demás equipos.
+	•	Cuotas de servicio, no alertas. Se restringen por cuota el número y tipo de instancias, las familias de cómputo acelerado y las regiones habilitadas. Lo que la cuota impide no puede aprovisionarse por error.
+	•	Detención automática y apagado programado. Se configura la detención de recursos al alcanzar el umbral de presupuesto y un apagado programado diario. Los recursos se destruyen al cierre del módulo, con acta.
+	•	Gestión de credenciales. No se emiten credenciales de larga duración. La causa habitual de un gasto catastrófico no es el descuido en el uso sino la publicación involuntaria de una credencial en un repositorio; el manejo de secretos se trata como contenido del curso y no como advertencia.
+	•	Supervisión. La coordinación designa un responsable técnico por dictado, distinto del profesor, que revisa el consumo cada 48 horas durante el módulo y ejecuta el cierre de recursos.
+4. Evaluación
+	•	Talleres prácticos (3): 30%
+	•	Evaluación individual escrita: 25%
+	•	Proyecto final grupal — informe de selección y adaptación de modelo: 40%
+	•	Participación: 5%
+El proyecto final toma un caso de uso concreto y produce un informe que debe contener: la caracterización del problema y del conocimiento que requiere; la justificación de la vía de adaptación elegida frente a al menos una alternativa descartada; la implementación de esa adaptación; un conjunto de evaluación construido para el dominio, con su método de construcción documentado; los resultados comparativos entre al menos dos modelos candidatos; la estimación del costo unitario y de la latencia; y la recomendación fundada, con sus limitaciones declaradas.
+	•	Nota mínima de aprobación curso: 4.0 (cuatro coma cero décimas).
+	•	Nota mínima de examen: 3.0 (tres coma cero décimas).
+Asistencia Mínima
+Esta asignatura establece una exigencia de un 75% de la asistencia mínima para modalidad presencial y un 60% para modalidad híbrida u online. Así también, los atrasos de más de 15 minutos serán considerados como inasistencias.
+Reprobación
+En caso de reprobar el curso, el alumno podrá incurrir a una instancia de examen oral o escrito optando a la nota máxima de aprobación del curso de un 4.0 (cuatro coma cero décimas). La fecha de evaluación recuperativa será asignada por la Coordinación Académica en conjunto con el profesor.
+Si el alumno, después de realizar el examen recuperativo, no cumple con alguno de estos dos requisitos, deberá cursar la asignatura en una segunda oportunidad.
+Inasistencia a Evaluaciones
+En caso que el alumno no pueda asistir a una evaluación, deberá justificar con certificado médico o laboral. Si es aceptada su justificación, podrá acceder a una segunda y última instancia de evaluación optando a la nota máxima de aprobación.
+Si la ausencia se produce el día del examen, y ésta no es justificada o es rechazada, el alumno tendrá derecho a rendir una prueba de recuperación, que se realizará el mismo día del examen de repetición, pero optando a la nota máxima de examen de un 4.0 (cuatro coma cero décimas).
+Si el alumno nuevamente está ausente en el examen de repetición, será reprobado del ramo.
+5. Bibliografía
+Bibliografía obligatoria
+Bommasani, R., Hudson, D. A., Adeli, E., Altman, R., Arora, S., von Arx, S., … Liang, P. (2021). On the opportunities and risks of foundation models (arXiv:2108.07258). arXiv.
+Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., … Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901.
+Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., & Chen, W. (2022). LoRA: Low-rank adaptation of large language models. International Conference on Learning Representations.
+Jurafsky, D., & Martin, J. H. (s.f.). Speech and language processing (3rd ed., borrador). https://web.stanford.edu/~jurafsky/slp3/
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., … Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474.
+Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., … Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744.
+Tunstall, L., von Werra, L., & Wolf, T. (2022). Natural language processing with transformers: Building language applications with Hugging Face. O’Reilly Media.
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing Systems, 30, 5998–6008.
+Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., … Stoica, I. (2023). Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. Advances in Neural Information Processing Systems, 36.
+Bibliografía complementaria
+Bai, Y., Kadavath, S., Kundu, S., Askell, A., Kernion, J., Jones, A., … Kaplan, J. (2022). Constitutional AI: Harmlessness from AI feedback (arXiv:2212.08073). arXiv.
+Carlini, N., Tramèr, F., Wallace, E., Jagielski, M., Herbert-Voss, A., Lee, K., … Raffel, C. (2021). Extracting training data from large language models. 30th USENIX Security Symposium, 2633–2650.
+Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023). QLoRA: Efficient finetuning of quantized LLMs. Advances in Neural Information Processing Systems, 36.
+Frantar, E., Ashkboos, S., Hoefler, T., & Alistarh, D. (2023). GPTQ: Accurate post-training quantization for generative pre-trained transformers. International Conference on Learning Representations.
+Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., Dai, Y., Sun, J., Wang, M., & Wang, H. (2024). Retrieval-augmented generation for large language models: A survey (arXiv:2312.10997). arXiv.
+Hoffmann, J., Borgeaud, S., Mensch, A., Buchatskaya, E., Cai, T., Rutherford, E., … Sifre, L. (2022). Training compute-optimal large language models (arXiv:2203.15556). arXiv.
+Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y. J., Madotto, A., & Fung, P. (2023). Survey of hallucination in natural language generation. ACM Computing Surveys, 55(12), 1–38.
+Kaplan, J., McCandlish, S., Henighan, T., Brown, T. B., Chess, B., Child, R., Gray, S., Radford, A., Wu, J., & Amodei, D. (2020). Scaling laws for neural language models (arXiv:2001.08361). arXiv.
+Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu, C. H., Gonzalez, J. E., Zhang, H., & Stoica, I. (2023). Efficient memory management for large language model serving with PagedAttention. Proceedings of the 29th Symposium on Operating Systems Principles, 611–626.
+Liang, P., Bommasani, R., Lee, T., Tsipras, D., Soylu, D., Yasunaga, M., … Koreeda, Y. (2023). Holistic evaluation of language models. Transactions on Machine Learning Research.
+Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (2024). Lost in the middle: How language models use long contexts. Transactions of the Association for Computational Linguistics, 12, 157–173.
+Rafailov, R., Sharma, A., Mitchell, E., Ermon, S., Manning, C. D., & Finn, C. (2023). Direct preference optimization: Your language model is secretly a reward model. Advances in Neural Information Processing Systems, 36.
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022). Chain-of-thought prompting elicits reasoning in large language models. Advances in Neural Information Processing Systems, 35, 24824–24837.
+Nota sobre la vigencia de las fuentes. Los modelos concretos, sus versiones, sus precios de acceso por consumo y los marcos de trabajo asociados cambian con frecuencia trimestral o superior. Las referencias de este listado corresponden a los mecanismos y a los resultados que estructuran el campo, y son estables. Toda cifra de precio, de contexto máximo o de desempeño comparado debe verificarse en la documentación oficial del proveedor al momento del dictado, y así debe declararse a los estudiantes.
+6. Currículum Resumido del Profesor
+[Completar]
+7. Programa
+El curso se estructura en siete unidades, cada una correspondiente a una sesión de cuatro horas cronológicas.
+Unidad 1: Arquitectura y comportamiento del transformer generativo (4 hrs)
+La unidad establece la base mecánica del curso. Aunque la arquitectura transformer se estudia en Deep Learning, este curso la retoma desde un ángulo distinto: no cómo se construye, sino qué de su construcción explica el comportamiento que el usuario observa. La distinción es operativa, porque los modos de falla más frecuentes en aplicación —la sensibilidad al orden de la información en el contexto, la degradación con longitud, el comportamiento errático ante entradas mal tokenizadas, el costo cuadrático en la longitud de la secuencia— son consecuencias directas de decisiones arquitectónicas.
+Se trabaja la tokenización como fuente subestimada de problemas: el hecho de que el modelo no opera sobre caracteres ni sobre palabras tiene consecuencias sobre el conteo, sobre el manejo de números, sobre idiomas distintos del inglés y sobre el costo, que se factura en unidades que no coinciden con ninguna categoría lingüística. Para un programa dictado en español, esta observación tiene consecuencia económica directa y conviene cuantificarla en aula.
+La unidad cierra con las leyes de escalamiento y el resultado sobre asignación óptima de cómputo entre tamaño del modelo y volumen de datos, que explica por qué la trayectoria del campo dejó de consistir en construir modelos cada vez mayores.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Del modelo de lenguaje al transformer generativo. Modelado autorregresivo. Atención y su costo. Arquitectura de sólo decodificador. Diferencia con los modelos de tipo codificador estudiados en NLP.
+	•	Bloque 2 (60 min) — Tokenización y ventana de contexto. Subpalabras y sus consecuencias. Efectos en español y en dominios especializados. Ventana de contexto, caché de claves y valores, y degradación del uso de la información según su posición.
+	•	Bloque 3 (60 min) — Generación y control de la salida. Decodificación, temperatura, muestreo por núcleo. Salida estructurada y su forzamiento. Determinismo y reproducibilidad: por qué no están garantizados y qué implica para la evaluación.
+	•	Bloque 4 (60 min) — Escalamiento. Leyes de escalamiento. Asignación óptima de cómputo entre parámetros y datos. Consecuencias sobre la disponibilidad de modelos pequeños competentes y sobre la economía del campo.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Explicar el mecanismo de generación autorregresiva y atribuir a él comportamientos observados del modelo.
+	•	Determinar el efecto de la tokenización sobre el costo, sobre el desempeño en español y sobre tareas que involucran conteo o manipulación de números.
+	•	Explicar la degradación del uso de la información según su posición en el contexto y sus consecuencias para el diseño de la entrada.
+	•	Configurar los parámetros de decodificación de manera justificada según la tarea, y explicar sus efectos sobre variabilidad y reproducibilidad.
+	•	Interpretar las leyes de escalamiento y su consecuencia sobre la disponibilidad de modelos de distinto tamaño.
+Lecturas de la unidad
+Vaswani et al. (2017); Jurafsky y Martin (borrador), capítulos sobre transformers y modelos de lenguaje grandes. Lectura complementaria: Kaplan et al. (2020); Hoffmann et al. (2022); Liu et al. (2024).
+Unidad 2: El pipeline de post-entrenamiento (4 hrs)
+Esta unidad explica por qué un modelo se comporta como se comporta. Un modelo pre-entrenado sobre texto crudo predice continuaciones plausibles; no sigue instrucciones, no rechaza solicitudes y no adopta un registro conversacional. Todo eso proviene de etapas posteriores, y conocer esas etapas es lo que permite al profesional interpretar el comportamiento en lugar de atribuirlo a propiedades emergentes inexplicables.
+Se recorre el pipeline completo: pre-entrenamiento auto-supervisado, ajuste supervisado por instrucciones, y alineación por preferencias, con las dos familias de métodos hoy en uso. Se examina qué aporta cada etapa y qué costos introduce, incluido el impuesto de alineación —la pérdida de capacidad en algunas tareas como contrapartida de la mejora en obediencia y seguridad— y el sesgo hacia respuestas extensas y complacientes que producen los datos de preferencia recolectados de evaluadores humanos.
+La unidad trata además la generación de datos sintéticos para instrucción y la destilación de modelos grandes hacia modelos pequeños, prácticas hoy centrales en la producción de modelos abiertos competentes, con sus implicancias técnicas y de licenciamiento.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Pre-entrenamiento. Objetivo auto-supervisado. Composición y filtrado de los corpus. Contaminación de conjuntos de evaluación y sus consecuencias sobre la comparación de modelos.
+	•	Bloque 2 (60 min) — Ajuste por instrucciones. De la continuación de texto al seguimiento de instrucciones. Construcción de conjuntos de instrucción. Datos sintéticos y destilación.
+	•	Bloque 3 (60 min) — Alineación por preferencias. Modelo de recompensa y optimización de política. Optimización directa de preferencias. Qué se gana y qué se pierde: impuesto de alineación, sesgo de longitud, complacencia. Enfoques basados en principios declarados.
+	•	Bloque 4 (60 min) — Razonamiento y taller de atribución. Modelos entrenados para razonamiento extendido y su compromiso de latencia y costo. Taller: dado un conjunto de comportamientos observados de un modelo, atribuir cada uno a una etapa del pipeline.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Describir las etapas del pipeline de entrenamiento de un modelo de instrucción y el aporte específico de cada una.
+	•	Atribuir un comportamiento observado del modelo a una etapa determinada del pipeline.
+	•	Explicar el compromiso entre capacidad y alineación, y reconocer sus manifestaciones en la salida.
+	•	Evaluar la pertinencia de datos sintéticos y de destilación para producir un modelo especializado, considerando sus restricciones de licenciamiento.
+	•	Reconocer el problema de contaminación de conjuntos de evaluación y su efecto sobre las comparaciones publicadas.
+Lecturas de la unidad
+Ouyang et al. (2022); Brown et al. (2020), secciones 1 a 3. Lectura complementaria: Rafailov et al. (2023); Bai et al. (2022).
+Unidad 3: Vías de adaptación y criterio de decisión (4 hrs)
+Ésta es la unidad de mayor densidad de decisión práctica del curso y la razón por la cual el programa dispone de siete sesiones y no de seis. Su objeto es un criterio: dado un problema, qué vía de adaptación corresponde.
+Las tres vías —instrucción, recuperación aumentada y ajuste fino— no son intercambiables ni ordenables por sofisticación. Cada una modifica algo distinto. La instrucción modifica el comportamiento inmediato sin alterar el conocimiento del modelo. La recuperación aumentada incorpora conocimiento sin alterar el comportamiento ni el modelo. El ajuste fino altera el modelo, y sirve mejor para instalar formato, estilo, registro o comportamiento sistemático que para inyectar conocimiento factual, que es precisamente el uso que se le da con más frecuencia y con peores resultados.
+La unidad desarrolla el árbol de decisión completo, con los criterios que lo gobiernan: naturaleza de lo que falta —conocimiento, comportamiento o formato—, volumen y calidad de datos disponibles, frecuencia de actualización del conocimiento, requisitos de trazabilidad de la fuente, presupuesto, y control requerido sobre el modelo. Se trata además la combinación de vías, que es el caso habitual en producción.
+La recuperación aumentada se trata aquí en su lógica de decisión y en su efecto sobre el conocimiento del sistema; su diseño arquitectónico —indexación, segmentación, reordenamiento, construcción del contexto, modos de falla del sistema compuesto— corresponde a Diseño de Sistemas y Aplicaciones de IA y no se duplica.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Qué modifica cada vía. Instrucción, recuperación y ajuste fino: qué altera cada una y qué no. El error frecuente de usar ajuste fino para incorporar conocimiento factual. Casos donde cada vía es la única adecuada.
+	•	Bloque 2 (60 min) — El árbol de decisión. Criterios: naturaleza de lo que falta, datos disponibles, frecuencia de actualización, trazabilidad de la fuente, presupuesto, control. Construcción del árbol y aplicación a casos.
+	•	Bloque 3 (60 min) — Ajuste fino eficiente en parámetros. Adaptación de bajo rango: fundamento y efecto sobre memoria y tiempo. Variantes cuantizadas. Preparación del conjunto de entrenamiento: volumen mínimo, calidad, formato. Evaluación del resultado y olvido catastrófico.
+	•	Bloque 4 (60 min) — Taller (Evaluación 1). Los estudiantes ajustan un modelo abierto de tamaño moderado sobre una tarea específica y comparan el resultado contra la misma tarea resuelta por instrucción.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Determinar cuál de las tres vías de adaptación corresponde a un problema dado y justificar la elección frente a las alternativas.
+	•	Reconocer los casos en que el ajuste fino es la vía inadecuada pese a ser la propuesta con más frecuencia.
+	•	Preparar un conjunto de datos de ajuste fino con formato, volumen y calidad apropiados a la tarea.
+	•	Implementar ajuste fino eficiente en parámetros y evaluar su efecto sobre calidad, memoria y tiempo de entrenamiento.
+	•	Detectar degradación de capacidades generales tras un ajuste fino y proponer medidas de mitigación.
+	•	Diseñar combinaciones de vías para problemas que requieren simultáneamente conocimiento específico y comportamiento específico.
+Lecturas de la unidad
+Hu et al. (2022); Lewis et al. (2020). Lectura complementaria: Dettmers et al. (2023); Gao et al. (2024), secciones 1 a 3.
+Unidad 4: Modelos abiertos y cerrados — la decisión de aprovisionamiento (4 hrs)
+La unidad trata una decisión que en la práctica organizacional se toma con frecuencia por razones no técnicas y que tiene consecuencias técnicas de largo alcance.
+Se establece primero la precisión terminológica: “abierto” abarca situaciones distintas —pesos publicados con licencia permisiva, pesos publicados con restricciones de uso, arquitectura y datos publicados— y la diferencia importa para el uso comercial. Se comparan luego las dos vías en las dimensiones que efectivamente deciden: costo total según volumen y su punto de cruce, latencia y control sobre ella, capacidad de especialización, soberanía y ubicación del dato, estabilidad de versiones, y riesgo de discontinuidad o de modificación unilateral de condiciones.
+El punto de cruce de costos merece tratamiento cuantitativo. A volúmenes bajos, el acceso por consumo es sistemáticamente más barato; a volúmenes altos y con carga estable, la operación de un modelo propio puede serlo. Determinar dónde está ese punto para un caso concreto es un ejercicio que el curso realiza con cifras, advirtiendo que el resultado es perecible.
+La unidad cierra con el riesgo de dependencia y sus mitigaciones: abstracción del proveedor en la capa de acceso, mantención de una alternativa evaluada, y cláusulas contractuales relevantes. Esta última dimensión se retoma en Estrategia de Productos y Presupuestos.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Qué significa abierto. Grados de apertura y licencias. Restricciones de uso comercial. Consecuencias para una organización que despliega en Chile.
+	•	Bloque 2 (60 min) — Comparación en las dimensiones que deciden. Costo total y punto de cruce por volumen. Latencia y control. Capacidad de especialización. Soberanía del dato. Estabilidad de versiones.
+	•	Bloque 3 (60 min) — Ejercicio cuantitativo. Cálculo del punto de cruce para un caso con volumen declarado. Sensibilidad del resultado a los supuestos de volumen, de precio y de utilización.
+	•	Bloque 4 (60 min) — Dependencia y mitigación. Riesgo de discontinuidad de versión y de cambio de condiciones. Abstracción de la capa de acceso. Alternativa evaluada y mantenida. Articulación con la decisión contractual.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Distinguir los grados de apertura de un modelo y evaluar las restricciones de licencia aplicables a un uso comercial.
+	•	Comparar aprovisionamiento abierto y cerrado en las dimensiones de costo, latencia, control, soberanía del dato y estabilidad.
+	•	Calcular el punto de cruce de costo entre ambas vías para un volumen dado y evaluar su sensibilidad a los supuestos.
+	•	Identificar el riesgo de dependencia de proveedor y proponer mitigaciones arquitectónicas concretas.
+Lecturas de la unidad
+Bommasani et al. (2021), secciones sobre acceso y ecosistema. Documentación de licencias de los modelos abiertos utilizados en el curso, verificada al momento del dictado.
+Unidad 5: Inferencia — costo, latencia y contexto (4 hrs)
+La unidad trata la inferencia como propiedad del modelo y de su configuración, no como tarea de plataforma. Su justificación es que las decisiones que determinan el costo y la latencia de un sistema generativo se toman en la elección del modelo, del tamaño, de la cuantización, de la longitud del contexto y de la estrategia de generación, mucho antes de que intervenga la infraestructura.
+Se desarrollan las variables que gobiernan la latencia —tiempo hasta el primer token frente a tiempo entre tokens, y su distinta relevancia según la interfaz— y las que gobiernan el costo, con la distinción entre tokens de entrada y de salida y su efecto sobre el diseño de la solicitud. Se examinan los mecanismos que modifican ambos: cuantización y su efecto sobre calidad, agrupación de solicitudes y su efecto sobre latencia individual, caché de prefijo, y generación en flujo como decisión de interfaz.
+La unidad incorpora además el contexto extenso como alternativa parcial a la recuperación aumentada, con su compromiso: mayor costo por operación y degradación documentada del uso de la información según su posición, frente a menor complejidad arquitectónica.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Anatomía de la latencia. Fase de prellenado y fase de generación. Tiempo hasta el primer token y tiempo entre tokens. Cuál importa según la interfaz. Efecto de la longitud de entrada y de salida.
+	•	Bloque 2 (60 min) — Anatomía del costo. Tokens de entrada y de salida. Costo del contexto repetido. Caché de prefijo. Estimación del costo unitario de una operación y su agregación a volumen mensual.
+	•	Bloque 3 (60 min) — Mecanismos de optimización. Cuantización y su efecto medible sobre calidad. Agrupación y su compromiso con latencia individual. Tamaño de modelo como variable de diseño. Cuándo un modelo pequeño especializado supera a uno grande general.
+	•	Bloque 4 (60 min) — Contexto extenso (Evaluación 2). Compromiso entre contexto extenso y recuperación. Degradación por posición. Taller: medición de latencia, costo y calidad sobre configuraciones alternativas de un mismo caso.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Descomponer la latencia de una operación generativa y determinar qué componente es crítico según la interfaz de uso.
+	•	Estimar el costo unitario de una operación y proyectarlo a volumen, distinguiendo entrada y salida.
+	•	Evaluar el efecto de la cuantización sobre calidad, memoria y velocidad mediante medición propia.
+	•	Justificar la elección de tamaño de modelo a partir de los requisitos de latencia, costo y calidad de la aplicación.
+	•	Comparar la vía de contexto extenso con la de recuperación para un caso concreto, declarando el compromiso adoptado.
+Lecturas de la unidad
+Kwon et al. (2023); Liu et al. (2024). Lectura complementaria: Frantar et al. (2023). Documentación de precios y de límites de los proveedores, verificada al momento del dictado.
+Unidad 6: Evaluación de modelos generativos (4 hrs)
+La unidad trata el problema abierto del campo. Su tesis es directa: las evaluaciones públicas generalistas no permiten decidir si un modelo sirve para un caso de uso concreto, y la organización que decide sobre esa base está decidiendo sin evidencia pertinente.
+Se examinan primero las evaluaciones establecidas —agregados de tareas, arenas de comparación por preferencia humana, marcos holísticos— y sus limitaciones documentadas: contaminación con datos de entrenamiento, saturación, distancia entre la tarea evaluada y la tarea real, y sensibilidad de los resultados a detalles de formato del prompt que no se reportan.
+El núcleo de la unidad es la construcción de conjuntos de evaluación propios: definición de la tarea, muestreo de casos representativos incluidos los difíciles, definición de criterios de corrección, tamaño mínimo para detectar diferencias relevantes, y control de la variabilidad entre ejecuciones. Se trabaja luego el uso de modelos jueces, con tratamiento explícito de sus sesgos conocidos —preferencia por respuestas extensas, por el propio estilo, y efecto de posición— y de las medidas que los mitigan.
+La unidad cierra con la evaluación de propiedades específicas: fidelidad a la fuente y detección de alucinación en sistemas con recuperación, y sensibilidad del modelo al formato de la entrada, que es una fuente de fragilidad rara vez evaluada y con consecuencias directas en producción.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Evaluaciones públicas y sus límites. Agregados de tareas, arenas de preferencia, marcos holísticos. Contaminación, saturación y validez externa. Por qué el liderazgo en una tabla no predice el desempeño en un dominio.
+	•	Bloque 2 (60 min) — Construcción de un conjunto propio. Definición de la tarea y de los criterios de corrección. Muestreo de casos, incluidos los difíciles y los adversarios. Tamaño y potencia. Control de variabilidad entre ejecuciones.
+	•	Bloque 3 (60 min) — Modelos jueces y evaluación humana. Condiciones de uso de un modelo juez. Sesgos documentados y su mitigación. Evaluación humana estructurada y concordancia entre evaluadores. Cuándo cada instrumento es apropiado.
+	•	Bloque 4 (60 min) — Propiedades específicas (Evaluación 3). Fidelidad a la fuente y detección de alucinación. Sensibilidad al formato de la entrada. Taller: construcción y aplicación de un conjunto de evaluación de dominio.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Interpretar críticamente los resultados de evaluaciones públicas y explicar por qué no bastan para una decisión de dominio.
+	•	Construir un conjunto de evaluación específico de un dominio, con criterios de corrección declarados y tamaño justificado.
+	•	Emplear un modelo juez reconociendo sus sesgos y aplicando medidas de mitigación.
+	•	Diseñar una evaluación humana estructurada y medir la concordancia entre evaluadores.
+	•	Evaluar fidelidad a la fuente en un sistema con recuperación y detectar alucinación de manera sistemática.
+	•	Medir la sensibilidad de un modelo al formato de la entrada y valorar su consecuencia para la robustez de la aplicación.
+Lecturas de la unidad
+Zheng et al. (2023); Liang et al. (2023), secciones 1 a 3. Lectura complementaria: Ji et al. (2023).
+Unidad 7: Multimodalidad, riesgos del modelo e integración (4 hrs)
+La unidad final amplía el alcance a la multimodalidad y consolida el curso.
+El primer eje trata los modelos que operan sobre más de una modalidad: cómo se integran representaciones de distinta naturaleza en un espacio común, qué capacidades habilita esa integración y cuáles son sus límites actuales. Se cubren la generación de imagen mediante modelos de difusión y el procesamiento de imagen y documento por modelos de lenguaje, con atención al caso de la extracción de información desde documentos, que es la aplicación multimodal de mayor demanda organizacional efectiva.
+El segundo eje trata los riesgos propios del modelo, distinguidos de los riesgos del sistema que se estudian en Diseño de Sistemas: memorización y extracción de datos de entrenamiento, con sus consecuencias para el ajuste fino con datos internos sensibles; alucinación y sus determinantes; y el hecho de que la instrucción no constituye un mecanismo de control robusto, lo que se desarrolla en Prompt Engineering y aquí sólo se establece como propiedad del modelo.
+La sesión cierra con la presentación de los proyectos finales y con la articulación explícita hacia las asignaturas siguientes.
+Estructura de la sesión
+	•	Bloque 1 (60 min) — Modelos multimodales. Integración de modalidades en un espacio común. Capacidades y límites actuales. Extracción de información desde documentos como caso de mayor demanda.
+	•	Bloque 2 (60 min) — Generación de imagen y sus decisiones. Modelos de difusión: mecanismo y control. Costos y latencias características. Consideraciones de licenciamiento y de procedencia de los datos de entrenamiento.
+	•	Bloque 3 (60 min) — Riesgos propios del modelo. Memorización y extracción; consecuencias para el ajuste fino con datos sensibles. Determinantes de la alucinación. Límites de la instrucción como mecanismo de control.
+	•	Bloque 4 (60 min) — Presentación de proyectos y cierre. Exposición de resultados. Síntesis del curso. Articulación con Prompt Engineering, Diseño de Sistemas, AI.Ops y Ética de la IA.
+Resultados de Aprendizaje de la Unidad
+Al finalizar esta unidad, el/la estudiante será capaz de:
+	•	Explicar el mecanismo de integración de modalidades y evaluar la aplicabilidad de un modelo multimodal a un caso concreto.
+	•	Describir el funcionamiento de los modelos de difusión y sus decisiones de control, costo y licenciamiento.
+	•	Evaluar el riesgo de memorización y extracción al ajustar un modelo con datos internos sensibles.
+	•	Distinguir los riesgos propios del modelo de los riesgos del sistema que lo incorpora.
+	•	Presentar y defender una decisión de selección y adaptación de modelo con evidencia propia.
+Lecturas de la unidad
+Carlini et al. (2021). Lectura complementaria: Bommasani et al. (2021), secciones sobre modalidades.
+8. Articulación con el Programa
+Tema
+Alcance en este curso
+Antecedente o profundización en
+Arquitectura transformer y atención
+Se supone adquirida; se retoma por sus consecuencias de comportamiento
+Deep Learning
+Modelos de tipo codificador y representaciones
+Se suponen adquiridos; se contrastan con la generación
+Procesamiento de Lenguaje Natural
+Diseño de instrucciones y flujo conversacional
+Se establece el límite de la instrucción como control; no se enseña su diseño
+Prompt Engineering y Sistemas Multiagentes
+Agentes, coordinación y evaluación de trayectorias
+No se cubren
+Prompt Engineering y Sistemas Multiagentes
+Recuperación aumentada
+Se trata como vía de adaptación; su arquitectura no se cubre
+Diseño de Sistemas y Aplicaciones de IA
+Topología del sistema compuesto y diseño para la falla
+No se cubre
+Diseño de Sistemas y Aplicaciones de IA
+Contenedores, orquestación, plataformas y observabilidad
+No se cubren
+AI.Ops y Sistemas Cloud
+Costo unitario y latencia
+Se estiman como propiedad del modelo
+Estrategia de Productos y Presupuestos (evaluación económica)
+Sesgos del modelo, privacidad y procedencia de los datos
+Se identifican como propiedades; su tratamiento normativo es posterior
+Ética de la IA

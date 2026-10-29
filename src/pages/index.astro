@@ -1,0 +1,51 @@
+---
+import StudentLayout from "../layouts/StudentLayout.astro";
+import { courses } from "../data/courses";
+
+const base = import.meta.env.BASE_URL;
+---
+<StudentLayout title="Magíster en IA UAI — Cursos" current="home">
+  <section class="hero">
+    <img class="hero__media" src={`${base}brand/mia-hero.jpg`} alt="" />
+    <div class="hero__scrim"></div>
+    <div class="container hero__content">
+      <img class="hero__brand" src={`${base}brand/uai-logo.svg`} alt="Universidad Adolfo Ibáñez" />
+      <h1>Magíster en Inteligencia Artificial</h1>
+      <p>
+        Desarrollo de los cursos GenAI/LLMs, Prompt Engineering, Diseño de Sistemas y AI.Ops:
+        unidades, labs locales (LM Studio / Ollama) y bibliografía.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={`${base}cursos/09-prompt-engineering/`}>Ir a Prompt Engineering</a>
+        <a class="btn btn--ghost" href={`${base}herramientas/`} style="background:#fff">Herramientas locales</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section__head">
+        <span class="badge">Malla 2026 · cursos 08–11</span>
+        <h2>Cursos del arco técnico</h2>
+        <p>
+          Vista alumno pública. La vista profesor (guiones, claves de taller y soluciones)
+          requiere usuario y contraseña.
+        </p>
+      </div>
+      <div class="grid-courses">
+        {
+          courses.map((c) => (
+            <a class="course-card" href={`${base}cursos/${c.slug}/`}>
+              <span class="course-card__code">Curso {c.code}</span>
+              <h3>{c.title}</h3>
+              <p>{c.short}</p>
+              <span class="course-card__meta">
+                {c.hours} hrs lectivas · {c.credits} créditos · {c.status === "ready" ? "contenido listo" : "esqueleto"}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</StudentLayout>
