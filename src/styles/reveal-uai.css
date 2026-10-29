@@ -1,7 +1,7 @@
 /*
   Tema Reveal — identidad Magíster IA / uai.cl
-  Fondo claro institucional, tipografía UAI Corporativo + Roboto,
-  acento primary #00AFD8, chrome negro como la navbar.
+  Misma gramática que el sitio: navbar negra + logo, fondo claro,
+  labels primary extrabold, Corporativo 300/800, sin “tech dark”.
 */
 :root {
   --uai-negro: #15171a;
@@ -13,14 +13,15 @@
   --uai-celeste: #6493b5;
   --uai-gray: #616365;
   --uai-border: #e5e7eb;
-  --uai-chrome-h: 48px;
+  --uai-top-h: 56px;
+  --uai-chrome-h: 40px;
 
   --r-background-color: #ffffff;
   --r-main-font: "Roboto", "Open Sans", system-ui, sans-serif;
-  --r-main-font-size: 32px;
+  --r-main-font-size: 34px;
   --r-main-color: #15171a;
   --r-block-margin: 16px;
-  --r-heading-margin: 0 0 0.55em 0;
+  --r-heading-margin: 0 0 0.5em 0;
   --r-heading-font: "UAI Corporativo", "Roboto", system-ui, sans-serif;
   --r-heading-color: #15171a;
   --r-heading-line-height: 1.15;
@@ -28,8 +29,8 @@
   --r-heading-text-transform: none;
   --r-heading-text-shadow: none;
   --r-heading-font-weight: 300;
-  --r-heading1-size: 2.05em;
-  --r-heading2-size: 1.35em;
+  --r-heading1-size: 2.35em;
+  --r-heading2-size: 1.45em;
   --r-heading3-size: 1.1em;
   --r-heading4-size: 1em;
   --r-link-color: #007fb5;
@@ -56,12 +57,12 @@ body {
 
 .reveal .slides section {
   text-align: left;
-  padding: 2rem 2.6rem calc(2rem + var(--uai-chrome-h));
+  padding: calc(1.4rem + var(--uai-top-h)) 3rem calc(1.6rem + var(--uai-chrome-h));
   box-sizing: border-box;
 }
 
 .reveal .slides section.center {
-  text-align: center;
+  text-align: left;
 }
 
 .reveal h1 {
@@ -69,12 +70,14 @@ body {
   font-weight: 300;
   color: var(--uai-negro);
   letter-spacing: -0.02em;
+  max-width: 18ch;
 }
 
 .reveal h2 {
   font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
   font-weight: 800;
   color: var(--uai-negro);
+  max-width: 22ch;
 }
 
 .reveal h3 {
@@ -89,36 +92,39 @@ body {
   font-family: "Roboto", system-ui, sans-serif;
 }
 
+/* Igual que h4.label-uai del sitio */
 .reveal .uai-kicker {
   color: var(--uai-primary);
   font-family: "Roboto", system-ui, sans-serif;
   font-weight: 800;
-  font-size: 0.52em;
+  font-size: 0.55em;
   letter-spacing: 0.01em;
-  margin: 0 0 0.75em;
+  margin: 0 0 0.65em;
   text-transform: none;
 }
 
 .reveal .uai-muted {
   color: var(--uai-gray);
-  font-size: 0.62em;
+  font-size: 0.58em;
   font-weight: 400;
   line-height: 1.45;
+  max-width: 42ch;
 }
 
 .reveal ul {
   display: block;
-  margin: 0.4em 0 0;
+  margin: 0.35em 0 0;
   padding-left: 1.05em;
   list-style: none;
+  max-width: 34em;
 }
 
 .reveal li {
   position: relative;
-  margin: 0.42em 0;
+  margin: 0.38em 0;
   padding-left: 0.15em;
   line-height: 1.35;
-  font-size: 0.92em;
+  font-size: 0.88em;
 }
 
 .reveal li::before {
@@ -126,13 +132,66 @@ body {
   position: absolute;
   left: -0.95em;
   top: 0.55em;
-  width: 0.42em;
-  height: 0.42em;
+  width: 0.38em;
+  height: 0.38em;
   background: var(--uai-primary);
   border-radius: 1px;
 }
 
-/* Barra inferior fija (viewport), no dentro del slide escalado */
+/* Top bar = site-header */
+.slide-topbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--uai-top-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem 0 1.35rem;
+  background: var(--uai-negro);
+  color: #fff;
+  font-family: "Roboto", system-ui, sans-serif;
+  z-index: 38;
+}
+
+.slide-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.slide-topbar__logo {
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.slide-topbar__program {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slide-topbar__exit {
+  font: 700 13px/1 "Roboto", system-ui, sans-serif;
+  color: #fff;
+  text-decoration: none;
+  background: var(--uai-primary);
+  padding: 10px 16px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.slide-topbar__exit:hover {
+  background: var(--uai-primary-dark);
+}
+
+/* Footer meta bar */
 .slide-chrome {
   position: fixed;
   left: 0;
@@ -143,30 +202,14 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 1.35rem;
-  background: var(--uai-negro);
-  color: #fff;
+  background: var(--uai-bg-soft);
+  border-top: 1px solid var(--uai-border);
+  color: var(--uai-gray);
   font-family: "Roboto", system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   z-index: 35;
   pointer-events: none;
-}
-
-.slide-chrome__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.slide-chrome__logo {
-  height: 22px;
-  width: auto;
-  filter: brightness(0) invert(1);
-}
-
-.slide-chrome__meta {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 12px;
 }
 
 .slide-chrome__accent {
@@ -174,59 +217,51 @@ body {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
+  width: 3px;
   background: var(--uai-primary);
 }
 
-/* Portada */
+.slide-chrome__meta {
+  color: var(--uai-gray);
+}
+
+.slide-chrome__meta strong {
+  color: var(--uai-negro);
+  font-weight: 700;
+}
+
+/* Portada: brand first, left composition like sitio */
 .reveal .slides section.slide-title {
-  padding-top: 3.2rem;
+  padding-top: calc(2.2rem + var(--uai-top-h));
 }
 
 .reveal .slides section.slide-title h1 {
   max-width: 16ch;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.reveal .slides section.slide-title .uai-kicker {
-  font-size: 0.58em;
+  margin: 0;
 }
 
 .reveal .title-rule {
-  width: 72px;
+  width: 56px;
   height: 4px;
   background: var(--uai-primary);
-  margin: 1.1em auto 1.2em;
+  margin: 0.85em 0 1em;
   border: 0;
 }
 
-/* Separadores de bloque */
+/* Separadores: tema grande, bloque como label */
 .reveal .slides section.slide-section {
   background: var(--uai-bg-soft);
 }
 
 .reveal .slides section.slide-section h2 {
   font-weight: 300;
-  font-size: 1.85em;
-  max-width: 18ch;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 2.1em;
+  max-width: 16ch;
+  margin: 0;
 }
 
-.reveal .slides section.slide-section .uai-kicker {
-  margin-bottom: 1rem;
-}
-
-/* Contenido: acento izquierdo sutil */
-.reveal .slides section.slide-content::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 5px;
-  background: var(--uai-primary);
+.reveal .slides section.slide-section .uai-muted {
+  margin-top: 0.85em;
 }
 
 .reveal .progress {
@@ -239,16 +274,16 @@ body {
 .reveal .controls {
   color: var(--uai-primary);
   right: 14px;
-  bottom: calc(var(--uai-chrome-h) + 14px);
+  bottom: calc(var(--uai-chrome-h) + 12px);
 }
 
 .reveal .slide-number {
   right: 18px;
-  bottom: calc(var(--uai-chrome-h) + 14px);
+  bottom: calc(var(--uai-chrome-h) + 12px);
   background: transparent;
   color: var(--uai-gray);
   font-family: "Roboto", system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -257,38 +292,21 @@ body {
   text-decoration: none;
 }
 
-.reveal-exit {
-  position: fixed;
-  top: 14px;
-  right: 16px;
-  z-index: 40;
-  font: 700 13px/1 "Roboto", system-ui, sans-serif;
-  color: #fff;
-  text-decoration: none;
-  background: var(--uai-primary);
-  padding: 10px 14px;
-  border-radius: 2px;
-}
-
-.reveal-exit:hover {
-  background: var(--uai-primary-dark);
-}
-
 .reveal .slide-shot {
   display: block;
   max-width: 100%;
-  max-height: 380px;
-  margin: 0.5em auto 0.35em;
+  max-height: 360px;
+  margin: 0.45em 0 0.3em;
   border: 1px solid var(--uai-border);
   border-radius: 2px;
   background: var(--uai-bg-soft);
 }
 
 .reveal .slide-caption {
-  text-align: center;
-  font-size: 0.5em;
+  text-align: left;
+  font-size: 0.48em;
   color: var(--uai-gray);
-  margin-top: 0.35em;
+  margin-top: 0.3em;
 }
 
 .reveal .slides section .fragment {

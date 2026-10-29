@@ -30,7 +30,16 @@ const fonts = {
 };
 
 const logo = asset("brand/uai-logo-web.png");
-const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster en IA`;
+const chromeMeta = `Curso ${course.code} · Unidad ${unit.number}`;
+const exitHref = asset(`cursos/${course.slug}/${unit.id}/`);
+
+function sectionParts(s: Extract<Slide, { type: "section" }>) {
+  const raw = s.subtitle?.trim() || "";
+  const time = raw.match(/^(\d+\s*min)/i)?.[1];
+  const topic = raw.replace(/^\d+\s*min\s*[—–-]\s*/i, "").trim() || s.title;
+  const kicker = time ? `${s.title} · ${time}` : s.title;
+  return { kicker, topic, timeLabel: raw && raw !== topic ? raw : undefined };
+}
 ---
 <!doctype html>
 <html lang="es">
@@ -68,14 +77,17 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
     </style>
   </head>
   <body>
-    <a class="reveal-exit" href={asset(`cursos/${course.slug}/${unit.id}/`)}>Salir de la clase</a>
+    <header class="slide-topbar">
+      <div class="slide-topbar__brand">
+        <img class="slide-topbar__logo" src={logo} alt="UAI" />
+        <span class="slide-topbar__program">Magíster en Inteligencia Artificial</span>
+      </div>
+      <a class="slide-topbar__exit" href={exitHref}>Salir de la clase</a>
+    </header>
     <div class="slide-chrome" aria-hidden="true">
       <span class="slide-chrome__accent"></span>
-      <span class="slide-chrome__brand">
-        <img class="slide-chrome__logo" src={logo} alt="" />
-        <span>Universidad Adolfo Ibáñez</span>
-      </span>
-      <span class="slide-chrome__meta">{chromeMeta}</span>
+      <span class="slide-chrome__meta"><strong>{chromeMeta}</strong> · {unit.title}</span>
+      <span class="slide-chrome__meta">Universidad Adolfo Ibáñez</span>
     </div>
     <div class="reveal">
       <div class="slides">
@@ -83,7 +95,7 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
           slides.map((s) => {
             if (s.type === "title") {
               return (
-                <section class="center slide-title" data-background-color="#ffffff">
+                <section class="slide-title" data-background-color="#ffffff">
                   <p class="uai-kicker">{s.kicker}</p>
                   <hr class="title-rule" />
                   <h1>{s.title}</h1>
@@ -92,10 +104,12 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
               );
             }
             if (s.type === "section") {
+              const parts = sectionParts(s);
               return (
-                <section class="center slide-section" data-background-color="#f3f5f7">
-                  <p class="uai-kicker">{s.subtitle || "Sección"}</p>
-                  <h2>{s.title}</h2>
+                <section class="slide-section" data-background-color="#f3f5f7">
+                  <p class="uai-kicker">{parts.kicker}</p>
+                  <h2>{parts.topic}</h2>
+                  {parts.timeLabel && <p class="uai-muted">{parts.timeLabel}</p>}
                 </section>
               );
             }
@@ -153,7 +167,7 @@ const chromeMeta = `Curso ${course.code} · Unidad ${unit.number} · Magíster e
             backgroundTransition: "fade",
             width: 1280,
             height: 720,
-            margin: 0.06,
+            margin: 0.04,
           }).catch(function (err) {
             console.error("Reveal.initialize falló", err);
           });
