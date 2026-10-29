@@ -37,6 +37,50 @@
     return gsap.timeline(opts || { defaults: { ease: "power2.out" } });
   }
 
+  /**
+   * After a viz draws (often with d3.transition), replay enter with GSAP:
+   * interrupt D3, hide shapes, stagger fade+rise. Skip if host has data-cine="manual".
+   */
+  function enhanceCine(host) {
+    if (!HAS_GSAP || !MOTION || !host) return;
+    if (host.getAttribute("data-cine") === "manual") return;
+    var svg = host.querySelector("svg");
+    if (!svg) return;
+    d3.select(svg).selectAll("*").interrupt();
+    var tags = {
+      rect: 1,
+      path: 1,
+      circle: 1,
+      line: 1,
+      text: 1,
+      polyline: 1,
+      polygon: 1,
+      ellipse: 1,
+    };
+    var nodes = Array.prototype.slice.call(svg.querySelectorAll("*")).filter(function (n) {
+      if (!tags[n.tagName]) return false;
+      if (n.closest("defs")) return false;
+      return true;
+    });
+    if (!nodes.length) return;
+    gsap.killTweensOf(nodes);
+    // opacity only — SVG `y` attrs must not fight GSAP transforms
+    gsap.set(nodes, { opacity: 0 });
+    gsap.to(nodes, {
+      opacity: 1,
+      duration: 0.45,
+      stagger: 0.045,
+      ease: "power2.out",
+      delay: 0.05,
+      overwrite: true,
+    });
+  }
+
+  /** Mark host so enhanceCine does not double-play a bespoke timeline. */
+  function cineManual(host) {
+    if (host && host.setAttribute) host.setAttribute("data-cine", "manual");
+  }
+
   function clear(el) {
     while (el.firstChild) el.removeChild(el.firstChild);
   }
@@ -73,6 +117,7 @@
 
   /** Ciclo ReAct: Thought → Action → Observation (+ finish). */
   function vizReactLoop(el) {
+    cineManual(el);
     var w = 920;
     var h = 380;
     var svg = svgRoot(el, w, h);
@@ -2166,11 +2211,17 @@
     }
     mounted.add(el);
     fn(el);
+    // requestAnimationFrame: let D3 finish sync attrs, then GSAP owns the enter
+    requestAnimationFrame(function () {
+      enhanceCine(el);
+    });
   }
 
   function remount(el) {
     if (!el) return;
+    gsap && gsap.killTweensOf && el.querySelector("svg") && gsap.killTweensOf(el.querySelectorAll("*"));
     mounted.delete(el);
+    el.removeAttribute("data-cine");
     mount(el);
   }
 

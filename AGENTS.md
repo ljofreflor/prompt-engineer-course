@@ -83,6 +83,8 @@ Deck transition stays `fade` (institutional). **All cinematic motion lives insid
 
 Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add libraries that pull purple/dark “AI product” aesthetics. Vendor under `public/vendor/` like D3; initialize after `load` with `is:inline`.
 
+**Wired today:** `public/vendor/gsap/gsap.min.js` loaded on clase pages before `reveal-viz.js`. Every viz gets a GSAP staggered opacity enter via `enhanceCine()` after mount (interrupts D3 transitions). Bespoke timelines set `data-cine="manual"` on the host (see `react-loop` / `cineManual()`).
+
 ## Content model
 
 - Course meta: `src/data/courses.ts` · programs/syllabi: `src/data/programs.ts` · stack: `src/data/stack.ts`
