@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Agentes que importan (y cuándo no)",
+    items: [
+      "Kapoor et al. (2024): evaluar agentes por costo, no solo success rate.",
+      "Más agentes ≠ más calidad: cada hop multiplica latencia y modos de falla.",
+      "Wu et al. (2023), AutoGen: multiagente como framework — la topología es diseño.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Criterio",
     title: "Disparar multiagente solo si…",
     items: [
@@ -113,6 +123,15 @@ export const slides: Slide[] = [
     src: "labs/screenshots/lab-u01-lmstudio-result.png",
     alt: "Lab local 4/4",
     caption: "Multiagente se apoya en prompts/tools ya medidos (u01–u04)",
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Kapoor et al. (2024), AI Agents That Matter — kapoor2024agents",
+      "Wu et al. (2023), AutoGen — wu2023autogen (complementaria)",
+    ],
   },
   {
     type: "title",

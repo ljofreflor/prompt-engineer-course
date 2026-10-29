@@ -157,8 +157,8 @@ const units09: UnitContent[] = [
       },
     ],
     readings: [
-      "Yao, Zhao et al. (2023), ReAct",
-      "Schick et al. (2023), Toolformer (complementaria)",
+      "Yao et al. (2023), ReAct — yao2023react",
+      "Schick et al. (2023), Toolformer — schick2023toolformer (complementaria)",
     ],
     lab: {
       title: "Lab — agente local",
@@ -196,8 +196,8 @@ const units09: UnitContent[] = [
       },
     ],
     readings: [
-      "Kapoor et al. (2024), AI agents that matter",
-      "Wu et al. (2023), AutoGen (complementaria)",
+      "Kapoor et al. (2024) — kapoor2024agents",
+      "Wu et al. (2023), AutoGen — wu2023autogen (complementaria)",
     ],
   },
   {
@@ -231,8 +231,9 @@ const units09: UnitContent[] = [
       },
     ],
     readings: [
-      "Greshake et al. (2023), Indirect prompt injection",
-      "Kapoor et al. (2024); Zheng et al. (2023), LLM-as-judge",
+      "Greshake et al. (2023) — greshake2023injection",
+      "Kapoor et al. (2024) — kapoor2024agents",
+      "Zheng et al. (2023) — zheng2023judge",
     ],
   },
 ];

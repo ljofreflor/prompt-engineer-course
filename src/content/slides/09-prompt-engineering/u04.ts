@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "ReAct: razón y acción",
+    items: [
+      "Yao et al. (2023): intercalan Thought / Action / Observation para grounding en el entorno.",
+      "Sin tope de pasos/tiempo/costo el loop no es un sistema operable.",
+      "La Observation la inyecta el runtime — el modelo no la inventa.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "ReAct",
     title: "Piezas del agente",
     items: [
@@ -116,6 +126,15 @@ export const slides: Slide[] = [
       "Manejo de Observation de error.",
       "Topes de pasos y tiempo en el runtime.",
       "Registro de trayectoria para evaluación (Unidad 6).",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Yao et al. (2023), ReAct — yao2023react",
+      "Schick et al. (2023), Toolformer — schick2023toolformer (complementaria)",
     ],
   },
   {

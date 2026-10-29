@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Medir agentes sin autoengaño",
+    items: [
+      "Kapoor et al. (2024): success rate sin costo engaña; reportar pasos/tokens por éxito.",
+      "Zheng et al. (2023): LLM-as-judge tiene sesgos (longitud, posición) — no es oráculo.",
+      "Registrar trayectoria completa, no solo el output final.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Métricas",
     title: "Qué registrar",
     items: [
@@ -65,6 +75,16 @@ export const slides: Slide[] = [
     type: "section",
     title: "Bloque 3",
     subtitle: "60 min — Inyección",
+  },
+  {
+    type: "bullets",
+    kicker: "Teoría",
+    title: "Inyección indirecta",
+    items: [
+      "Greshake et al. (2023): contenido recuperado puede contener instrucciones al agente.",
+      "El modelo no distingue de forma fiable instrucción vs dato — el prompt no es perímetro.",
+      "Controles efectivos: privilegio mínimo, validación de acciones, confirmación humana.",
+    ],
   },
   {
     type: "bullets",
@@ -100,6 +120,16 @@ export const slides: Slide[] = [
     src: "labs/screenshots/lab-u01-lmstudio-result.png",
     alt: "Evidencia lab local",
     caption: "Sin datos productivos · stack en Herramientas (curso 09)",
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Greshake et al. (2023) — greshake2023injection",
+      "Kapoor et al. (2024) — kapoor2024agents",
+      "Zheng et al. (2023) — zheng2023judge",
+    ],
   },
   {
     type: "title",
