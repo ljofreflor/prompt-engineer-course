@@ -254,6 +254,19 @@ body {
 
 .slide-chrome__meta {
   color: var(--uai-gray);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slide-chrome__meta--unit {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.slide-chrome__meta--org {
+  flex-shrink: 0;
 }
 
 .slide-chrome__meta strong {
