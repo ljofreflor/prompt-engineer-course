@@ -405,6 +405,102 @@
     });
   }
 
+  /** Evaluación: leaderboard público vs set de dominio + juez. */
+  function vizEvalDomain(el) {
+    var w = 920;
+    var h = 380;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Leaderboard público versus set de dominio con juez");
+
+    var cols = [
+      {
+        x: 220,
+        title: "Leaderboard",
+        fill: COLORS.soft,
+        ink: COLORS.negro,
+        items: ["benchmark público", "saturación / fuga", "ranking relativo"],
+      },
+      {
+        x: 700,
+        title: "Set de dominio",
+        fill: COLORS.negro,
+        ink: COLORS.white,
+        items: ["casos difíciles", "umbral operativo", "juez + humano"],
+      },
+    ];
+
+    cols.forEach(function (c, ci) {
+      svg
+        .append("rect")
+        .attr("x", c.x - 150)
+        .attr("y", 70)
+        .attr("width", 300)
+        .attr("height", 220)
+        .attr("rx", 2)
+        .attr("fill", c.fill)
+        .attr("stroke", ci === 0 ? COLORS.primary : COLORS.negro)
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .transition()
+        .delay(tDelay(80 + ci * 160))
+        .duration(tDur(450))
+        .attr("opacity", 1);
+      svg
+        .append("text")
+        .attr("x", c.x)
+        .attr("y", 110)
+        .attr("text-anchor", "middle")
+        .attr("fill", c.ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .attr("opacity", 0)
+        .text(c.title)
+        .transition()
+        .delay(tDelay(140 + ci * 160))
+        .duration(tDur(400))
+        .attr("opacity", 1);
+      c.items.forEach(function (t, i) {
+        svg
+          .append("text")
+          .attr("x", c.x)
+          .attr("y", 160 + i * 40)
+          .attr("text-anchor", "middle")
+          .attr("fill", ci === 0 ? COLORS.negro : "rgba(255,255,255,0.85)")
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", 14)
+          .attr("opacity", 0)
+          .text(t)
+          .transition()
+          .delay(tDelay(220 + ci * 120 + i * 70))
+          .duration(tDur(350))
+          .attr("opacity", 1);
+      });
+    });
+
+    svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 190)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 22)
+      .attr("opacity", 0)
+      .text("≠")
+      .transition()
+      .delay(tDelay(650))
+      .duration(tDur(400))
+      .attr("opacity", 1);
+
+    label(svg, 460, 330, "Concordancia humano–juez es el gate, no el score solo", {
+      size: 13,
+      fill: COLORS.gray,
+      delay: 850,
+    });
+  }
+
   /** Latencia de inferencia: TTFT (prefill) vs TPOT (decode). */
   function vizLatencyTtftTpot(el) {
     var w = 920;
@@ -1900,6 +1996,7 @@
     "adapt-routes": vizAdaptRoutes,
     "cost-crossover": vizCostCrossover,
     "latency-ttft-tpot": vizLatencyTtftTpot,
+    "eval-domain": vizEvalDomain,
   };
 
   function mount(el) {

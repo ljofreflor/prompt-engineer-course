@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 08 · Unidad 6",
-    title: "Evaluación de modelos generativos",
+    title: "Evaluación generativa",
     subtitle: "4 hrs · Sets de dominio · jueces — UAI",
   },
   {
@@ -28,6 +28,13 @@ export const slides: Slide[] = [
       "Usar modelo juez con mitigación de sesgos.",
       "Medir propiedades específicas (Eval 3).",
     ],
+  },
+  {
+    type: "viz",
+    kicker: "Mapa",
+    title: "Público vs dominio",
+    viz: "eval-domain",
+    caption: "El ranking relativo no certifica tu tarea; el set propio sí puede.",
   },
   {
     type: "section",

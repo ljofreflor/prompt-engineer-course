@@ -21,7 +21,8 @@ export type VizId =
   | "posttrain-pipeline"
   | "adapt-routes"
   | "cost-crossover"
-  | "latency-ttft-tpot";
+  | "latency-ttft-tpot"
+  | "eval-domain";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
