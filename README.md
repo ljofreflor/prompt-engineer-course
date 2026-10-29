@@ -14,9 +14,20 @@ npm run dev
 
 Credenciales profesor por defecto (local): usuario `profesor` / contraseña la de tu `.env`.
 
-## Labs locales
+## Stack y labs
 
-1. Arrancá [LM Studio](https://lmstudio.ai/) (server en `http://localhost:1234/v1`) u [Ollama](https://ollama.com/).
+El stack por curso (syllabus → herramientas concretas) está en `/herramientas/`:
+
+| Curso | Énfasis |
+|-------|---------|
+| 08 | Colab/Kaggle + HF + APIs cerradas + LM Studio/Ollama (contingencia) |
+| 09 | Scripts locales + API OpenAI-compatible + sandbox de agents |
+| 10 | Git + Mermaid/draw.io (design doc; sin cloud de pago) |
+| 11 | AWS/Azure/GCP académicos + Docker + GitHub Actions + LM Studio |
+
+Labs locales:
+
+1. Arrancá [LM Studio](https://lmstudio.ai/) (`http://localhost:1234/v1`) u [Ollama](https://ollama.com/).
 2. `python labs/smoke_local.py`
 
 ## GitHub Pages

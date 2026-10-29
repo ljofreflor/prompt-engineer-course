@@ -544,6 +544,48 @@ p {
   color: var(--uai-gray);
 }
 
+.stack-list {
+  padding-left: 1.2rem;
+}
+
+.stack-list li {
+  margin: 0.45rem 0;
+}
+
+.stack-group {
+  margin-top: 1.5rem;
+}
+
+.stack-ref {
+  margin: -0.35rem 0 0.65rem;
+  font-size: 0.88rem;
+  color: var(--uai-gray);
+}
+
+.stack-course-link {
+  font-size: 0.55em;
+  font-weight: 500;
+  vertical-align: middle;
+  margin-left: 0.35rem;
+}
+
+.stack-card {
+  margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
+  background: #fff;
+  border: 1px solid var(--uai-border);
+  border-radius: var(--radius);
+}
+
+.stack-card h3 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+.stack-card ul {
+  margin-bottom: 0;
+}
+
 .program-toc {
   display: flex;
   flex-wrap: wrap;

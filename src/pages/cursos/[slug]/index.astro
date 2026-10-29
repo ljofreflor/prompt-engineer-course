@@ -2,6 +2,7 @@
 import StudentLayout from "../../../layouts/StudentLayout.astro";
 import { courses, getCourse } from "../../../data/courses";
 import { getProgram } from "../../../data/programs";
+import { getCourseStack } from "../../../data/stack";
 import { asset } from "../../../lib/base";
 
 export function getStaticPaths() {
@@ -12,6 +13,7 @@ const { slug } = Astro.params;
 const course = getCourse(slug!);
 if (!course) throw new Error(`Curso no encontrado: ${slug}`);
 const program = getProgram(course.slug);
+const stack = getCourseStack(course.slug);
 ---
 <StudentLayout title={`${course.title} — UAI`} description={course.short}>
   <section class="section">
@@ -43,6 +45,7 @@ const program = getProgram(course.slug);
             <a href="#introduccion">Introducción</a>
             <a href="#objetivos">Objetivos</a>
             <a href="#metodologia">Metodología</a>
+            <a href="#stack">Stack</a>
             <a href="#evaluacion">Evaluación</a>
             <a href="#programa">Programa</a>
             <a href="#bibliografia">Bibliografía</a>
@@ -95,6 +98,30 @@ const program = getProgram(course.slug);
                 ))}
               </ul>
             )}
+            {
+              stack && (
+                <div class="stack-card" id="stack">
+                  <h3>Stack tecnológico de este curso</h3>
+                  <p style="margin-top:0">{stack.summary}</p>
+                  <ul>
+                    {stack.groups.flatMap((g) =>
+                      g.tools.slice(0, 3).map((t) => (
+                        <li>
+                          <strong>{t.name}</strong> — {t.role}
+                        </li>
+                      )),
+                    )}
+                  </ul>
+                  <p style="margin-bottom:0">
+                    Detalle y setup:{" "}
+                    <a href={asset(`herramientas/#curso-${course.code}`)}>
+                      Herramientas · curso {course.code}
+                    </a>
+                    .
+                  </p>
+                </div>
+              )
+            }
           </div>
         </section>
 
