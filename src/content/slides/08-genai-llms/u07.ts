@@ -65,8 +65,15 @@ export const slides: Slide[] = [
     subtitle: "60 min — Riesgos",
   },
   {
-    type: "bullets",
+    type: "viz",
     kicker: "Modelo",
+    title: "Riesgo del modelo ≠ del sistema",
+    viz: "risk-layers",
+    caption: "El prompt no es el control; filtros, logging y revisión sí lo son.",
+  },
+  {
+    type: "bullets",
+    kicker: "Detalle",
     title: "Extracción y límites del prompt",
     items: [
       "Extracción de datos de entrenamiento.",

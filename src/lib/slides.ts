@@ -22,7 +22,8 @@ export type VizId =
   | "adapt-routes"
   | "cost-crossover"
   | "latency-ttft-tpot"
-  | "eval-domain";
+  | "eval-domain"
+  | "risk-layers";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
