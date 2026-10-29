@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 10 · Unidad 4",
-    title: "Diseño de la interacción humano-IA",
+    title: "Interacción humano-IA",
     subtitle: "4 hrs · Automatización, incertidumbre, reversión — UAI",
   },
   {
