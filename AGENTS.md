@@ -43,7 +43,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - We ship `reveal.css` **without** a stock Reveal theme — set `.reveal { font-size: var(--r-main-font-size); }` **and** explicit `font-size` on `h1`/`h2`/`h3`. Variables alone do nothing; without `.reveal` font-size, `em` on headings collapses to the 16px root
 - LM Studio / Gemma reasoning: prefer `message.content`, fall back to `reasoning_content` (see `labs/09/common.py` and `labs/smoke_local.py`). Smoke may need `max_tokens` ≥ 64 and should not print raw CoT when a terminal `OK` is present
 - Do **not** put chrome inside scaled `.slides section` (`position:absolute; bottom:0` sits mid-slide). Use **fixed** viewport topbar/footer outside Reveal
-- Footer `.slide-chrome__meta` must ellipsis (`min-width:0; overflow:hidden; text-overflow:ellipsis`) — long `unit.title` otherwise truncates mid-word against “Universidad Adolfo Ibáñez”
+- Footer unit line uses `.slide-chrome__meta--unit` with ellipsis (`min-width:0; text-overflow:ellipsis`); org label is `--org` + `flex-shrink:0` — long `unit.title` otherwise cuts mid-word
 - Section slides: kicker = `Bloque N · tiempo`; hero h2 = topic name — never make “Bloque N” the visual hero
 - Do **not** repeat the section subtitle as muted text under the hero (it duplicates kicker time + topic)
 - Title/section slides: flex-center content in the safe area between fixed topbar and footer; avoid “stuck in the corner” emptiness
