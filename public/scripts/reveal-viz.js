@@ -2177,8 +2177,80 @@
     });
   }
 
+  /** Anatomía de un prompt: capas de especificación. */
+  function vizPromptAnatomy(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 400;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Anatomía de un prompt: rol, contexto, tarea, restricciones, formato, ejemplos");
+
+    var layers = [
+      { id: "rol", label: "Rol", sub: "quién actúa", y: 56 },
+      { id: "ctx", label: "Contexto", sub: "mínimo útil", y: 112 },
+      { id: "task", label: "Tarea", sub: "qué producir", y: 168 },
+      { id: "rest", label: "Restricciones", sub: "límites / no-hacer", y: 224 },
+      { id: "fmt", label: "Formato", sub: "salida validable", y: 280 },
+      { id: "ex", label: "Ejemplos", sub: "few-shot si aportan", y: 336 },
+    ];
+
+    var x0 = 120;
+    var barW = 680;
+    var groups = [];
+
+    layers.forEach(function (L, i) {
+      var g = svg.append("g").attr("transform", "translate(" + x0 + "," + L.y + ")");
+      var fill = i === 2 ? COLORS.primary : COLORS.soft;
+      var stroke = i === 2 ? COLORS.primaryDark : COLORS.negro;
+      g.append("rect")
+        .attr("x", 0)
+        .attr("y", -22)
+        .attr("width", barW)
+        .attr("height", 44)
+        .attr("rx", 2)
+        .attr("fill", fill)
+        .attr("stroke", stroke)
+        .attr("stroke-width", i === 2 ? 0 : 1.5);
+      g.append("text")
+        .attr("x", 20)
+        .attr("y", 2)
+        .attr("dominant-baseline", "middle")
+        .attr("fill", i === 2 ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .text(L.label);
+      g.append("text")
+        .attr("x", barW - 20)
+        .attr("y", 2)
+        .attr("text-anchor", "end")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", i === 2 ? COLORS.white : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .text(L.sub);
+      groups.push(g.node());
+    });
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(groups, { opacity: 0 });
+      tl.to(groups, { opacity: 1, duration: 0.4, stagger: 0.1 }, 0.06);
+    } else {
+      groups.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 90))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
+    "prompt-anatomy": vizPromptAnatomy,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

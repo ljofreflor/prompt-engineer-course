@@ -50,6 +50,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Seis capas de la especificación",
+    viz: "prompt-anatomy",
+    caption: "La tarea es el núcleo; el resto acota semántica, riesgo y parseo.",
+  },
+  {
     type: "bullets",
     kicker: "Errores frecuentes",
     title: "Qué suele romper la especificación",
