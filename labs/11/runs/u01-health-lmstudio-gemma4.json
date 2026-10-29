@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "version": "0.1.0-lab11-u01",
+  "base_url": "http://localhost:1234/v1",
+  "model": "google/gemma-4-e4b",
+  "models": [
+    "google/gemma-4-e4b",
+    "text-embedding-nomic-embed-text-v1.5"
+  ],
+  "latency_ms": {
+    "models": 11.7,
+    "chat": 221.3
+  },
+  "upstream_status": 200
+}

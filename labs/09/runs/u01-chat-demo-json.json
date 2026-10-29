@@ -1,0 +1,29 @@
+{
+    "id": "chatcmpl-qhqvouqh2abn392c5kvddq",
+    "object": "chat.completion",
+    "created": 1793297577,
+    "model": "google/gemma-4-e4b",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "\nThinking Process:\n\n1.  **Analyze the Request:** The user states, \"No me lleg\u00f3 la factura de marzo\" (I didn't receive the March invoice/bill).\n2.  **Determine the Goal:** The response must be a JSON object following the specified schema: `{\"categoria\":\"facturacion|tecnico|otro\",\"abstener\":bool}`",
+                "tool_calls": []
+            },
+            "logprobs": null,
+            "finish_reason": "length"
+        }
+    ],
+    "usage": {
+        "prompt_tokens": 46,
+        "completion_tokens": 79,
+        "total_tokens": 125,
+        "completion_tokens_details": {
+            "reasoning_tokens": 77
+        }
+    },
+    "stats": {},
+    "system_fingerprint": "google/gemma-4-e4b"
+}

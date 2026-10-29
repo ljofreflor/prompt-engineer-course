@@ -17,3 +17,7 @@ _chunks/
 _put_*
 _update_args
 *.local
+
+__pycache__/
+*.pyc
+labs/**/sandbox/

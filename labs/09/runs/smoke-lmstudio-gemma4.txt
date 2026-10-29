@@ -1,0 +1,4 @@
+Base URL: http://localhost:1234/v1
+Modelos: ['google/gemma-4-e4b', 'text-embedding-nomic-embed-text-v1.5']
+Respuesta: 
+Smoke OK

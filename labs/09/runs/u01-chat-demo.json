@@ -1,0 +1,29 @@
+{
+    "id": "chatcmpl-cb07e8l4mf18vh63yv4mo",
+    "object": "chat.completion",
+    "created": 1793297358,
+    "model": "google/gemma-4-e4b",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "\nHere's a thinking process to arrive at the suggested JSON output:\n\n1.  **Analyze the Request:**\n    *   **Input Ticket:** \"No me lleg\u00f3 la factura de marzo\" (I didn't receive the March invoice/bill).\n    *   **Task:** Classify this ticket into a specific JSON format: `{categoria, abstener}`.\n    *   **Goal:** Determine the appropriate values for `categoria` and `abstener`.\n\n2.  **Analyze the Content (\"No me lleg\u00f3 la factura de marzo\"):**\n    ",
+                "tool_calls": []
+            },
+            "logprobs": null,
+            "finish_reason": "length"
+        }
+    ],
+    "usage": {
+        "prompt_tokens": 37,
+        "completion_tokens": 119,
+        "total_tokens": 156,
+        "completion_tokens_details": {
+            "reasoning_tokens": 117
+        }
+    },
+    "stats": {},
+    "system_fingerprint": "google/gemma-4-e4b"
+}

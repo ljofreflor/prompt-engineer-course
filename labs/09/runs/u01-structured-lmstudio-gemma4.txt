@@ -1,0 +1,5 @@
+PASS No me llegó la factura de marzo {'categoria': 'facturacion', 'confianza': 1.0, 'abstener': False, 'motivo': 'Consulta sobre factura faltante de marzo'}
+PASS El VPN corta a los 5 minutos {'categoria': 'tecnico', 'confianza': 1.0, 'abstener': False, 'motivo': 'Desconexión automática del VPN a los 5 minutos.'}
+PASS ¿Cuál es la capital de Francia? {'categoria': 'otro', 'confianza': 1.0, 'abstener': True, 'motivo': 'No es un ticket de soporte.'}
+PASS  {'categoria': 'otro', 'confianza': 1.0, 'abstener': True, 'motivo': 'Mensaje vacío.'}
+score 4/4

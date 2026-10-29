@@ -98,8 +98,16 @@ export const slides: Slide[] = [
     title: "Misma tarea, dos especificaciones",
     paragraphs: [
       "Mostrar un prompt vago vs uno con schema + abstención. Medir tasa de parseo OK en 10 entradas (incluidas OOD).",
-      "Lab: labs/09/u01/run_structured.py contra LM Studio.",
+      "Lab: labs/09/u01/run_structured.py contra LM Studio (google/gemma-4-e4b · localhost:1234).",
     ],
+  },
+  {
+    type: "image",
+    kicker: "Evidencia local",
+    title: "Corrida real · score 4/4",
+    src: "labs/screenshots/lab-u01-lmstudio-result.png",
+    alt: "Salida del lab u01 contra LM Studio: cuatro casos PASS",
+    caption: "Incluye abstención OOD y mensaje vacío · labs/09/runs/",
   },
   {
     type: "section",

@@ -152,14 +152,14 @@ export const courses: Course[] = [
         title: "De la decisión al sistema",
         hours: 4,
         summary: "Especificación y requisitos del sistema de IA.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u02",
         title: "Patrones de arquitectura",
         hours: 4,
         summary: "Cascadas, ruteo, RAG como patrón y degradación elegante.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u03",
@@ -207,7 +207,7 @@ export const courses: Course[] = [
         title: "Del cuaderno a producción",
         hours: 4,
         summary: "Reproducibilidad y fundamentos operativos.",
-        status: "skeleton",
+        status: "ready",
       },
       {
         id: "u02",

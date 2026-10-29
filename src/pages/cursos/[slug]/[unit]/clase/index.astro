@@ -115,6 +115,16 @@ const fonts = {
                 </section>
               );
             }
+            if (s.type === "image") {
+              return (
+                <section>
+                  {s.kicker && <p class="uai-kicker">{s.kicker}</p>}
+                  <h2>{s.title}</h2>
+                  <img class="slide-shot" src={asset(s.src)} alt={s.alt} />
+                  {s.caption && <p class="uai-muted slide-caption">{s.caption}</p>}
+                </section>
+              );
+            }
             return (
               <section>
                 {s.kicker && <p class="uai-kicker">{s.kicker}</p>}

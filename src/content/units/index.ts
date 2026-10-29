@@ -475,8 +475,132 @@ const units08: UnitContent[] = [
   },
 ];
 
+const units10: UnitContent[] = [
+  {
+    courseSlug: "10-diseno-sistemas-ia",
+    unitId: "u01",
+    learningOutcomes: [
+      "Identificar la decisión organizacional y su línea base medible.",
+      "Distinguir predicción, decisión y acción en la cadena de valor.",
+      "Establecer presupuestos de latencia, costo, disponibilidad y error.",
+      "Redactar una especificación evaluable por un tercero.",
+    ],
+    blocks: [
+      {
+        title: "La decisión y su línea base",
+        minutes: 60,
+        body: "Identificación de la decisión objetivo, actor decisor y proceso actual. Costo del error. Cuándo no hace falta ML.",
+      },
+      {
+        title: "Predicción, decisión y acción",
+        minutes: 60,
+        body: "Cadena predicción–decisión–acción–resultado. Capacidad de ejecución y ventana temporal. Criterios de aceptación.",
+      },
+      {
+        title: "Requisitos no funcionales",
+        minutes: 60,
+        body: "Presupuestos de latencia, costo unitario, disponibilidad, volumen y trazabilidad como restricciones de arquitectura.",
+      },
+      {
+        title: "Taller de especificación",
+        minutes: 60,
+        body: "Ficha de especificación del caso propio. Crítica cruzada. Producto: sección 1 del documento de diseño.",
+      },
+    ],
+    readings: [
+      "Huyen (2022), caps. 1–2",
+      "Kleinberg et al. (2015), Prediction policy problems",
+      "Paleyes, Urma y Lawrence (2022) — complementaria",
+    ],
+    lab: {
+      title: "Taller — ficha de especificación",
+      body: "Completá la ficha (decisión, línea base, presupuestos NFR). No requiere GPU: el entregable es texto versionado en el repo del design doc.",
+    },
+  },
+  {
+    courseSlug: "10-diseno-sistemas-ia",
+    unitId: "u02",
+    learningOutcomes: [
+      "Seleccionar el régimen de inferencia a partir de los NFR.",
+      "Diseñar topologías compuestas (cascada, ruteo, RAG como patrón).",
+      "Especificar degradación elegante y circuit breakers.",
+    ],
+    blocks: [
+      {
+        title: "Regímenes de inferencia",
+        minutes: 60,
+        body: "Batch, online, streaming y precómputo. Derivación desde presupuestos no funcionales.",
+      },
+      {
+        title: "Sistemas compuestos I",
+        minutes: 60,
+        body: "Cascadas por costo/confianza, ruteo, ensamblados y reglas duras.",
+      },
+      {
+        title: "Recuperación y herramientas",
+        minutes: 60,
+        body: "RAG como patrón arquitectónico (indexación, chunking, rerank). Delimitación vs curso 09.",
+      },
+      {
+        title: "Diseño para la falla",
+        minutes: 60,
+        body: "Caché, timeouts, reintentos, rate limits, circuit breakers y comportamiento por defecto.",
+      },
+    ],
+    readings: [
+      "Huyen (2022), caps. 7–8",
+      "Zaharia et al. (2024), Compound AI systems",
+      "Gao et al. (2024), RAG survey §§1–3",
+    ],
+  },
+];
+
+const units11: UnitContent[] = [
+  {
+    courseSlug: "11-aiops-cloud",
+    unitId: "u01",
+    learningOutcomes: [
+      "Explicar la brecha entre experimento y servicio reproducible.",
+      "Definir artefactos versionados (código, datos, modelo, config).",
+      "Montar un entorno local reproducible para un servicio mínimo.",
+    ],
+    blocks: [
+      {
+        title: "De notebook a servicio",
+        minutes: 60,
+        body: "Qué se pierde al pasar de exploración a producción: seeds, dependencias, datos y configuración.",
+      },
+      {
+        title: "Artefactos y linaje",
+        minutes: 60,
+        body: "Versionado de código, datos, pesos y config. Identificadores de corrida y reproducibilidad.",
+      },
+      {
+        title: "Entorno local",
+        minutes: 60,
+        body: "Contenedor mínimo o entorno fijado. Variables de entorno. Separación de secretos.",
+      },
+      {
+        title: "Taller operativo",
+        minutes: 60,
+        body: "Empaquetar un endpoint de inferencia local (puede apuntar a LM Studio) con healthcheck y versión declarada.",
+      },
+    ],
+    readings: [
+      "Kreuzberger et al. (2023), MLOps overview",
+      "Breck et al. (2017), ML test score",
+    ],
+    lab: {
+      title: "Lab — healthcheck local",
+      body: "Levantá un wrapper HTTP mínimo que llame a LM Studio (/v1/models + /v1/chat/completions) y exponga /health con modelo y latencia.",
+    },
+  },
+];
+
 const byKey = new Map(
-  [...units09, ...units08].map((u) => [`${u.courseSlug}/${u.unitId}`, u] as const),
+  [...units09, ...units08, ...units10, ...units11].map(
+    (u) => [`${u.courseSlug}/${u.unitId}`, u] as const,
+  ),
 );
 
 export function getUnitContent(courseSlug: string, unitId: string) {

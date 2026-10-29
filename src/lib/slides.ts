@@ -5,7 +5,15 @@ export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
   | { type: "bullets"; kicker?: string; title: string; items: string[] }
   | { type: "prose"; kicker?: string; title: string; paragraphs: string[] }
-  | { type: "section"; title: string; subtitle?: string };
+  | { type: "section"; title: string; subtitle?: string }
+  | {
+      type: "image";
+      kicker?: string;
+      title: string;
+      src: string;
+      alt: string;
+      caption?: string;
+    };
 
 /** Deck por defecto a partir del programa de la unidad (4 bloques × 60 min). */
 export function slidesFromUnit(course: Course, program: Program, unit: ProgramUnit): Slide[] {

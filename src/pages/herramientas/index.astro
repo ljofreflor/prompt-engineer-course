@@ -1,5 +1,19 @@
 ---
 import StudentLayout from "../../layouts/StudentLayout.astro";
+import { asset } from "../../lib/base";
+
+const shots = [
+  {
+    src: "labs/screenshots/lmstudio-server-status.png",
+    alt: "Estado del servidor LM Studio en puerto 1234",
+    caption: "lms ps · gemma-4-e4b cargado · API /v1/models",
+  },
+  {
+    src: "labs/screenshots/lab-u01-lmstudio-result.png",
+    alt: "Resultado del lab 09/u01 contra LM Studio",
+    caption: "Lab 09/u01 estructurado · score 4/4 · abstención OOD",
+  },
+];
 ---
 <StudentLayout title="Herramientas locales — UAI" current="herramientas">
   <section class="section">
@@ -13,16 +27,32 @@ import StudentLayout from "../../layouts/StudentLayout.astro";
       <h2>1. LM Studio (recomendado)</h2>
       <ol>
         <li>Descargá e instalá <a href="https://lmstudio.ai/">LM Studio</a>.</li>
-        <li>Descargá un modelo instruct de tamaño moderado (p.ej. 7B–14B cuantizado).</li>
-        <li>Activá <strong>Local Server</strong> (por defecto <code>http://localhost:1234/v1</code>).</li>
+        <li>Descargá un modelo instruct de tamaño moderado (p.ej. Gemma / Llama cuantizado).</li>
+        <li>Activá <strong>Local Server</strong> (por defecto <code>http://localhost:1234/v1</code>) o <code>lms server start</code>.</li>
         <li>Probá: <code>curl http://localhost:1234/v1/models</code></li>
       </ol>
+
+      <h3>Galería — corrida de referencia (gemma-4-e4b)</h3>
+      <div class="lab-gallery">
+        {
+          shots.map((s) => (
+            <figure class="lab-shot">
+              <img src={asset(s.src)} alt={s.alt} loading="lazy" />
+              <figcaption>{s.caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <p>
+        Logs versionados en <code>labs/09/runs/</code> (<code>u01-structured-lmstudio-gemma4.txt</code>,
+        <code>u02-regression-lmstudio-gemma4.txt</code>, <code>u04-agent-lmstudio-gemma4.txt</code>).
+      </p>
 
       <h2>2. Ollama (alternativa)</h2>
       <ol>
         <li>Instalá <a href="https://ollama.com/">Ollama</a>.</li>
-        <li><code>ollama pull llama3.2</code> (u otro instruct).</li>
-        <li>API: <code>http://localhost:11434/v1</code> (activar compat OpenAI según versión).</li>
+        <li><code>ollama pull gemma3</code> (u otro instruct).</li>
+        <li>API: <code>http://localhost:11434/v1</code> (compat OpenAI según versión).</li>
       </ol>
 
       <h2>3. Otras</h2>
@@ -34,11 +64,13 @@ import StudentLayout from "../../layouts/StudentLayout.astro";
       <h2>Variables de entorno para labs</h2>
       <pre><code>export OPENAI_BASE_URL=http://localhost:1234/v1
 export OPENAI_API_KEY=lm-studio
-export OPENAI_MODEL=local-model</code></pre>
+export OPENAI_MODEL=google/gemma-4-e4b</code></pre>
 
-      <h2>Smoke test</h2>
-      <p>Desde la raíz del repo:</p>
-      <pre><code>python labs/smoke_local.py</code></pre>
+      <h2>Smoke test y labs del curso 09</h2>
+      <pre><code>python labs/smoke_local.py
+python labs/09/u01/run_structured.py
+python labs/09/u02/run_regression.py
+python labs/09/u04/run_agent.py</code></pre>
 
       <div class="note">
         Agentes del curso: solo tools sobre sandbox y datos sintéticos. Declará siempre
