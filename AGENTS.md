@@ -49,6 +49,8 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - After visual changes: screenshot title + section + bullets locally; then verify live Pages once deploy lands
 - Critique log (scratch): `tmp/reveal-uai-critique.md` — promote durable lessons into **this file**
 - Keep Reveal overrides registered in `src/content/slides/index.ts` whenever adding `uNN.ts` decks; pair with `src/content/units` blocks when the unit page should show full syllabus copy
+- Content `h2` needs a wider measure (~32ch) than section heroes (~16ch); long Spanish titles otherwise wrap mid-phrase and look broken
+- Curso 08 decks: `u01`–`u07` enriched overrides; 09 complete; 10/11 through `u06` — prefer rotating critique across courses each tick
 
 ## Content model
 

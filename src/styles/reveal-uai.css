@@ -77,7 +77,11 @@ body {
   font-family: "UAI Corporativo", "Roboto", system-ui, sans-serif;
   font-weight: 800;
   color: var(--uai-negro);
-  max-width: 22ch;
+  max-width: 28ch;
+}
+
+.reveal .slides section.slide-content h2 {
+  max-width: 32ch;
 }
 
 .reveal h3 {

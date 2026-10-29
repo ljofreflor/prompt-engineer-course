@@ -1,0 +1,98 @@
+import type { Slide } from "../../../lib/slides";
+
+/** Clase Reveal — Curso 08 Unidad 6. */
+export const slides: Slide[] = [
+  {
+    type: "title",
+    kicker: "Curso 08 · Unidad 6",
+    title: "Evaluación de modelos generativos",
+    subtitle: "4 hrs · Sets de dominio · jueces — UAI",
+  },
+  {
+    type: "bullets",
+    kicker: "Tesis",
+    title: "El leaderboard no es tu producto",
+    items: [
+      "Benchmarks públicos saturan y se contaminan.",
+      "Un set de dominio con casos difíciles mide lo que importa.",
+      "El juez LLM hereda sesgos; hay que mitigarlos y contrastar.",
+      "Propiedades (fidelidad, alucinación) se definen operativamente.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Al finalizar",
+    title: "Resultados de aprendizaje",
+    items: [
+      "Construir un set de evaluación de dominio.",
+      "Usar modelo juez con mitigación de sesgos.",
+      "Medir propiedades específicas (Eval 3).",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 1",
+    subtitle: "60 min — Públicos",
+  },
+  {
+    type: "bullets",
+    kicker: "Límites",
+    title: "Evaluaciones públicas",
+    items: [
+      "Contaminación de entrenamiento.",
+      "Saturación y validez externa.",
+      "Qué sí sirven: ranking relativo, no certificación.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 2",
+    subtitle: "60 min — Set propio",
+  },
+  {
+    type: "bullets",
+    kicker: "Diseño",
+    title: "Tarea, muestreo y potencia",
+    items: [
+      "Incluir casos difíciles y OOD.",
+      "Tamaño vs intervalo de confianza.",
+      "Versionar el set como artefacto.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 3",
+    subtitle: "60 min — Jueces",
+  },
+  {
+    type: "bullets",
+    kicker: "LLM-as-judge",
+    title: "Sesgos y concordancia",
+    items: [
+      "Longitud, posición, estilo.",
+      "Rúbricas explícitas y doble ciego cuando importe.",
+      "Concordancia humano–juez como gate.",
+    ],
+  },
+  {
+    type: "section",
+    title: "Bloque 4",
+    subtitle: "60 min — Propiedades",
+  },
+  {
+    type: "bullets",
+    kicker: "Eval 3",
+    title: "Fidelidad, alucinación, formato",
+    items: [
+      "Definición operativa + umbral.",
+      "Sensibilidad al prompt de evaluación.",
+      "Puente a labs del curso 09 (salida estructurada).",
+    ],
+  },
+  {
+    type: "title",
+    kicker: "Cierre",
+    title: "Preguntas",
+    subtitle: "Siguiente: multimodalidad, riesgos e integración (Unidad 7)",
+  },
+];
