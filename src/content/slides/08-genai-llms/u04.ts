@@ -36,6 +36,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Teoría",
+    title: "Foundation models como infraestructura",
+    items: [
+      "Bommasani et al. (2021): el modelo base es un recurso compartido con riesgos sistémicos.",
+      "Apertura no es un booleano: pesos, código, datos y licencia son ejes distintos.",
+      "Homogeneización: muchos productos dependen del mismo upstream.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Definiciones",
     title: "Qué significa abierto",
     items: [
@@ -54,9 +64,9 @@ export const slides: Slide[] = [
     kicker: "Decisión",
     title: "Qué mueve la aguja",
     items: [
-      "Costo unitario y de operación.",
+      "Costo unitario y de operación (idle incluido).",
       "Latencia y localidad de datos.",
-      "Especialización, soberanía, pin de versión.",
+      "Especialización, soberanía, pin de versión (Bommasani: dependencia de API).",
     ],
   },
   {
@@ -94,6 +104,14 @@ export const slides: Slide[] = [
       "Contrato OpenAI-compatible o propio.",
       "Alternativa abierta evaluada (no solo nombrada).",
       "Plan de cambio de proveedor en el design doc.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lecturas",
+    title: "Para profundizar",
+    items: [
+      "Bommasani et al. (2021), On the Opportunities and Risks of Foundation Models — bommasani2021foundation",
     ],
   },
   {
