@@ -111,10 +111,10 @@ p {
 
 .brand__logo,
 .footer__logo {
-  height: 32px;
+  height: 36px;
   width: auto;
-  /* SVG corporativo ya es blanco (#fff); no invertir */
-  filter: none;
+  /* logo_web_uai_2026: wordmark UAI; en navbar negra se muestra en blanco */
+  filter: brightness(0) invert(1);
 }
 
 .brand__text {
