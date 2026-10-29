@@ -1,6 +1,7 @@
 /**
- * Ilustraciones D3 para clases Reveal (identidad UAI).
+ * Ilustraciones D3 (+ GSAP cuando está) para clases (identidad UAI).
  * Cada slide con [data-viz] se monta al entrar (slidechanged) y anima una vez.
+ * Stack: D3 = geometría; GSAP = timeline cine (fallback a d3.transition).
  */
 (function (global) {
   "use strict";
@@ -20,11 +21,20 @@
     typeof window.matchMedia === "function" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
+  var gsap = global.gsap;
+  var HAS_GSAP = !!(gsap && typeof gsap.timeline === "function");
+
   function tDelay(ms) {
     return MOTION ? ms : 0;
   }
   function tDur(ms) {
     return MOTION ? ms : 0;
+  }
+
+  /** Cinematic timeline; no-ops under reduced motion (instant state). */
+  function cineTl(opts) {
+    if (!HAS_GSAP || !MOTION) return null;
+    return gsap.timeline(opts || { defaults: { ease: "power2.out" } });
   }
 
   function clear(el) {
@@ -82,35 +92,6 @@
       { s: 0, t: 3, finish: true },
     ];
 
-    var gLinks = svg.append("g");
-    var gNodes = svg.append("g");
-
-    links.forEach(function (L, i) {
-      var a = nodes[L.s];
-      var b = nodes[L.t];
-      var path;
-      if (L.loop) {
-        path = "M" + (a.x - 40) + "," + (a.y + 36) + " C " + (a.x - 120) + "," + (a.y + 140) + " " + (b.x + 120) + "," + (b.y + 140) + " " + (b.x + 40) + "," + (b.y + 36);
-      } else if (L.finish) {
-        path = "M" + a.x + "," + (a.y + 36) + " L " + b.x + "," + (b.y - 36);
-      } else {
-        path = "M" + (a.x + 70) + "," + a.y + " L " + (b.x - 70) + "," + b.y;
-      }
-      gLinks
-        .append("path")
-        .attr("d", path)
-        .attr("fill", "none")
-        .attr("stroke", L.finish ? COLORS.primaryDark : COLORS.primary)
-        .attr("stroke-width", L.finish ? 2.5 : 2)
-        .attr("stroke-dasharray", L.loop ? "6 4" : null)
-        .attr("opacity", 0)
-        .attr("marker-end", "url(#uai-arrow)")
-        .transition()
-        .delay(tDelay(200 + i * 180))
-        .duration(tDur(500))
-        .attr("opacity", 1);
-    });
-
     svg
       .append("defs")
       .append("marker")
@@ -125,7 +106,51 @@
       .attr("d", "M 0 0 L 10 5 L 0 10 z")
       .attr("fill", COLORS.primary);
 
-    nodes.forEach(function (n, i) {
+    var gLinks = svg.append("g");
+    var gNodes = svg.append("g");
+    var pathEls = [];
+    var nodeGroups = [];
+
+    links.forEach(function (L) {
+      var a = nodes[L.s];
+      var b = nodes[L.t];
+      var path;
+      if (L.loop) {
+        path =
+          "M" +
+          (a.x - 40) +
+          "," +
+          (a.y + 36) +
+          " C " +
+          (a.x - 120) +
+          "," +
+          (a.y + 140) +
+          " " +
+          (b.x + 120) +
+          "," +
+          (b.y + 140) +
+          " " +
+          (b.x + 40) +
+          "," +
+          (b.y + 36);
+      } else if (L.finish) {
+        path = "M" + a.x + "," + (a.y + 36) + " L " + b.x + "," + (b.y - 36);
+      } else {
+        path = "M" + (a.x + 70) + "," + a.y + " L " + (b.x - 70) + "," + b.y;
+      }
+      var p = gLinks
+        .append("path")
+        .attr("d", path)
+        .attr("fill", "none")
+        .attr("stroke", L.finish ? COLORS.primaryDark : COLORS.primary)
+        .attr("stroke-width", L.finish ? 2.5 : 2)
+        .attr("stroke-dasharray", L.loop ? "6 4" : null)
+        .attr("opacity", 0)
+        .attr("marker-end", "url(#uai-arrow)");
+      pathEls.push(p.node());
+    });
+
+    nodes.forEach(function (n) {
       var g = gNodes.append("g").attr("transform", "translate(" + n.x + "," + n.y + ")");
       g.append("rect")
         .attr("x", -70)
@@ -135,14 +160,7 @@
         .attr("rx", 2)
         .attr("fill", n.id === "finish" ? COLORS.primary : COLORS.soft)
         .attr("stroke", COLORS.negro)
-        .attr("stroke-width", n.id === "finish" ? 0 : 1.5)
-        .attr("opacity", 0)
-        .attr("transform", "scale(0.85)")
-        .transition()
-        .delay(tDelay(80 + i * 120))
-        .duration(tDur(450))
-        .attr("opacity", 1)
-        .attr("transform", "scale(1)");
+        .attr("stroke-width", n.id === "finish" ? 0 : 1.5);
       g.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
@@ -150,20 +168,62 @@
         .attr("font-family", "Roboto, system-ui, sans-serif")
         .attr("font-weight", 800)
         .attr("font-size", 16)
-        .attr("opacity", 0)
-        .text(n.label)
-        .transition()
-        .delay(tDelay(160 + i * 120))
-        .duration(tDur(400))
-        .attr("opacity", 1);
+        .text(n.label);
+      nodeGroups.push(g.node());
     });
 
-    label(svg, 460, 28, "Presupuesto: pasos · tiempo · costo", {
-      size: 13,
-      fill: COLORS.gray,
-      weight: 500,
-      delay: 900,
-    });
+    var tl = cineTl();
+    if (tl) {
+      var capEl = svg
+        .append("text")
+        .attr("x", 460)
+        .attr("y", 28)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .attr("font-weight", 500)
+        .attr("opacity", 0)
+        .text("Presupuesto: pasos · tiempo · costo")
+        .node();
+      gsap.set(nodeGroups, { opacity: 0, scale: 0.82, transformOrigin: "50% 50%" });
+      gsap.set(pathEls, { opacity: 0 });
+      tl.to(nodeGroups, { opacity: 1, scale: 1, duration: 0.45, stagger: 0.14 }, 0.05)
+        .to(pathEls, { opacity: 1, duration: 0.4, stagger: 0.16 }, 0.35)
+        .to(capEl, { opacity: 1, duration: 0.35 }, 0.95);
+    } else {
+      pathEls.forEach(function (pe, i) {
+        d3.select(pe)
+          .transition()
+          .delay(tDelay(200 + i * 180))
+          .duration(tDur(500))
+          .attr("opacity", 1);
+      });
+      nodeGroups.forEach(function (ng, i) {
+        d3.select(ng)
+          .select("rect")
+          .attr("opacity", 0)
+          .attr("transform", "scale(0.85)")
+          .transition()
+          .delay(tDelay(80 + i * 120))
+          .duration(tDur(450))
+          .attr("opacity", 1)
+          .attr("transform", "scale(1)");
+        d3.select(ng)
+          .select("text")
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(160 + i * 120))
+          .duration(tDur(400))
+          .attr("opacity", 1);
+      });
+      label(svg, 460, 28, "Presupuesto: pasos · tiempo · costo", {
+        size: 13,
+        fill: COLORS.gray,
+        weight: 500,
+        delay: 900,
+      });
+    }
   }
 
   /** Generación autorregresiva: tokens que se acumulan. */
