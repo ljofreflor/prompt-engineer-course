@@ -5,7 +5,7 @@ export const slides: Slide[] = [
   {
     type: "title",
     kicker: "Curso 09 · Unidad 1",
-    title: "La instrucción como especificación",
+    title: "Instrucción como especificación",
     subtitle: "4 hrs · Prompt Engineering y Sistemas Multiagentes — UAI",
   },
   {
