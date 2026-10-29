@@ -1,23 +1,31 @@
 ---
+import { asset } from "../lib/base";
+
 interface Props {
   current?: string;
 }
 
 const { current } = Astro.props;
-const base = import.meta.env.BASE_URL;
+const home = asset("");
 
 const links = [
-  { href: base, id: "home", label: "Inicio" },
-  { href: `${base}cursos/`, id: "cursos", label: "Cursos" },
-  { href: `${base}herramientas/`, id: "herramientas", label: "Herramientas" },
-  { href: `${base}bibliografia/`, id: "bibliografia", label: "Bibliografía" },
-  { href: `${base}profesor/`, id: "profesor", label: "Profesor" },
+  { href: home, id: "home", label: "Inicio" },
+  { href: asset("cursos/"), id: "cursos", label: "Cursos" },
+  { href: asset("herramientas/"), id: "herramientas", label: "Herramientas" },
+  { href: asset("bibliografia/"), id: "bibliografia", label: "Bibliografía" },
+  { href: asset("profesor/"), id: "profesor", label: "Profesor" },
 ];
 ---
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href={base} aria-label="Universidad Adolfo Ibáñez — Magíster en IA">
-      <img src={`${base}brand/uai-logo.svg`} alt="Universidad Adolfo Ibáñez" width="120" height="34" />
+    <a class="brand" href={home} aria-label="Universidad Adolfo Ibáñez — Magíster en IA">
+      <img
+        class="brand__logo"
+        src={asset("brand/uai-logo.svg")}
+        alt="Universidad Adolfo Ibáñez"
+        width="140"
+        height="40"
+      />
     </a>
     <nav class="nav" aria-label="Principal">
       {

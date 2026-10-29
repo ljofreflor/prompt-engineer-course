@@ -109,10 +109,12 @@ p {
   color: inherit;
 }
 
-.brand img {
-  height: 28px;
+.brand__logo,
+.footer__logo {
+  height: 32px;
   width: auto;
-  filter: brightness(0) invert(1);
+  /* SVG corporativo ya es blanco (#fff); no invertir */
+  filter: none;
 }
 
 .brand__text {

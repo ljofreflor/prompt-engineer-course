@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { asset } from "../lib/base";
 
 interface Props {
   title: string;
@@ -7,14 +8,13 @@ interface Props {
 }
 
 const { title, description = "Material del Magíster en Inteligencia Artificial — Universidad Adolfo Ibáñez" } = Astro.props;
-const base = import.meta.env.BASE_URL;
 const fonts = {
-  corp300: `${base}fonts/uai-corp-300.otf`,
-  corp400: `${base}fonts/uai-corp-400.otf`,
-  corp800: `${base}fonts/uai-corp-800.otf`,
-  roboto400: `${base}fonts/roboto-400.ttf`,
-  roboto700: `${base}fonts/roboto-700.ttf`,
-  roboto900: `${base}fonts/roboto-900.ttf`,
+  corp300: asset("fonts/uai-corp-300.otf"),
+  corp400: asset("fonts/uai-corp-400.otf"),
+  corp800: asset("fonts/uai-corp-800.otf"),
+  roboto400: asset("fonts/roboto-400.ttf"),
+  roboto700: asset("fonts/roboto-700.ttf"),
+  roboto900: asset("fonts/roboto-900.ttf"),
 };
 ---
 <!doctype html>
@@ -23,7 +23,7 @@ const fonts = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href={asset("favicon.svg")} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
