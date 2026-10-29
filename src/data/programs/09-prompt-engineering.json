@@ -1,0 +1,245 @@
+{
+  "asignatura": "Prompt Engineering y Sistemas Multiagentes (24 hrs lectivas, 96 hrs autónomas, 4 créditos)",
+  "ubicacion": "Noveno curso del programa",
+  "introduccion": [
+    "El curso Prompt Engineering y Sistemas Multiagentes trata la instrucción como especificación y al agente como el sistema que la ejecuta con autonomía acotada. Su ubicación en la malla es inmediatamente posterior a GenAI y LLMs, y esa secuencia es sustantiva: el estudiante llega sabiendo qué es un modelo generativo, qué explica su comportamiento y cómo se lo adapta; este curso enseña a especificar lo que debe hacer y a construir sistemas que lo hagan de forma autónoma.",
+    "La primera tesis del curso es que un prompt es un artefacto de ingeniería y no una formulación afortunada. Un prompt en producción tiene versiones, tiene pruebas asociadas, tiene un comportamiento medible ante variaciones de la entrada, se degrada cuando cambia el modelo subyacente y constituye una dependencia del sistema tan real como una biblioteca. La práctica extendida de tratarlo como texto libre que alguien escribe una vez y nadie vuelve a mirar es el origen de una clase entera de fallas en producción. El curso lo trata desde el inicio con las prácticas de un artefacto versionado y probado.",
+    "La segunda tesis es que la instrucción no es un mecanismo de control robusto. Los modelos no distinguen de manera confiable entre instrucciones del desarrollador y contenido provisto por el usuario o recuperado de fuentes externas; esa indistinción es una propiedad arquitectónica y no un defecto corregible mediante mejores instrucciones. La consecuencia práctica —que ningún requisito de seguridad crítico debe descansar únicamente en el prompt— es una de las competencias que el curso instala, y su omisión es el error más costoso que un profesional puede cometer en este dominio.",
+    "La tercera característica es el reequilibrio hacia los sistemas multiagentes, que dan nombre a la asignatura. La versión anterior del programa les asignaba una fracción menor de una sesión; esta versión les dedica dos unidades completas, más una de evaluación de comportamiento agéntico. El fundamento es que la construcción de agentes con uso de herramientas es hoy la forma dominante de aplicación de modelos generativos en contextos organizacionales, y que su dificultad real —la propagación de errores a lo largo de una trayectoria, la ausencia de criterios de terminación, el costo no acotado y la dificultad de evaluación— no se aprende estudiando prompts.",
+    "El curso mantiene una delimitación estricta respecto de sus vecinos. El modelo y su adaptación corresponden a GenAI y LLMs. La topología del sistema completo, la arquitectura de recuperación y el diseño de la interacción humana corresponden a Diseño de Sistemas y Aplicaciones de IA. La infraestructura de despliegue corresponde a AI.Ops y Sistemas Cloud. Este curso trata la instrucción, el agente y su evaluación."
+  ],
+  "objetivoGeneral": "Desarrollar en el/la estudiante la capacidad de especificar el comportamiento de modelos generativos mediante instrucciones tratadas como artefactos de ingeniería, de diseñar y construir sistemas de agentes con uso de herramientas y coordinación entre agentes, y de evaluar su comportamiento con instrumentos apropiados a la naturaleza no determinista de estos sistemas.",
+  "objetivosEspecificos": [
+    "Especificar el comportamiento deseado de un modelo generativo mediante instrucciones estructuradas, con criterios explícitos de formato, alcance y restricción.",
+    "Aplicar las técnicas de prompting establecidas —aprendizaje en contexto, razonamiento explícito, descomposición, ensamblado y autocrítica— reconociendo la evidencia disponible sobre su eficacia y sus límites.",
+    "Tratar los prompts como artefactos versionados, con pruebas de regresión y medición de sensibilidad al formato de entrada.",
+    "Diseñar sistemas de agentes con planificación, uso de herramientas, memoria y criterios de terminación explícitos.",
+    "Especificar interfaces de herramientas apropiadas para su invocación por un modelo, incluyendo el manejo de errores y de resultados inesperados.",
+    "Diseñar topologías de coordinación entre múltiples agentes y justificar la elección frente a una solución de agente único.",
+    "Evaluar el comportamiento de un agente mediante análisis de trayectorias, tasa de completitud, costo por tarea y modos de falla característicos.",
+    "Anticipar la propagación de errores a lo largo de una trayectoria y acotar el costo y la duración de una ejecución autónoma.",
+    "Identificar las técnicas de manipulación de instrucciones y evaluar la eficacia real de las defensas disponibles.",
+    "Argumentar por qué un requisito crítico no debe descansar exclusivamente en la instrucción, y proponer el control alternativo apropiado."
+  ],
+  "metodologia": [
+    "Clases online en vivo (Zoom) o híbrida, según la versión del programa, con enfoque de taller. Cada sesión de cuatro horas combina exposición conceptual, construcción en vivo y trabajo en cuadernos.",
+    "El curso adopta desde la primera sesión una práctica que lo distingue: todo prompt construido en clase se acompaña de un conjunto de casos de prueba y se evalúa sobre él. La razón es que la evaluación intuitiva de un prompt —probarlo dos veces y considerarlo bueno— es sistemáticamente engañosa dada la variabilidad de la salida, y desmontar esa intuición es un objetivo formativo del curso.",
+    "Las 96 horas autónomas se destinan a lectura previa, ejecución de cuadernos, dos talleres evaluados y el proyecto final. Se advierte que la construcción del conjunto de evaluación de trayectorias del proyecto final consume tiempo comparable al de la construcción del agente mismo.",
+    "Requisitos técnicos y plataforma",
+    "Entorno de ejecución. Cuadernos con acceso a interfaces de programación de modelos generativos. El curso no requiere cómputo acelerado propio: su carga es de consumo por token y no de entrenamiento.",
+    "Provisión y costos. La Universidad provee el acceso mediante una clave por equipo, con límite de gasto propio y crédito prepagado. El gasto por clave es además insumo pedagógico: la Unidad 6 evalúa el costo por tarea completada, que sin instrumentación por equipo no puede medirse.",
+    "Control específico de ejecuciones agénticas. Todo agente construido en el curso debe declarar límite de iteraciones, presupuesto máximo de costo y tiempo máximo de ejecución, conforme a la Unidad 4. Esta exigencia es simultáneamente contenido y control de gasto: un agente sin criterio de terminación ejecutándose fuera de horario supervisado es el equivalente por token de una instancia encendida durante un fin de semana. No se autorizan ejecuciones autónomas sin tope fuera de las sesiones supervisadas.",
+    "Herramientas del agente. Las herramientas que los agentes invocan operan sobre entornos aislados y datos de prueba. No se conectan credenciales de sistemas productivos ni herramientas con capacidad de escritura sobre sistemas reales, de acuerdo con el principio de privilegio mínimo que la Unidad 6 fundamenta."
+  ],
+  "metodologiaBullets": [
+    "• Datos. No se suben datos personales, confidenciales ni de la organización del estudiante a entornos de terceros. Los trabajos se realizan sobre datos públicos o sintéticos. Cualquier excepción requiere autorización previa de la coordinación y base de licitud declarada conforme a la Ley N° 21.719."
+  ],
+  "evaluacion": {
+    "items": [
+      "• Taller 1 – Prompt versionado con conjunto de pruebas y análisis de sensibilidad (Sesión 2): 15%",
+      "• Taller 2 – Agente con uso de herramientas y control de terminación (Sesión 4): 20%",
+      "• Evaluación individual escrita: 20%",
+      "• Proyecto final grupal — sistema multiagente con evaluación de trayectorias: 40%",
+      "• Participación: 5%",
+      "• Nota mínima de aprobación curso: 4.0 (cuatro coma cero décimas).",
+      "• Nota mínima de examen: 3.0 (tres coma cero décimas)."
+    ],
+    "notes": [
+      "El proyecto final construye un sistema de agentes para una tarea real y produce, además del sistema, un informe que debe contener: la justificación de la topología elegida frente a la alternativa de agente único; la especificación de las herramientas y de su manejo de errores; los criterios de terminación y los límites de costo y de iteraciones; el conjunto de evaluación de trayectorias con su método de construcción; los resultados, incluidos los modos de falla observados; y el análisis de los requisitos que no descansan en la instrucción y del control alternativo aplicado a cada uno.",
+      "Esta asignatura establece una exigencia de un 75% de la asistencia mínima para modalidad presencial y un 60% para modalidad híbrida u online. Así también, los atrasos de más de 15 minutos serán considerados como inasistencias.",
+      "Si la ausencia se produce el día del examen, y ésta no es justificada o es rechazada, el alumno tendrá derecho a rendir una prueba de recuperación, que se realizará el mismo día del examen de repetición, pero optando a la nota máxima de examen de un 4.0 (cuatro coma cero décimas)."
+    ]
+  },
+  "bibliografiaObligatoria": [
+    "Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., … Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901.",
+    "Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., & Fritz, M. (2023). Not what you’ve signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security, 79–90.",
+    "Kapoor, S., Stroebl, B., Siegel, Z. S., Nadgir, N., & Narayanan, A. (2024). AI agents that matter (arXiv:2407.01502). arXiv.",
+    "Schulhoff, S., Ilie, M., Balepur, N., Kahadze, K., Liu, A., Si, C., … Resnik, P. (2024). The prompt report: A systematic survey of prompting techniques (arXiv:2406.06608). arXiv.",
+    "Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022). Chain-of-thought prompting elicits reasoning in large language models. Advances in Neural Information Processing Systems, 35, 24824–24837.",
+    "Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. International Conference on Learning Representations.",
+    "Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., … Stoica, I. (2023). Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. Advances in Neural Information Processing Systems, 36."
+  ],
+  "bibliografiaComplementaria": [
+    "Hong, S., Zhuge, M., Chen, J., Zheng, X., Cheng, Y., Zhang, C., … Schmidhuber, J. (2024). MetaGPT: Meta programming for a multi-agent collaborative framework. International Conference on Learning Representations.",
+    "Liu, X., Yu, H., Zhang, H., Xu, Y., Lei, X., Lai, H., … Tang, J. (2024). AgentBench: Evaluating LLMs as agents. International Conference on Learning Representations.",
+    "Park, J. S., O’Brien, J., Cai, C. J., Morris, M. R., Liang, P., & Bernstein, M. S. (2023). Generative agents: Interactive simulacra of human behavior. Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology, 1–22.",
+    "Perez, F., & Ribeiro, I. (2022). Ignore previous prompt: Attack techniques for language models (arXiv:2211.09527). arXiv.",
+    "Schick, T., Dwivedi-Yu, J., Dessì, R., Raileanu, R., Lomeli, M., Zettlemoyer, L., Cancedda, N., & Scialom, T. (2023). Toolformer: Language models can teach themselves to use tools. Advances in Neural Information Processing Systems, 36.",
+    "Sclar, M., Choi, Y., Tsvetkov, Y., & Suhr, A. (2024). Quantifying language models’ sensitivity to spurious features in prompt design, or: How I learned to start worrying about prompt formatting. International Conference on Learning Representations.",
+    "Shinn, N., Cassano, F., Berman, E., Gopinath, A., Narasimhan, K., & Yao, S. (2023). Reflexion: Language agents with verbal reinforcement learning. Advances in Neural Information Processing Systems, 36.",
+    "Wang, X., Wei, J., Schuurmans, D., Le, Q., Chi, E., Narang, S., Chowdhery, A., & Zhou, D. (2023). Self-consistency improves chain of thought reasoning in language models. International Conference on Learning Representations.",
+    "Wu, Q., Bansal, G., Zhang, J., Wu, Y., Li, B., Zhu, E., … Wang, C. (2023). AutoGen: Enabling next-gen LLM applications via multi-agent conversation (arXiv:2308.08155). arXiv.",
+    "Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T. L., Cao, Y., & Narasimhan, K. (2023). Tree of Thoughts: Deliberate problem solving with large language models. Advances in Neural Information Processing Systems, 36.",
+    "Zhou, Y., Muresanu, A. I., Han, Z., Paster, K., Pitis, S., Chan, H., & Ba, J. (2023). Large language models are human-level prompt engineers. International Conference on Learning Representations."
+  ],
+  "unidades": [
+    {
+      "number": 1,
+      "id": "u01",
+      "title": "La instrucción como especificación",
+      "hours": 4,
+      "narrative": [
+        "La unidad establece la posición del curso: escribir un prompt es escribir una especificación bajo un formalismo pobre. El lenguaje natural no tiene semántica precisa, el destinatario no es determinista y no existe compilador que rechace una especificación mal formada. De ahí se sigue que la disciplina debe provenir del método y no de la herramienta.",
+        "Se trabajan los componentes de un prompt —rol, contexto, tarea, restricciones, formato de salida, ejemplos— y la evidencia disponible sobre cuáles importan y cuáles son mayormente decorativos. Se examina el aprendizaje en contexto: qué gobierna su eficacia, cuántos ejemplos aportan, y el resultado contraintuitivo de que la distribución y el formato de los ejemplos importan más que la corrección de sus respuestas.",
+        "La segunda mitad de la unidad trata la especificación del formato de salida, que en aplicación es donde se concentra la mayor parte del trabajo real: salida estructurada, validación de esquema, comportamiento ante entradas que no admiten la respuesta pedida, y la importancia de que el modelo disponga de una salida legítima para el caso en que no puede responder. La ausencia de esa vía de escape es una causa frecuente de invención."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Componentes de un prompt. Rol, contexto, tarea, restricciones, formato, ejemplos. Qué aporta cada componente según la evidencia disponible. Errores característicos: instrucciones contradictorias, restricciones negativas, sobrecarga de contexto irrelevante.",
+        "Bloque 2 (60 min) — Aprendizaje en contexto. Cero, uno y pocos ejemplos. Qué gobierna la eficacia de los ejemplos. Selección y orden. Distribución y formato frente a corrección de las respuestas.",
+        "Bloque 3 (60 min) — Salida estructurada. Especificación del formato. Validación de esquema y reintentos. Comportamiento ante entradas fuera de alcance. La abstención como salida legítima y su efecto sobre la invención.",
+        "Bloque 4 (60 min) — Taller de especificación. Construcción de un prompt para una tarea con formato estricto, con casos de prueba que incluyan entradas fuera de alcance."
+      ],
+      "outcomes": [
+        "Estructurar un prompt declarando explícitamente rol, contexto, tarea, restricciones y formato de salida.",
+        "Seleccionar y ordenar ejemplos de aprendizaje en contexto conforme a la evidencia disponible sobre su eficacia.",
+        "Especificar una salida estructurada validable y el comportamiento del sistema ante fallo de validación.",
+        "Diseñar una vía de abstención explícita y explicar su efecto sobre la tendencia del modelo a inventar.",
+        "Identificar errores característicos de especificación en un prompt existente."
+      ],
+      "readings": [
+        "Schulhoff et al. (2024), secciones 1 y 2.2; Brown et al. (2020), secciones 1 a 3."
+      ]
+    },
+    {
+      "number": 2,
+      "id": "u02",
+      "title": "El prompt como artefacto de ingeniería",
+      "hours": 4,
+      "narrative": [
+        "La unidad instala la práctica que distingue el trabajo profesional del ensayo informal. Su punto de partida es un resultado empírico incómodo: la salida de un modelo es sensible a variaciones del formato del prompt que no alteran su significado —separadores, mayúsculas, orden de las secciones—, y esa sensibilidad puede producir diferencias de desempeño comparables a las que separan a modelos distintos. La consecuencia es que un prompt no evaluado sistemáticamente es un componente de comportamiento desconocido.",
+        "Se desarrolla en consecuencia el ciclo completo: construcción del conjunto de casos, definición de criterios de corrección, medición de la variabilidad entre ejecuciones, versionamiento del prompt junto al código, y pruebas de regresión que se ejecutan cuando cambia el prompt y cuando cambia el modelo. Este último caso merece énfasis: un cambio de versión del modelo por parte del proveedor puede degradar un prompt en producción sin aviso, y la única defensa es una batería de pruebas que se ejecute periódicamente.",
+        "La segunda mitad trata la optimización sistemática de prompts, incluidos los métodos que emplean modelos para generar y seleccionar candidatos, con evaluación realista de lo que aportan y de su costo."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Sensibilidad al formato. Evidencia sobre el efecto de variaciones semánticamente neutras. Medición de la sensibilidad de un prompt propio. Consecuencias para la comparación entre modelos y entre prompts.",
+        "Bloque 2 (60 min) — Conjuntos de prueba y variabilidad. Construcción del conjunto de casos, incluidos los difíciles. Criterios de corrección automatizables y no automatizables. Repeticiones y estimación de la variabilidad. Tamaño necesario para detectar una diferencia relevante.",
+        "Bloque 3 (60 min) — Versionamiento y regresión. Prompt como artefacto en el repositorio. Pruebas de regresión y su ejecución periódica. Detección de degradación por cambio de versión del modelo. Registro de cambios y trazabilidad.",
+        "Bloque 4 (60 min) — Optimización sistemática (Evaluación 1). Métodos automatizados de generación y selección de prompts. Qué aportan y cuánto cuestan. Taller: prompt versionado con conjunto de pruebas y análisis de sensibilidad."
+      ],
+      "outcomes": [
+        "Medir la sensibilidad de un prompt a variaciones semánticamente neutras de su formato.",
+        "Construir un conjunto de casos de prueba con criterios de corrección declarados y tamaño justificado.",
+        "Estimar la variabilidad de la salida entre ejecuciones y distinguirla de una diferencia real de desempeño.",
+        "Versionar prompts junto al código e implementar pruebas de regresión ejecutables.",
+        "Detectar la degradación de un prompt causada por un cambio de versión del modelo subyacente.",
+        "Evaluar críticamente el aporte de los métodos automatizados de optimización de prompts."
+      ],
+      "readings": [
+        "Sclar, Choi, Tsvetkov y Suhr (2024); Schulhoff et al. (2024), sección sobre ingeniería de prompts. Lectura complementaria: Zhou et al. (2023)."
+      ]
+    },
+    {
+      "number": 3,
+      "id": "u03",
+      "title": "Razonamiento, descomposición y verificación",
+      "hours": 4,
+      "narrative": [
+        "La unidad trata las técnicas destinadas a mejorar el desempeño en tareas que requieren varios pasos, con atención explícita a la brecha entre lo que se afirma sobre ellas y lo que la evidencia sostiene.",
+        "Se desarrollan el razonamiento explícito paso a paso y su efecto documentado, el ensamblado por autoconsistencia, la descomposición en subtareas, la exploración de alternativas y la autocrítica. En cada caso se examinan las condiciones bajo las cuales la técnica aporta —tamaño del modelo, tipo de tarea— y las condiciones bajo las cuales no aporta o degrada el resultado.",
+        "La unidad incorpora una advertencia sustantiva y la trabaja con casos: el razonamiento explícito que el modelo produce no constituye necesariamente una explicación fiel del proceso que llevó a la respuesta. Tratarlo como tal es un error de interpretación con consecuencias, particularmente cuando esa cadena se muestra al usuario como fundamento de una decisión. La distinción entre razonamiento como técnica que mejora el resultado y razonamiento como explicación auditable es una competencia que el curso instala y que se retoma en Ética de la IA.",
+        "El bloque final trata la verificación: uso de un segundo paso para revisar la salida del primero, verificación programática cuando la tarea lo permite, y el límite de la autocrítica cuando el error proviene de una limitación que el propio modelo no puede detectar."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Razonamiento explícito. Mecanismo y evidencia. Dependencia del tamaño del modelo y del tipo de tarea. Modelos entrenados para razonamiento extendido y su compromiso de costo y latencia.",
+        "Bloque 2 (60 min) — Ensamblado y descomposición. Autoconsistencia por muestreo múltiple: efecto y costo. Descomposición en subtareas encadenadas. Exploración de alternativas y su costo computacional.",
+        "Bloque 3 (60 min) — Fidelidad del razonamiento. El razonamiento producido como texto y no como registro del proceso. Evidencia sobre su infidelidad. Consecuencias cuando se muestra al usuario como fundamento. Distinción entre técnica de mejora y explicación auditable.",
+        "Bloque 4 (60 min) — Verificación. Revisión en segundo paso. Verificación programática. Autocrítica y sus límites. Taller: comparación de técnicas sobre una misma tarea con medición de costo y de mejora."
+      ],
+      "outcomes": [
+        "Aplicar razonamiento explícito, ensamblado y descomposición, y determinar en qué condiciones cada técnica aporta.",
+        "Cuantificar el costo adicional de cada técnica y compararlo con la mejora obtenida.",
+        "Explicar por qué el razonamiento producido por el modelo no constituye una explicación fiel de su proceso.",
+        "Diseñar mecanismos de verificación apropiados a la tarea, distinguiendo los verificables programáticamente de los que no lo son.",
+        "Reconocer los límites de la autocrítica como mecanismo de corrección."
+      ],
+      "readings": [
+        "Wei et al. (2022); Wang et al. (2023). Lectura complementaria: Yao, Yu et al. (2023); Shinn et al. (2023)."
+      ]
+    },
+    {
+      "number": 4,
+      "id": "u04",
+      "title": "Del prompt al agente",
+      "hours": 4,
+      "narrative": [
+        "La unidad marca la transición al segundo objeto del curso. Un agente es un sistema en el que el modelo decide qué hacer a continuación, invoca herramientas, observa resultados e itera hasta considerar la tarea completa. Ese salto introduce problemas que no existen en una invocación única: la trayectoria puede no terminar, el costo no está acotado a priori, un error temprano se propaga a todos los pasos posteriores, y el sistema puede ejecutar acciones con efectos externos.",
+        "Se desarrolla el ciclo básico de razonamiento y acción, y los componentes que lo constituyen: planificación, uso de herramientas, memoria de trabajo y criterio de terminación. Se dedica atención particular al diseño de las herramientas, que es donde se concentra la calidad práctica de un agente: la descripción de la herramienta es en sí misma una especificación dirigida al modelo, y su ambigüedad produce invocaciones erróneas que después se atribuyen equivocadamente a limitaciones del modelo.",
+        "El bloque final trata el control de la ejecución: límite de iteraciones, presupuesto máximo de costo, tiempo máximo, detección de bucles, y el principio de que toda acción con efecto externo irreversible requiere confirmación humana o un control programático independiente del modelo."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Anatomía de un agente. Ciclo de razonamiento, acción y observación. Planificación previa frente a planificación incremental. Memoria de trabajo y su gestión dentro de la ventana de contexto.",
+        "Bloque 2 (60 min) — Diseño de herramientas. La descripción como especificación. Granularidad y nomenclatura. Esquemas de parámetros. Manejo de errores y de resultados vacíos o inesperados. Protocolos de conexión con herramientas externas.",
+        "Bloque 3 (60 min) — Terminación y control de la ejecución. Criterios de terminación. Límites de iteraciones, de costo y de tiempo. Detección de bucles y de estancamiento. Acciones irreversibles y confirmación humana.",
+        "Bloque 4 (60 min) — Taller (Evaluación 2). Construcción de un agente con al menos tres herramientas, manejo de errores y controles de terminación explícitos."
+      ],
+      "outcomes": [
+        "Describir el ciclo de operación de un agente y los componentes que lo constituyen.",
+        "Especificar herramientas con descripciones, esquemas y manejo de errores apropiados a su invocación por un modelo.",
+        "Diagnosticar invocaciones erróneas de herramientas y atribuirlas a su causa real.",
+        "Definir criterios de terminación y límites de iteraciones, costo y tiempo para una ejecución autónoma.",
+        "Identificar las acciones con efecto irreversible y proponer el control que no descanse en la instrucción."
+      ],
+      "readings": [
+        "Yao, Zhao et al. (2023). Lectura complementaria: Schick et al. (2023); Weng, L. (2023), LLM powered autonomous agents (Lil’Log), como material de referencia de práctica."
+      ]
+    },
+    {
+      "number": 5,
+      "id": "u05",
+      "title": "Sistemas multiagentes",
+      "hours": 4,
+      "narrative": [
+        "La unidad trata la coordinación entre múltiples agentes y comienza por la pregunta que rara vez se formula: cuándo un sistema multiagente es preferible a un agente único bien diseñado. La respuesta honesta es que con menor frecuencia de lo que la literatura promocional sugiere, y que la multiplicidad de agentes multiplica también el costo, la latencia y las superficies de falla. El curso instala ese criterio antes de enseñar a construirlos.",
+        "Se desarrollan luego las topologías de coordinación: supervisor con subordinados especializados, cadena secuencial con traspaso, discusión entre pares con convergencia, y esquemas de revisión cruzada. Cada una se examina con sus condiciones de aplicabilidad, su costo característico y su modo de falla propio.",
+        "El eje central de la unidad es la propagación de errores. En un sistema de varios agentes encadenados, la probabilidad de completar correctamente una tarea es aproximadamente el producto de las probabilidades individuales, lo que significa que una cadena de cinco pasos con noventa por ciento de fiabilidad cada uno completa correctamente menos del sesenta por ciento de las veces. Este cálculo elemental —que el curso realiza explícitamente en aula— explica la mayoría de los fracasos de sistemas agénticos ambiciosos y es el argumento cuantitativo más fuerte a favor de arquitecturas simples.",
+        "La unidad cierra con los mecanismos de mitigación: puntos de verificación, reintentos acotados, degradación a un camino más simple, y escalamiento a decisión humana."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Cuándo múltiples agentes. Criterios de descomposición. Costo y latencia de la multiplicidad. Casos donde un agente único bien diseñado es superior. Errores de sobre-ingeniería frecuentes.",
+        "Bloque 2 (60 min) — Topologías de coordinación. Supervisor y subordinados. Cadena secuencial con traspaso. Discusión entre pares. Revisión cruzada. Condiciones de aplicabilidad y modo de falla de cada una.",
+        "Bloque 3 (60 min) — Propagación de errores. Cálculo de fiabilidad compuesta. Efecto de la longitud de la cadena. Puntos de verificación y su ubicación óptima. Reintentos acotados y degradación.",
+        "Bloque 4 (60 min) — Taller de topología. Diseño de la topología del proyecto final, con justificación frente a la alternativa de agente único y cálculo de fiabilidad esperada."
+      ],
+      "outcomes": [
+        "Justificar la elección de una arquitectura multiagente frente a la alternativa de agente único.",
+        "Seleccionar una topología de coordinación apropiada a la tarea y explicar su modo de falla característico.",
+        "Calcular la fiabilidad compuesta de una cadena de agentes y evaluar el efecto de su longitud.",
+        "Ubicar puntos de verificación de manera que acoten la propagación de errores.",
+        "Diseñar mecanismos de degradación y de escalamiento a decisión humana."
+      ],
+      "readings": [
+        "Kapoor et al. (2024). Lectura complementaria: Wu et al. (2023); Hong et al. (2024); Park et al. (2023)."
+      ]
+    },
+    {
+      "number": 6,
+      "id": "u06",
+      "title": "Evaluación del comportamiento agéntico, robustez y límites del control",
+      "hours": 4,
+      "narrative": [
+        "La unidad final trata dos problemas que la práctica del campo aborda con insuficiencia.",
+        "El primero es la evaluación. Evaluar un agente no es evaluar una salida sino una trayectoria: una secuencia de decisiones, invocaciones y observaciones que puede llegar al resultado correcto por un camino inaceptable, o fallar por una razón que la métrica de resultado no revela. Se desarrollan en consecuencia las métricas propias: tasa de completitud, costo por tarea completada, número de pasos, tasa de invocación errónea de herramientas, y análisis cualitativo de trayectorias fallidas. Se examina críticamente la práctica de reportar únicamente tasa de éxito sin costo asociado, que permite presentar como mejoras lo que son sólo incrementos de gasto.",
+        "El segundo problema es el control. Se desarrollan las técnicas de manipulación de instrucciones, con la distinción central entre la manipulación directa por parte del usuario y la manipulación indirecta a través de contenido que el sistema recupera o procesa. Esta segunda es la más grave en sistemas agénticos, porque un agente que lee una página web, un correo o un documento está incorporando a su contexto texto que puede contener instrucciones dirigidas a él, y porque ese agente dispone de herramientas con efectos externos.",
+        "La conclusión que el curso instala es explícita: las defensas basadas en instrucción reducen la tasa de éxito de un ataque pero no la anulan, y ningún requisito crítico debe descansar en ellas. Los controles efectivos son de arquitectura —privilegio mínimo de las herramientas, validación programática de las acciones, separación de canales, confirmación humana para lo irreversible— y su diseño corresponde a Diseño de Sistemas y Aplicaciones de IA, del que este curso entrega la fundamentación."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Evaluación de trayectorias. Resultado frente a trayectoria. Métricas: completitud, costo por tarea, pasos, invocación errónea de herramientas. Registro de trayectorias y su análisis. Crítica de la tasa de éxito sin costo.",
+        "Bloque 2 (60 min) — Evaluación práctica. Construcción de un conjunto de tareas de evaluación. Variabilidad entre ejecuciones y número de repeticiones necesario. Modelos jueces aplicados a trayectorias y sus límites. Evaluaciones públicas de agentes y su validez externa.",
+        "Bloque 3 (60 min) — Manipulación de instrucciones. Manipulación directa e indirecta. Por qué el modelo no distingue instrucción de contenido. Casos documentados en sistemas con recuperación y con navegación. Extracción del prompt de sistema.",
+        "Bloque 4 (60 min) — Límites del control y cierre. Eficacia real de las defensas basadas en instrucción. Controles arquitectónicos: privilegio mínimo, validación programática, separación de canales, confirmación humana. Presentación de proyectos y articulación con Diseño de Sistemas y con Ética de la IA."
+      ],
+      "outcomes": [
+        "Diseñar un conjunto de evaluación de trayectorias con métricas de completitud, costo y calidad del camino.",
+        "Analizar trayectorias fallidas e identificar el punto y la causa del fallo.",
+        "Reconocer la insuficiencia de reportar tasa de éxito sin el costo asociado.",
+        "Explicar por qué un modelo no distingue de manera confiable entre instrucción del desarrollador y contenido externo.",
+        "Identificar las superficies de manipulación indirecta en un sistema agéntico que consume contenido externo.",
+        "Argumentar por qué un requisito crítico no debe descansar en la instrucción, y proponer el control arquitectónico correspondiente."
+      ],
+      "readings": [
+        "Greshake et al. (2023); Kapoor et al. (2024); Zheng et al. (2023). Lectura complementaria: Perez y Ribeiro (2022); Liu et al. (2024)."
+      ]
+    }
+  ],
+  "slug": "09-prompt-engineering"
+}

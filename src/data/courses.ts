@@ -145,7 +145,7 @@ export const courses: Course[] = [
     hours: 24,
     autonomousHours: 96,
     credits: 4,
-    status: "skeleton",
+    status: "ready",
     units: [
       {
         id: "u01",
@@ -200,7 +200,7 @@ export const courses: Course[] = [
     hours: 24,
     autonomousHours: 96,
     credits: 4,
-    status: "skeleton",
+    status: "ready",
     units: [
       {
         id: "u01",

@@ -512,6 +512,66 @@ p {
   color: var(--uai-gray);
 }
 
+.program-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 1.5rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--uai-border);
+}
+
+.program-toc a {
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--uai-negro);
+}
+
+.program-toc a:hover {
+  color: var(--uai-primary);
+}
+
+.program-block h2 {
+  margin-top: 0;
+}
+
+.program-units {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.program-unit {
+  background: #fff;
+  border: 1px solid var(--uai-border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.35rem 1.2rem;
+}
+
+.program-unit header {
+  margin-bottom: 0.75rem;
+}
+
+.program-unit h3 {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-corp);
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.program-unit p,
+.program-unit li {
+  color: var(--uai-negro);
+  font-size: 0.98rem;
+}
+
+.program-unit ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.15rem;
+}
+
 @media (max-width: 720px) {
   .hero {
     min-height: 62vh;

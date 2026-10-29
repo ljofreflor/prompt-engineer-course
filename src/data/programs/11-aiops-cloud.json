@@ -1,0 +1,247 @@
+{
+  "asignatura": "AI.Ops y Sistemas Cloud (24 hrs lectivas, 96 hrs autónomas, 4 créditos)",
+  "ubicacion": "Undécimo curso del programa",
+  "introduccion": [
+    "El curso AI.Ops y Sistemas Cloud es la asignatura de operación del programa. Su objeto es lo que ocurre después de que existe un modelo entrenado y una arquitectura especificada: cómo ese conjunto se convierte en un servicio que funciona de manera confiable, se actualiza sin interrumpirse, se observa mientras opera y se corrige cuando falla.",
+    "La tesis que organiza el curso es la que el propio programa instala en su asignatura inicial: el código de aprendizaje automático constituye una fracción menor de un sistema desplegado, y el esfuerzo, el riesgo y las fallas se concentran en lo que lo rodea. Este curso trata precisamente ese entorno. La consecuencia práctica es que un modelo con excelente desempeño en un cuaderno de trabajo no constituye un activo organizacional hasta que alguien resuelve su reproducibilidad, su empaquetado, su servicio, su monitoreo y su ciclo de actualización, y esas cinco cosas son ingeniería y no ciencia de datos.",
+    "El curso se ubica inmediatamente después de Diseño de Sistemas y Aplicaciones de IA, y esa secuencia es deliberada. La asignatura anterior especifica la arquitectura, los presupuestos de latencia y costo, los contratos de datos y la estrategia de evaluación; ésta los implementa. La articulación entre ambas debe hacerse explícita en aula: el documento de diseño producido en el curso 10 es el insumo natural del trabajo de este curso.",
+    "Como contrapartida de esa delimitación, este curso concentra íntegramente el tratamiento de las plataformas de nube. En versiones anteriores del programa, la infraestructura de nube aparecía además en GenAI y LLMs y en Prompt Engineering, con duplicación efectiva de contenido. La malla vigente asigna esa materia exclusivamente a esta asignatura, y en contrapartida esta asignatura no trata la arquitectura del modelo, su adaptación ni el diseño de instrucciones.",
+    "La segunda característica del curso es su tratamiento de la operación de sistemas generativos, que introduce problemas ausentes en el paradigma anterior: costo variable proporcional al uso, dependencia de versiones de modelo controladas por un tercero, latencias de orden distinto, y evaluación continua de una salida que no admite verificación automática simple. La última unidad se dedica íntegramente a ello."
+  ],
+  "objetivoGeneral": "Desarrollar en el/la estudiante la capacidad de llevar sistemas de inteligencia artificial a producción y mantenerlos en operación, implementando reproducibilidad, empaquetado, integración y entrega continua, servicio de inferencia, observabilidad y detección de deriva sobre plataformas de nube, incluidos los requisitos específicos de los sistemas basados en modelos generativos.",
+  "objetivosEspecificos": [
+    "Implementar la reproducibilidad de un experimento y de un modelo mediante versionamiento de código, de datos, de entorno y de artefactos, y registro de ejecuciones.",
+    "Empaquetar un modelo y sus dependencias en un contenedor y justificar las decisiones de construcción de la imagen.",
+    "Diseñar e implementar canalizaciones de integración, entrega y entrenamiento continuo, con las pruebas específicas que un sistema de aprendizaje requiere.",
+    "Seleccionar y configurar el patrón de servicio de inferencia apropiado a los requisitos de latencia, volumen y costo especificados.",
+    "Implementar estrategias de despliegue progresivo —en sombra, canaria, azul-verde— con criterios de promoción y de reversión automáticos.",
+    "Instrumentar observabilidad sobre un sistema de IA, distinguiendo la observabilidad del servicio de la observabilidad del modelo.",
+    "Detectar deriva de datos y de concepto mediante pruebas apropiadas al tipo de variable, y configurar alertas con umbrales justificados.",
+    "Comparar las plataformas gestionadas de los principales proveedores de nube con criterios de capacidad, costo, dependencia y adecuación al caso.",
+    "Operar sistemas basados en modelos generativos, gestionando costo por consumo, caché, versiones de modelo y evaluación continua en producción.",
+    "Elaborar la documentación operacional de un sistema desplegado, incluyendo procedimientos de respuesta ante incidentes."
+  ],
+  "metodologia": [
+    "Clases online en vivo (Zoom) o híbrida, según la versión del programa, con enfoque práctico. Cada sesión de cuatro horas combina exposición conceptual, demostración en vivo y trabajo en entornos de nube.",
+    "El curso requiere acceso a cuentas de nube con nivel gratuito o crédito educacional en los tres proveedores principales. La coordinación gestiona ese acceso antes del inicio del curso. Se advierte a los estudiantes sobre el control de gasto: el curso incluye desde la primera sesión la configuración de límites y alertas de presupuesto, práctica que es simultáneamente una medida de resguardo del estudiante y un contenido del curso.",
+    "Las 96 horas autónomas se destinan a lectura previa, ejecución de laboratorios, tres talleres evaluados y el proyecto grupal, que consiste en desplegar y operar un sistema completo.",
+    "Se recomienda que el proyecto opere sobre la arquitectura que el propio estudiante especificó en Diseño de Sistemas y Aplicaciones de IA. Esa continuidad convierte al documento de diseño en una especificación real que debe cumplirse, y expone al estudiante a la experiencia —formativa y frecuente— de descubrir que su propia especificación era incompleta.",
+    "Requisitos técnicos y plataforma",
+    "Ésta es la asignatura de mayor exigencia de plataforma del programa y la única cuyo contenido consiste, en parte, en operar la infraestructura que otras asignaturas sólo especifican. Sus requisitos se declaran en detalle porque condicionan tanto el presupuesto del módulo como su riesgo operacional.",
+    "Entorno de ejecución. Cuentas en los tres proveedores principales, repositorio con integración continua, y entorno local con contenedores.",
+    "Provisión. La Universidad provee el acceso, con la siguiente prelación:"
+  ],
+  "metodologiaBullets": [
+    "• Programas académicos de los proveedores, que operan con crédito fijo, sin medio de pago asociado, con catálogo de servicios acotado y con detención del servicio al agotarse la asignación. Cubren la mayor parte de los laboratorios del curso.",
+    "• Organización institucional con proyecto por equipo, únicamente para las funciones que los programas académicos no habilitan. Los estudiantes operan con permisos de trabajo sobre su proyecto y sin permisos de facturación.",
+    "• Prioridad a programas académicos. Se utilizan en primer lugar los programas educacionales de los proveedores, que operan con crédito fijo, sin medio de pago asociado y con detención del servicio al agotarse la asignación.",
+    "• Segmentación por equipo. Cuando se requiera una cuenta con facturación, cada equipo opera en un proyecto o subcuenta propia, con presupuesto asignado. El agotamiento de una asignación no afecta a los demás equipos.",
+    "• Cuotas de servicio, no alertas. Se restringen por cuota el número y tipo de instancias, las familias de cómputo acelerado y las regiones habilitadas. Lo que la cuota impide no puede aprovisionarse por error.",
+    "• Detención automática y apagado programado. Se configura la detención de recursos al alcanzar el umbral de presupuesto y un apagado programado diario. Los recursos se destruyen al cierre del módulo, con acta.",
+    "• Gestión de credenciales. No se emiten credenciales de larga duración. La causa habitual de un gasto catastrófico no es el descuido en el uso sino la publicación involuntaria de una credencial en un repositorio; el manejo de secretos se trata como contenido del curso y no como advertencia.",
+    "• Supervisión. La coordinación designa un responsable técnico por dictado, distinto del profesor, que revisa el consumo cada 48 horas durante el módulo y ejecuta el cierre de recursos."
+  ],
+  "evaluacion": {
+    "items": [
+      "• Talleres prácticos (3): 30%",
+      "• Evaluación individual escrita: 25%",
+      "• Proyecto grupal — sistema desplegado con monitoreo y documentación operacional: 40%",
+      "• Participación: 5%",
+      "• Nota mínima de aprobación curso: 4.0 (cuatro coma cero décimas).",
+      "• Nota mínima de examen: 3.0 (tres coma cero décimas)."
+    ],
+    "notes": [
+      "El proyecto grupal entrega: un sistema desplegado y accesible; el repositorio con la canalización de integración y entrega; la instrumentación de observabilidad con paneles y alertas configuradas; evidencia de una estrategia de despliegue progresivo ejecutada; un informe de costo real de operación durante el período; y un manual de operación que incluya procedimientos de reversión y de respuesta ante los incidentes previsibles.",
+      "Esta asignatura establece una exigencia de un 75% de la asistencia mínima para modalidad presencial y un 60% para modalidad híbrida u online. Así también, los atrasos de más de 15 minutos serán considerados como inasistencias.",
+      "Si la ausencia se produce el día del examen, y ésta no es justificada o es rechazada, el alumno tendrá derecho a rendir una prueba de recuperación, que se realizará el mismo día del examen de repetición, pero optando a la nota máxima de examen de un 4.0 (cuatro coma cero décimas)."
+    ]
+  },
+  "bibliografiaObligatoria": [
+    "Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016). Site reliability engineering: How Google runs production systems. O’Reilly Media.",
+    "Breck, E., Cai, S., Nielsen, E., Salib, M., & Sculley, D. (2017). The ML test score: A rubric for ML production readiness and technical debt reduction. 2017 IEEE International Conference on Big Data, 1123–1132.",
+    "Huyen, C. (2022). Designing machine learning systems: An iterative process for production-ready applications. O’Reilly Media.",
+    "Kreuzberger, D., Kühl, N., & Hirschl, S. (2023). Machine learning operations (MLOps): Overview, definition, and architecture. IEEE Access, 11, 31866–31879.",
+    "Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., & Dennison, D. (2015). Hidden technical debt in machine learning systems. Advances in Neural Information Processing Systems, 28, 2503–2511."
+  ],
+  "bibliografiaComplementaria": [
+    "Burns, B., Beda, J., Hightower, K., & Evenson, L. (2022). Kubernetes: Up and running (3rd ed.). O’Reilly Media.",
+    "Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M., & Bouchachia, A. (2014). A survey on concept drift adaptation. ACM Computing Surveys, 46(4), 1–37.",
+    "Klaise, J., Van Looveren, A., Cox, C., Vacanti, G., & Coca, A. (2020). Monitoring and explainability of models in production (arXiv:2007.06299). arXiv.",
+    "Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu, C. H., Gonzalez, J. E., Zhang, H., & Stoica, I. (2023). Efficient memory management for large language model serving with PagedAttention. Proceedings of the 29th Symposium on Operating Systems Principles, 611–626.",
+    "Paleyes, A., Urma, R.-G., & Lawrence, N. D. (2022). Challenges in deploying machine learning: A survey of case studies. ACM Computing Surveys, 55(6), 1–29.",
+    "Shankar, S., Garcia, R., Hellerstein, J. M., & Parameswaran, A. G. (2024). “We have no idea how models will behave in production until production”: How engineers operationalize ML. Proceedings of the ACM on Human-Computer Interaction, 8(CSCW1).",
+    "Amershi, S., Begel, A., Bird, C., DeLine, R., Gall, H., Kamar, E., Nagappan, N., Nushi, B., & Zimmermann, T. (2019). Software engineering for machine learning: A case study. Proceedings of the IEEE/ACM 41st International Conference on Software Engineering: Software Engineering in Practice, 291–300.",
+    "Sato, D., Wider, A., & Windheuser, C. (2019). Continuous delivery for machine learning. martinfowler.com."
+  ],
+  "unidades": [
+    {
+      "number": 1,
+      "id": "u01",
+      "title": "Del cuaderno a producción — reproducibilidad y fundamentos",
+      "hours": 4,
+      "narrative": [
+        "La unidad establece el problema del curso y su primer requisito. La brecha entre un cuaderno de trabajo y un sistema en producción no es de escala sino de naturaleza: el cuaderno se ejecuta una vez, en una máquina, con un estado que su autor conoce; el sistema se ejecuta indefinidamente, en máquinas que cambian, con datos que su autor no verá. Todo lo que en el cuaderno es implícito debe volverse explícito.",
+        "Se desarrolla la reproducibilidad en sus cuatro dimensiones: código, datos, entorno y artefactos. Cada una tiene su mecanismo —control de versiones, versionamiento de conjuntos de datos, especificación declarativa del entorno, registro de modelos— y la ausencia de cualquiera de ellas basta para impedir la reproducción. Se trabaja el registro de ejecuciones como práctica que permite responder, meses después, con qué datos y con qué configuración se produjo el modelo que hoy está sirviendo predicciones.",
+        "La unidad introduce además el marco conceptual del campo y su vocabulario, distinguiendo lo que este curso trata de lo que corresponde a otras asignaturas, y establece desde el inicio las prácticas de control de gasto en nube."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — La brecha entre el cuaderno y la producción. Qué cambia y por qué. Deuda técnica específica de los sistemas de aprendizaje. Panorama del ciclo de vida operacional y vocabulario del campo. Delimitación respecto de Diseño de Sistemas y de GenAI.",
+        "Bloque 2 (60 min) — Reproducibilidad. Versionamiento de código, de datos, de entorno y de artefactos. Registro de ejecuciones, parámetros y métricas. Registro de modelos y linaje. Qué debe poder responderse seis meses después.",
+        "Bloque 3 (60 min) — Fundamentos de nube. Modelos de servicio y de responsabilidad compartida. Cómputo, almacenamiento, red e identidad. Regiones, latencia y residencia del dato. Control de gasto: presupuestos, alertas y etiquetado de recursos.",
+        "Bloque 4 (60 min) — Laboratorio. Configuración del entorno de trabajo en los tres proveedores. Establecimiento de límites de presupuesto. Primer experimento con registro de ejecución reproducible."
+      ],
+      "outcomes": [
+        "Identificar las diferencias sustantivas entre un experimento en cuaderno y un sistema en producción, y sus consecuencias de ingeniería.",
+        "Implementar reproducibilidad en las cuatro dimensiones de código, datos, entorno y artefactos.",
+        "Registrar ejecuciones con parámetros, métricas y linaje suficientes para reconstruir un modelo a posteriori.",
+        "Configurar los recursos básicos de una cuenta de nube y establecer controles de gasto con alertas.",
+        "Justificar la elección de región considerando latencia y residencia del dato."
+      ],
+      "readings": [
+        "Sculley et al. (2015); Kreuzberger, Kühl y Hirschl (2023), secciones 1 a 4. Lectura complementaria: Amershi et al. (2019)."
+      ]
+    },
+    {
+      "number": 2,
+      "id": "u02",
+      "title": "Empaquetado y automatización del ciclo",
+      "hours": 4,
+      "narrative": [
+        "La unidad trata el empaquetado del sistema y la automatización de su ciclo de actualización. El punto de partida es el contenedor como unidad de despliegue y las decisiones que su construcción involucra: imagen base, gestión de dependencias, tamaño resultante y su efecto sobre el tiempo de arranque, y separación entre la imagen y los artefactos que cambian con frecuencia.",
+        "El eje central es la extensión de las prácticas de integración y entrega continua al caso de los sistemas de aprendizaje, donde aparece un tercer elemento: el entrenamiento continuo. La unidad desarrolla qué debe probarse en una canalización de este tipo, que no coincide con lo que se prueba en software convencional. Además de las pruebas de código, un sistema de aprendizaje requiere validación del esquema y la distribución de los datos de entrada, verificación de que el modelo entrenado supera un umbral mínimo y a la versión en producción, pruebas de comportamiento sobre casos específicos conocidos, y verificación de que el desempeño desagregado por subgrupo no se degradó. Esta última prueba conecta directamente con las obligaciones que se estudian en Ética de la IA, y conviene declararlo.",
+        "La unidad cierra con el disparo del reentrenamiento: por calendario, por volumen de datos nuevos, o por señal de degradación, con los criterios de cada opción."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Contenedores. Imagen, capas y decisiones de construcción. Dependencias y su fijación. Tamaño y tiempo de arranque. Separación entre imagen y artefactos. Registro de imágenes.",
+        "Bloque 2 (60 min) — Integración y entrega continua para sistemas de aprendizaje. Etapas de la canalización. Qué se prueba: código, datos, modelo y comportamiento. Umbrales de promoción. Comparación contra la versión en producción.",
+        "Bloque 3 (60 min) — Entrenamiento continuo. Disparadores por calendario, por volumen y por degradación. Automatización del reentrenamiento y sus riesgos. Aprobación humana en la promoción y cuándo exigirla.",
+        "Bloque 4 (60 min) — Taller (Evaluación 1). Construcción de una canalización completa con pruebas de código, de datos y de modelo, y promoción condicionada a umbral."
+      ],
+      "outcomes": [
+        "Construir una imagen de contenedor para un modelo, justificando sus decisiones de base, dependencias y tamaño.",
+        "Diseñar una canalización de integración y entrega continua adaptada a un sistema de aprendizaje.",
+        "Especificar el conjunto de pruebas que un sistema de aprendizaje requiere, incluidas las de datos y las de comportamiento desagregado.",
+        "Definir criterios de promoción de un modelo a producción y el punto en que se requiere aprobación humana.",
+        "Seleccionar el disparador de reentrenamiento apropiado y evaluar los riesgos de su automatización."
+      ],
+      "readings": [
+        "Breck et al. (2017); Sato, Wider y Windheuser (2019). Lectura complementaria: Huyen (2022), capítulo 10."
+      ]
+    },
+    {
+      "number": 3,
+      "id": "u03",
+      "title": "Servicio de inferencia y estrategias de despliegue",
+      "hours": 4,
+      "narrative": [
+        "La unidad implementa lo que el curso anterior especificó. Se recorren los patrones de servicio —predicción por lotes, punto de acceso en línea, procesamiento en flujo, inferencia en el borde— y sus decisiones de dimensionamiento: tipo y tamaño de instancia, escalamiento automático y sus parámetros, agrupación de solicitudes y su compromiso con la latencia individual, y el problema del arranque en frío, que es una fuente frecuente de incumplimiento de los presupuestos de latencia especificados.",
+        "El segundo eje son las estrategias de despliegue. Se desarrollan el despliegue en sombra, la liberación canaria, el esquema azul-verde y las pruebas comparativas en línea, con sus condiciones de aplicabilidad. Se enfatiza la definición de criterios automáticos de promoción y de reversión: un sistema que requiere que una persona decida si revertir, en el momento del incidente y bajo presión, revertirá tarde.",
+        "La unidad trata además la orquestación de canalizaciones de múltiples pasos y la gestión de dependencias entre ellos, y cierra con los conceptos de orquestación de contenedores que un profesional debe conocer para dialogar con equipos de plataforma, sin convertirse en un curso de administración de esa tecnología."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Patrones de servicio. Lotes, en línea, en flujo y en el borde. Dimensionamiento y escalamiento automático. Agrupación y latencia individual. Arranque en frío y sus mitigaciones. Cómputo especializado y cuándo se justifica.",
+        "Bloque 2 (60 min) — Estrategias de despliegue. Sombra, canaria, azul-verde y comparación en línea. Criterios automáticos de promoción y de reversión. Registro de versiones y capacidad de retorno a una anterior.",
+        "Bloque 3 (60 min) — Orquestación. Canalizaciones de múltiples pasos y dependencias. Programación, reintentos y manejo de fallos parciales. Conceptos de orquestación de contenedores necesarios para el diálogo con plataforma.",
+        "Bloque 4 (60 min) — Laboratorio. Despliegue de un modelo como servicio con escalamiento automático, y ejecución de una liberación canaria con reversión automática ante degradación."
+      ],
+      "outcomes": [
+        "Seleccionar el patrón de servicio apropiado a partir de los requisitos de latencia, volumen y costo especificados.",
+        "Dimensionar y configurar el escalamiento automático de un servicio de inferencia.",
+        "Anticipar el efecto del arranque en frío sobre el cumplimiento de un presupuesto de latencia y aplicar mitigaciones.",
+        "Implementar una estrategia de despliegue progresivo con criterios automáticos de promoción y reversión.",
+        "Orquestar una canalización de múltiples pasos con manejo de fallos parciales."
+      ],
+      "readings": [
+        "Huyen (2022), capítulos 7 y 9. Lectura complementaria: Burns, Beda, Hightower y Evenson (2022), capítulos 1 a 3."
+      ]
+    },
+    {
+      "number": 4,
+      "id": "u04",
+      "title": "Observabilidad, deriva y respuesta ante incidentes",
+      "hours": 4,
+      "narrative": [
+        "La unidad trata el problema que distingue a la operación de sistemas de IA de la operación de software convencional: un sistema de IA puede fallar sin producir ningún error. El servicio responde, la latencia es normal, no hay excepciones registradas, y las predicciones son crecientemente incorrectas. Esa falla silenciosa es invisible para la instrumentación estándar y requiere una capa de observabilidad propia.",
+        "Se distinguen en consecuencia dos capas. La observabilidad del servicio —disponibilidad, latencia por percentiles, tasa de error, saturación, costo— y la observabilidad del modelo —distribución de las entradas, distribución de las predicciones, desempeño cuando la etiqueta llega, y desempeño desagregado por subgrupo. La segunda capa es la que rara vez se instrumenta y la que detecta la falla silenciosa.",
+        "El eje técnico central es la deriva. Se desarrollan su tipología —deriva de covariables, de la variable objetivo y de concepto—, las pruebas estadísticas apropiadas según el tipo de variable, el problema del tamaño de ventana y de la frecuencia de evaluación, y el control de las falsas alarmas cuando se monitorean muchas variables simultáneamente. Se aborda además el caso, muy frecuente, en que la etiqueta real llega con semanas de retraso o no llega nunca, y se trabajan los indicadores sustitutos disponibles en ese escenario.",
+        "La unidad cierra con la práctica operacional: definición de objetivos de nivel de servicio, presupuestos de error, diseño de alertas que no produzcan fatiga, manuales de operación y procedimientos de respuesta ante incidentes."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Dos capas de observabilidad. Observabilidad del servicio y observabilidad del modelo. La falla silenciosa y por qué la instrumentación estándar no la detecta. Registros, métricas y trazas. Muestreo y retención de predicciones.",
+        "Bloque 2 (60 min) — Deriva. Tipología: covariables, objetivo y concepto. Pruebas según tipo de variable. Ventana y frecuencia. Comparaciones múltiples y control de falsas alarmas. Distinción entre deriva y estacionalidad.",
+        "Bloque 3 (60 min) — Desempeño con etiqueta tardía o ausente. Indicadores sustitutos. Muestreo para etiquetado manual. Monitoreo desagregado por subgrupo y su conexión con obligaciones de equidad.",
+        "Bloque 4 (60 min) — Práctica operacional (Evaluación 2). Objetivos de nivel de servicio y presupuestos de error. Diseño de alertas y fatiga de alertas. Manual de operación. Taller: instrumentación completa de un sistema desplegado."
+      ],
+      "outcomes": [
+        "Distinguir la observabilidad del servicio de la observabilidad del modelo e instrumentar ambas.",
+        "Explicar el fenómeno de la falla silenciosa y diseñar la instrumentación que la detecta.",
+        "Seleccionar y aplicar pruebas de deriva apropiadas al tipo de variable, con ventana y frecuencia justificadas.",
+        "Controlar la tasa de falsas alarmas cuando se monitorean múltiples variables.",
+        "Diseñar el monitoreo de desempeño en escenarios de etiqueta tardía o ausente.",
+        "Definir objetivos de nivel de servicio, presupuestos de error y alertas accionables, y documentar los procedimientos de respuesta."
+      ],
+      "readings": [
+        "Gama, Žliobaitė, Bifet, Pechenizkiy y Bouchachia (2014), secciones 1 a 3; Beyer, Jones, Petoff y Murphy (2016), capítulos 4 y 6. Lectura complementaria: Klaise, Van Looveren, Cox, Vacanti y Coca (2020)."
+      ]
+    },
+    {
+      "number": 5,
+      "id": "u05",
+      "title": "Plataformas gestionadas y criterio de selección",
+      "hours": 4,
+      "narrative": [
+        "Ésta es la unidad que concentra el contenido de plataformas de nube que en versiones anteriores del programa se encontraba disperso en tres asignaturas. Su objeto no es el recorrido de servicios sino el criterio de selección entre ellos.",
+        "Se comparan las tres plataformas principales en las funciones equivalentes: entorno de desarrollo gestionado, entrenamiento a escala, registro de modelos, servicio de inferencia, orquestación de canalizaciones, almacenamiento de características, monitoreo y acceso a modelos fundacionales. La comparación se organiza por función y no por proveedor, lo que permite al estudiante reconocer el patrón común y evaluar cualquier plataforma nueva por analogía.",
+        "El segundo eje es el compromiso entre servicio gestionado y construcción propia. Un servicio gestionado reduce el tiempo de implementación y aumenta el costo unitario y la dependencia; una construcción propia hace lo inverso. La unidad desarrolla los criterios de esa decisión y trabaja explícitamente el costo de migración entre proveedores, que es el factor que la mayoría de las organizaciones subestima al elegir.",
+        "El tercer eje es el costo. Se trabaja la estructura de precios de cómputo, almacenamiento y transferencia; las modalidades de contratación y sus descuentos; el gasto por transferencia de salida, que es una fuente habitual de sorpresas; y la construcción de una estimación de costo operacional mensual verificable. Este contenido es insumo directo del curso de Estrategia de Productos y Presupuestos."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Comparación por función. Desarrollo, entrenamiento, registro, servicio, orquestación, almacén de características, monitoreo. Equivalencias entre los tres proveedores. El patrón común y cómo evaluar una plataforma nueva.",
+        "Bloque 2 (60 min) — Gestionado frente a construido. Criterios de decisión. Tiempo de implementación, costo unitario y dependencia. Costo de migración y su subestimación habitual. Estrategias de portabilidad.",
+        "Bloque 3 (60 min) — Estructura de costos. Cómputo, almacenamiento y transferencia. Modalidades de contratación y descuentos. Costo de salida de datos. Construcción de una estimación mensual y su verificación contra el gasto real.",
+        "Bloque 4 (60 min) — Laboratorio comparativo. Implementación de una misma función en dos plataformas distintas y comparación de esfuerzo, capacidad y costo."
+      ],
+      "outcomes": [
+        "Identificar la función equivalente entre plataformas de distintos proveedores y evaluar sus diferencias relevantes.",
+        "Decidir entre servicio gestionado y construcción propia con criterios explícitos.",
+        "Estimar el costo de migración entre proveedores y proponer medidas de portabilidad.",
+        "Construir una estimación de costo operacional mensual y verificarla contra el gasto efectivo.",
+        "Reconocer las fuentes habituales de costo no anticipado, incluida la transferencia de salida."
+      ],
+      "readings": [
+        "Documentación oficial de los tres proveedores sobre las funciones comparadas, en su versión vigente al dictado. Lectura complementaria: Paleyes, Urma y Lawrence (2022)."
+      ]
+    },
+    {
+      "number": 6,
+      "id": "u06",
+      "title": "Operación de sistemas generativos",
+      "hours": 4,
+      "narrative": [
+        "La unidad final trata los problemas operacionales propios de los sistemas basados en modelos generativos, que difieren de los del paradigma anterior en cuatro aspectos y por eso requieren tratamiento separado.",
+        "El primero es el costo. Un sistema generativo accedido por consumo tiene costo marginal proporcional al uso, lo que traslada el problema desde el dimensionamiento de una infraestructura hacia el control de un gasto variable. Se trabajan la instrumentación del costo por operación y por usuario, los límites de tasa y de gasto, la caché —exacta y semántica— y sus condiciones de validez, y las decisiones de ruteo por costo entre modelos de distinta capacidad.",
+        "El segundo es la dependencia de versiones controladas por un tercero. Un proveedor puede modificar o retirar una versión de modelo de la que depende un sistema en producción. Se trabajan la fijación de versión cuando está disponible, la batería de regresión que detecta la degradación, y el procedimiento de migración cuando la versión se descontinúa.",
+        "El tercero es la evaluación continua. La salida de un sistema generativo no admite verificación automática simple, de modo que el monitoreo requiere instrumentos distintos: muestreo para revisión, aplicación periódica del conjunto de evaluación construido en las asignaturas anteriores, indicadores implícitos de satisfacción, y modelos jueces en producción con conocimiento de sus sesgos.",
+        "El cuarto es el servicio de modelos abiertos, cuando la organización opta por operarlos: los mecanismos que determinan el rendimiento y el costo por operación en ese escenario."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Control del costo variable. Instrumentación del costo por operación y por usuario. Límites de tasa y de gasto. Caché exacta y semántica: cuándo es válida y cuándo introduce errores. Ruteo por costo entre modelos.",
+        "Bloque 2 (60 min) — Gestión de versiones de proveedor. Fijación de versión y su disponibilidad. Batería de regresión periódica. Detección de degradación. Procedimiento de migración ante descontinuación.",
+        "Bloque 3 (60 min) — Evaluación continua en producción. Muestreo para revisión humana. Aplicación periódica del conjunto de evaluación de dominio. Indicadores implícitos. Modelos jueces en producción y sus límites. Registro de entradas y salidas con resguardo de datos personales.",
+        "Bloque 4 (60 min) — Servicio de modelos abiertos y cierre (Evaluación 3). Mecanismos de servicio eficiente y su efecto sobre el rendimiento. Costo por operación en operación propia. Presentación de proyectos y articulación con Ética de la IA, Estrategia de Productos y Capstone."
+      ],
+      "outcomes": [
+        "Instrumentar y controlar el costo variable de un sistema generativo en producción.",
+        "Evaluar la aplicabilidad de la caché semántica y reconocer los casos en que introduce error.",
+        "Gestionar la dependencia de versiones de modelo controladas por un proveedor externo.",
+        "Diseñar un esquema de evaluación continua en producción para un sistema cuya salida no admite verificación automática.",
+        "Operar un modelo de pesos abiertos y estimar su costo por operación frente a la alternativa de consumo.",
+        "Registrar entradas y salidas con los resguardos que corresponden al tratamiento de datos personales."
+      ],
+      "readings": [
+        "Kwon et al. (2023); Shankar, Garcia, Hellerstein y Parameswaran (2024). Lectura complementaria: Huyen (2022), capítulo 11."
+      ]
+    }
+  ],
+  "slug": "11-aiops-cloud"
+}

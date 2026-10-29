@@ -1,0 +1,22 @@
+{
+  "08-genai-llms": {
+    "units": 7,
+    "obj": 11,
+    "bib": 9
+  },
+  "09-prompt-engineering": {
+    "units": 6,
+    "obj": 10,
+    "bib": 7
+  },
+  "10-diseno-sistemas-ia": {
+    "units": 6,
+    "obj": 10,
+    "bib": 6
+  },
+  "11-aiops-cloud": {
+    "units": 6,
+    "obj": 10,
+    "bib": 5
+  }
+}

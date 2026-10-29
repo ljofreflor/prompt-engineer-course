@@ -1,0 +1,241 @@
+{
+  "asignatura": "Diseño de Sistemas y Aplicaciones de IA (24 hrs)",
+  "ubicacion": "Décimo curso del programa",
+  "introduccion": [
+    "El curso Diseño de Sistemas y Aplicaciones de IA ocupa una posición estructural precisa dentro del programa: es el punto donde el/la estudiante deja de trabajar sobre modelos y comienza a trabajar sobre sistemas. Hasta esta altura de la malla, las asignaturas han entregado familias de métodos —aprendizaje supervisado, aprendizaje profundo, visión, lenguaje, refuerzo, modelos fundacionales— cada una con sus criterios internos de calidad. Ninguna de ellas, por construcción, responde la pregunta que un profesional enfrenta cuando debe entregar algo que funcione en una organización: cómo se compone un sistema completo alrededor de uno o más modelos, qué decisiones de arquitectura determinan su comportamiento en producción, y cómo se diseña deliberadamente su relación con las personas que lo usarán y con las que serán afectadas por él.",
+    "La tesis que organiza el curso es que la mayor parte de las propiedades relevantes de un sistema de IA —su latencia, su costo unitario, su equidad, su auditabilidad, su capacidad de recuperarse de un error y la posibilidad misma de mejorarlo— no se determinan en el entrenamiento del modelo sino en decisiones de diseño tomadas antes y alrededor de él. Un modelo con excelente desempeño fuera de línea puede producir un sistema inservible si la predicción llega después de que la decisión fue tomada, si el costo por inferencia excede el valor de la decisión, si no existe un camino de reversión cuando la predicción es incorrecta, o si la interfaz induce en el usuario una confianza que el modelo no justifica. Estos son problemas de diseño de sistema y no de modelamiento, y no se resuelven mejorando la métrica.",
+    "El curso se distingue deliberadamente de sus dos vecinos inmediatos en la malla. No es un curso de MLOps: la construcción de pipelines, la contenerización, la orquestación y la observabilidad instrumentada corresponden a AI.Ops y Sistemas Cloud, que sigue a este curso y opera sobre las arquitecturas que aquí se especifican. Tampoco es un curso de estrategia de negocio: la evaluación económica de la oportunidad, el presupuesto y la decisión de inversión corresponden a Estrategia de Productos y Presupuestos. Este curso ocupa el espacio intermedio, que suele quedar vacante en los programas de formación en IA y que es precisamente donde fracasa la mayoría de las iniciativas: la traducción entre un problema formulado y una arquitectura defendible.",
+    "El producto del curso es un documento de diseño de sistema —un design doc— sobre un caso real, sometido a revisión por pares y defendido oralmente. La elección del entregable es deliberada: el documento de diseño es el artefacto profesional efectivamente utilizado en la industria para tomar y registrar decisiones de arquitectura, y la capacidad de escribirlo y defenderlo es una competencia distinta de la capacidad de implementar. El curso enseña esa competencia."
+  ],
+  "objetivoGeneral": "Desarrollar en el/la estudiante la capacidad de diseñar, especificar y justificar la arquitectura completa de un sistema basado en inteligencia artificial, articulando requisitos funcionales y no funcionales, patrones de composición, contratos de datos, diseño de la interacción humana y estrategia de evaluación y de falla, en un documento de diseño técnicamente defendible ante audiencias de ingeniería y de negocio.",
+  "objetivosEspecificos": [
+    "Traducir un objetivo organizacional en una especificación de sistema que declare la decisión que se busca mejorar, la predicción que la alimenta, el actor que decide y el criterio de aceptación.",
+    "Distinguir requisitos funcionales de requisitos no funcionales, y establecer presupuestos explícitos de latencia, costo unitario, disponibilidad y tasa de error tolerable.",
+    "Seleccionar y justificar el patrón de inferencia apropiado —por lotes, en línea, en flujo, con precómputo o híbrido— a partir de las restricciones temporales y económicas de la decisión.",
+    "Diseñar sistemas compuestos que combinen múltiples modelos, reglas de negocio, recuperación de información y decisión humana, especificando el ruteo, las cascadas, el almacenamiento en caché y los mecanismos de degradación elegante.",
+    "Especificar contratos de datos y anticipar la desalineación entre entrenamiento y servicio, la disponibilidad tardía de etiquetas y los bucles de retroalimentación inducidos por el propio sistema.",
+    "Diseñar la interacción entre el sistema y sus usuarios, determinando el nivel de automatización apropiado, la forma de comunicar la incertidumbre y los mecanismos de reversión y apelación.",
+    "Construir una estrategia de evaluación que articule validación fuera de línea, despliegue en sombra, experimentación controlada y monitoreo en producción, incluyendo el caso de los sistemas generativos.",
+    "Anticipar modos de falla y superficies de ataque específicas de los sistemas de IA, incorporando controles proporcionales al riesgo de la decisión.",
+    "Redactar un documento de diseño de sistema completo, con alternativas consideradas, criterios de decisión y riesgos declarados.",
+    "Someter a revisión crítica el diseño de un par y defender el propio ante objeciones técnicas fundadas."
+  ],
+  "metodologia": [
+    "Clases online en vivo (Zoom) o híbrida, según la versión del programa, con enfoque de taller de diseño. Cada sesión de cuatro horas combina exposición conceptual, análisis de casos reales de arquitectura —incluidos casos de fracaso documentado— y trabajo dirigido sobre el diseño propio de cada estudiante.",
+    "El curso no es un curso de programación. Se revisan artefactos de código y demostraciones cuando resultan ilustrativas de una decisión de arquitectura, pero el trabajo del estudiante es de especificación, argumentación y crítica. Esta orientación no reduce la exigencia técnica: un documento de diseño defendible requiere precisión sobre latencias, costos, volúmenes y supuestos, y esa precisión se evalúa.",
+    "El documento de diseño se construye de forma incremental. Cada sesión incorpora una sección al entregable, de modo que la última versión no se escribe al final sino que resulta de seis iteraciones sucesivas. La sesión 6 se dedica íntegramente a la revisión cruzada y la defensa.",
+    "Se recomienda que cada estudiante trabaje sobre un problema de su propio contexto laboral. Cuando ello no sea posible, la coordinación proveerá casos con datos y restricciones realistas.",
+    "Requisitos técnicos y plataforma",
+    "Entorno de ejecución. Herramienta de diagramación de arquitecturas y repositorio con control de versiones para el documento de diseño. No se requiere cómputo especializado ni cuentas en proveedores de nube.",
+    "Provisión y costos. El curso no genera consumo en plataformas de pago por uso. Esta ausencia es consecuencia directa de su objeto: la asignatura produce especificaciones y no despliegues, y esa delimitación se declara a los estudiantes en la primera sesión para evitar la expectativa de un taller de implementación.",
+    "Datos. Los casos de diseño pueden basarse en el contexto laboral del estudiante. Como el entregable es un documento de arquitectura y no un sistema, no se requiere acceso a datos reales; cuando el caso involucre información confidencial, el documento debe presentarla de forma agregada o anonimizada, conforme a lo que la Unidad 3 establece sobre contratos de datos."
+  ],
+  "metodologiaBullets": [],
+  "evaluacion": {
+    "items": [
+      "• Actividad 1 – Especificación del sistema y requisitos no funcionales (Sesión 2): 15%",
+      "• Actividad 2 – Diseño de arquitectura y contratos de datos (Sesión 4): 20%",
+      "• Revisión crítica del diseño de un par (Sesión 6): 15%",
+      "• Documento de diseño de sistema final: 40%",
+      "• Participación: 10%",
+      "• Nota mínima de aprobación curso: 4.0 (cuatro coma cero décimas).",
+      "• Nota mínima de examen: 3.0 (tres coma cero décimas)."
+    ],
+    "notes": [
+      "El documento de diseño final debe contener, como mínimo: (i) la decisión organizacional que el sistema busca mejorar y su línea base actual; (ii) la especificación funcional y los presupuestos no funcionales; (iii) el diagrama y la justificación de la arquitectura, con al menos una alternativa considerada y descartada con su criterio; (iv) los contratos de datos y el tratamiento del desfase entrenamiento-servicio; (v) el diseño de la interacción humana, incluida la comunicación de incertidumbre y el mecanismo de reversión; (vi) la estrategia de evaluación en sus tres niveles; (vii) el registro de modos de falla con sus controles asociados; y (viii) los riesgos abiertos y las decisiones pendientes. Se evalúa la calidad del razonamiento y la consistencia interna del diseño, no la ambición de la solución.",
+      "Esta asignatura establece una exigencia de un 75% de la asistencia mínima para modalidad presencial y un 60% para modalidad híbrida u online. Así también, los atrasos de más de 15 minutos serán considerados como inasistencias.",
+      "Si la ausencia se produce el día del examen, y ésta no es justificada o es rechazada, el alumno tendrá derecho a rendir una prueba de recuperación, que se realizará el mismo día del examen de repetición, pero optando a la nota máxima de examen de un 4.0 (cuatro coma cero décimas)."
+    ]
+  },
+  "bibliografiaObligatoria": [
+    "Ameisen, E. (2020). Building machine learning powered applications: Going from idea to product. O’Reilly Media.",
+    "Amershi, S., Weld, D., Vorvoreanu, M., Fourney, A., Nushi, B., Collisson, P., Suh, J., Iqbal, S., Bennett, P. N., Inkpen, K., Teevan, J., Kikin-Gil, R., & Horvitz, E. (2019). Guidelines for human-AI interaction. Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems, 1–13.",
+    "Huyen, C. (2022). Designing machine learning systems: An iterative process for production-ready applications. O’Reilly Media.",
+    "Kleppmann, M. (2017). Designing data-intensive applications: The big ideas behind reliable, scalable, and maintainable systems. O’Reilly Media.",
+    "Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., & Dennison, D. (2015). Hidden technical debt in machine learning systems. Advances in Neural Information Processing Systems, 28, 2503–2511.",
+    "Zaharia, M., Khattab, O., Chen, L., Davis, J. Q., Miller, H., Potts, C., Zou, J., Carbin, M., Frankle, J., Rao, N., & Ghodsi, A. (2024). The shift from models to compound AI systems. Berkeley Artificial Intelligence Research Blog."
+  ],
+  "bibliografiaComplementaria": [
+    "Bansal, G., Nushi, B., Kamar, E., Lasecki, W. S., Weld, D. S., & Horvitz, E. (2019). Beyond accuracy: The role of mental models in human-AI team performance. Proceedings of the AAAI Conference on Human Computation and Crowdsourcing, 7, 2–11.",
+    "Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016). Site reliability engineering: How Google runs production systems. O’Reilly Media.",
+    "Breck, E., Cai, S., Nielsen, E., Salib, M., & Sculley, D. (2017). The ML test score: A rubric for ML production readiness and technical debt reduction. 2017 IEEE International Conference on Big Data, 1123–1132.",
+    "Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). To trust or to think: Cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making. Proceedings of the ACM on Human-Computer Interaction, 5(CSCW1), 1–21.",
+    "Dietvorst, B. J., Simmons, J. P., & Massey, C. (2015). Algorithm aversion: People erroneously avoid algorithms after seeing them err. Journal of Experimental Psychology: General, 144(1), 114–126.",
+    "Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., Dai, Y., Sun, J., Wang, M., & Wang, H. (2024). Retrieval-augmented generation for large language models: A survey (arXiv:2312.10997). arXiv.",
+    "Kreuzberger, D., Kühl, N., & Hirschl, S. (2023). Machine learning operations (MLOps): Overview, definition, and architecture. IEEE Access, 11, 31866–31879.",
+    "Kleinberg, J., Ludwig, J., Mullainathan, S., & Obermeyer, Z. (2015). Prediction policy problems. American Economic Review, 105(5), 491–495.",
+    "Lakkaraju, H., Slack, D., Chen, Y., Tan, C., & Singh, S. (2022). Rethinking explainability as a dialogue: A practitioner’s perspective (arXiv:2202.01875). arXiv.",
+    "Parasuraman, R., Sheridan, T. B., & Wickens, C. D. (2000). A model for types and levels of human interaction with automation. IEEE Transactions on Systems, Man, and Cybernetics — Part A, 30(3), 286–297.",
+    "Paleyes, A., Urma, R.-G., & Lawrence, N. D. (2022). Challenges in deploying machine learning: A survey of case studies. ACM Computing Surveys, 55(6), 1–29.",
+    "Sambasivan, N., Kapania, S., Highfill, H., Akrong, D., Paritosh, P., & Aroyo, L. M. (2021). “Everyone wants to do the model work, not the data work”: Data cascades in high-stakes AI. Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems, 1–15.",
+    "Shankar, S., Garcia, R., Hellerstein, J. M., & Parameswaran, A. G. (2024). “We have no idea how models will behave in production until production”: How engineers operationalize ML. Proceedings of the ACM on Human-Computer Interaction, 8(CSCW1).",
+    "Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., & Fritz, M. (2023). Not what you’ve signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security, 79–90."
+  ],
+  "unidades": [
+    {
+      "number": 1,
+      "id": "u01",
+      "title": "De la decisión al sistema — especificación y requisitos",
+      "hours": 4,
+      "narrative": [
+        "La unidad establece el punto de partida del diseño, que no es el dato ni el modelo sino la decisión. Todo sistema de IA existe para mejorar una decisión que hoy se toma de alguna manera, y la primera obligación del diseñador es identificar cuál es esa decisión, quién la toma, con qué frecuencia, con qué información y con qué desempeño actual. Sin esa línea base, no existe criterio para evaluar el sistema y no existe forma de saber si vale la pena construirlo.",
+        "Sobre esa base se desarrolla la distinción entre predicción y decisión, y la observación de que un sistema útil requiere especificar ambos lados: qué predice el modelo y qué se hace con la predicción. Buena parte de los proyectos fallidos son proyectos donde la predicción es correcta pero no existe una acción asociada, o la acción existe pero llega tarde, o la organización no tiene capacidad de ejecutarla al volumen que el sistema genera.",
+        "La unidad introduce luego los requisitos no funcionales como restricciones de diseño de primer orden. Latencia, costo unitario por inferencia, disponibilidad, frecuencia de actualización, volumen y tolerancia al error no son detalles de implementación: son las variables que determinan qué arquitecturas son admisibles. Se trabaja la construcción de presupuestos explícitos y la lectura de sus consecuencias arquitectónicas."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — La decisión y su línea base. Identificación de la decisión objetivo, del actor decisor y del proceso actual. Medición de la línea base. Costo del error por tipo. Cuándo el problema no requiere aprendizaje automático: reglas, optimización, rediseño de proceso.",
+        "Bloque 2 (60 min) — Predicción, decisión y acción. El sistema como cadena predicción-decisión-acción-resultado. Capacidad de ejecución de la organización como restricción. Ventana temporal de la decisión. Criterios de aceptación y definición de éxito antes de construir.",
+        "Bloque 3 (60 min) — Requisitos no funcionales. Presupuestos de latencia extremo a extremo y descomposición por componente. Costo unitario y su relación con el valor de la decisión. Disponibilidad, degradación admisible y acuerdos de nivel de servicio. Volumen, concurrencia y estacionalidad. Requisitos de trazabilidad y retención.",
+        "Bloque 4 (60 min) — Taller de especificación. Cada estudiante redacta la ficha de especificación de su caso. Presentación breve y crítica cruzada. Producto: sección 1 del documento de diseño."
+      ],
+      "outcomes": [
+        "Identificar la decisión organizacional que un sistema de IA busca mejorar y caracterizar su línea base actual de manera medible.",
+        "Distinguir la predicción de la decisión y de la acción, y detectar cadenas incompletas donde una predicción correcta no produce valor.",
+        "Establecer presupuestos cuantitativos de latencia, costo unitario, disponibilidad y tasa de error tolerable, y justificarlos a partir del contexto de la decisión.",
+        "Argumentar cuándo un problema no justifica una solución basada en aprendizaje automático.",
+        "Redactar una especificación de sistema que permita a un tercero evaluar si el sistema construido cumple lo prometido."
+      ],
+      "readings": [
+        "Huyen (2022), capítulos 1 y 2; Kleinberg, Ludwig, Mullainathan y Obermeyer (2015). Lectura complementaria: Paleyes, Urma y Lawrence (2022)."
+      ]
+    },
+    {
+      "number": 2,
+      "id": "u02",
+      "title": "Patrones de arquitectura para sistemas de IA",
+      "hours": 4,
+      "narrative": [
+        "Esta unidad construye el repertorio de patrones que constituye el núcleo técnico del curso. El punto de partida es el régimen de inferencia: por lotes, en línea, en flujo o con precómputo, con sus arquitecturas asociadas y sus consecuencias sobre latencia, costo y frescura de la predicción. La elección entre ellos no es una preferencia técnica sino una consecuencia directa de los presupuestos establecidos en la unidad anterior, y la unidad entrena esa derivación.",
+        "El segundo eje es la composición. Los sistemas contemporáneos rara vez consisten en un modelo: consisten en varios modelos, reglas de negocio, componentes de recuperación de información, filtros y puntos de decisión humana, articulados en una topología. La unidad desarrolla los patrones de composición de uso extendido —cascada por costo, ruteo por tipo de entrada, ensamblado por votación, recuperación aumentada, verificación posterior, uso de herramientas por parte de un modelo generativo— con sus condiciones de aplicabilidad y sus modos de falla característicos. La recuperación aumentada se trata aquí como patrón arquitectónico, con sus decisiones de indexación, segmentación, recuperación y ensamblaje del contexto; su tratamiento como técnica de prompting corresponde a la asignatura de Prompt Engineering y no se repite.",
+        "El tercer eje es la resiliencia por diseño: almacenamiento en caché, límites de tasa, tiempos de espera, reintentos, circuit breakers y degradación elegante. La tesis operativa es que un sistema de IA debe diseñarse suponiendo que el modelo fallará, que el proveedor tendrá interrupciones y que la entrada estará fuera de distribución, y que el comportamiento del sistema en esos escenarios es una decisión de diseño y no un accidente."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Regímenes de inferencia. Predicción por lotes, en línea, en flujo y con precómputo. Arquitecturas de referencia para cada régimen. Derivación del régimen a partir de los presupuestos no funcionales. Almacenamiento de características y su justificación.",
+        "Bloque 2 (60 min) — Sistemas compuestos I. Del modelo al sistema compuesto. Cascadas por costo y por confianza. Ruteo y selección dinámica de modelo. Ensamblados y agregación. Combinación de modelos con reglas de negocio y restricciones duras.",
+        "Bloque 3 (60 min) — Sistemas compuestos II: recuperación y herramientas. Recuperación aumentada como patrón: indexación, segmentación, estrategia de recuperación, reordenamiento y construcción del contexto. Verificación posterior y modelos como jueces. Sistemas con uso de herramientas y sus límites de fiabilidad. Delimitación respecto de la asignatura de Prompt Engineering y Sistemas Multiagentes.",
+        "Bloque 4 (60 min) — Diseño para la falla. Caché, tiempos de espera, reintentos, límites de tasa y circuit breakers. Degradación elegante y comportamiento por defecto. Estrategia de reversión. Actividad: los estudiantes rediseñan un caso presentado bajo una restricción adicional de costo o latencia."
+      ],
+      "outcomes": [
+        "Seleccionar y justificar el régimen de inferencia apropiado a partir de las restricciones temporales y económicas de la decisión.",
+        "Diseñar una topología de sistema compuesto que articule modelos, reglas, recuperación de información y decisión humana.",
+        "Especificar una arquitectura de recuperación aumentada declarando sus decisiones de indexación, segmentación y construcción del contexto.",
+        "Anticipar los modos de falla propios de cada patrón de composición y su propagación a través de la topología.",
+        "Incorporar mecanismos de resiliencia y degradación elegante, especificando el comportamiento del sistema ante la indisponibilidad de cada componente."
+      ],
+      "readings": [
+        "Huyen (2022), capítulos 7 y 8; Zaharia et al. (2024); Gao et al. (2024), secciones 1 a 3. Lectura complementaria: Kleppmann (2017), capítulos 1 y 11."
+      ]
+    },
+    {
+      "number": 3,
+      "id": "u03",
+      "title": "Datos como infraestructura del sistema",
+      "hours": 4,
+      "narrative": [
+        "La unidad trata el dato no como insumo de entrenamiento sino como componente vivo de un sistema en operación. La distinción es sustantiva: en el entrenamiento el conjunto de datos es fijo y conocido, mientras que en producción el dato llega desde sistemas de terceros que cambian sin aviso, con esquemas que se modifican, con semánticas que se desplazan y con disponibilidades que no coinciden con las del entorno experimental. La mayor parte de las fallas silenciosas de sistemas desplegados tiene origen en esta diferencia.",
+        "El primer eje es el contrato de datos: la especificación explícita, acordada entre productor y consumidor, de esquema, semántica, frecuencia, completitud y compromiso de estabilidad. La unidad argumenta que sin contrato de datos el sistema hereda la volatilidad de todos los sistemas aguas arriba, y que la ausencia de contrato es la causa raíz habitual de la degradación no detectada.",
+        "El segundo eje es la desalineación entre entrenamiento y servicio. Se examinan sus formas típicas: cálculo de características en dos bases de código distintas, uso en entrenamiento de información no disponible en el momento de la inferencia, diferencias de temporalidad en la unión de tablas, y fuga de información a través de agregados construidos con datos futuros. Se trabaja la detección y la prevención arquitectónica de cada una.",
+        "El tercer eje es la temporalidad de la etiqueta y la retroalimentación. Muchos sistemas operan sobre etiquetas que sólo se conocen semanas o meses después de la predicción, y algunos sistemas modifican, a través de sus propias acciones, la distribución de los datos que observarán después. La unidad desarrolla el diseño deliberado del mecanismo de captura de retroalimentación, incluida la reserva de una fracción de decisiones no intervenidas cuando el bucle lo requiere."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Contratos de datos y linaje. Esquema, semántica, frecuencia, completitud y compromisos de estabilidad. Validación en el punto de entrada. Linaje y trazabilidad. Versionamiento de datos y de características.",
+        "Bloque 2 (60 min) — Desalineación entrenamiento-servicio. Formas típicas y su detección. Cálculo de características en línea y fuera de línea. Fuga de información temporal y estructural. Arquitecturas que previenen la duplicación de lógica.",
+        "Bloque 3 (60 min) — Etiquetas, retroalimentación y bucles. Etiquetas tardías, parciales y proxy. Diseño del mecanismo de captura de retroalimentación. Bucles de retroalimentación y sesgo inducido por el propio sistema. Reserva de decisiones no intervenidas como decisión de diseño.",
+        "Bloque 4 (60 min) — Taller de contratos. Los estudiantes especifican los contratos de datos de su caso y documentan los puntos de desalineación potencial. Producto: sección de datos del documento de diseño."
+      ],
+      "outcomes": [
+        "Redactar un contrato de datos que especifique esquema, semántica, frecuencia, completitud y compromisos de estabilidad entre productor y consumidor.",
+        "Identificar y prevenir arquitectónicamente las formas habituales de desalineación entre entrenamiento y servicio.",
+        "Detectar fuga de información temporal o estructural en el diseño de un conjunto de entrenamiento.",
+        "Diseñar el mecanismo de captura de etiquetas considerando su latencia, su completitud y su posible carácter de proxy.",
+        "Anticipar bucles de retroalimentación inducidos por el sistema y especificar el mecanismo que permite medir su efecto."
+      ],
+      "readings": [
+        "Huyen (2022), capítulos 3 y 4; Sambasivan et al. (2021). Lectura complementaria: Breck, Cai, Nielsen, Salib y Sculley (2017); Sculley et al. (2015)."
+      ]
+    },
+    {
+      "number": 4,
+      "id": "u04",
+      "title": "Diseño de la interacción humano-IA",
+      "hours": 4,
+      "narrative": [
+        "La unidad aborda la dimensión del diseño que con mayor frecuencia se omite y que con mayor frecuencia determina el resultado. Un sistema de IA en una organización casi nunca reemplaza íntegramente a una persona: se inserta en un proceso donde alguien recibe una salida, la interpreta y actúa. El desempeño observado del conjunto persona-sistema puede ser inferior tanto al del sistema solo como al de la persona sola, y esa posibilidad —bien documentada empíricamente— convierte al diseño de la interacción en un problema técnico de primer orden.",
+        "El primer eje es el nivel de automatización. La unidad desarrolla el continuo desde la información pasiva hasta la automatización plena, y establece que la elección de un punto en ese continuo debe derivarse del costo del error, de su reversibilidad y de la capacidad efectiva de supervisión humana. Se examina críticamente la figura del humano en el bucle cuando opera como asignación nominal de responsabilidad sin condiciones reales de ejercerla.",
+        "El segundo eje es la comunicación de la incertidumbre. Se trabaja la presentación de puntajes, intervalos y conjuntos de predicción —enlazando con la predicción conforme estudiada en Machine Learning II—, la distinción entre confianza del modelo y probabilidad calibrada, y las consecuencias de presentar una salida sin cualificación. Se aborda asimismo el papel de las explicaciones en la interfaz, distinguiendo entre explicaciones que mejoran la calibración de la confianza del usuario y explicaciones que la inflan sin fundamento.",
+        "El tercer eje es el diseño de los caminos de salida: reversión, corrección, apelación y escalamiento. Todo sistema producirá salidas incorrectas, y la calidad de un diseño se mide en buena parte por lo que ocurre entonces. Se trabaja el diseño explícito de estos mecanismos y su registro, que constituye además insumo para la mejora del sistema y para la obligación de fundamentación que la regulación impone en decisiones de alto impacto."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Niveles de automatización y asignación de la decisión. El continuo de automatización. Criterios de asignación: costo del error, reversibilidad, volumen, capacidad de supervisión. Crítica de la supervisión humana nominal. Diseño de umbrales y zonas de derivación.",
+        "Bloque 2 (60 min) — Comunicación de la incertidumbre. Confianza del modelo frente a probabilidad calibrada. Presentación de intervalos y conjuntos de predicción. Abstención como salida legítima del sistema. Efectos documentados de la presentación sobre la decisión humana.",
+        "Bloque 3 (60 min) — Confianza, sobreconfianza y explicación. Modelos mentales del usuario. Sobreconfianza y aversión al algoritmo. Explicaciones en la interfaz: qué preguntas responden y cuáles no. Fricción deliberada como mecanismo de diseño.",
+        "Bloque 4 (60 min) — Reversión, apelación y registro (Actividad evaluada 2). Diseño de los caminos de corrección y escalamiento. Registro de decisiones y su doble función técnica y de cumplimiento. Taller: diseño de la interacción y del camino de reversión del caso propio."
+      ],
+      "outcomes": [
+        "Determinar el nivel de automatización apropiado para una decisión y justificarlo en función del costo del error, su reversibilidad y la capacidad real de supervisión.",
+        "Diseñar la presentación de la incertidumbre del sistema de modo que el usuario pueda calibrar su confianza.",
+        "Especificar el comportamiento del sistema en el caso de abstención y las condiciones que la activan.",
+        "Anticipar los efectos de sobreconfianza y de aversión al algoritmo, e incorporar mecanismos de diseño que los mitiguen.",
+        "Diseñar mecanismos de reversión, corrección y apelación, y el registro asociado."
+      ],
+      "readings": [
+        "Amershi et al. (2019); Bansal et al. (2019); Buçinca, Malaya y Gajos (2021). Lectura complementaria: Parasuraman, Sheridan y Wickens (2000); Dietvorst, Simmons y Massey (2015)."
+      ]
+    },
+    {
+      "number": 5,
+      "id": "u05",
+      "title": "Evaluación del sistema, monitoreo y superficie de riesgo",
+      "hours": 4,
+      "narrative": [
+        "Esta unidad desarrolla la estrategia de evaluación en los tres niveles que un sistema requiere y que habitualmente se confunden entre sí: la evaluación del componente, la evaluación del sistema y la evaluación del efecto sobre la decisión organizacional. Un modelo puede mejorar en su métrica de validación mientras el sistema empeora, y el sistema puede mejorar mientras el resultado organizacional se deteriora. La unidad establece que la estrategia de evaluación debe declarar explícitamente los tres niveles y sus relaciones.",
+        "El segundo eje son los mecanismos de puesta en producción y de evaluación en línea: despliegue en sombra, liberación progresiva, experimentación controlada, intercalado y sus condiciones de validez. Se trabaja el problema de la potencia estadística y del horizonte de medición cuando la métrica de interés se realiza tardíamente, y el diseño de métricas de vigilancia que detecten deterioros no anticipados.",
+        "El tercer eje es la evaluación de sistemas generativos, tratada como problema abierto y no como catálogo cerrado. Se examinan conjuntos de evaluación construidos a la medida del caso, la evaluación mediante modelos jueces con sus sesgos conocidos, la evaluación humana estructurada y las limitaciones de las evaluaciones públicas generalistas para predecir el desempeño en un dominio específico.",
+        "El cuarto eje es la superficie de riesgo del sistema. Se abordan los modos de falla y las superficies de ataque características: entradas fuera de distribución, deriva, envenenamiento de datos, extracción de información del contexto, inyección indirecta de instrucciones en sistemas que consumen contenido externo, y fuga de datos sensibles a través de la salida. El tratamiento es de diseño de controles proporcionales al riesgo, no de seguridad ofensiva."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Tres niveles de evaluación. Métrica de componente, métrica de sistema y métrica de resultado organizacional. Relaciones y divergencias entre niveles. Ley de Goodhart aplicada al diseño. Métricas de vigilancia.",
+        "Bloque 2 (60 min) — Evaluación en línea. Despliegue en sombra, liberación canaria y progresiva. Experimentación controlada: unidad de aleatorización, potencia, horizonte y efectos de interferencia. Métricas sustitutas y su validación. Criterios de reversión automática.",
+        "Bloque 3 (60 min) — Evaluación de sistemas generativos. Construcción de conjuntos de evaluación específicos del dominio. Modelos jueces y sus sesgos documentados. Evaluación humana estructurada y confiabilidad entre evaluadores. Límites de las evaluaciones públicas generalistas.",
+        "Bloque 4 (60 min) — Superficie de riesgo y controles. Deriva y monitoreo. Entradas adversarias y fuera de distribución. Inyección indirecta de instrucciones en sistemas que consumen contenido externo. Fuga de datos por la salida. Diseño de controles proporcionales al riesgo de la decisión."
+      ],
+      "outcomes": [
+        "Especificar una estrategia de evaluación que distinga y relacione la métrica del componente, la del sistema y la del resultado organizacional.",
+        "Diseñar un plan de puesta en producción con despliegue en sombra, liberación progresiva y criterios explícitos de reversión.",
+        "Evaluar la validez de un experimento controlado en términos de unidad de aleatorización, potencia y horizonte de medición.",
+        "Construir una estrategia de evaluación para un componente generativo, reconociendo los límites de cada instrumento disponible.",
+        "Identificar la superficie de riesgo del sistema diseñado y especificar controles proporcionales al riesgo de la decisión."
+      ],
+      "readings": [
+        "Huyen (2022), capítulos 6 y 9; Greshake et al. (2023). Lectura complementaria: Shankar, Garcia, Hellerstein y Parameswaran (2024); Beyer, Jones, Petoff y Murphy (2016), capítulos 4 y 6."
+      ]
+    },
+    {
+      "number": 6,
+      "id": "u06",
+      "title": "Documento de diseño, revisión crítica y defensa",
+      "hours": 4,
+      "narrative": [
+        "La unidad final consolida el trabajo del curso en su forma profesional. Un documento de diseño no es un informe descriptivo: es un instrumento de decisión que registra las alternativas consideradas, el criterio con que se descartaron y los riesgos que se aceptan conscientemente. La unidad trabaja su estructura, su registro escritural y los errores característicos: la arquitectura presentada sin alternativas, el riesgo mencionado sin control asociado, el presupuesto no funcional declarado y luego contradicho por el diseño, y la omisión de las decisiones pendientes.",
+        "La segunda mitad de la sesión se dedica a la revisión cruzada. Cada estudiante recibe el documento de un par y produce una revisión escrita estructurada que debe identificar al menos una inconsistencia interna, un supuesto no declarado y un modo de falla no considerado. La revisión se evalúa por su calidad técnica, no por su severidad. El ejercicio cierra con defensas orales breves ante objeciones formuladas por el curso."
+      ],
+      "session": [
+        "Bloque 1 (60 min) — Anatomía del documento de diseño. Estructura, registro y extensión. Alternativas consideradas y criterios de descarte. Riesgos aceptados y decisiones pendientes. Errores característicos y su detección.",
+        "Bloque 2 (60 min) — Taller de escritura. Revisión guiada de los documentos en curso. Consolidación de secciones producidas en las unidades anteriores.",
+        "Bloque 3 (60 min) — Revisión cruzada (Actividad evaluada 3). Cada estudiante revisa el documento de un par y produce una revisión escrita estructurada.",
+        "Bloque 4 (60 min) — Defensas y cierre. Defensas orales breves ante objeciones del curso. Síntesis del curso y articulación con AI.Ops, Ética de la IA, Estrategia de Productos y Capstone Project."
+      ],
+      "outcomes": [
+        "Redactar un documento de diseño de sistema completo, internamente consistente y defendible.",
+        "Registrar alternativas de arquitectura consideradas y explicitar el criterio de decisión aplicado.",
+        "Declarar riesgos aceptados y decisiones pendientes sin comprometer la defensa del diseño.",
+        "Producir una revisión técnica estructurada del diseño de un par, identificando inconsistencias, supuestos no declarados y modos de falla omitidos.",
+        "Defender oralmente decisiones de arquitectura ante objeciones técnicas fundadas."
+      ],
+      "readings": [
+        "Ameisen (2020), capítulos 1 y 2. Material de referencia sobre documentos de diseño de ingeniería provisto por el profesor."
+      ]
+    }
+  ],
+  "slug": "10-diseno-sistemas-ia"
+}

@@ -1,7 +1,7 @@
 ---
 import StudentLayout from "../../../layouts/StudentLayout.astro";
 import { courses, getCourse } from "../../../data/courses";
-import { getUnitContent } from "../../../content/units";
+import { getProgram } from "../../../data/programs";
 
 export function getStaticPaths() {
   return courses.map((c) => ({ params: { slug: c.slug } }));
@@ -10,62 +10,202 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const course = getCourse(slug!);
 if (!course) throw new Error(`Curso no encontrado: ${slug}`);
-
+const program = getProgram(course.slug);
 const base = import.meta.env.BASE_URL;
 ---
 <StudentLayout title={`${course.title} — UAI`} description={course.short}>
   <section class="section">
-    <div class="container prose">
-      <span class="badge">Curso {course.code}</span>
-      <h1>{course.title}</h1>
-      <p>{course.short}</p>
+    <div class="container">
+      <p style="margin:0 0 0.75rem">
+        <a href={`${base}cursos/`}>← Cursos</a>
+      </p>
+      <h4 class="label-uai">Curso {course.code}</h4>
+      <h1>
+        <span class="w-heavy">{course.title}</span>
+      </h1>
+      {
+        program ? (
+          <p style="color:var(--uai-gray);margin-top:0">
+            {program.asignatura}
+            {program.ubicacion ? ` · ${program.ubicacion}` : ""}
+          </p>
+        ) : (
+          <p>{course.short}</p>
+        )
+      }
       <p class="note">
         {course.hours} hrs lectivas · {course.autonomousHours} hrs autónomas · {course.credits} créditos
-        {
-          course.status === "skeleton" && (
-            <> · Contenido en desarrollo (syllabus y mapa de unidades publicados)</>
-          )
-        }
       </p>
 
-      <h2>Unidades</h2>
-      <ul class="unit-list">
-        {
-          course.units.map((u) => {
-            const hasContent = Boolean(getUnitContent(course.slug, u.id));
-            return (
-              <li>
-                <a href={`${base}cursos/${course.slug}/${u.id}/`}>
-                  <strong>
-                    {u.id.toUpperCase()} · {u.title}
-                  </strong>
-                  <span>
-                    {u.hours} hrs — {u.summary}
-                    {!hasContent ? " (resumen)" : ""}
-                  </span>
-                </a>
-              </li>
-            );
-          })
-        }
-      </ul>
-
       {
-        course.slug === "09-prompt-engineering" && (
-          <>
-            <h2>Labs y proyecto</h2>
-            <p>
-              Los talleres usan API OpenAI-compatible contra <a href={`${base}herramientas/`}>LM Studio u Ollama</a>.
-              No subir datos personales ni de la organización (Ley 21.719).
-            </p>
-            <ul>
-              <li>Taller 1 — Prompt versionado con pruebas (Sesión 2)</li>
-              <li>Taller 2 — Agente con tools y terminación (Sesión 4)</li>
-              <li>Proyecto final — Sistema multiagente + evaluación de trayectorias</li>
-            </ul>
-          </>
+        program && (
+          <nav class="program-toc" aria-label="Contenido del programa">
+            <a href="#introduccion">Introducción</a>
+            <a href="#objetivos">Objetivos</a>
+            <a href="#metodologia">Metodología</a>
+            <a href="#evaluacion">Evaluación</a>
+            <a href="#programa">Programa</a>
+            <a href="#bibliografia">Bibliografía</a>
+          </nav>
         )
       }
     </div>
   </section>
+
+  {
+    program ? (
+      <>
+        <section class="section section--soft" id="introduccion">
+          <div class="container prose program-block">
+            <span class="section__eyebrow">1.</span>
+            <h2>Introducción</h2>
+            {program.introduccion.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </section>
+
+        <section class="section" id="objetivos">
+          <div class="container prose program-block">
+            <span class="section__eyebrow">2.</span>
+            <h2>Objetivos de la asignatura</h2>
+            <h3>Objetivo general</h3>
+            <p>{program.objetivoGeneral}</p>
+            <h3>Objetivos específicos</h3>
+            <p>Al finalizar el curso, el/la estudiante será capaz de:</p>
+            <ul>
+              {program.objetivosEspecificos.map((o) => (
+                <li>{o}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section class="section section--soft" id="metodologia">
+          <div class="container prose program-block">
+            <span class="section__eyebrow">3.</span>
+            <h2>Metodología</h2>
+            {program.metodologia.map((p) => (
+              <p>{p}</p>
+            ))}
+            {program.metodologiaBullets.length > 0 && (
+              <ul>
+                {program.metodologiaBullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+
+        <section class="section" id="evaluacion">
+          <div class="container prose program-block">
+            <span class="section__eyebrow">4.</span>
+            <h2>Evaluación</h2>
+            <ul>
+              {program.evaluacion.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            {program.evaluacion.notes.map((n) => (
+              <p>{n}</p>
+            ))}
+          </div>
+        </section>
+
+        <section class="section section--soft" id="programa">
+          <div class="container program-block">
+            <span class="section__eyebrow">7.</span>
+            <h2>Programa</h2>
+            <p style="color:var(--uai-gray);max-width:48rem">
+              {program.unidades.length} unidades · {course.hours} hrs lectivas. Cada unidad corresponde a una sesión de cuatro horas.
+            </p>
+
+            <div class="program-units">
+              {program.unidades.map((u) => (
+                <article class="program-unit" id={u.id}>
+                  <header>
+                    <h4 class="label-uai">
+                      Unidad {u.number} · {u.hours} hrs
+                    </h4>
+                    <h3>{u.title}</h3>
+                  </header>
+                  {u.narrative.map((p) => (
+                    <p>{p}</p>
+                  ))}
+                  {u.session.length > 0 && (
+                    <>
+                      <h4 class="label-uai" style="margin-top:1.25rem">Estructura de la sesión</h4>
+                      <ul>
+                        {u.session.map((s) => (
+                          <li>{s}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {u.outcomes.length > 0 && (
+                    <>
+                      <h4 class="label-uai" style="margin-top:1.25rem">Resultados de aprendizaje</h4>
+                      <ul>
+                        {u.outcomes.map((o) => (
+                          <li>{o}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {u.readings.length > 0 && (
+                    <>
+                      <h4 class="label-uai" style="margin-top:1.25rem">Lecturas</h4>
+                      <ul>
+                        {u.readings.map((r) => (
+                          <li>{r}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  <p style="margin-top:1rem">
+                    <a href={`${base}cursos/${course.slug}/${u.id}/`}>Guía de estudio de la unidad →</a>
+                    {" · "}
+                    <a href={`${base}profesor/cursos/${course.slug}/${u.id}/`}>Guion profesor</a>
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="bibliografia">
+          <div class="container prose program-block">
+            <span class="section__eyebrow">5.</span>
+            <h2>Bibliografía</h2>
+            <h3>Obligatoria</h3>
+            <ul>
+              {program.bibliografiaObligatoria.map((b) => (
+                <li>{b}</li>
+              ))}
+            </ul>
+            {program.bibliografiaComplementaria.length > 0 && (
+              <>
+                <h3>Complementaria</h3>
+                <ul>
+                  {program.bibliografiaComplementaria.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+            <p>
+              Papers OA del catálogo: <a href={`${base}bibliografia/`}>Bibliografía local</a>.
+            </p>
+          </div>
+        </section>
+      </>
+    ) : (
+      <section class="section">
+        <div class="container prose">
+          <p class="note">Programa aún no cargado para este curso.</p>
+        </div>
+      </section>
+    )
+  }
 </StudentLayout>
