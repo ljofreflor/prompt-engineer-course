@@ -13,7 +13,7 @@ Uso: **congelar** temas/readings; **última capa** = slides UAI + casos Chile. N
 | Agent patterns | ReAct, scaffolds, context patterns | 09 u03–u04 | Cubierto |
 | Memory / multi-agent | Memory architectures, orchestration | 09 u05 | Cubierto |
 | Optimization | Prompt vs weights vs test-time | 08 u02–u03 | Parcial |
-| Evaluation | 4-tuple, LLM-as-judge, harness | 08 u06; 09 u02/u06; RUBRIC | Extender golden 10/11 |
+| Evaluation | 4-tuple, LLM-as-judge, harness | 08 u06; 09 u02/u06; RUBRIC; `labs/10/claims_eval.md` | Seguir llenando cohorte |
 | Safety | Injection, sandbox, HITL | 08 u07; 09 u06; 10 u05 | Cubierto |
 | Coding agents | SWE-agent style | Fuera de alcance magíster | No priorizar |
 

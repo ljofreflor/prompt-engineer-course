@@ -5,11 +5,12 @@ export OPENAI_BASE_URL ?= http://localhost:1234/v1
 export OPENAI_API_KEY ?= lm-studio
 export OPENAI_MODEL ?= local-model
 
-.PHONY: help smoke lab-09-u01 lab-09-u02 lab-09-u03 lab-09-u04 labs-09 lab-11-u01 referents-fetch
+.PHONY: help smoke lab-08-u04 lab-09-u01 lab-09-u02 lab-09-u03 lab-09-u04 labs-09 lab-11-u01 referents-fetch
 
 help:
 	@echo "Targets:"
 	@echo "  make smoke            — ping LM Studio / API local"
+	@echo "  make lab-08-u04       — cruce costo abierto(local) vs cerrado(API)"
 	@echo "  make lab-09-u01       — salida estructurada"
 	@echo "  make lab-09-u02       — regresión + rúbrica (JSON en labs/09/runs/)"
 	@echo "  make lab-09-u03       — verificación"
@@ -20,6 +21,9 @@ help:
 
 smoke:
 	python3 labs/smoke_local.py
+
+lab-08-u04:
+	python3 labs/08/u04/estimate_cost.py
 
 lab-09-u01:
 	python3 labs/09/u01/run_structured.py

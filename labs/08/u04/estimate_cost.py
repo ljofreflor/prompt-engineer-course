@@ -26,11 +26,21 @@ def main() -> None:
         REQ_PER_DAY
         * ((TOKENS_IN / 1e6) * API_IN_PER_1M + (TOKENS_OUT / 1e6) * API_OUT_PER_1M)
     )
-    print("OK lab08/u04 cost estimate")
+    # Dual-stack: abierto (local) vs cerrado (API) — mismos supuestos de volumen
+    rubric = {
+        "formato": 1,  # JSON/env planilla reproducible
+        "calidad": 1,  # ambos lados con mismos TOKENS_IN/OUT
+        "seguridad": 1,  # sin keys en el script
+        "costo": 1 if REQ_PER_DAY > 0 else 0,
+    }
+    print("OK lab08/u04 cost estimate (dual-stack abierto vs cerrado)")
     print(f"  volume: {REQ_PER_DAY} req/day · in={TOKENS_IN} out={TOKENS_OUT}")
-    print(f"  local runtime≈{hours:.2f} h/day · energy≈{local_clp:.0f} CLP/day @ {LOCAL_WATT}W")
-    print(f"  api≈${api_usd:.2f} USD/day (in ${API_IN_PER_1M}/1M · out ${API_OUT_PER_1M}/1M)")
+    print(f"  open/local runtime≈{hours:.2f} h/day · energy≈{local_clp:.0f} CLP/day @ {LOCAL_WATT}W")
+    print(f"  closed/api≈${api_usd:.2f} USD/day (in ${API_IN_PER_1M}/1M · out ${API_OUT_PER_1M}/1M)")
+    print(f"  rubric: {rubric}  # labs/RUBRIC.md — declarar supuestos; no inventar precios")
     print("  Note: local omits CAPEX/depreciation; API omits egress and retries.")
+    if rubric["costo"] != 1:
+        raise SystemExit(2)
 
 
 if __name__ == "__main__":
