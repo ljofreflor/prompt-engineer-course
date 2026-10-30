@@ -4280,6 +4280,96 @@
     }
   }
 
+
+  /** Design doc: secciones no negociables como espina del contrato. */
+  function vizDesignDocSpine(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Espina del design doc: contexto, NFR, arquitectura, datos, eval, riesgos");
+
+    var secs = [
+      { t: "Contexto", s: "decisión" },
+      { t: "NFR", s: "medibles" },
+      { t: "Arquitectura", s: "fronteras" },
+      { t: "Datos", s: "contratos" },
+      { t: "Eval", s: "umbral" },
+      { t: "Riesgos", s: "rollback" },
+    ];
+    var cardW = 120;
+    var gap = 18;
+    var startX = (w - (secs.length * cardW + (secs.length - 1) * gap)) / 2;
+    var cards = [];
+    var spine;
+
+    spine = svg
+      .append("rect")
+      .attr("x", startX)
+      .attr("y", 168)
+      .attr("width", 0)
+      .attr("height", 4)
+      .attr("fill", COLORS.primary)
+      .attr("opacity", 0)
+      .node();
+
+    secs.forEach(function (s, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",70)");
+      var last = i === secs.length - 1;
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 140)
+        .attr("rx", 2)
+        .attr("fill", last ? COLORS.negro : COLORS.soft)
+        .attr("stroke", last ? "none" : COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 48)
+        .attr("text-anchor", "middle")
+        .attr("fill", last ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 13)
+        .text(s.t);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 88)
+        .attr("text-anchor", "middle")
+        .attr("fill", last ? "rgba(255,255,255,0.75)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 12)
+        .text(s.s);
+      cards.push(g.node());
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 310)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Si no cabe en el doc, no está diseñado")
+      .node();
+
+    var totalW = secs.length * cardW + (secs.length - 1) * gap;
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(cards.concat([spine, foot]), { opacity: 0 });
+      tl.to(spine, { opacity: 1, duration: 0.2 }, 0.05)
+        .to(spine, { attr: { width: totalW }, duration: 0.7, ease: "power2.out" }, 0.1)
+        .to(cards, { opacity: 1, duration: 0.35, stagger: 0.08 }, 0.25)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.0);
+    } else {
+      d3.select(spine).attr("opacity", 1).attr("width", totalW);
+      d3.selectAll(cards.concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4302,6 +4392,7 @@
     "prediction-policy": vizPredictionPolicy,
     "inference-regimes": vizInferenceRegimes,
     "data-cascades": vizDataCascades,
+    "design-doc-spine": vizDesignDocSpine,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

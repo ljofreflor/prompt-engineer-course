@@ -43,7 +43,8 @@ export type VizId =
   | "regression-suite"
   | "prediction-policy"
   | "inference-regimes"
-  | "data-cascades";
+  | "data-cascades"
+  | "design-doc-spine";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

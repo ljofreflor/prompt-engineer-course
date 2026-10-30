@@ -55,6 +55,25 @@ export const slides: Slide[] = [
       "Datos, evaluación, operación y riesgos.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico del design doc",
+    items: [
+      "Design doc — especificación revisable del sistema: contexto, NFR, arquitectura, datos, eval y riesgos.",
+      "Claim con evidencia — afirmación de valor con métrica, línea base y umbral; sin eso es riesgo.",
+      "Revisión adversaria — leer el doc buscando ambigüedad, Goodhart y rollback ausente.",
+      "Listo para construir — criterio explícito de que un tercero puede implementar y auditar.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Contrato",
+    title: "Secciones que no se omiten",
+    viz: "design-doc-spine",
+    caption: "La defensa oral solo aclara lo ya escrito — no inventa.",
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -103,8 +122,9 @@ export const slides: Slide[] = [
     title: "Defensa en 10 minutos",
     items: [
       "Problema → diseño → evidencia → riesgos → pregunta abierta.",
-      "No demos: decisiones y trade-offs.",
-      "Criterio de “listo para construir”.",
+      "Caso Chile/LATAM en el doc (minería, banca, SII o retail) — mismo template.",
+      "Criterio de “listo para construir”; no demos: trade-offs.",
+      "Entregable: DESIGN.md versionado + defensa 10 min (capstone).",
     ],
   },
   {
