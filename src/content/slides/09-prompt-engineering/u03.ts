@@ -62,6 +62,18 @@ export const slides: Slide[] = [
     viz: "cot-verify",
     caption: "El scratchpad no sustituye un check programático o un segundo paso.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de razonamiento",
+    items: [
+      "Chain-of-thought (CoT) — pedir pasos intermedios antes de la respuesta; mejora multi-paso a costa de tokens.",
+      "Self-consistency — varias cadenas + agregación (voto); estabiliza el final, no garantiza verdad.",
+      "Scratchpad — razonamiento interno para el sistema; no es log auditable ni fundamento legal.",
+      "Verificación externa — check programático o segundo paso fuera del modelo que cierra el loop.",
+    ],
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -111,6 +123,14 @@ export const slides: Slide[] = [
       "Preferir checks externos a “confiá en el thought”.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Fidelidad",
+    title: "Explicar ≠ demostrar",
+    viz: "claim-evidence",
+    caption: "Rationalización a posteriori: sin check externo, el “porque” no es evidencia.",
+  },
   {
     type: "section",
     title: "Bloque 4",
@@ -123,7 +143,7 @@ export const slides: Slide[] = [
     paragraphs: [
       "Paso 1: modelo resuelve con pasos breves + respuesta final numérica.",
       "Paso 2: verificación programática (eval de expresión) — no confiar solo en el texto.",
-      "Lab: labs/09/u03/run_verify.py",
+      "Lab: labs/09/u03/run_verify.py — p. ej. IVA/monto Chile: pasos + eval aritmética externa.",
     ],
   },
   {
