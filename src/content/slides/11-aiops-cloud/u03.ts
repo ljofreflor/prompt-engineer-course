@@ -113,6 +113,14 @@ export const slides: Slide[] = [
       "No es un curso de admin de Kubernetes.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Latencia",
+    title: "Serving y presupuesto de tiempo",
+    viz: "latency-ttft-tpot",
+    caption: "Cold start incumple TTFT si no se mitiga.",
+  },
   {
     type: "section",
     title: "Bloque 4",

@@ -120,6 +120,14 @@ export const slides: Slide[] = [
       "Monitoreo desagregado y equidad.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Eval",
+    title: "Tres niveles también en ops",
+    viz: "eval-levels",
+    caption: "Uptime (servicio) ≠ calidad (modelo) ≠ resultado de negocio.",
+  },
   {
     type: "section",
     title: "Bloque 4",

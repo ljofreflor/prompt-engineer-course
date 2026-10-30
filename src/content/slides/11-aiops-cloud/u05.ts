@@ -125,6 +125,14 @@ export const slides: Slide[] = [
       "Plan de salida de 90 días si el vendor falla.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Costo",
+    title: "Idle y egress en la tabla",
+    viz: "cost-crossover",
+    caption: "Managed vs self-host: el cruce incluye idle, no solo $/token.",
+  },
   {
     type: "bullets",
     kicker: "Lecturas",

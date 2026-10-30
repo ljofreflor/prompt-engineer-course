@@ -113,6 +113,14 @@ export const slides: Slide[] = [
       "Documentar rollback de imagen.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Promoción",
+    title: "Build verde ≠ servicio listo",
+    viz: "canary-deploy",
+    caption: "Tras CI: promoción/rollback por métrica, no por chat.",
+  },
   {
     type: "section",
     title: "Bloque 4",

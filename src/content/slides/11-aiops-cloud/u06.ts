@@ -125,6 +125,14 @@ export const slides: Slide[] = [
       "Puente al design doc del curso 10.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Obs",
+    title: "Operar también es observar",
+    viz: "obs-layers",
+    caption: "Costo y calidad GenAI: instrumentar servicio y modelo.",
+  },
   {
     type: "bullets",
     kicker: "Entregable",

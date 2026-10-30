@@ -126,6 +126,14 @@ export const slides: Slide[] = [
       "Sin exponer API keys reales; config en env.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Siguiente",
+    title: "Del health al pipeline",
+    viz: "ci-pipeline",
+    caption: "El /health del lab alimenta el smoke de CI (Unidad 2).",
+  },
   {
     type: "bullets",
     kicker: "Lecturas",
