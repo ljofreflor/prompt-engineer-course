@@ -140,6 +140,14 @@ export const slides: Slide[] = [
       "Ejercicio: rediseñar bajo un NFR más duro (latencia o costo) y declarar supuestos.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Falla",
+    title: "Fiabilidad compuesta",
+    viz: "reliability-product",
+    caption: "Cascada de componentes: el producto de hops acota el uptime útil.",
+  },
   {
     type: "bullets",
     kicker: "Lecturas",

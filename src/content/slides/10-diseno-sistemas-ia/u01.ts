@@ -114,6 +114,14 @@ export const slides: Slide[] = [
       "Volumen, concurrencia, trazabilidad y retención.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "NFR",
+    title: "Latencia también es diseño",
+    viz: "latency-ttft-tpot",
+    caption: "El presupuesto de latencia acota batch vs online vs streaming.",
+  },
   {
     type: "section",
     title: "Bloque 4",
@@ -124,7 +132,7 @@ export const slides: Slide[] = [
     kicker: "Taller",
     title: "Sección 1 del design doc",
     items: [
-      "Ficha de especificación del caso propio.",
+      "Caso Chile: decisión de crédito/cobranza o trámite SII — ficha con línea base.",
       "Presentación breve + crítica cruzada.",
       "Sin números inventados: declarar supuestos.",
       "Este curso produce especificación, no despliegue (→ curso 11).",
