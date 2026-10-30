@@ -22,6 +22,13 @@ export const changelogQuarters: ChangelogQuarter[] = [
       "Compliance L3 en 08–11, ilustraciones D3/GSAP en clase, rúbrica eval-first, casos Chile y scaffold de capstone transversal.",
     items: [
       {
+        date: "2026-10-30",
+        title: "Densidad viz 09",
+        detail:
+          "self-consistency en 09/u03; guardrails reutilizado en controles de 09/u06.",
+        tags: ["09", "viz"],
+      },
+      {
         date: "2026-10-29",
         title: "Señal externa",
         detail:

@@ -2815,6 +2815,119 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Self-consistency: varias cadenas → voto (Wang et al. 2023). */
+  function vizSelfConsistency(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Self-consistency: varias cadenas y un voto");
+
+    var paths = [
+      { y: 70, label: "cadena A", ans: "42" },
+      { y: 150, label: "cadena B", ans: "42" },
+      { y: 230, label: "cadena C", ans: "7" },
+    ];
+    var nodes = [];
+
+    paths.forEach(function (p, i) {
+      var g = svg.append("g");
+      g.append("rect")
+        .attr("x", 80)
+        .attr("y", p.y)
+        .attr("width", 280)
+        .attr("height", 56)
+        .attr("rx", 2)
+        .attr("fill", COLORS.soft)
+        .attr("stroke", COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 100)
+        .attr("y", p.y + 34)
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 15)
+        .text(p.label);
+      g.append("text")
+        .attr("x", 330)
+        .attr("y", p.y + 34)
+        .attr("text-anchor", "end")
+        .attr("fill", COLORS.primary)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .text(p.ans);
+      g.append("line")
+        .attr("x1", 370)
+        .attr("y1", p.y + 28)
+        .attr("x2", 520)
+        .attr("y2", 178)
+        .attr("stroke", COLORS.border)
+        .attr("stroke-width", 2);
+      nodes.push(g.node());
+    });
+
+    var vote = svg.append("g").attr("transform", "translate(540,120)");
+    vote
+      .append("rect")
+      .attr("width", 280)
+      .attr("height", 120)
+      .attr("rx", 2)
+      .attr("fill", COLORS.primary);
+    vote
+      .append("text")
+      .attr("x", 140)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 18)
+      .text("Voto / agregación");
+    vote
+      .append("text")
+      .attr("x", 140)
+      .attr("y", 84)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 22)
+      .attr("font-weight", 800)
+      .text("42");
+    nodes.push(vote.node());
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 330)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Wang et al. 2023 — medir pass rate × tokens; diversidad ≠ verdad")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes.slice(0, 3), { opacity: 1, duration: 0.3, stagger: 0.1 }, 0.05)
+        .to(nodes[3], { opacity: 1, duration: 0.4 }, 0.45)
+        .to(foot, { opacity: 1, duration: 0.25 }, 0.8);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 100))
+          .duration(tDur(350))
+          .attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(500)).duration(tDur(280)).attr("opacity", 1);
+    }
+  }
+
   /** Sesgos del juez LLM: posición, longitud, auto-preferencia (Zheng et al. 2023). */
   function vizJudgeBias(el) {
     cineManual(el);
@@ -3506,6 +3619,7 @@
     "quant-ladder": vizQuantLadder,
     "context-stack": vizContextStack,
     "judge-bias": vizJudgeBias,
+    "self-consistency": vizSelfConsistency,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

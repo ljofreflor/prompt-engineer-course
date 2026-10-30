@@ -89,6 +89,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Varias cadenas, un voto",
+    viz: "self-consistency",
+    caption: "Wang et al. (2023): diversificar paths y agregar — el costo se justifica midiendo.",
+  },
+  {
     type: "section",
     title: "Bloque 3",
     subtitle: "60 min — Fidelidad",

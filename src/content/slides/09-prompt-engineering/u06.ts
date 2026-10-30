@@ -121,6 +121,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Controles fuera del modelo",
+    viz: "guardrails",
+    caption: "El perímetro es arquitectura (tools, validación, HITL) — no un system prompt más largo.",
+  },
+  {
     type: "image",
     kicker: "Stack del curso",
     title: "Labs locales medibles",
