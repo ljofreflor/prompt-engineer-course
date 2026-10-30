@@ -36,6 +36,18 @@ export const slides: Slide[] = [
     viz: "eval-domain",
     caption: "El ranking relativo no certifica tu tarea; el set propio sí puede.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de evaluación",
+    items: [
+      "Set de dominio — batería versionada de casos (felices, límite, OOD) alineada a tu tarea.",
+      "LLM-as-a-judge — modelo que puntúa salidas; requiere mitigar sesgos y contrastar con humano.",
+      "Contaminación — overlap entre datos de entrenamiento y el benchmark público.",
+      "Propiedad operativa — fidelidad/alucinación/formato definidos con umbral medible, no eslogan.",
+    ],
+  },
   {
     type: "section",
     title: "Bloque 1",
@@ -65,6 +77,14 @@ export const slides: Slide[] = [
       "Tamaño vs intervalo de confianza.",
       "Versionar el set como artefacto.",
     ],
+  },
+
+  {
+    type: "viz",
+    kicker: "Método",
+    title: "Golden set → corrida → rúbrica",
+    viz: "regression-suite",
+    caption: "Eval-first: el veredicto lo da el set + la rúbrica (labs/RUBRIC.md).",
   },
   {
     type: "section",
@@ -108,9 +128,9 @@ export const slides: Slide[] = [
     kicker: "Eval 3",
     title: "Fidelidad, alucinación, formato",
     items: [
-      "Definición operativa + umbral.",
-      "Sensibilidad al prompt de evaluación.",
-      "Puente a labs del curso 09 (salida estructurada).",
+      "Caso Chile: 20 tickets soporte (ES) — fidelidad a política + formato JSON.",
+      "Definir umbral; contrastar juez vs 5 labels humanos.",
+      "Puente a labs/09 (regresión + labs/RUBRIC.md).",
     ],
   },
   {
