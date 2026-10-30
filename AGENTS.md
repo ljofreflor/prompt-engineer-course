@@ -169,6 +169,8 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 
 Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar citas ni papers para “rellenar” casos LATAM.
 
+**Referentes internacionales (corte 2026-10):** tres capas — (M) MOOC fluency (Google Prompting Essentials, DL.AI Prompt Eng, Claude 101); (B*) MOOC build (DL.AI GenAI+LLMs, IBM GenAI Eng, HF Agents, LangChain shorts); (E) elite (Stanford CS329Z compound/agents/eval/MCP, Anthropic Academy context+evals). Propuesta Chile: no otro Coursera — magíster = rigor E + design doc + AIOps + casos LATAM + dual-stack. Gaps a cerrar vs E: eval-first en todos los labs, context engineering explícito (prompt ⊂ contexto), agente from-scratch + harness, defensa pública del design doc. No competir en capa M; distinguir Certificate Prompt UAI del curso 09.
+
 **Competencia Chile/LATAM (corte 2026-10):** tres capas — (A) fluency/prompt corto (UC, Certificate UAI, verticales), (B) diplomado/bootcamp build (UC GAI, Desafío Latam, EdEx, UNLu), (C) magíster IA/TI amplio (MIA UC, UDP). Casi nadie vende GenAI→eval→design doc→AIOps como hilo; no competir en capa A; vs B el peor gap es evidencia de producción + casos Chile, no más tips. Distinguir messaging del Certificate Prompt UAI del curso 09 del magíster.
 
 ## Continuous improvement (coursebuild loop)
