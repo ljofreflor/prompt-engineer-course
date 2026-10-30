@@ -2815,6 +2815,122 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Suite de regresión: golden set → corrida → dims pass/fail. */
+  function vizRegressionSuite(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Golden set versionado, corrida y veredicto por dimensión");
+
+    var stages = [
+      { title: "Golden set", sub: "cases.yaml", fill: COLORS.soft },
+      { title: "Corrida", sub: "prompt × modelo", fill: COLORS.negro },
+      { title: "Rúbrica", sub: "4 dimensiones", fill: COLORS.primary },
+    ];
+    var cardW = 220;
+    var gap = 40;
+    var startX = (w - (stages.length * cardW + (stages.length - 1) * gap)) / 2;
+    var nodes = [];
+    var arrows = [];
+
+    stages.forEach(function (s, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",70)");
+      var ink = s.fill === COLORS.soft ? COLORS.negro : COLORS.white;
+      var muted = s.fill === COLORS.soft ? COLORS.gray : "rgba(255,255,255,0.85)";
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 160)
+        .attr("rx", 2)
+        .attr("fill", s.fill)
+        .attr("stroke", s.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 58)
+        .attr("text-anchor", "middle")
+        .attr("fill", ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 20)
+        .text(s.title);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 100)
+        .attr("text-anchor", "middle")
+        .attr("fill", muted)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 14)
+        .text(s.sub);
+      if (i === 2) {
+        g.append("text")
+          .attr("x", cardW / 2)
+          .attr("y", 132)
+          .attr("text-anchor", "middle")
+          .attr("fill", COLORS.white)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", 12)
+          .attr("font-weight", 700)
+          .text("formato · calidad · …");
+      }
+      nodes.push(g.node());
+      if (i < stages.length - 1) {
+        var ax = x + cardW + gap / 2;
+        arrows.push(
+          svg
+            .append("text")
+            .attr("x", ax)
+            .attr("y", 160)
+            .attr("text-anchor", "middle")
+            .attr("fill", COLORS.gray)
+            .attr("font-family", "Roboto, system-ui, sans-serif")
+            .attr("font-weight", 800)
+            .attr("font-size", 24)
+            .attr("opacity", 0)
+            .text("→")
+            .node()
+        );
+      }
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 300)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Lane 2: usar el LLM; el veredicto lo da el set + la rúbrica, no la intuición")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes.concat(arrows), { opacity: 0 });
+      tl.to(nodes[0], { opacity: 1, duration: 0.35 }, 0.05)
+        .to(arrows[0], { opacity: 1, duration: 0.2 }, 0.3)
+        .to(nodes[1], { opacity: 1, duration: 0.35 }, 0.4)
+        .to(arrows[1], { opacity: 1, duration: 0.2 }, 0.65)
+        .to(nodes[2], { opacity: 1, duration: 0.35 }, 0.75)
+        .to(foot, { opacity: 1, duration: 0.28 }, 1.05);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(70 + i * 160))
+          .duration(tDur(360))
+          .attr("opacity", 1);
+      });
+      arrows.forEach(function (a, i) {
+        d3.select(a).transition().delay(tDelay(150 + i * 160)).duration(tDur(250)).attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(650)).duration(tDur(280)).attr("opacity", 1);
+    }
+  }
+
   /** Multimodal: texto + imagen → modelo; OCR ≠ razonamiento. */
   function vizMultimodalSurface(el) {
     cineManual(el);
@@ -3862,6 +3978,7 @@
     "self-consistency": vizSelfConsistency,
     "agent-budget": vizAgentBudget,
     "multimodal-surface": vizMultimodalSurface,
+    "regression-suite": vizRegressionSuite,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

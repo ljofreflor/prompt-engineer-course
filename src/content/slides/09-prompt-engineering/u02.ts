@@ -68,6 +68,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Definiciones",
+    title: "Golden set y regresión",
+    items: [
+      "Golden set — batería versionada de entradas con resultado esperado (pass/fail).",
+      "Regresión de prompt — re-correr el set al cambiar prompt, modelo o temperatura.",
+      "Rúbrica — dimensiones medibles (formato · calidad · seguridad · costo), no “se ve bien”.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Diseño",
     title: "Qué meter en la batería",
     items: [
@@ -76,6 +86,13 @@ export const slides: Slide[] = [
       "Repeticiones cuando la temperatura no es cero.",
       "Tamaño suficiente para detectar caídas relevantes.",
     ],
+  },
+  {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Set → corrida → veredicto",
+    viz: "regression-suite",
+    caption: "Sin golden set versionado, cada modelo nuevo es un salto al vacío.",
   },
   {
     type: "section",
