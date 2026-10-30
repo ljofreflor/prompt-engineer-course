@@ -102,6 +102,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 - **Señal externa:** `/senal/` ← `src/data/external-signal.ts` (cupos de invitado + defensa); solo publicar nombres/fechas confirmadas por el Magíster
 - Screenshots/evidence: `public/labs/screenshots/` and `public/labs/runs/` when attaching to slides or `/herramientas`
 - **Teoría en clase:** cada deck Reveal debe enseñar conceptos con base bibliográfica, no solo tips. Citar autores/año (y § si aplica) en bullets o slides `Lecturas`. Fuente de verdad: `references/bibliography.bib` + `units.readings`. Si falta un paper OA, descargarlo a `references/papers/<key>/` vía skill `papers-download-mathpix` (solo OA; no versionar PDFs). No inventar citas.
+- **Definiciones (es un curso):** todo concepto que se introduce en clase lleva **definición explícita** (1–2 líneas) antes de tips, labs o viz. Formas válidas: kicker `Definición` / `Definiciones` / `Concepto` / `Glosario`, o bullets `Término — definición…` / `X es un/una…`. No asumir léxico previo; no dejar solo jerga + paper. Chequeo auto: `definitions_present` (L2).
 
 ## Program compliance (coverage × quality)
 
@@ -113,7 +114,7 @@ Fuente de verdad del **qué** debe existir: syllabi en `src/data/programs/<slug>
 |------:|------|---------|
 | L0 | absent / partial | Missing deck override or file, or only placeholder |
 | L1 | skeleton | Deck registered + unit page with ≥3 blocks and learning outcomes |
-| L2 | theory | L1 + slides `Teoría` and `Lecturas`; claims cited (author/year); reading keys resolve in `bibliography.bib` / `papers_config.json` |
+| L2 | theory | L1 + slides `Teoría` and `Lecturas`; **definiciones de conceptos**; claims cited (author/year); reading keys resolve in `bibliography.bib` / `papers_config.json` |
 | L3 | practice | L2 + valid `viz` ids (if any) + lab present when `lab:` is declared on the unit (or `Lab:` path in deck) |
 | L4 | polish | Manual: UAI brand critique (portada ≤2 lines, chrome, tokens, viz contrast) — not auto-scored |
 
@@ -126,9 +127,11 @@ python3 scripts/compliance_check.py          # writes tmp/compliance.md
 python3 scripts/compliance_check.py --strict # exit 1 if any unit < L2
 ```
 
-Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.
+Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `definitions_present`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.
 
-Prioritize loop work by **lowest level first**, then by course order 08→11. Do not invent readings to “pass” L2 — only OA / licensed sources; books (Huyen, etc.) may be cited without local PDF.
+`definitions_present` (L2): kicker `Definición(es)` / `Concepto(s)` / `Glosario` / `Léxico`, **o** ≥3 bullets `Término — definición` / ≥2 `X es un/una…` en el deck.
+
+Prioritize loop work by **lowest level first**, then by course order 08→11. Do not invent readings to “pass” L2 — only OA / licensed sources; books (Huyen, etc.) may be cited without local PDF. When raising L2, fix missing **definitions** before adding more tips.
 
 ### Manual L4 (brand) — still required in the loop
 

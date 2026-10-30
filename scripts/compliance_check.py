@@ -10,7 +10,7 @@ Prints: summary table to stdout
 Levels (per unit):
   L0 absent     — no slide override
   L1 skeleton   — deck + unit page with blocks/outcomes
-  L2 theory     — Teoría + Lecturas; bib keys resolve
+  L2 theory     — Teoría + Lecturas + concept definitions; bib keys resolve
   L3 practice   — lab present when declared / Lab: in deck; viz ids valid
   L4 polish     — manual (brand critique) — not auto-scored here
 
@@ -46,6 +46,13 @@ COURSES = [
 ]
 
 BIB_KEY_RE = re.compile(r"(?:^|[\s—\-])([a-z][a-z0-9]+(?:20\d{2}|19\d{2})[a-z0-9]*)\b")
+DEF_KICKER_RE = re.compile(
+    r'kicker:\s*"(Definici[oó]n(?:es)?|Concepto(?:s)?|Glosario|L[eé]xico)"',
+    re.I,
+)
+# "Término — definición…" or "X es un/una …"
+DEF_DASH_RE = re.compile(r'"[^"]{1,48}\s+[—–]\s+[^"]{8,}"')
+DEF_ES_RE = re.compile(r'"[^"]{2,60}\s+es\s+(?:un|una|el|la)\s+[^"]{5,}"', re.I)
 SLIDE_OVERRIDE_RE = re.compile(
     r'"(08-genai-llms|09-prompt-engineering|10-diseno-sistemas-ia|11-aiops-cloud)/(u\d{2})"'
 )
@@ -133,6 +140,17 @@ def parse_unit_pages() -> dict[tuple[str, str], dict]:
     return out
 
 
+def analyze_definitions(text: str) -> tuple[bool, str]:
+    """Course decks must define concepts (not only tip / cite)."""
+    if DEF_KICKER_RE.search(text):
+        return True, "kicker Definición/Concepto/Glosario"
+    dash_n = len(DEF_DASH_RE.findall(text))
+    es_n = len(DEF_ES_RE.findall(text))
+    if dash_n >= 3 or es_n >= 2 or (dash_n >= 2 and es_n >= 1):
+        return True, f"def-bullets dash={dash_n} es={es_n}"
+    return False, f"need Definición slide or ≥3 'Término — def' / ≥2 'X es un…' (dash={dash_n} es={es_n})"
+
+
 def analyze_deck(path: Path) -> dict:
     text = path.read_text(encoding="utf-8")
     teoria = bool(re.search(r'kicker:\s*"Teoría"', text))
@@ -143,12 +161,15 @@ def analyze_deck(path: Path) -> dict:
     viz_ids = re.findall(r'viz:\s*"([a-z0-9-]+)"', text)
     # citation-ish: Author (20xx) or bib keys
     cited = bool(re.search(r"\([12]\d{3}\)", text)) or bool(BIB_KEY_RE.search(text))
+    defs_ok, defs_detail = analyze_definitions(text)
     return {
         "teoria": teoria,
         "lecturas": lecturas,
         "labs": lab_mentions,
         "viz": viz_ids,
         "cited": cited,
+        "definitions": defs_ok,
+        "definitions_detail": defs_detail,
         "n_slides": len(re.findall(r"type:\s*\"", text)),
     }
 
@@ -227,6 +248,12 @@ def score_unit(
     if deck:
         s.add("teoria_slide", deck["teoria"], fail="no kicker Teoría")
         s.add("lecturas_slide", deck["lecturas"], fail="no kicker Lecturas")
+        s.add(
+            "definitions_present",
+            deck["definitions"],
+            detail=deck["definitions_detail"],
+            fail=deck["definitions_detail"],
+        )
         s.add("citations_present", deck["cited"], fail="no (Author, year) / bib keys in deck")
         bad_viz = [v for v in deck["viz"] if v not in viz_ids]
         s.add(
@@ -238,6 +265,7 @@ def score_unit(
     else:
         s.add("teoria_slide", False, fail="no deck")
         s.add("lecturas_slide", False, fail="no deck")
+        s.add("definitions_present", False, fail="no deck")
         s.add("citations_present", False, fail="no deck")
         s.add("viz_valid", True, detail="n/a")
 
@@ -284,7 +312,15 @@ def score_unit(
     l2 = l1 and all(
         c.ok
         for c in s.checks
-        if c.id in {"teoria_slide", "lecturas_slide", "citations_present", "readings_listed", "bib_keys_resolve"}
+        if c.id
+        in {
+            "teoria_slide",
+            "lecturas_slide",
+            "definitions_present",
+            "citations_present",
+            "readings_listed",
+            "bib_keys_resolve",
+        }
     )
     l3 = l2 and all(c.ok for c in s.checks if c.id in {"lab_ok", "viz_valid"})
     if l3:
