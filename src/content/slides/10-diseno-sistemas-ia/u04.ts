@@ -108,6 +108,14 @@ export const slides: Slide[] = [
       "Fricción deliberada como mecanismo.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Guardrails",
+    title: "HITL es arquitectura",
+    viz: "guardrails",
+    caption: "Confirmación y registro: controles fuera del modelo.",
+  },
   {
     type: "section",
     title: "Bloque 4",

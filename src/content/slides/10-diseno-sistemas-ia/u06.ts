@@ -111,6 +111,14 @@ export const slides: Slide[] = [
       "Checklist de superficie de riesgo (Unidad 5).",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Make/buy",
+    title: "Trade-offs que deben estar escritos",
+    viz: "make-buy",
+    caption: "La defensa solo aclara lo ya justificado en el design doc.",
+  },
   {
     type: "section",
     title: "Bloque 4",

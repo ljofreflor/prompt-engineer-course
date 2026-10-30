@@ -113,6 +113,14 @@ export const slides: Slide[] = [
       "Medir el efecto del bucle es decisión de diseño.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Feedback",
+    title: "El bucle mueve la distribución",
+    viz: "concept-drift",
+    caption: "Etiqueta tardía + intervención: diseñá reserva no intervenida.",
+  },
   {
     type: "section",
     title: "Bloque 4",

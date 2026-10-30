@@ -137,6 +137,14 @@ export const slides: Slide[] = [
       "Diseño proporcional al riesgo de la decisión.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Riesgo",
+    title: "Capas de riesgo del sistema",
+    viz: "risk-layers",
+    caption: "OOD, inyección y fuga: el prompt no es el perímetro.",
+  },
   {
     type: "bullets",
     kicker: "Taller",
