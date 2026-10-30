@@ -55,6 +55,25 @@ export const slides: Slide[] = [
       "Cuándo justifica acelerador especializado.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de serving",
+    items: [
+      "Patrón de servicio — batch, online, streaming o edge elegido desde NFR (latencia, costo, volumen).",
+      "Cold start — latencia extra al despertar una instancia fría; incumple presupuestos si no se mitiga.",
+      "Despliegue progresivo — sombra / canaria / azul-verde con promoción y rollback por métrica.",
+      "Orquestación — coordinación de pasos y fallos parciales; no sustituye el diseño de NFR.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Patrones",
+    title: "El serving también sale del NFR",
+    viz: "inference-regimes",
+    caption: "Misma lógica que en diseño (curso 10): presupuesto primero, plataforma después.",
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -107,7 +126,7 @@ export const slides: Slide[] = [
       "AWS / Azure / GCP (crédito fijo).",
       "Dockerizar el health wrapper del lab 11/u01.",
       "Smoke en GitHub Actions.",
-      "Si cae el proveedor: LM Studio local (página Herramientas, curso 11).",
+      "Caso Chile: API de scoring interna (banca/retail) — canaria 10% + rollback por latencia p95.",
     ],
   },
   {
