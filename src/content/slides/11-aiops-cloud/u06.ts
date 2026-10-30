@@ -54,6 +54,25 @@ export const slides: Slide[] = [
       "Trade-off modelo chico local vs API cerrado.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de operación GenAI",
+    items: [
+      "Presupuesto de tokens — límite operativo (diario/por tarea) con kill-switch cuando se excede.",
+      "Eval continua — muestreo de tráfico + golden set + señales (parseo, abstención, juez).",
+      "Guardrail — política + medición + rollback; no un filtro único en el prompt.",
+      "Runbook GenAI — síntomas y acciones cuando el modelo inventa, encarece o degrada calidad.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Economía",
+    title: "Costo como variable de producto",
+    viz: "cost-crossover",
+    caption: "Kapoor et al.: medir sistemas por costo, no solo por success rate.",
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -104,6 +123,17 @@ export const slides: Slide[] = [
       "Síntomas: alza de costo, caída de parseo, quejas de tono.",
       "Acciones: pin de prompt/modelo, canaria atrás, postmortem.",
       "Puente al design doc del curso 10.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Entregable",
+    title: "Runbook del capstone",
+    items: [
+      "Caso Chile/LATAM del design doc: 3 síntomas GenAI + acción + rollback.",
+      "Presupuesto de tokens/día y umbral de alerta.",
+      "Degradación: plantilla / modelo local / cola humana.",
+      "Adjuntar al DESIGN.md (labs/capstone/) — puente 08→11.",
     ],
   },
   {
