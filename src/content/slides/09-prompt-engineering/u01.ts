@@ -128,6 +128,14 @@ export const slides: Slide[] = [
       "Abstención como salida legítima → menos invención.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Producción",
+    title: "Abstener también es una salida",
+    viz: "abstain-escalate",
+    caption: "Schema + abstención OOD: menos invención, más contrato operable.",
+  },
   {
     type: "prose",
     kicker: "Demo viva",

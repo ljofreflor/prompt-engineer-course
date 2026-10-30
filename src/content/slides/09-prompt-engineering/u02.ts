@@ -142,6 +142,14 @@ export const slides: Slide[] = [
       "Análisis breve de sensibilidad (1–2 variantes de formato).",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Juez",
+    title: "El score también tiene sesgo",
+    viz: "judge-bias",
+    caption: "Si usás LLM-as-judge en la suite: swap, rúbrica y muestra humana.",
+  },
   {
     type: "bullets",
     kicker: "Lecturas",
