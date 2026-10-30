@@ -63,6 +63,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - Title slides: prefer ≤2 lines for h1; portada uses `2.1em` / `22ch` — if CDP still reports ~3 lines, shorten the slide `title` further (full name stays on the unit page / footer meta)
 - Reveal arrow controls stay low-opacity until hover so they don’t fight the UAI chrome in projection
 - **Clase = atractivo funcional, no tip deck ni showreel:** cada unidad debe tener **más** slides `type: "viz"` (objetivo: ≥1 diagrama conceptual fuerte por bloque de 60 min cuando el tema lo admite). Motion dirigido (beats, hold, revelación) solo para aclarar el concepto; si distrae, recortar. D3 = geometría/datos; GSAP = timing. Barra: legible en proyección de magíster, no slideware SaaS ni motion-design reel
+- **D3 siempre en marcha:** ejemplificar conceptos con animaciones D3 (+ GSAP sobrio) es trabajo **continuo**, no un sprint puntual. Prioridad permanente del loop: unidad con 1 viz / 4 bloques → añadir el siguiente diagrama que enseña; no sustituir con más bullets. Si el bloque es teoría abstracta (pipeline, sesgo, tope, trade-off), **primero** dibujar; el texto acompaña
 - D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting. One idea per viz — sparse, large type, readable from the back row
 - Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`)
 - Available viz ids: `react-loop`, `prompt-anatomy`, `prompt-sensitivity`, `cot-verify`, `injection-surface`, `automation-levels`, `abstain-escalate`, `lost-middle`, `sft-align`, `lora-adapters`, `openness-axes`, `quant-ladder`, `context-stack`, `judge-bias`, `self-consistency`, `agent-budget`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers` — **expand the registry** when adding concepts; do not leave theory-only blocks without a visual
@@ -148,7 +149,7 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 | 5 | Casos Chile / LATAM | Misma teoría OA; escenarios minería, retail, banca, sector público, español/legal, datos sensibles — valor = rediseño de flujo, no la tool | decks `Teoría`/`Taller`, labs |
 | 6 | Competency matrix | Literacidad → aplicado → certificado por artefacto. Página `/competencias/` ← `src/data/competencies.ts` | `src/data/competencies.ts`, `src/pages/competencias/` |
 | 7 | Changelog trimestral | Página `/cambios/` (“Qué cambió”); editar `src/data/changelog.ts` cada trimestre (modelos, MCP, labs, papers). No inventar entradas | `src/data/changelog.ts`, `src/pages/cambios/` |
-| 8 | Atractivo = claridad | Viz que enseña en ~30 s; 1 idea; motion sobrio UAI — no más slides ornamentales | L4 + densidad viz (≥1 por bloque cuando el tema admite) |
+| 8 | Atractivo = claridad (D3 continuo) | Viz animado que enseña en ~30 s; 1 idea; motion sobrio. **Cada tick:** al menos un avance de densidad/registry D3 si hay bloque sin ilustrar (08→11, peor primero) | `reveal-viz.js`, decks, L4 |
 | 9 | Abierto ↔ cerrado | Criterio soberanía / costo / riesgo con evidencia (08/u03–u04); no “solo GPT” | decks 08, labs dual-stack |
 | 10 | Señal externa | Invitados (1/curso), defensa pública del design doc, papers OA. Página `/senal/` ← `src/data/external-signal.ts` (sin nombres inventados) | `src/data/external-signal.ts`, `src/pages/senal/` |
 
@@ -160,7 +161,8 @@ Every loop tick should:
 
 1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗)
 2. Screenshot + critique one Reveal clase vs UAI brand (L4); fix the highest-severity issue
-3. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
-4. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md`
-5. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion, market pattern shipped) — short bullet under the right section; do not dump tick noise here
-6. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/market-backlog.md`)
+3. **D3 exemplify (mandatory unless blocked):** add or upgrade ≥1 ilustración animada (`type: "viz"` + registry) en la unidad con peor densidad (1 viz / muchos bloques, orden 08→11). Concepto primero; no relleno ornamental
+4. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
+5. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md` — el slice #8 (D3) puede coincidir con el paso 3
+6. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion, market pattern shipped) — short bullet under the right section; do not dump tick noise here
+7. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/market-backlog.md`)
