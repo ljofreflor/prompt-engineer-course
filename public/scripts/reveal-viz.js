@@ -4852,6 +4852,79 @@
     }
   }
 
+
+  /** Temperatura / top-p: forma de la distribución de muestreo. */
+  function vizDecodeControls(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Temperatura baja concentra; top-p recorta la cola");
+
+    function bars(x0, temps, label, delay0) {
+      var g = svg.append("g").attr("transform", "translate(" + x0 + ",60)");
+      g.append("text")
+        .attr("x", 140)
+        .attr("y", 0)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 15)
+        .text(label);
+      var max = d3.max(temps);
+      var bw = 36;
+      var nodes = [];
+      temps.forEach(function (v, i) {
+        var hBar = (v / max) * 160;
+        var x = 40 + i * (bw + 12);
+        var rect = g
+          .append("rect")
+          .attr("x", x)
+          .attr("y", 200 - hBar)
+          .attr("width", bw)
+          .attr("height", hBar)
+          .attr("rx", 2)
+          .attr("fill", i === 0 ? COLORS.primary : COLORS.soft)
+          .attr("stroke", i === 0 ? "none" : COLORS.negro)
+          .attr("stroke-width", 1.5)
+          .attr("opacity", 0)
+          .node();
+        nodes.push(rect);
+      });
+      return nodes;
+    }
+
+    // low temp: peaked
+    var low = [1, 0.35, 0.18, 0.1, 0.06];
+    // high temp: flatter
+    var high = [0.55, 0.48, 0.42, 0.38, 0.35];
+    var n1 = bars(40, low, "Temperatura baja", 0);
+    var n2 = bars(480, high, "Temperatura alta", 0);
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 310)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Top-p recorta la cola; temperatura reescala — no son “creatividad” mágica")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(n1.concat(n2).concat([foot]), { opacity: 0 });
+      tl.to(n1, { opacity: 1, duration: 0.35, stagger: 0.06 }, 0.05)
+        .to(n2, { opacity: 1, duration: 0.35, stagger: 0.06 }, 0.45)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.0);
+    } else {
+      d3.selectAll(n1.concat(n2).concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4879,6 +4952,7 @@
     "container-artifact": vizContainerArtifact,
     "concept-drift": vizConceptDrift,
     "portability-edge": vizPortabilityEdge,
+    "decode-controls": vizDecodeControls,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

@@ -110,6 +110,25 @@ export const slides: Slide[] = [
       "Determinismo completo no está garantizado entre runtimes.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de decodificación",
+    items: [
+      "Generación autorregresiva — cada token se muestrea condicionado a los anteriores P(x_t | x_<t).",
+      "Temperatura — reescala la distribución; baja → más pico; alta → más plana.",
+      "Top-p (nucleus) — descarta la cola de probabilidad acumulada fuera del umbral p.",
+      "KV-cache — reutiliza claves/valores del prefijo en decode para no recomputar atención.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Muestreo",
+    title: "Temperatura cambia la forma",
+    viz: "decode-controls",
+    caption: "Elegir temperatura/top-p es diseño de tarea, no “creatividad”.",
+  },
   {
     type: "image",
     kicker: "Lab local",
@@ -132,6 +151,16 @@ export const slides: Slide[] = [
       "Más parámetros ≠ mejor para tu tarea sin evaluación de dominio.",
       "Cuantización local: trade-off calidad/latencia/VRAM.",
       "Taller: registrar temperature/top_p × diversidad en 10 corridas.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Lab",
+    title: "Probe de decode",
+    items: [
+      "Lab: labs/08/u01/run_decode_probe.py — temperature/top_p × diversidad.",
+      "Registrar 10 corridas; anotar tokens ES vs EN si aplica.",
+      "Eval-first: formato (log) · calidad (diversidad) · costo (tokens).",
     ],
   },
   {
