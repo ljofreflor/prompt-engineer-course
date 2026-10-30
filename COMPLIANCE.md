@@ -136,7 +136,7 @@ Pointer: [`references/referents/`](./references/referents/). Última capa UAI (E
 | Outcomes → clase | Al finalizar + overlap léxico | soft `outcomes_keyword_hit` / auditor P1 |
 | Taller/lab | `Lab:` + path; disco | soft `lab_declared_in_deck` + L3 `lab_ok` |
 | Lecturas | unit + Lecturas + bib | L2 / ¿syllabus real? (auditor) |
-| Bloques ~60 min | sections + contenido; **fidelidad de horas** → §4.10 | manual + Manim sim |
+| Bloques ~60 min | sections + contenido; **horas** → §4.10 (heurística + Manim) | auto fill + Manim gold |
 | Prelectura usable | tesis + defs + teoría + formativa | soft + L2 / §4.4 |
 | Viz proceso | `type:"viz"` | soft densidad + L3 `viz_valid` |
 
@@ -147,21 +147,19 @@ Invocar: skill compliance-auditor → `tmp/compliance-audit.md` (peor unidad + u
 Fórmulas canónicas en **LaTeX** (`\(...\)` / `$...$`). No unicode-only, ASCII `x^2`, ni PNG de ecuación. Prosa (`≠`/`≥`) OK. Labels D3: `x_t` ASCII.  
 **Auto:** pendiente soft `equations_latex` (§7; alto FP). **Renderer:** sin KaTeX en clase aún — escribir LaTeX ya; vendor = follow-up.
 
-### 4.10 Validación de horas lectivas (Manim)
+### 4.10 Horas lectivas (heurística + Manim)
 
-**Promise** = `programs/<slug>.json` → `unidades[].hours` + `session[]` (bloques ≈60 min). No inventar auditorías: solo medir simulación vs plan.
+**Promise** = `programs/<slug>.json` → `unidades[].hours` + `session[]` (~60 min/bloque). **L3 ≠ horas cubiertas.**
 
-| Pieza | Valor (borrador v0) |
-|-------|---------------------|
-| Método | Video-simulación de la narrativa del deck (Manim title cards / Manim+stills); duración medida vs horas planificadas |
-| Escala demo | 1 s video ≈ 1 min lectivo (pipeline); fidelidad 1:1 = follow-up local, no CI |
-| Tolerancia | **±20%** primera pasada (draft; endurecer a ±15% cuando haya ≥3 unidades auditadas) |
-| Auto | Scaffold `scripts/hours_audit.py` + escena `labs/hours/` → reporta plan vs duración; **no** gatea L |
-| Manual | Revisar pacing real en clase / stills; editor si el sim pasa pero la sesión se desvía |
-| Reporte | `tmp/hours-audit.md` (gitignored); MP4 bajo `tmp/hours/` — **no** versionar |
-| Métrica | `m_hours_fidelity` (§8) |
+| Pieza | Valor |
+|-------|-------|
+| Interim (todas las unidades) | `scripts/hours_fill.py`: min conservadores por tipo (`title`1 / `section`1.5 / `bullets`4 / `prose`5 / `viz`6 / `image`3 +18 si Lab/Taller); chrome bajo peso |
+| Underfill | `estimate/planned < 75%` = deuda; `< 50%` = severa; deck ausente = max deuda |
+| Gold | Manim MP4 (`hours_audit.py --render`) vs plan ±**20%** (draft) |
+| Auto | Heurística en `compliance_check` / devil; audit escribe ambos → `tmp/hours-audit.md` (**no** gatea L) |
+| Métrica | `m_hours_fidelity` (§8): fail si underfill/unaudited hasta evidencia |
 
-Scaffold: `labs/hours/README.md`. Demo: `make hours-audit-demo`.
+Devil: underfill = peso alto en `devil_score`. Demo: `make hours-audit-demo`.
 
 ---
 
@@ -196,7 +194,7 @@ python3 scripts/compliance_check.py --strict  # exit 1 si alguna < L2
 | ¿Fórmulas editables? | LaTeX §4.9 |
 | ¿Portada = tema, no stack? | Título humano; tools en `Lab:` |
 | ¿Marca UAI? | L4 brand |
-| ¿Horas lectivas fieles? | Manim sim vs `hours` / bloques (§4.10); `m_hours_fidelity` |
+| ¿Horas lectivas fieles? | Fill ≥75% plan (heurística) o Manim ±20% (§4.10); L3 no basta |
 
 | Curso | Énfasis |
 |-------|---------|
@@ -221,7 +219,6 @@ Promover solo con baja FP. Soft ya vivos: `prelectura_thesis`, `title_no_path`, 
 | `program_block_coverage` | Cada bloque session tiene eco | Alto | Manual |
 | `two_lane_signal` | abstener/HITL cuando outcome = usar LLM | Alto | Semántico |
 | `equations_latex` | unicode/ASCII math sin `$`/`\(` | **Alto** | Manual §4.9 hasta heurística conservadora |
-| `hours_sim_duration` | Parse `tmp/hours-audit.md` / ffprobe vs `hours` del programa | Medio | Soft futuro; método §4.10; no inventar audits |
 
 **Solo manual:** alineación outcome↔actividad plena; tip-deck; vivo vs solo; lecturas inventadas; “viz enseña outcome”; LaTeX §4.9; pacing vivo vs Manim.
 
@@ -241,7 +238,7 @@ Señales medibles de pedagogía (alineación, prelectura, two-lane, process+prod
 | `m_prelectura_thesis` | % con `prelectura_thesis` | **≥90%** | Auto soft | idem |
 | `m_lab_deck_align` | De unidades con `lab:` en unit, % con `lab_declared_in_deck` | **100%** | Auto soft | idem |
 | `m_blocks_structure` | % con `blocks` OK (≥3) | **100%** | Auto | `tmp/compliance.md` § métricas |
-| `m_hours_fidelity` | De unidades con informe Manim en `tmp/hours-audit.md`: % con \|sim − plan\| / plan ≤ tolerancia (§4.10, draft ±20%) | **≥80%** de unidades auditadas en rotación; roadmap 100% | Semi: script + revisión manual del MP4/pacing | `tmp/hours-audit.md`; no inventar filas |
+| `m_hours_fidelity` | % unidades con `estimate/planned ≥ 75%` (heurística §4.10); underfill/deck ausente = fail; Manim ±20% = gold override cuando hay MP4 | **≥80%** unidades en banda; roadmap 100% + rotación Manim | Auto heurística (`hours_fill.py` / snapshot); Manim semi | snapshot + `tmp/hours-audit.md` |
 | `m_process_product` | De cursos/labs con `lab:` o golden, % con evidencia process+product (rúbrica + ≥1 JSON en `labs/<NN>/runs/` o path declarado) | **≥1 run/curso con labs**; roadmap 100% labs declarados | Semi: cuenta `labs/*/runs/*.json` + pointer `labs/RUBRIC.md` | reporte (conteo runs) + audit |
 | `m_two_lane` | Donde el outcome exige uso de LLM: señal explícita lane 1 (sin AI / competencia propia) vs lane 2 (verificar, abstener, HITL) | **todas** las unidades “uso crítico de GenAI” en rotación editor | Manual P5 | `tmp/pedagogy-critique.md` / audit |
 
@@ -262,5 +259,5 @@ El checker emite el bloque **Pedagogy metrics** (tasas 08–11, ~25 unidades) al
 | pedagogy-editor + `pedagogy_trends.md` | P1–P8 + tendencias citadas |
 | `references/referents/` | Transfer |
 | `labs/RUBRIC.md` | Rúbrica transversal |
-| `labs/hours/` · `scripts/hours_audit.py` | Simulación Manim de horas (§4.10) |
+| `labs/hours/` · `hours_fill.py` · `hours_audit.py` | Heurística fill + Manim (§4.10) |
 | `tmp/*` | Scratch; no versionar (`tmp/hours-audit.md`, `tmp/hours/`) |

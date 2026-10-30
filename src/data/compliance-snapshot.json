@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-30T21:03:43Z",
+  "generated_at": "2026-10-30T23:02:42Z",
   "framework": "COMPLIANCE.md",
   "regenerate": "make compliance-snapshot",
   "dashboard": "/cumplimiento/",
   "stance": "devil",
-  "stance_note": "L0–L3 = shippable auto; devil_score = exigencia adversaria (deuda). Alto devil ≠ bajar L; prioriza tick / L4 / evidencia.",
+  "stance_note": "L0–L3 = shippable auto; devil_score = deuda adversaria. Horas: heurística content→min (underfill = deuda alta); Manim = gold. L3 ≠ 4 h cubiertas.",
   "unit_count": 25,
   "levels": {
     "L0": 0,
@@ -24,99 +24,113 @@
     "viz_density_hint": 0
   },
   "hard_gap_counts": {},
+  "hours_fill": {
+    "method": "content_minutes_heuristic_v1",
+    "fill_min_band": 0.75,
+    "fill_severe_band": 0.5,
+    "underfill_n": 25,
+    "underfill_severe_n": 25,
+    "mean_fill_pct": 34.7,
+    "fill_ok_n": 0
+  },
   "devil": {
-    "mean_score": 24.0,
-    "max_score": 41,
-    "min_score": 11,
+    "mean_score": 55.1,
+    "max_score": 72,
+    "min_score": 42,
     "grade_hist": {
-      "A": 1,
-      "B": 18,
-      "C": 4,
-      "D": 2,
-      "F": 0
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 19,
+      "F": 6
     },
     "flag_counts": {
+      "hours_underfill_severe": 25,
+      "hours_manim_unproven": 25,
       "l4_unpaid": 25,
       "viz_below_block_quota": 24,
-      "hours_unaudited": 24,
       "lab_no_run_json": 6,
-      "course_no_process_json": 2,
-      "hours_dry_run_only": 1
+      "course_no_process_json": 2
     },
-    "verdict": "L3 shippable con deuda estructural"
+    "verdict": "Riesgo de no llenar horas: 25/25 bajo ≥75% del plan (media fill ≈35%; 25 severas). L3 shippable no absuelve horas lectivas."
   },
   "objections": [
     {
+      "id": "hours_underfill",
+      "severity": "high",
+      "priority": 0,
+      "title": "Riesgo de no llenar horas: 25/25 bajo ≥75% del plan (25 severas <50%)",
+      "detail": "Heurística content→min (media fill ≈35%). Peor: 08/u06 62.0/240.0 min. L3 shippable ≠ 4 h de clase cubiertas. Manim = gold; engrosar deck/taller."
+    },
+    {
       "id": "course_process_hole",
       "severity": "high",
+      "priority": 2,
       "title": "Cursos con labs y 0 runs JSON: 10",
       "detail": "Target §8 `m_process_product`: ≥1 JSON run/curso con labs. Un curso en verde global no absuelve el agujero."
     },
     {
-      "id": "hours_fidelity",
-      "severity": "high",
-      "title": "Horas casi sin auditar (1/25 en hours-audit)",
-      "detail": "`m_hours_fidelity` es manual/próximo; sin Manim medido la honestidad de `hours` del programa queda sin evidencia."
-    },
-    {
       "id": "lab_runs",
       "severity": "high",
+      "priority": 2,
       "title": "6 labs sin JSON de corrida por unidad",
       "detail": "Hay `lab:` en la unit page pero no hay artefacto en `labs/<NN>/runs/` que evidencie process+product para esa unidad."
     },
     {
-      "id": "metric_m_process_product",
-      "severity": "high",
-      "title": "Meta §8 incumplida: Evidencia process+product",
-      "detail": "7 JSON; lab-courses ok=3/4 (08:1, 09:5, 10:0, 11:1) · target ≥1 JSON run/course with labs"
-    },
-    {
       "id": "viz_quota",
       "severity": "high",
+      "priority": 2,
       "title": "24/25 unidades bajo cuota aspiracional de viz",
       "detail": "Soft `viz_density_hint` solo falla con 0 viz y ≥4 bloques; el diablo exige dens ≥1 viz/bloque (AGENTS: ≥1 diagrama fuerte / ~60 min)."
     },
     {
-      "id": "hours_dry_run",
+      "id": "metric_m_process_product",
+      "severity": "high",
+      "priority": 3,
+      "title": "Meta §8 incumplida: Evidencia process+product",
+      "detail": "7 JSON; lab-courses ok=3/4 (08:1, 09:5, 10:0, 11:1) · target ≥1 JSON run/course with labs"
+    },
+    {
+      "id": "hours_manim",
       "severity": "med",
-      "title": "1 audit(s) de horas solo dry-run",
-      "detail": "Sin MP4 medido no hay fidelidad real vs plan."
+      "priority": 1,
+      "title": "Manim gold unpaid: 25/25 sin MP4 medido",
+      "detail": "Heurística ya marca underfill; Manim (`make hours-audit-demo RENDER=1`) sigue siendo el estándar de fidelidad §4.10."
     },
     {
       "id": "l3_not_l4",
       "severity": "med",
-      "title": "25× L3 auto ≠ listo: L4 sigue sin cobrar (25/25)",
-      "detail": "Brand UAI + editor P1–P8 + prelectura cualitativa + LaTeX §4.9 son manuales. L3 shippable no es veredicto de excelencia."
-    },
-    {
-      "id": "metric_m_hours_fidelity",
-      "severity": "med",
-      "title": "Métrica manual pendiente: Fidelidad de horas",
-      "detail": "m_hours_fidelity — ver COMPLIANCE.md §4.10 / §8 · deuda hasta rotación Manim"
-    },
-    {
-      "id": "practice_audit_missing",
-      "severity": "med",
-      "title": "Sin `tmp/practice-audit.md` reciente",
-      "detail": "El auditor de práctica (tip-theater vs producción) no ha corrido o no dejó scratch; riesgo de L3 tip-like sin señal externa."
+      "priority": 3,
+      "title": "25× L3 auto ≠ listo: L4 + horas siguen sin absuelve",
+      "detail": "Brand UAI + editor P1–P8 + prelectura + LaTeX §4.9 son manuales. L3 shippable no prueba que el material llene las horas lectivas."
     },
     {
       "id": "soft_too_lenient",
       "severity": "med",
+      "priority": 3,
       "title": "Soft checks en 0 gaps: falso verde",
       "detail": "Cero soft ✗ no implica calidad: la barra soft es piso. El dashboard marca deuda de piso (floor pass) aparte de L3."
     },
     {
-      "id": "equations_latex",
-      "severity": "low",
-      "title": "LaTeX / ecuaciones: TODO §4.9 (sin KaTeX en clase)",
-      "detail": "Fórmulas deben escribirse en LaTeX ya; renderer y check `equations_latex` siguen pendientes (no gatean L2)."
+      "id": "practice_audit_missing",
+      "severity": "med",
+      "priority": 4,
+      "title": "Sin `tmp/practice-audit.md` reciente",
+      "detail": "El auditor de práctica (tip-theater vs producción) no ha corrido o no dejó scratch; riesgo de L3 tip-like sin señal externa."
     },
     {
       "id": "metric_m_two_lane",
       "severity": "low",
+      "priority": 4,
       "title": "Métrica manual pendiente: Two-lane (editor P5)",
       "detail": "sin evidencia de rotación editor → deuda adversaria"
+    },
+    {
+      "id": "equations_latex",
+      "severity": "low",
+      "priority": 5,
+      "title": "LaTeX / ecuaciones: TODO §4.9 (sin KaTeX en clase)",
+      "detail": "Fórmulas deben escribirse en LaTeX ya; renderer y check `equations_latex` siguen pendientes (no gatean L2)."
     }
   ],
   "courses": [
@@ -129,8 +143,8 @@
       "L2": 0,
       "L3": 7,
       "avg": 3.0,
-      "devil_avg": 22.4,
-      "devil_max": 33,
+      "devil_avg": 53.7,
+      "devil_max": 64,
       "worst_unit": "u04",
       "runs_json": 1
     },
@@ -143,8 +157,8 @@
       "L2": 0,
       "L3": 6,
       "avg": 3.0,
-      "devil_avg": 21.3,
-      "devil_max": 33,
+      "devil_avg": 52.3,
+      "devil_max": 64,
       "worst_unit": "u03",
       "runs_json": 5
     },
@@ -157,8 +171,8 @@
       "L2": 0,
       "L3": 6,
       "avg": 3.0,
-      "devil_avg": 27.7,
-      "devil_max": 41,
+      "devil_avg": 58.7,
+      "devil_max": 72,
       "worst_unit": "u01",
       "runs_json": 0
     },
@@ -171,8 +185,8 @@
       "L2": 0,
       "L3": 6,
       "avg": 3.0,
-      "devil_avg": 25.0,
-      "devil_max": 33,
+      "devil_avg": 56.0,
+      "devil_max": 64,
       "worst_unit": "u02",
       "runs_json": 1
     }
@@ -187,8 +201,8 @@
       "L2": 0,
       "L3": 6,
       "avg": 3.0,
-      "devil_avg": 27.7,
-      "devil_max": 41,
+      "devil_avg": 58.7,
+      "devil_max": 72,
       "worst_unit": "u01",
       "runs_json": 0
     },
@@ -201,8 +215,8 @@
       "L2": 0,
       "L3": 6,
       "avg": 3.0,
-      "devil_avg": 25.0,
-      "devil_max": 33,
+      "devil_avg": 56.0,
+      "devil_max": 64,
       "worst_unit": "u02",
       "runs_json": 1
     },
@@ -215,8 +229,8 @@
       "L2": 0,
       "L3": 7,
       "avg": 3.0,
-      "devil_avg": 22.4,
-      "devil_max": 33,
+      "devil_avg": 53.7,
+      "devil_max": 64,
       "worst_unit": "u04",
       "runs_json": 1
     },
@@ -229,8 +243,8 @@
       "L2": 0,
       "L3": 6,
       "avg": 3.0,
-      "devil_avg": 21.3,
-      "devil_max": 33,
+      "devil_avg": 52.3,
+      "devil_max": 64,
       "worst_unit": "u03",
       "runs_json": 5
     }
@@ -304,12 +318,12 @@
     {
       "id": "m_hours_fidelity",
       "label": "Fidelidad de horas",
-      "value": "próximo",
+      "value": "fill≥75%: 0% (0/25); media fill=35%",
       "pct": 0.0,
-      "target": "≥80% auditadas (Manim)",
+      "target": "≥80% unidades con estimate≥75% del plan",
       "ok": false,
-      "manual": true,
-      "note": "m_hours_fidelity — ver COMPLIANCE.md §4.10 / §8 · deuda hasta rotación Manim"
+      "manual": false,
+      "note": "heurística content→min (interim); underfill/unaudited = fail hasta evidencia; Manim MP4 = gold §4.10"
     },
     {
       "id": "m_two_lane",
@@ -333,14 +347,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 19,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": true,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 91.0,
+      "hours_fill_ratio": 0.3792,
+      "hours_fill_pct": 37.9,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 15,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "91/240 min (38% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -348,10 +375,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_dry_run_only",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 5,
-          "detail": "hours-audit dry-run (sin MP4 medido)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -361,8 +388,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_dry_run_only",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -376,14 +404,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -391,10 +432,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -404,8 +445,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -419,14 +461,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -434,10 +489,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -447,8 +502,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -462,14 +518,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -483,10 +552,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -496,9 +565,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -512,14 +582,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 66.0,
+      "hours_fill_ratio": 0.275,
+      "hours_fill_pct": 27.5,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "66/240 min (28% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -527,10 +610,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -540,8 +623,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -555,14 +639,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 62.0,
+      "hours_fill_ratio": 0.2583,
+      "hours_fill_pct": 25.8,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "62/240 min (26% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -570,10 +667,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -583,8 +680,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -598,14 +696,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -613,10 +724,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -626,8 +737,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -641,19 +753,32 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 11,
-      "devil_grade": "A",
+      "devil_score": 42,
+      "devil_grade": "D",
       "n_viz": 4,
       "n_blocks": 4,
       "viz_density": 1.0,
       "has_lab": true,
       "lab_run_evidence": true,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 98.0,
+      "hours_fill_ratio": 0.4083,
+      "hours_fill_pct": 40.8,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 16,
       "flags": [
         {
-          "id": "hours_unaudited",
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "98/240 min (41% · SEVERE underfill; band ≥75%)"
+        },
+        {
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -663,7 +788,8 @@
         }
       ],
       "flag_ids": [
-        "hours_unaudited",
+        "hours_underfill_severe",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -677,14 +803,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": true,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 88.0,
+      "hours_fill_ratio": 0.3667,
+      "hours_fill_pct": 36.7,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "88/240 min (37% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -692,10 +831,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -705,8 +844,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -720,14 +860,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 88.0,
+      "hours_fill_ratio": 0.3667,
+      "hours_fill_pct": 36.7,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "88/240 min (37% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -741,10 +894,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -754,9 +907,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -770,14 +924,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": true,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 88.0,
+      "hours_fill_ratio": 0.3667,
+      "hours_fill_pct": 36.7,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "88/240 min (37% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -785,10 +952,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -798,8 +965,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -813,14 +981,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 83.0,
+      "hours_fill_ratio": 0.3458,
+      "hours_fill_pct": 34.6,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "83/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -828,10 +1009,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -841,8 +1022,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -856,14 +1038,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 91.0,
+      "hours_fill_ratio": 0.3792,
+      "hours_fill_pct": 37.9,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 15,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "91/240 min (38% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -871,10 +1066,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -884,8 +1079,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -899,14 +1095,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 41,
-      "devil_grade": "D",
+      "devil_score": 72,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -926,10 +1135,10 @@
           "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -939,10 +1148,11 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
         "course_no_process_json",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -956,14 +1166,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -971,10 +1194,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -984,8 +1207,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -999,14 +1223,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 41,
-      "devil_grade": "D",
+      "devil_score": 72,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1026,10 +1263,10 @@
           "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1039,10 +1276,11 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
         "course_no_process_json",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1056,14 +1294,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1071,10 +1322,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1084,8 +1335,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1099,14 +1351,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 88.0,
+      "hours_fill_ratio": 0.3667,
+      "hours_fill_pct": 36.7,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "88/240 min (37% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1114,10 +1379,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1127,8 +1392,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1142,14 +1408,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 85.0,
+      "hours_fill_ratio": 0.3542,
+      "hours_fill_pct": 35.4,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "85/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1157,10 +1436,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1170,8 +1449,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1185,14 +1465,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": true,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 79.0,
+      "hours_fill_ratio": 0.3292,
+      "hours_fill_pct": 32.9,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "79/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1200,10 +1493,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1213,8 +1506,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1228,14 +1522,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1249,10 +1556,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1262,9 +1569,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1278,14 +1586,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 87.0,
+      "hours_fill_ratio": 0.3625,
+      "hours_fill_pct": 36.2,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "87/240 min (36% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1299,10 +1620,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1312,9 +1633,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1328,14 +1650,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1343,10 +1678,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1356,8 +1691,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1371,14 +1707,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1386,10 +1735,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1399,8 +1748,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1414,14 +1764,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1429,10 +1792,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1442,8 +1805,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     }
@@ -1460,14 +1824,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 41,
-      "devil_grade": "D",
+      "devil_score": 72,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1487,10 +1864,10 @@
           "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1500,10 +1877,11 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
         "course_no_process_json",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1517,14 +1895,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 41,
-      "devil_grade": "D",
+      "devil_score": 72,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1544,10 +1935,10 @@
           "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1557,10 +1948,11 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
         "course_no_process_json",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1574,14 +1966,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 80.0,
+      "hours_fill_ratio": 0.3333,
+      "hours_fill_pct": 33.3,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "80/240 min (33% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1595,10 +2000,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1608,9 +2013,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1624,14 +2030,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 88.0,
+      "hours_fill_ratio": 0.3667,
+      "hours_fill_pct": 36.7,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "88/240 min (37% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1645,10 +2064,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1658,9 +2077,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1674,14 +2094,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1695,10 +2128,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1708,9 +2141,10 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1724,14 +2158,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 33,
-      "devil_grade": "C",
+      "devil_score": 64,
+      "devil_grade": "F",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": true,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 87.0,
+      "hours_fill_ratio": 0.3625,
+      "hours_fill_pct": 36.2,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 14,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "87/240 min (36% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "lab_no_run_json",
           "severity": "high",
@@ -1745,10 +2192,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1758,9 +2205,67 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "lab_no_run_json",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u01",
+      "title": "Arquitectura y comportamiento del transformer generativo",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 52,
+      "devil_grade": "D",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 91.0,
+      "hours_fill_ratio": 0.3792,
+      "hours_fill_pct": 37.9,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 15,
+      "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "91/240 min (38% · SEVERE underfill; band ≥75%)"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_manim_unproven",
+          "severity": "med",
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "hours_underfill_severe",
+        "viz_below_block_quota",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1774,14 +2279,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1789,10 +2307,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1802,8 +2320,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1817,14 +2336,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1832,10 +2364,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1845,8 +2377,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1860,14 +2393,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 66.0,
+      "hours_fill_ratio": 0.275,
+      "hours_fill_pct": 27.5,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "66/240 min (28% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1875,10 +2421,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1888,8 +2434,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1903,14 +2450,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 62.0,
+      "hours_fill_ratio": 0.2583,
+      "hours_fill_pct": 25.8,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 12,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "62/240 min (26% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1918,10 +2478,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1931,8 +2491,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     },
@@ -1946,14 +2507,27 @@
       "hard_gaps": 0,
       "soft_gaps": 0,
       "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
+      "devil_score": 52,
+      "devil_grade": "D",
       "n_viz": 3,
       "n_blocks": 4,
       "viz_density": 0.75,
       "has_lab": false,
       "lab_run_evidence": false,
+      "hours_planned_min": 240.0,
+      "hours_estimate_min": 84.0,
+      "hours_fill_ratio": 0.35,
+      "hours_fill_pct": 35.0,
+      "hours_underfill": true,
+      "hours_underfill_severe": true,
+      "hours_n_content": 13,
       "flags": [
+        {
+          "id": "hours_underfill_severe",
+          "severity": "high",
+          "pts": 30,
+          "detail": "84/240 min (35% · SEVERE underfill; band ≥75%)"
+        },
         {
           "id": "viz_below_block_quota",
           "severity": "med",
@@ -1961,10 +2535,10 @@
           "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
         },
         {
-          "id": "hours_unaudited",
+          "id": "hours_manim_unproven",
           "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+          "pts": 8,
+          "detail": "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
         },
         {
           "id": "l4_unpaid",
@@ -1974,51 +2548,9 @@
         }
       ],
       "flag_ids": [
+        "hours_underfill_severe",
         "viz_below_block_quota",
-        "hours_unaudited",
-        "l4_unpaid"
-      ]
-    },
-    {
-      "course": "09-prompt-engineering",
-      "code": "09",
-      "unit": "u02",
-      "title": "El prompt como artefacto de ingeniería",
-      "level": 3,
-      "failed": [],
-      "hard_gaps": 0,
-      "soft_gaps": 0,
-      "blockers": [],
-      "devil_score": 21,
-      "devil_grade": "B",
-      "n_viz": 3,
-      "n_blocks": 4,
-      "viz_density": 0.75,
-      "has_lab": true,
-      "lab_run_evidence": true,
-      "flags": [
-        {
-          "id": "viz_below_block_quota",
-          "severity": "med",
-          "pts": 10,
-          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
-        },
-        {
-          "id": "hours_unaudited",
-          "severity": "med",
-          "pts": 7,
-          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
-        },
-        {
-          "id": "l4_unpaid",
-          "severity": "low",
-          "pts": 4,
-          "detail": "L4 brand + editor pedagógico no auto-scored"
-        }
-      ],
-      "flag_ids": [
-        "viz_below_block_quota",
-        "hours_unaudited",
+        "hours_manim_unproven",
         "l4_unpaid"
       ]
     }

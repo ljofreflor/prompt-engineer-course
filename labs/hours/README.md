@@ -1,20 +1,25 @@
-# Validación de horas lectivas (Manim)
+# Validación de horas lectivas
 
-Scaffold para **simular** la narrativa de una unidad (title cards por bloque / slide) y comparar la duración del video con las horas del programa. Criterio: [`COMPLIANCE.md`](../../COMPLIANCE.md) §4.10 · métrica `m_hours_fidelity`.
+Dos capas ([`COMPLIANCE.md`](../../COMPLIANCE.md) §4.10 · `m_hours_fidelity`):
 
-No es un estudio de filmación: pipeline mínimo para no inventar auditorías.
+1. **Heurística** (siempre): `scripts/hours_fill.py` — minutos conservadores por tipo de slide vs `hours` del programa. Underfill si estimate &lt; **75%** del plan. Decks cortos no pueden reclamar 240 min.
+2. **Manim** (gold): video-sim de title cards; duración MP4 vs plan ±20%.
+
+L3 compliance ≠ horas lectivas cubiertas.
 
 ## Fuente de verdad
 
 `src/data/programs/<curso>.json` → `unidades[].hours` + `session[]` (bloques ≈ 60 min).
 
-## Método (borrador v0)
+## Método
 
 | Pieza | Valor |
 |-------|--------|
-| Escala demo | **1 s de video ≈ 1 min lectivo** (4 h → ~4 min de MP4) |
-| Tolerancia | **±20%** primera pasada (ver COMPLIANCE §4.10) |
-| Reporte | `tmp/hours-audit.md` |
+| Heurística | title 1 · section 1.5 · bullets 4 · prose 5 · viz 6 · image 3 · +18 Lab/Taller |
+| Underfill | estimate/planned &lt; 75% (severa &lt; 50%) |
+| Escala Manim | **1 s video ≈ 1 min lectivo** (demo) |
+| Tolerancia Manim | **±20%** (draft) |
+| Reporte | `tmp/hours-audit.md` (heurística + Manim) |
 | Media | `tmp/hours/` (MP4 gitignored) |
 
 ## Dependencias
@@ -29,12 +34,12 @@ python3 -m pip install "manim>=0.18"
 manim --version
 ```
 
-Si Manim no está instalado, `scripts/hours_audit.py` igual escribe el plan + informe dry-run.
+Sin Manim: el script igual escribe **heurística + plan** (dry-run Manim).
 
 ## Uso
 
 ```bash
-# Dry-run (sin Manim): plan + tmp/hours-audit.md
+# Heurística + dry-run Manim → tmp/hours-audit.md
 python3 scripts/hours_audit.py --course 08 --unit u01
 
 # Demo Makefile (dry-run por defecto)
@@ -59,11 +64,13 @@ python3 scripts/hours_audit.py --course 08 --unit u01 \
 labs/hours/
   README.md                 # este archivo
   scenes/hours_timeline.py  # escena Manim (stub)
-scripts/hours_audit.py      # CLI + informe
+scripts/hours_fill.py       # heurística content→min
+scripts/hours_audit.py      # CLI + informe (heurística + Manim)
 ```
 
 ## Qué no hacer
 
 - No versionar MP4 ni `tmp/hours-audit.md`
-- No inventar filas de fidelidad sin correr el script / ffprobe
-- No gatear L2/L3 con este check (soft / métrica semi)
+- No inventar filas Manim sin script / ffprobe
+- No tratar L3 como prueba de que se llenan las horas
+- No gatear L2/L3 con este check (devil / métrica §8)

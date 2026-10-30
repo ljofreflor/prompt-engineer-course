@@ -21,6 +21,11 @@ type UnitRow = {
   viz_density?: number;
   has_lab?: boolean;
   lab_run_evidence?: boolean;
+  hours_planned_min?: number;
+  hours_estimate_min?: number;
+  hours_fill_pct?: number;
+  hours_underfill?: boolean;
+  hours_underfill_severe?: boolean;
   flags?: DevilFlag[];
   flag_ids?: string[];
 };
@@ -82,6 +87,15 @@ const coursesByDebt = ((snapshot as { courses_by_debt?: CourseRow[] }).courses_b
   ?? (snapshot.courses as CourseRow[])) as CourseRow[];
 const stanceNote = (snapshot as { stance_note?: string }).stance_note
   ?? "L0–L3 = ship; devil_score = deuda adversaria.";
+const hoursFill = (snapshot as {
+  hours_fill?: {
+    underfill_n?: number;
+    underfill_severe_n?: number;
+    mean_fill_pct?: number;
+    fill_ok_n?: number;
+    fill_min_band?: number;
+  };
+}).hours_fill;
 
 function debtBand(score: number | undefined): string {
   const s = score ?? 0;
@@ -89,6 +103,19 @@ function debtBand(score: number | undefined): string {
   if (s <= 24) return "mid";
   if (s <= 40) return "high";
   return "crit";
+}
+
+function hoursLine(u: UnitRow): string {
+  const est = u.hours_estimate_min;
+  const plan = u.hours_planned_min;
+  if (est == null || plan == null) return "";
+  const pct = u.hours_fill_pct ?? 0;
+  const tag = u.hours_underfill_severe
+    ? "severa"
+    : u.hours_underfill
+      ? "underfill"
+      : "ok";
+  return `${Math.round(est)}/${Math.round(plan)} min (${Math.round(pct)}% · ${tag})`;
 }
 
 function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
@@ -105,9 +132,9 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
       <h1>Cumplimiento adversario</h1>
       <p>
         Vista para builders: qué está débil, flojo o sin evidencia — no un lapso de victoria.
-        <strong>L0–L3</strong> siguen siendo el gate de ship (<code>--strict</code> ≥ L2).
-        <strong>devil_score</strong> (0–100, más alto = más deuda) es la capa de exigencia:
-        soft floor-pass, viz bajo cuota, labs sin run JSON, horas sin auditar, L4 impago.
+        <strong>L0–L3</strong> = gate de ship (<code>--strict</code> ≥ L2).
+        <strong>devil_score</strong> (0–100) = deuda: underfill de horas lectivas, viz bajo cuota,
+        labs sin run, Manim unpaid, L4 impago. L3 no prueba que se llenen las horas.
         Snapshot <time datetime={snapshot.generated_at}>{generated}</time>.
         Regenerar: <code>make compliance-snapshot</code>.
       </p>
@@ -125,9 +152,20 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
             <span class="cmp-stat__n">{devil?.max_score ?? "—"}</span>
             <span class="cmp-stat__l">deuda máxima</span>
           </div>
+          <div class="cmp-stat cmp-stat--debt">
+            <span class="cmp-stat__n">
+              {hoursFill?.underfill_n ?? "—"}/{snapshot.unit_count}
+            </span>
+            <span class="cmp-stat__l">
+              underfill horas
+              {hoursFill?.mean_fill_pct != null
+                ? ` · media ${Math.round(hoursFill.mean_fill_pct)}%`
+                : ""}
+            </span>
+          </div>
           <div class="cmp-stat">
             <span class="cmp-stat__n">{snapshot.l3_count}/{snapshot.unit_count}</span>
-            <span class="cmp-stat__l">L3 ship (no absuelve)</span>
+            <span class="cmp-stat__l">L3 ship (≠ horas)</span>
           </div>
           <div class="cmp-stat">
             <span class="cmp-stat__n">{snapshot.soft_gap_total}</span>
@@ -154,8 +192,9 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
     <div class="container prose">
       <h2>Por qué objeta el abogado del diablo</h2>
       <p class="cmp-lede">
-        Objeciones de programa (top). Severidad alta primero. No son fallos de
-        <code>--strict</code>; son deuda de calidad / evidencia.
+        Objeciones de programa (top). Si el underfill de horas está extendido, encabeza la lista:
+        riesgo de no llenar las horas lectivas. No son fallos de <code>--strict</code>;
+        son deuda de calidad / evidencia.
       </p>
       {
         objections.length === 0 ? (
@@ -184,7 +223,8 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
     <div class="container prose">
       <h2>Top riesgos por unidad</h2>
       <p class="cmp-lede">
-        Ordenados por <code>devil_score</code>. L3 con deuda alta = “apenas shippable”.
+        Ordenados por <code>devil_score</code>. Cada fila muestra plan vs estimate (min).
+        L3 con underfill = material shippable que no llena la sesión.
       </p>
       <div class="cmp-worst">
         {
@@ -203,6 +243,7 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
                   </strong>
                   <span class="cmp-gap__title">{u.title}</span>
                   <span class="cmp-gap__count">
+                    {hoursLine(u) ? `${hoursLine(u)} · ` : ""}
                     dens {(u.viz_density ?? 0).toFixed(2)}
                     {" · "}
                     {u.hard_gaps} duro{u.hard_gaps === 1 ? "" : "s"}
@@ -279,7 +320,8 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
       <h2>Métricas pedagógicas (§8)</h2>
       <p class="cmp-lede">
         Metas incumplidas o manuales = ámbar/negro. Cyan solo si está realmente en meta.
-        <code>m_hours_fidelity</code> / <code>m_two_lane</code> cuentan como deuda hasta evidencia.
+        <code>m_hours_fidelity</code> falla con underfill (heurística &lt;75% del plan);
+        Manim sigue siendo gold. <code>m_two_lane</code> = manual hasta evidencia.
       </p>
       <ul class="cmp-metrics">
         {
@@ -352,7 +394,7 @@ function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
                         <td class={`cmp-cell cmp-cell--d${band}`}>
                           <a
                             href={href}
-                            title={`${u.unit} · ${u.title} · L${u.level} · devil ${u.devil_score ?? "—"} (${u.devil_grade ?? "?"})`}
+                            title={`${u.unit} · ${u.title} · L${u.level} · devil ${u.devil_score ?? "—"} (${u.devil_grade ?? "?"})${hoursLine(u) ? ` · ${hoursLine(u)}` : ""}`}
                           >
                             <span class="cmp-cell__g">{u.devil_grade ?? "?"}</span>
                             <span class="cmp-cell__l">L{u.level}</span>

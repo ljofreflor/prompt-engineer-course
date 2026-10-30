@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Validate planned lecture hours via a timed Manim simulation (scaffold).
+"""Validate planned lecture hours via Manim sim + content→min heuristic.
 
 Source of truth: src/data/programs/<course>.json → unidades[].hours + session[].
 Report: tmp/hours-audit.md  · media: tmp/hours/  (gitignored)
 
-Does not invent audits: dry-run always writes the plan; --render only if Manim works.
-See COMPLIANCE.md §4.10 and labs/hours/README.md.
+Always emits the strict content→minutes heuristic (interim fill evidence).
+Manim --render is gold when MP4 is measured. Does not invent audits.
+See COMPLIANCE.md §4.10, scripts/hours_fill.py, labs/hours/README.md.
 """
 
 from __future__ import annotations
@@ -21,12 +22,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from hours_fill import (  # noqa: E402
+    ASSUMPTIONS_MD,
+    FILL_MIN,
+    fill_report,
+    format_fill_line,
+)
+
 PROGRAMS = ROOT / "src" / "data" / "programs"
+SLIDES = ROOT / "src" / "content" / "slides"
 SCENE_FILE = ROOT / "labs" / "hours" / "scenes" / "hours_timeline.py"
 REPORT = ROOT / "tmp" / "hours-audit.md"
 MEDIA_DIR = ROOT / "tmp" / "hours"
 
-# Draft tolerance (COMPLIANCE §4.10)
+# Draft tolerance (COMPLIANCE §4.10) — Manim measured vs expected scaled plan
 TOLERANCE = 0.20
 # Demo scale: 1 s video ≈ 1 planned lecture minute
 SEC_PER_PLANNED_MIN = 1.0
@@ -39,6 +49,12 @@ COURSE_FILES = {
     "09": "09-prompt-engineering.json",
     "10": "10-diseno-sistemas-ia.json",
     "11": "11-aiops-cloud.json",
+}
+COURSE_SLUGS = {
+    "08": "08-genai-llms",
+    "09": "09-prompt-engineering",
+    "10": "10-diseno-sistemas-ia",
+    "11": "11-aiops-cloud",
 }
 
 BLOCK_MIN_RE = re.compile(r"\((\d+)\s*min\)", re.I)
@@ -111,6 +127,7 @@ def write_report(
     mp4: Path | None,
     measured_sec: float | None,
     expected_sec: float,
+    heuristic: dict,
 ) -> None:
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     block_sum_min = sum(m for _, m in blocks)
@@ -123,26 +140,50 @@ def write_report(
     if measured_sec is None and not rendered:
         status = "DRY-RUN (expected duration only; no MP4)"
 
+    h_status = (
+        "SEVERE underfill"
+        if heuristic.get("underfill_severe")
+        else ("underfill" if heuristic.get("underfill") else "OK (≥ band)")
+    )
+
     lines = [
-        "# Hours audit (Manim simulation)",
+        "# Hours audit (heuristic + Manim)",
         "",
         f"- Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}",
         f"- Course/unit: **{course}/{unit_id}** — {unit_title}",
         f"- Program file: `{program_name}`",
         f"- Planned lective hours (JSON `hours`): **{planned_hours}** ({planned_min:.0f} min)",
         f"- Session blocks sum: **{block_sum_min:.0f} min** ({len(blocks)} blocks)",
-        f"- Scale: 1 s video ≈ 1 planned min (demo)",
-        f"- Tolerance (draft): ±{int(TOLERANCE * 100)}%",
+        f"- Scale: 1 s video ≈ 1 planned min (demo Manim)",
+        f"- Tolerance Manim (draft): ±{int(TOLERANCE * 100)}%",
+        f"- Heuristic fill band: ≥{int(FILL_MIN * 100)}% of planned",
         f"- Metric: `m_hours_fidelity` (COMPLIANCE §4.10 / §8)",
         "",
-        "## Blocks",
+        "## Content→minutes heuristic (interim)",
+        "",
+        f"- {format_fill_line(heuristic)}",
+        f"- Content slides: **{heuristic.get('n_content', 0)}** · chrome (title/section): "
+        f"**{heuristic.get('n_chrome', 0)}** · lab signal: {heuristic.get('lab_signal')}",
+        f"- Heuristic status: **{h_status}**",
+        "",
+        "| Type / bonus | Minutes |",
+        "|--------------|--------:|",
+    ]
+    for k, v in (heuristic.get("breakdown") or {}).items():
+        lines.append(f"| `{k}` | {v} |")
+    lines += [
+        f"| **Estimate total** | **{heuristic.get('estimate_min', 0)}** |",
+        "",
+        ASSUMPTIONS_MD.strip(),
+        "",
+        "## Blocks (program session)",
         "",
     ]
     for i, (title, mins) in enumerate(blocks, 1):
         lines.append(f"{i}. **{mins:.0f} min** — {title}")
     lines += [
         "",
-        "## Duration",
+        "## Manim duration (gold)",
         "",
         f"| Quantity | Value |",
         f"|----------|------:|",
@@ -156,14 +197,15 @@ def write_report(
         "",
         "## Notes",
         "",
-        "- This report is evidence only when produced by this script; do not invent rows.",
-        "- Block-sum vs `hours` mismatch is a separate syllabus sanity check (manual).",
-        "- Full 1:1 wall-clock fidelity is out of scope for CI; use local long renders later.",
+        "- Heuristic always runs (no Manim required). Short decks cannot claim full planned minutes.",
+        "- Manim MP4 is gold evidence; dry-run alone does not prove pacing.",
+        "- Do not invent rows. L3 compliance ≠ hours filled.",
         "",
     ]
     REPORT.write_text("\n".join(lines), encoding="utf-8")
     print(f"Wrote {REPORT.relative_to(ROOT)}")
-    print(f"Status: {status}")
+    print(f"Heuristic: {format_fill_line(heuristic)}")
+    print(f"Manim status: {status}")
 
 
 def run_manim(label: str, titles: list[str], minutes: list[float]) -> Path | None:
@@ -228,6 +270,10 @@ def main() -> None:
     expected_sec = expected_video_seconds(minutes)
     label = f"{args.course}/{args.unit}"
 
+    slug = COURSE_SLUGS.get(args.course, "")
+    deck_path = SLIDES / slug / f"{args.unit}.ts" if slug else None
+    heuristic = fill_report(deck_path if deck_path and deck_path.is_file() else None, unit)
+
     mp4: Path | None = None
     measured: float | None = None
     rendered = False
@@ -236,7 +282,7 @@ def main() -> None:
         if not manim_available():
             print(
                 "Manim not found on PATH. Install: python3 -m pip install 'manim>=0.18'\n"
-                "Writing dry-run report only.",
+                "Writing heuristic + dry-run report only.",
                 file=sys.stderr,
             )
         else:
@@ -256,6 +302,7 @@ def main() -> None:
         mp4=mp4,
         measured_sec=measured,
         expected_sec=expected_sec,
+        heuristic=heuristic,
     )
 
 

@@ -28,8 +28,10 @@ does not add new L gates.
 
 Dashboard exigence (devil layer in --snapshot only; never gates --strict):
   Per-unit devil_score 0–100 (higher = more debt) + flags (viz below block quota,
-  lab without run JSON, course process hole, hours unaudited, soft/floor passes,
-  L4 unpaid). Objections list for /cumplimiento/ — abogado del diablo, not victory lap.
+  lab without run JSON, course process hole, hours underfill / Manim unproven,
+  soft/floor passes, L4 unpaid). Objections list for /cumplimiento/ — abogado
+  del diablo, not victory lap. Hours: content→min heuristic (hours_fill.py);
+  L3 ≠ “4h cubiertas”.
 
 Framework: COMPLIANCE.md (repo root). Exit 0 always unless --strict and any unit < L2.
 """
@@ -44,6 +46,15 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Shared hours fill heuristic (COMPLIANCE §4.10 interim)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from hours_fill import (  # noqa: E402
+    FILL_MIN,
+    FILL_SEVERE,
+    fill_report,
+    format_fill_line,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 PROGRAMS = ROOT / "src" / "data" / "programs"
@@ -612,7 +623,7 @@ def list_lab_run_files() -> dict[str, list[str]]:
 
 
 def parse_hours_audit_units() -> dict[str, dict]:
-    """Units mentioned in tmp/hours-audit.md (evidence only; do not invent)."""
+    """Units mentioned in tmp/hours-audit.md (Manim evidence only; do not invent)."""
     found: dict[str, dict] = {}
     if not HOURS_AUDIT.is_file():
         return found
@@ -626,8 +637,29 @@ def parse_hours_audit_units() -> dict[str, dict]:
     key = f"{m.group(1)}/{m.group(2)}"
     dry = bool(re.search(r"DRY-RUN|Measured MP4 \(s\)\s*\|\s*—", text, re.I))
     within = bool(re.search(r"Within ±20%\s*\|\s*True", text, re.I))
-    found[key] = {"dry_run": dry, "within_tol": within and not dry}
+    found[key] = {"dry_run": dry, "within_tol": within and not dry, "measured": not dry}
     return found
+
+
+def hours_fill_for_unit(s: UnitScore, unit_meta: dict | None = None) -> dict:
+    """Content→minutes fill vs planned hours (all units; interim for m_hours_fidelity)."""
+    deck_path = SLIDES_DIR / s.course / f"{s.unit}.ts"
+    meta = unit_meta or {"hours": 4}
+    return fill_report(deck_path if deck_path.is_file() else None, meta)
+
+
+def load_program_unit_hours() -> dict[tuple[str, str], dict]:
+    """Map (course_slug, unit_id) → program unit dict (for planned hours)."""
+    out: dict[tuple[str, str], dict] = {}
+    for course in COURSES:
+        path = PROGRAMS / f"{course}.json"
+        if not path.is_file():
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for u in data.get("unidades", []):
+            uid = str(u.get("id", ""))
+            out[(course, uid)] = u
+    return out
 
 
 def _viz_blocks_from_score(s: UnitScore) -> tuple[int, int]:
@@ -675,6 +707,7 @@ def score_unit_devil(
     course_runs: dict[str, int],
     run_files: dict[str, list[str]],
     hours_units: dict[str, dict],
+    hours_fill: dict,
 ) -> dict:
     """Harsh exigence score for dashboard — does not change s.level / --strict."""
     code = s.course.split("-", 1)[0]
@@ -797,28 +830,57 @@ def score_unit_devil(
             }
         )
 
-    hkey = f"{code}/{s.unit}"
-    hau = hours_units.get(hkey)
-    if hau is None:
-        pts = 7
+    # Hours fill (heuristic, all units) — big weight; L3 ≠ 4h covered
+    ratio = float(hours_fill.get("fill_ratio") or 0.0)
+    fill_line = format_fill_line(hours_fill)
+    if hours_fill.get("deck_missing") or ratio < FILL_SEVERE:
+        pts = 30  # max hours debt band (unaudited deck or << plan)
         debt += pts
         flags.append(
             {
-                "id": "hours_unaudited",
-                "severity": "med",
+                "id": "hours_underfill_severe",
+                "severity": "high",
                 "pts": pts,
-                "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)",
+                "detail": fill_line,
             }
         )
-    elif hau.get("dry_run"):
-        pts = 5
+    elif ratio < FILL_MIN:
+        pts = 22
         debt += pts
         flags.append(
             {
-                "id": "hours_dry_run_only",
+                "id": "hours_underfill",
+                "severity": "high",
+                "pts": pts,
+                "detail": fill_line,
+            }
+        )
+
+    # Manim gold still unpaid unless measured MP4 within tol
+    hkey = f"{code}/{s.unit}"
+    hau = hours_units.get(hkey)
+    if hau is None or hau.get("dry_run") or not hau.get("measured"):
+        pts = 8
+        debt += pts
+        flags.append(
+            {
+                "id": "hours_manim_unproven",
                 "severity": "med",
                 "pts": pts,
-                "detail": "hours-audit dry-run (sin MP4 medido)",
+                "detail": (
+                    "sin MP4 Manim medido (heurística interim OK; gold = hours-audit --render)"
+                ),
+            }
+        )
+    elif not hau.get("within_tol"):
+        pts = 14
+        debt += pts
+        flags.append(
+            {
+                "id": "hours_manim_fail",
+                "severity": "high",
+                "pts": pts,
+                "detail": "Manim fuera de ±20% vs plan (m_hours_fidelity)",
             }
         )
 
@@ -844,6 +906,13 @@ def score_unit_devil(
         "viz_density": round(dens, 3),
         "has_lab": has_lab,
         "lab_run_evidence": unit_run,
+        "hours_planned_min": hours_fill.get("planned_min"),
+        "hours_estimate_min": hours_fill.get("estimate_min"),
+        "hours_fill_ratio": hours_fill.get("fill_ratio"),
+        "hours_fill_pct": hours_fill.get("fill_pct"),
+        "hours_underfill": bool(hours_fill.get("underfill")),
+        "hours_underfill_severe": bool(hours_fill.get("underfill_severe")),
+        "hours_n_content": hours_fill.get("n_content"),
         "flags": flags,
         "flag_ids": [f["id"] for f in flags],
     }
@@ -861,6 +930,34 @@ def build_objections(
     objections: list[dict] = []
     n = len(units_devil) or 1
 
+    # Hours underfill first when widespread — L3 ≠ lective hours filled
+    under_n = sum(1 for u in units_devil if u.get("hours_underfill"))
+    severe_n = sum(1 for u in units_devil if u.get("hours_underfill_severe"))
+    ratios = [float(u.get("hours_fill_ratio") or 0) for u in units_devil]
+    mean_fill = (sum(ratios) / len(ratios) * 100.0) if ratios else 0.0
+    if under_n:
+        worst = min(
+            units_devil,
+            key=lambda u: float(u.get("hours_fill_ratio") or 0),
+        )
+        objections.append(
+            {
+                "id": "hours_underfill",
+                "severity": "high",
+                "priority": 0,
+                "title": (
+                    f"Riesgo de no llenar horas: {under_n}/{n} bajo ≥{int(FILL_MIN * 100)}% "
+                    f"del plan ({severe_n} severas <{int(FILL_SEVERE * 100)}%)"
+                ),
+                "detail": (
+                    f"Heurística content→min (media fill ≈{mean_fill:.0f}%). "
+                    f"Peor: {worst.get('code')}/{worst.get('unit')} "
+                    f"{worst.get('hours_estimate_min')}/{worst.get('hours_planned_min')} min. "
+                    "L3 shippable ≠ 4 h de clase cubiertas. Manim = gold; engrosar deck/taller."
+                ),
+            }
+        )
+
     below_quota = sum(
         1 for u in units_devil if "viz_below_block_quota" in u.get("flag_ids", [])
     )
@@ -869,6 +966,7 @@ def build_objections(
             {
                 "id": "viz_quota",
                 "severity": "high",
+                "priority": 2,
                 "title": f"{below_quota}/{n} unidades bajo cuota aspiracional de viz",
                 "detail": (
                     "Soft `viz_density_hint` solo falla con 0 viz y ≥4 bloques; "
@@ -884,6 +982,7 @@ def build_objections(
             {
                 "id": "lab_runs",
                 "severity": "high",
+                "priority": 2,
                 "title": f"{lab_no_run} labs sin JSON de corrida por unidad",
                 "detail": (
                     "Hay `lab:` en la unit page pero no hay artefacto en "
@@ -903,6 +1002,7 @@ def build_objections(
             {
                 "id": "course_process_hole",
                 "severity": "high",
+                "priority": 2,
                 "title": f"Cursos con labs y 0 runs JSON: {', '.join(sorted(hole_courses))}",
                 "detail": (
                     "Target §8 `m_process_product`: ≥1 JSON run/curso con labs. "
@@ -911,27 +1011,20 @@ def build_objections(
             }
         )
 
-    audited = len(hours_units)
-    if audited < n:
+    manim_unproven = sum(
+        1 for u in units_devil if "hours_manim_unproven" in u.get("flag_ids", [])
+    )
+    if manim_unproven:
         objections.append(
             {
-                "id": "hours_fidelity",
-                "severity": "high",
-                "title": f"Horas casi sin auditar ({audited}/{n} en hours-audit)",
-                "detail": (
-                    "`m_hours_fidelity` es manual/próximo; sin Manim medido la "
-                    "honestidad de `hours` del programa queda sin evidencia."
-                ),
-            }
-        )
-    dry = sum(1 for v in hours_units.values() if v.get("dry_run"))
-    if dry:
-        objections.append(
-            {
-                "id": "hours_dry_run",
+                "id": "hours_manim",
                 "severity": "med",
-                "title": f"{dry} audit(s) de horas solo dry-run",
-                "detail": "Sin MP4 medido no hay fidelidad real vs plan.",
+                "priority": 1,
+                "title": f"Manim gold unpaid: {manim_unproven}/{n} sin MP4 medido",
+                "detail": (
+                    "Heurística ya marca underfill; Manim (`make hours-audit-demo RENDER=1`) "
+                    "sigue siendo el estándar de fidelidad §4.10."
+                ),
             }
         )
 
@@ -941,6 +1034,7 @@ def build_objections(
             {
                 "id": "soft_too_lenient",
                 "severity": "med",
+                "priority": 3,
                 "title": "Soft checks en 0 gaps: falso verde",
                 "detail": (
                     "Cero soft ✗ no implica calidad: la barra soft es piso. "
@@ -954,16 +1048,19 @@ def build_objections(
             objections.append(
                 {
                     "id": f"metric_{m['id']}",
-                    "severity": "med" if m["id"] == "m_hours_fidelity" else "low",
+                    "severity": "low",
+                    "priority": 4,
                     "title": f"Métrica manual pendiente: {m['label']}",
                     "detail": m.get("note") or m.get("target") or m["id"],
                 }
             )
-        elif m.get("ok") is False:
+        elif m.get("ok") is False and m["id"] != "m_hours_fidelity":
+            # hours underfill already has a dedicated lead objection
             objections.append(
                 {
                     "id": f"metric_{m['id']}",
                     "severity": "high",
+                    "priority": 3,
                     "title": f"Meta §8 incumplida: {m['label']}",
                     "detail": f"{m.get('value')} · target {m.get('target')}",
                 }
@@ -975,10 +1072,11 @@ def build_objections(
             {
                 "id": "l3_not_l4",
                 "severity": "med",
-                "title": f"25× L3 auto ≠ listo: L4 sigue sin cobrar ({l3}/{n})",
+                "priority": 3,
+                "title": f"{l3}× L3 auto ≠ listo: L4 + horas siguen sin absuelve",
                 "detail": (
-                    "Brand UAI + editor P1–P8 + prelectura cualitativa + LaTeX §4.9 "
-                    "son manuales. L3 shippable no es veredicto de excelencia."
+                    "Brand UAI + editor P1–P8 + prelectura + LaTeX §4.9 son manuales. "
+                    "L3 shippable no prueba que el material llene las horas lectivas."
                 ),
             }
         )
@@ -987,6 +1085,7 @@ def build_objections(
         {
             "id": "equations_latex",
             "severity": "low",
+            "priority": 5,
             "title": "LaTeX / ecuaciones: TODO §4.9 (sin KaTeX en clase)",
             "detail": (
                 "Fórmulas deben escribirse en LaTeX ya; renderer y check "
@@ -1000,6 +1099,7 @@ def build_objections(
             {
                 "id": "practice_audit_missing",
                 "severity": "med",
+                "priority": 4,
                 "title": "Sin `tmp/practice-audit.md` reciente",
                 "detail": (
                     "El auditor de práctica (tip-theater vs producción) no ha "
@@ -1009,11 +1109,17 @@ def build_objections(
         )
 
     sev = {"high": 0, "med": 1, "low": 2}
-    objections.sort(key=lambda o: (sev.get(o["severity"], 9), o["id"]))
+    objections.sort(
+        key=lambda o: (sev.get(o["severity"], 9), o.get("priority", 9), o["id"])
+    )
     return objections[:12]
 
 
-def pedagogy_metrics_data(scores: list[UnitScore]) -> list[dict]:
+def pedagogy_metrics_data(
+    scores: list[UnitScore],
+    *,
+    hours_fills: list[dict] | None = None,
+) -> list[dict]:
     """Soft pedagogy rates as structured rows — COMPLIANCE.md §8. No new L gates."""
     n = len(scores) or 1
     both = sum(
@@ -1056,6 +1162,19 @@ def pedagogy_metrics_data(scores: list[UnitScore]) -> list[dict]:
     lab_courses_ok = sum(1 for c in lab_course_codes if runs.get(c, 0) > 0)
     lab_courses_n = len(lab_course_codes) or 1
     courses_with_runs = sum(1 for v in runs.values() if v > 0)
+
+    # Hours fidelity via content→min heuristic (interim); Manim gold separate
+    fills = hours_fills
+    if fills is None:
+        unit_hours = load_program_unit_hours()
+        fills = [
+            hours_fill_for_unit(s, unit_hours.get((s.course, s.unit)))
+            for s in scores
+        ]
+    fill_ok_n = sum(1 for f in fills if f.get("fill_ok"))
+    mean_fill_pct = (
+        sum(float(f.get("fill_pct") or 0) for f in fills) / len(fills) if fills else 0.0
+    )
 
     def rate(k: int, d: int = n) -> float:
         return round(100.0 * k / d, 1) if d else 0.0
@@ -1138,12 +1257,18 @@ def pedagogy_metrics_data(scores: list[UnitScore]) -> list[dict]:
         {
             "id": "m_hours_fidelity",
             "label": "Fidelidad de horas",
-            "value": "próximo",
-            "pct": 0.0,
-            "target": "≥80% auditadas (Manim)",
-            "ok": False,
-            "manual": True,
-            "note": "m_hours_fidelity — ver COMPLIANCE.md §4.10 / §8 · deuda hasta rotación Manim",
+            "value": (
+                f"fill≥{int(FILL_MIN * 100)}%: {value_pct(fill_ok_n)}; "
+                f"media fill={mean_fill_pct:.0f}%"
+            ),
+            "pct": rate(fill_ok_n),
+            "target": f"≥80% unidades con estimate≥{int(FILL_MIN * 100)}% del plan",
+            "ok": fill_ok_n / n >= 0.8,
+            "manual": False,
+            "note": (
+                "heurística content→min (interim); underfill/unaudited = fail hasta evidencia; "
+                "Manim MP4 = gold §4.10"
+            ),
         },
         {
             "id": "m_two_lane",
@@ -1171,7 +1296,8 @@ def pedagogy_metrics(scores: list[UnitScore]) -> list[str]:
         "## Pedagogy metrics",
         "",
         "Soft rates across all syllabus units (`COMPLIANCE.md` §8). Do **not** gate L2/L3.",
-        "Manual: `m_hours_fidelity` · `m_two_lane` (editor P5) · full process+product audit.",
+        "Hours: `m_hours_fidelity` = content→min heuristic (underfill = fail); Manim = gold.",
+        "Manual: `m_two_lane` (editor P5) · full process+product audit.",
         "Dashboard: `/cumplimiento/` ← `src/data/compliance-snapshot.json` (`make compliance-snapshot`).",
         "",
         "| Metric | Value | Target | Status |",
@@ -1211,10 +1337,14 @@ def build_snapshot(scores: list[UnitScore]) -> dict:
     course_runs = count_lab_runs()
     run_files = list_lab_run_files()
     hours_units = parse_hours_audit_units()
-    pedagogy = pedagogy_metrics_data(scores)
+    unit_hours = load_program_unit_hours()
+    hours_fills = [
+        hours_fill_for_unit(s, unit_hours.get((s.course, s.unit))) for s in scores
+    ]
+    pedagogy = pedagogy_metrics_data(scores, hours_fills=hours_fills)
 
     units_out = []
-    for s in scores:
+    for s, hfill in zip(scores, hours_fills):
         failed = [
             {"id": c.id, "soft": c.id in SOFT_CHECK_IDS, "detail": c.detail}
             for c in s.checks
@@ -1227,6 +1357,7 @@ def build_snapshot(scores: list[UnitScore]) -> dict:
             course_runs=course_runs,
             run_files=run_files,
             hours_units=hours_units,
+            hours_fill=hfill,
         )
         units_out.append(
             {
@@ -1308,6 +1439,29 @@ def build_snapshot(scores: list[UnitScore]) -> dict:
         for fid in u.get("flag_ids", []):
             flag_counts[fid] += 1
 
+    under_n = sum(1 for u in units_out if u.get("hours_underfill"))
+    severe_n = sum(1 for u in units_out if u.get("hours_underfill_severe"))
+    mean_fill = (
+        sum(float(u.get("hours_fill_pct") or 0) for u in units_out) / len(units_out)
+        if units_out
+        else 0.0
+    )
+    n_u = len(units_out) or 1
+    if under_n >= n_u * 0.5:
+        verdict = (
+            f"Riesgo de no llenar horas: {under_n}/{n_u} bajo ≥{int(FILL_MIN * 100)}% "
+            f"del plan (media fill ≈{mean_fill:.0f}%; {severe_n} severas). "
+            "L3 shippable no absuelve horas lectivas."
+        )
+    elif level_hist["L3"] == len(scores) and devil_mean >= 18:
+        verdict = "L3 shippable con deuda estructural"
+    elif level_hist["L3"] < len(scores):
+        verdict = "Mezcla de niveles y deuda"
+    elif level_hist["L3"] == len(scores):
+        verdict = "L3 con poca deuda adversaria — sospechar soft floor"
+    else:
+        verdict = "Exigencia moderada"
+
     return {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "framework": "COMPLIANCE.md",
@@ -1315,8 +1469,9 @@ def build_snapshot(scores: list[UnitScore]) -> dict:
         "dashboard": "/cumplimiento/",
         "stance": "devil",
         "stance_note": (
-            "L0–L3 = shippable auto; devil_score = exigencia adversaria (deuda). "
-            "Alto devil ≠ bajar L; prioriza tick / L4 / evidencia."
+            "L0–L3 = shippable auto; devil_score = deuda adversaria. "
+            "Horas: heurística content→min (underfill = deuda alta); Manim = gold. "
+            "L3 ≠ 4 h cubiertas."
         ),
         "unit_count": len(scores),
         "levels": level_hist,
@@ -1326,21 +1481,22 @@ def build_snapshot(scores: list[UnitScore]) -> dict:
         "hard_gap_total": sum(hard_gap_counts.values()),
         "soft_gap_counts": soft_gap_counts,
         "hard_gap_counts": dict(sorted(hard_gap_counts.items(), key=lambda kv: -kv[1])),
+        "hours_fill": {
+            "method": "content_minutes_heuristic_v1",
+            "fill_min_band": FILL_MIN,
+            "fill_severe_band": FILL_SEVERE,
+            "underfill_n": under_n,
+            "underfill_severe_n": severe_n,
+            "mean_fill_pct": round(mean_fill, 1),
+            "fill_ok_n": n_u - under_n,
+        },
         "devil": {
             "mean_score": round(devil_mean, 1),
             "max_score": max(devil_scores) if devil_scores else 0,
             "min_score": min(devil_scores) if devil_scores else 0,
             "grade_hist": grade_hist,
             "flag_counts": dict(sorted(flag_counts.items(), key=lambda kv: -kv[1])),
-            "verdict": (
-                "L3 shippable con deuda estructural"
-                if level_hist["L3"] == len(scores) and devil_mean >= 18
-                else "Mezcla de niveles y deuda"
-                if level_hist["L3"] < len(scores)
-                else "L3 con poca deuda adversaria — sospechar soft floor"
-                if level_hist["L3"] == len(scores)
-                else "Exigencia moderada"
-            ),
+            "verdict": verdict,
         },
         "objections": objections,
         "courses": courses_summary,

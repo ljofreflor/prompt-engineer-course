@@ -137,7 +137,7 @@ make compliance-snapshot                     # + src/data/compliance-snapshot.js
 Checks (auto L1–L3): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `definitions_present`, `outcomes_slide`, `formative_activity`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.  
 Soft (reportan gap, aún no gatean nivel): `prelectura_thesis`, `title_no_path`, `lab_declared_in_deck`, `outcomes_keyword_hit`, `viz_density_hint` — ver `COMPLIANCE.md` §3–§7.  
 Métricas pedagógicas (tasas / densidades, soft): bloque final de `tmp/compliance.md` — marco `COMPLIANCE.md` §8.  
-Horas lectivas: validar con simulación Manim del deck vs `hours`/bloques del programa (`m_hours_fidelity`; detalle `COMPLIANCE.md` §4.10; scaffold `labs/hours/` · `make hours-audit-demo`) — no inventar audits.  
+Horas lectivas: heurística content→min (`scripts/hours_fill.py`, underfill si &lt;75% del plan) + Manim gold (`make hours-audit-demo`); `m_hours_fidelity` / devil — L3 ≠ 4 h cubiertas (`COMPLIANCE.md` §4.10).  
 Notación: ecuaciones en LaTeX = **manual** hoy (`equations_latex` TODO en `COMPLIANCE.md` §7 / §4.9); no gatea L2.
 
 `definitions_present` (L2): kicker `Definición(es)` / `Concepto(s)` / `Glosario` / `Léxico`, **o** ≥3 bullets `Término — definición` / ≥2 `X es un/una…` en el deck.
