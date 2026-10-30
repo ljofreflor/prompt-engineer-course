@@ -42,7 +42,8 @@ export type VizId =
   | "multimodal-surface"
   | "regression-suite"
   | "prediction-policy"
-  | "inference-regimes";
+  | "inference-regimes"
+  | "data-cascades";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

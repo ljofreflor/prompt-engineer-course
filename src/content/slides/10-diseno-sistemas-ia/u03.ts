@@ -55,6 +55,25 @@ export const slides: Slide[] = [
       "Linaje y trazabilidad.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de datos en producción",
+    items: [
+      "Contrato de datos — acuerdo productor↔consumidor sobre esquema, semántica, frecuencia y SLAs.",
+      "Train/serve skew — la feature en entrenamiento no es la misma (código o dato) que en servicio.",
+      "Data cascade — falla temprana de datos que se compone aguas abajo y se detecta tarde (Sambasivan et al., 2021).",
+      "Reserva no intervenida — decisiones dejadas fuera del bucle para medir efecto real.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Concepto",
+    title: "La cascada llega tarde",
+    viz: "data-cascades",
+    caption: "Sin contrato en la fuente, el producto hereda la volatilidad.",
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -104,10 +123,10 @@ export const slides: Slide[] = [
     kicker: "Entregable",
     title: "Sección de datos del design doc",
     items: [
-      "Contratos del caso propio.",
-      "Puntos de desalineación potencial.",
+      "Contratos del caso propio (p. ej. feeds de precios o tickets en retail Chile).",
+      "Puntos de desalineación potencial train/serve.",
       "Versionar en Git; diagramar con Mermaid/draw.io.",
-      "Stack local del curso: página Herramientas, sección curso 10.",
+      "Declarar supuestos: sin inventar volúmenes ni SLAs.",
     ],
   },
   {

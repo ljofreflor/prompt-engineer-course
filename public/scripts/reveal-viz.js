@@ -4185,6 +4185,101 @@
     }
   }
 
+
+  /** Data cascades (Sambasivan): fallas de datos se componen y llegan tarde. */
+  function vizDataCascades(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Cascadas de datos: fallas tempranas se componen y se detectan tarde");
+
+    var stages = [
+      { title: "Fuente", sub: "esquema frágil" },
+      { title: "Pipeline", sub: "join / proxy" },
+      { title: "Modelo", sub: "aprende el sesgo" },
+      { title: "Producto", sub: "falla visible" },
+    ];
+    var cardW = 180;
+    var gap = 36;
+    var startX = (w - (stages.length * cardW + (stages.length - 1) * gap)) / 2;
+    var cards = [];
+    var arrows = [];
+
+    stages.forEach(function (s, i) {
+      var x = startX + i * (cardW + gap);
+      var last = i === stages.length - 1;
+      var g = svg.append("g").attr("transform", "translate(" + x + ",70)");
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 150)
+        .attr("rx", 2)
+        .attr("fill", last ? COLORS.negro : COLORS.soft)
+        .attr("stroke", last ? "none" : COLORS.primary)
+        .attr("stroke-width", 2);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 55)
+        .attr("text-anchor", "middle")
+        .attr("fill", last ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .text(s.title);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 95)
+        .attr("text-anchor", "middle")
+        .attr("fill", last ? "rgba(255,255,255,0.8)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .text(s.sub);
+      cards.push(g.node());
+      if (i < stages.length - 1) {
+        arrows.push(
+          svg
+            .append("text")
+            .attr("x", x + cardW + gap / 2)
+            .attr("y", 155)
+            .attr("text-anchor", "middle")
+            .attr("fill", COLORS.primary)
+            .attr("font-family", "Roboto, system-ui, sans-serif")
+            .attr("font-weight", 800)
+            .attr("font-size", 22)
+            .attr("opacity", 0)
+            .text("→")
+            .node()
+        );
+      }
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 290)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Sambasivan et al. (2021): el contrato corta la cascada antes del modelo")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(cards.concat(arrows).concat([foot]), { opacity: 0 });
+      var t = 0.05;
+      cards.forEach(function (c, i) {
+        tl.to(c, { opacity: 1, duration: 0.35 }, t);
+        if (arrows[i]) tl.to(arrows[i], { opacity: 1, duration: 0.2 }, t + 0.25);
+        t += 0.35;
+      });
+      tl.to(foot, { opacity: 1, duration: 0.35 }, t + 0.1);
+    } else {
+      d3.selectAll(cards.concat(arrows).concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4206,6 +4301,7 @@
     "regression-suite": vizRegressionSuite,
     "prediction-policy": vizPredictionPolicy,
     "inference-regimes": vizInferenceRegimes,
+    "data-cascades": vizDataCascades,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
