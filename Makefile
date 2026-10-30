@@ -5,17 +5,18 @@ export OPENAI_BASE_URL ?= http://localhost:1234/v1
 export OPENAI_API_KEY ?= lm-studio
 export OPENAI_MODEL ?= local-model
 
-.PHONY: help smoke lab-08-u04 lab-09-u01 lab-09-u02 lab-09-u03 lab-09-u04 labs-09 lab-11-u01 referents-fetch
+.PHONY: help smoke lab-08-u04 lab-09-u01 lab-09-u01-compaction lab-09-u02 lab-09-u03 lab-09-u04 labs-09 lab-11-u01 referents-fetch
 
 help:
 	@echo "Targets:"
 	@echo "  make smoke            — ping LM Studio / API local"
 	@echo "  make lab-08-u04       — cruce costo abierto(local) vs cerrado(API)"
 	@echo "  make lab-09-u01       — salida estructurada"
+	@echo "  make lab-09-u01-compaction — bloat vs compaction (SII/boletas) + rúbrica"
 	@echo "  make lab-09-u02       — regresión + rúbrica (JSON en labs/09/runs/)"
 	@echo "  make lab-09-u03       — verificación"
 	@echo "  make lab-09-u04       — agente ReAct"
-	@echo "  make labs-09          — u01→u04 en serie"
+	@echo "  make labs-09          — u01→u04 + compaction en serie"
 	@echo "  make lab-11-u01       — health + rúbrica (formato·calidad·seguridad·costo)"
 	@echo "  make referents-fetch  — HTML público → tmp/referents/ (issue #1)"
 
@@ -28,6 +29,9 @@ lab-08-u04:
 lab-09-u01:
 	python3 labs/09/u01/run_structured.py
 
+lab-09-u01-compaction:
+	python3 labs/09/u01/run_compaction.py
+
 lab-09-u02:
 	python3 labs/09/u02/run_regression.py
 
@@ -37,7 +41,7 @@ lab-09-u03:
 lab-09-u04:
 	python3 labs/09/u04/run_agent.py
 
-labs-09: lab-09-u01 lab-09-u02 lab-09-u03 lab-09-u04
+labs-09: lab-09-u01 lab-09-u01-compaction lab-09-u02 lab-09-u03 lab-09-u04
 
 lab-11-u01:
 	python3 labs/11/u01/health_wrapper.py

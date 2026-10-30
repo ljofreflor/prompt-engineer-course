@@ -3378,6 +3378,132 @@
   }
 
   /** Prompt ⊂ contexto: system, tools/MCP, retrieval, historial, turno usuario. */
+  /** Bloat de historial/tools → compaction (3 bullets) + masking PII. */
+  function vizContextCompaction(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Compaction: menos tokens, misma señal");
+
+    var leftX = 48;
+    var rightX = 500;
+    var colW = 360;
+    var y0 = 56;
+
+    function panel(x, title, rows, accent) {
+      var g = svg.append("g");
+      g.append("rect")
+        .attr("x", x)
+        .attr("y", y0 - 36)
+        .attr("width", colW)
+        .attr("height", 280)
+        .attr("rx", 2)
+        .attr("fill", COLORS.white)
+        .attr("stroke", COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", x + 16)
+        .attr("y", y0 - 10)
+        .attr("fill", accent ? COLORS.primary : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 14)
+        .text(title);
+      var nodes = [];
+      rows.forEach(function (r, i) {
+        var yy = y0 + 18 + i * 36;
+        var bar = g
+          .append("rect")
+          .attr("x", x + 16)
+          .attr("y", yy)
+          .attr("width", r.w)
+          .attr("height", 22)
+          .attr("rx", 2)
+          .attr("fill", r.fill)
+          .attr("opacity", 0);
+        var lab = g
+          .append("text")
+          .attr("x", x + 24)
+          .attr("y", yy + 15)
+          .attr("fill", r.ink || COLORS.negro)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", 12)
+          .attr("font-weight", 600)
+          .attr("opacity", 0)
+          .text(r.label);
+        nodes.push(bar.node(), lab.node());
+      });
+      return nodes;
+    }
+
+    var bloated = panel(
+      leftX,
+      "Historial crudo (bloat)",
+      [
+        { label: "tool dump XML + email", w: 300, fill: COLORS.soft },
+        { label: "40 folios irrelevantes", w: 280, fill: COLORS.soft },
+        { label: "RUT en claro", w: 160, fill: COLORS.soft },
+        { label: "pedido actual", w: 120, fill: COLORS.negro, ink: COLORS.white },
+      ],
+      false
+    );
+    var compact = panel(
+      rightX,
+      "Compactado (3 bullets)",
+      [
+        { label: "RUT enmascarado", w: 200, fill: COLORS.soft },
+        { label: "folio 9123 · emitida", w: 220, fill: COLORS.primary, ink: COLORS.white },
+        { label: "pedido actual", w: 120, fill: COLORS.negro, ink: COLORS.white },
+      ],
+      true
+    );
+
+    var arrow = svg
+      .append("text")
+      .attr("x", 458)
+      .attr("y", 190)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 22)
+      .attr("opacity", 0)
+      .text("→")
+      .node();
+
+    var meta = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 340)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("font-weight", 600)
+      .attr("opacity", 0)
+      .text("~5× menos chars · misma señal · sin PII")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(bloated.concat(compact).concat([arrow, meta]), { opacity: 0 });
+      tl.to(bloated, { opacity: 1, duration: 0.28, stagger: 0.05 }, 0.05)
+        .to(arrow, { opacity: 1, duration: 0.2 }, 0.45)
+        .to(compact, { opacity: 1, duration: 0.28, stagger: 0.05 }, 0.55)
+        .to(meta, { opacity: 1, duration: 0.25 }, 0.9);
+    } else {
+      bloated.concat(compact).concat([arrow, meta]).forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(40 + i * 40))
+          .duration(tDur(280))
+          .attr("opacity", 1);
+      });
+    }
+  }
+
   function vizContextStack(el) {
     cineManual(el);
     var w = 920;
@@ -5019,6 +5145,7 @@
     "openness-axes": vizOpennessAxes,
     "quant-ladder": vizQuantLadder,
     "context-stack": vizContextStack,
+    "context-compaction": vizContextCompaction,
     "judge-bias": vizJudgeBias,
     "self-consistency": vizSelfConsistency,
     "agent-budget": vizAgentBudget,

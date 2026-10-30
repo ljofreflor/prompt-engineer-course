@@ -1,0 +1,15 @@
+{
+  "lab": "09/u01-compaction",
+  "chars_full": 2438,
+  "chars_compact": 429,
+  "ratio": 0.176,
+  "lm_full": "Thinking Process:\n\n1.  **Analyze the Request:** The user is asking for the status of a specific invoice (boleta de honorarios) from September 15th, folio 9123.\n2.  **Analyze the Constraints:**\n    *   The response must be *only one line*.\n ",
+  "lm_compact": "Folio 9123: emitida",
+  "rubric": {
+    "formato": 1,
+    "calidad": 1,
+    "seguridad": 1,
+    "costo": 1
+  },
+  "note": "Transfer CS329Z/Anthropic context eng → presentación UAI; caso SII/boletas."
+}

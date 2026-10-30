@@ -20,7 +20,7 @@ Fetch: `python3 scripts/referents_fetch.py` (opcional: ids del catálogo).
 | Tema referente (congelado) | Ya en UAI | Gap / solo presentación |
 |----------------------------|-----------|-------------------------|
 | Compound AI / agents (CS329Z) | 09 u04–u06, viz ReAct/multiagent | Lab from-scratch vs harness; MCP en más de una slide |
-| Context engineering (Anthropic/CS329Z) | 09/u01 defs + context-stack | Ejercicio compaction/masking en lab |
+| Context engineering (Anthropic/CS329Z) | 09/u01 defs + context-stack + context-compaction | Lab: `make lab-09-u01-compaction` (caso SII/boletas) |
 | Eval 4-tuple / judges (CS329Z) | labs/RUBRIC.md, judge-bias, 08/u06 | Extender golden sets a 10/11 |
 | RAG + tools (CS329Z/HF) | 08/u03, 10/u02, 09 tools | Dual-stack abierto/cerrado en un lab |
 | GenAI lifecycle (DL.AI) | 08 pipeline posttrain + adapt | No copiar notebooks Coursera |

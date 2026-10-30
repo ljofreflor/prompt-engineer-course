@@ -36,6 +36,7 @@ export type VizId =
   | "openness-axes"
   | "quant-ladder"
   | "context-stack"
+  | "context-compaction"
   | "judge-bias"
   | "self-consistency"
   | "agent-budget"
