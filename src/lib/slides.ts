@@ -46,7 +46,8 @@ export type VizId =
   | "data-cascades"
   | "design-doc-spine"
   | "repro-bundle"
-  | "container-artifact";
+  | "container-artifact"
+  | "concept-drift";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

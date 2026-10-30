@@ -86,6 +86,25 @@ export const slides: Slide[] = [
       "Deriva ≠ estacionalidad.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de observabilidad",
+    items: [
+      "Falla silenciosa — el servicio está up pero las predicciones ya no sirven.",
+      "Deriva de concepto — cambia P(y|x); distinta de estacionalidad o bug de infra.",
+      "Indicador sustituto — señal temprana cuando la etiqueta llega tarde o nunca.",
+      "SLO / error budget — umbral de servicio que dispara alerta accionable y runbook.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Deriva",
+    title: "Uptime verde, distribución distinta",
+    viz: "concept-drift",
+    caption: "Hay que instrumentar la capa del modelo, no solo la del servicio.",
+  },
   {
     type: "section",
     title: "Bloque 3",
@@ -114,7 +133,7 @@ export const slides: Slide[] = [
       "Presupuestos de error.",
       "Alertas sin fatiga.",
       "Manual de operación e incidentes.",
-      "Dashboards nativos de AWS/Azure/GCP (página Herramientas, curso 11).",
+      "Caso Chile: fraude o cobranza — etiqueta a 30–90 días; definir proxy y SLO de alerta.",
     ],
   },
   {

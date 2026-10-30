@@ -4588,6 +4588,143 @@
     }
   }
 
+
+  /** Concept / covariate drift: distribución se mueve; servicio sigue “verde”. */
+  function vizConceptDrift(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Deriva: la distribución cambia; el uptime puede seguir verde");
+
+    function bell(cx, cy, amp, spread, fill, opacity) {
+      var pts = [];
+      for (var i = 0; i <= 40; i++) {
+        var t = (i / 40) * 6 - 3;
+        var x = cx + t * spread;
+        var y = cy - amp * Math.exp(-0.5 * t * t);
+        pts.push([x, y]);
+      }
+      var d =
+        "M" +
+        pts
+          .map(function (p, i) {
+            return (i ? "L" : "") + p[0] + "," + p[1];
+          })
+          .join("") +
+        "L" +
+        (cx + 3 * spread) +
+        "," +
+        cy +
+        "L" +
+        (cx - 3 * spread) +
+        "," +
+        cy +
+        "Z";
+      return svg
+        .append("path")
+        .attr("d", d)
+        .attr("fill", fill)
+        .attr("opacity", opacity)
+        .node();
+    }
+
+    // baseline panel
+    svg
+      .append("text")
+      .attr("x", 230)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .text("Entrenamiento");
+    svg
+      .append("text")
+      .attr("x", 690)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .text("Producción (después)");
+
+    var b1 = bell(230, 260, 120, 42, COLORS.soft, 1);
+    var b1s = svg
+      .append("path")
+      .attr("fill", "none")
+      .attr("stroke", COLORS.primary)
+      .attr("stroke-width", 2.5)
+      .attr("d", d3.select(b1).attr("d").replace(/L[\d.]+,260L[\d.]+,260Z/, ""))
+      .node();
+    // redraw stroke properly from same geometry - simpler: circle markers
+    d3.select(b1s).remove();
+
+    var train = bell(230, 260, 110, 40, COLORS.primary, 0.35);
+    var serve = bell(690, 260, 110, 40, COLORS.negro, 0.35);
+    // shift serve peak visually with second ghost
+    var serve2 = bell(760, 260, 90, 36, COLORS.primary, 0.45);
+
+    var arrow = svg
+      .append("text")
+      .attr("x", 460)
+      .attr("y", 180)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 28)
+      .attr("opacity", 0)
+      .text("→")
+      .node();
+
+    var badge = svg.append("g").attr("transform", "translate(430,70)");
+    badge
+      .append("rect")
+      .attr("width", 60)
+      .attr("height", 28)
+      .attr("rx", 2)
+      .attr("fill", COLORS.primary);
+    badge
+      .append("text")
+      .attr("x", 30)
+      .attr("y", 19)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 12)
+      .text("uptime");
+    var badgeN = badge.node();
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 310)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Gama et al. (2014): detectar deriva ≠ confundirla con estacionalidad")
+      .node();
+
+    var nodes = [train, serve, serve2, arrow, badgeN, foot];
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(train, { opacity: 0.35, duration: 0.4 }, 0.05)
+        .to(arrow, { opacity: 1, duration: 0.25 }, 0.35)
+        .to([serve, serve2], { opacity: 0.4, duration: 0.4 }, 0.5)
+        .to(badgeN, { opacity: 1, duration: 0.3 }, 0.85)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.1);
+    } else {
+      d3.selectAll(nodes).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4613,6 +4750,7 @@
     "design-doc-spine": vizDesignDocSpine,
     "repro-bundle": vizReproBundle,
     "container-artifact": vizContainerArtifact,
+    "concept-drift": vizConceptDrift,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
