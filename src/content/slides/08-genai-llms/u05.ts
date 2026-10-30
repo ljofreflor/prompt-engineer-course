@@ -41,6 +41,18 @@ export const slides: Slide[] = [
     viz: "latency-ttft-tpot",
     caption: "Chat siente TTFT; batch y streaming largos viven en TPOT.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de inferencia",
+    items: [
+      "TTFT — time to first token: latencia hasta el primer token (chat la siente primero).",
+      "TPOT — time per output token: ritmo de decode tras el primero.",
+      "Cuantización — bajar precisión de pesos/activaciones para memoria/throughput; calidad se mide.",
+      "Kill-switch de presupuesto — corte automático cuando tokens/costo exceden el umbral.",
+    ],
+  },
   {
     type: "bullets",
     kicker: "Producto",
@@ -113,14 +125,22 @@ export const slides: Slide[] = [
       "Costo: tokens de contexto vs retrieve + prompt corto — medir en la misma tarea.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Contexto",
+    title: "Largo ≠ mejor ubicado",
+    viz: "lost-middle",
+    caption: "Misma evidencia: el medio del contexto es el punto ciego típico.",
+  },
   {
     type: "bullets",
     kicker: "Eval 2",
     title: "Contexto largo vs RAG",
     items: [
-      "Lost-in-the-middle y saturación de atención.",
-      "Costo de contexto vs índice recuperable.",
-      "Medición comparativa en la misma tarea.",
+      "Caso Chile: FAQ normativa larga vs RAG sobre BOLETÍN/SII — misma pregunta.",
+      "Medir TTFT/TPOT + tokens (labs/RUBRIC.md · costo).",
+      "Declarar supuestos de tráfico; sin inventar precios.",
     ],
   },
   {
