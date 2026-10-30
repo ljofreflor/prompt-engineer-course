@@ -44,6 +44,18 @@ export const slides: Slide[] = [
       "Registrar trayectoria completa, no solo el output final.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de evaluación agéntica",
+    items: [
+      "Trayectoria — secuencia Thought/Action/Observation hasta finish; se evalúa completa, no solo el output.",
+      "Inyección directa — el usuario intenta override de la política en el mensaje.",
+      "Inyección indirecta — instrucciones ocultas en contenido recuperado (web, mail, doc).",
+      "Control de arquitectura — privilegio mínimo, validación de acciones y HITL; no un system prompt más largo.",
+    ],
+  },
   {
     type: "bullets",
     kicker: "Métricas",
@@ -54,6 +66,14 @@ export const slides: Slide[] = [
       "Tasa de invocación errónea de tools.",
       "Análisis cualitativo de fallas.",
     ],
+  },
+
+  {
+    type: "viz",
+    kicker: "Costo",
+    title: "Success sin presupuesto engaña",
+    viz: "agent-budget",
+    caption: "Kapoor et al.: reportar pasos/tokens por éxito — no solo pass rate.",
   },
   {
     type: "section",
@@ -140,7 +160,7 @@ export const slides: Slide[] = [
     kicker: "Entregable",
     title: "Suite de robustez del agente",
     items: [
-      "Casos de inyección directa e indirecta + expectativa de abstención/bloqueo.",
+      "Caso Chile: mail phishing a mesa de ayuda — inyección indirecta + expectativa de bloqueo.",
       "Correr make lab-09-u04 (o script del agente) y adjuntar traza.",
       "Una página: qué controló el runtime vs qué quedó solo en el prompt.",
     ],
