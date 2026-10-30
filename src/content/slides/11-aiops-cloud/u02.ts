@@ -55,6 +55,25 @@ export const slides: Slide[] = [
       "Etiquetas: git sha + versión semántica.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de empaquetado",
+    items: [
+      "Artefacto de despliegue — imagen o entorno fijado (runtime, código, config) etiquetado y promovible.",
+      "CI — automatización que falla el merge si tests, health o contrato no pasan.",
+      "Smoke — prueba mínima post-build de que el servicio responde (p. ej. /health).",
+      "Secret store — lugar fuera del repo para API keys; la config no secreta sí se versiona.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Artefacto",
+    title: "Qué va en la imagen — y qué no",
+    viz: "container-artifact",
+    caption: "Secretos fuera; etiquetas git sha + semver para rollback.",
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -106,7 +125,7 @@ export const slides: Slide[] = [
     paragraphs: [
       "Reusar el health wrapper del lab 11/u01 en un job CI o script local.",
       "Lab: labs/11/u01/health_wrapper.py",
-      "Gate: status=ok y latencia de chat bajo umbral acordado.",
+      "Gate: status=ok y latencia bajo umbral (p. ej. asistente interno sector público Chile — sin PII en logs).",
     ],
   },
   {

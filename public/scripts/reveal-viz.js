@@ -4477,6 +4477,117 @@
     }
   }
 
+
+  /** Imagen como artefacto: runtime + código + config; secretos fuera. */
+  function vizContainerArtifact(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("La imagen lleva runtime, código y config; los secretos quedan fuera");
+
+    var box = svg.append("g").attr("transform", "translate(80,50)");
+    var frame = box
+      .append("rect")
+      .attr("width", 520)
+      .attr("height", 220)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.negro)
+      .attr("stroke-width", 2)
+      .attr("opacity", 0)
+      .node();
+    box
+      .append("text")
+      .attr("x", 24)
+      .attr("y", 36)
+      .attr("fill", COLORS.negro)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .attr("opacity", 0)
+      .text("Imagen / entorno fijado")
+      .attr("class", "uai-lab-title");
+
+    var layers = [
+      { y: 60, t: "Runtime + deps fijadas", fill: COLORS.white },
+      { y: 110, t: "Código + git sha", fill: COLORS.white },
+      { y: 160, t: "Config no secreta + healthcheck", fill: COLORS.primary },
+    ];
+    var layerNodes = [];
+    layers.forEach(function (L) {
+      var g = box.append("g").attr("transform", "translate(24," + L.y + ")");
+      g.append("rect")
+        .attr("width", 472)
+        .attr("height", 40)
+        .attr("rx", 2)
+        .attr("fill", L.fill)
+        .attr("stroke", L.fill === COLORS.white ? COLORS.primary : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 16)
+        .attr("y", 26)
+        .attr("fill", L.fill === COLORS.primary ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 14)
+        .text(L.t);
+      layerNodes.push(g.node());
+    });
+
+    var secret = svg.append("g").attr("transform", "translate(640,100)");
+    secret
+      .append("rect")
+      .attr("width", 220)
+      .attr("height", 120)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro);
+    secret
+      .append("text")
+      .attr("x", 110)
+      .attr("y", 48)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .text("Secret store");
+    secret
+      .append("text")
+      .attr("x", 110)
+      .attr("y", 82)
+      .attr("text-anchor", "middle")
+      .attr("fill", "rgba(255,255,255,0.75)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("API keys · tokens");
+    var secretN = secret.node();
+
+    var titleN = box.select(".uai-lab-title").node();
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 310)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Promovible y reversible: etiqueta = git sha + semver")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set([frame, titleN].concat(layerNodes).concat([secretN, foot]), { opacity: 0 });
+      tl.to([frame, titleN], { opacity: 1, duration: 0.35 }, 0.05)
+        .to(layerNodes, { opacity: 1, duration: 0.3, stagger: 0.12 }, 0.3)
+        .to(secretN, { opacity: 1, duration: 0.35 }, 0.85)
+        .to(foot, { opacity: 1, duration: 0.3 }, 1.15);
+    } else {
+      d3.selectAll([frame, titleN].concat(layerNodes).concat([secretN, foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4501,6 +4612,7 @@
     "data-cascades": vizDataCascades,
     "design-doc-spine": vizDesignDocSpine,
     "repro-bundle": vizReproBundle,
+    "container-artifact": vizContainerArtifact,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

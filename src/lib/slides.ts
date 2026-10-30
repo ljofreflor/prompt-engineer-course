@@ -45,7 +45,8 @@ export type VizId =
   | "inference-regimes"
   | "data-cascades"
   | "design-doc-spine"
-  | "repro-bundle";
+  | "repro-bundle"
+  | "container-artifact";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
