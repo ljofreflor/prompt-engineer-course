@@ -169,6 +169,8 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 
 Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar citas ni papers para “rellenar” casos LATAM.
 
+**Competencia Chile/LATAM (corte 2026-10):** tres capas — (A) fluency/prompt corto (UC, Certificate UAI, verticales), (B) diplomado/bootcamp build (UC GAI, Desafío Latam, EdEx, UNLu), (C) magíster IA/TI amplio (MIA UC, UDP). Casi nadie vende GenAI→eval→design doc→AIOps como hilo; no competir en capa A; vs B el peor gap es evidencia de producción + casos Chile, no más tips. Distinguir messaging del Certificate Prompt UAI del curso 09 del magíster.
+
 ## Continuous improvement (coursebuild loop)
 
 **Tendencia = mejorar el peor de los casos.** No pulir lo que ya está bien si hay unidades en L0–L1, bloques sin viz, o gaps formativos. El tick elige el peor gap y lo sube un escalón.
