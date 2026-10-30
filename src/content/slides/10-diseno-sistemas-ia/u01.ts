@@ -45,6 +45,25 @@ export const slides: Slide[] = [
       "Si no hay acción ni resultado medible, la predicción no crea valor.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de la especificación",
+    items: [
+      "Decisión — elección que un actor toma bajo incertidumbre y que tiene un resultado medible.",
+      "Línea base — desempeño del proceso actual (humano, reglas o azar) contra el que se compara el sistema.",
+      "Política de predicción — cuando anticipar basta (paraguas); no exige que el modelo cause el resultado.",
+      "Política causal — cuando la acción pretende cambiar el mundo; hace falta inferencia causal, no solo score.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Concepto",
+    title: "¿Paraguas o danza de la lluvia?",
+    viz: "prediction-policy",
+    caption: "Kleinberg et al. (2015): predicción útil ≠ intervención causal.",
+  },
   {
     type: "bullets",
     kicker: "Ficha",

@@ -3960,6 +3960,131 @@
     }
   }
 
+
+  /** Kleinberg: política de predicción (paraguas) vs causalidad (danza de la lluvia). */
+  function vizPredictionPolicy(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Paraguas: basta predicción; danza de la lluvia: hace falta causalidad");
+
+    var panels = [
+      {
+        x: 60,
+        title: "Paraguas",
+        need: "Basta predicción",
+        why: "La acción no cambia\nsi lloverá: solo\nte prepara",
+        ok: true,
+      },
+      {
+        x: 490,
+        title: "Danza de la lluvia",
+        need: "Hace falta causalidad",
+        why: "La acción pretende\ncausar lluvia:\npredicción no basta",
+        ok: false,
+      },
+    ];
+
+    var cards = [];
+    var marks = [];
+    var texts = [];
+
+    panels.forEach(function (p) {
+      var g = svg.append("g").attr("transform", "translate(" + p.x + ",48)");
+      var fill = p.ok ? COLORS.soft : COLORS.white;
+      var stroke = p.ok ? COLORS.primary : COLORS.negro;
+      g.append("rect")
+        .attr("width", 370)
+        .attr("height", 240)
+        .attr("rx", 2)
+        .attr("fill", fill)
+        .attr("stroke", stroke)
+        .attr("stroke-width", 2.5);
+      g.append("text")
+        .attr("x", 24)
+        .attr("y", 42)
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "UAI Corporativo, Roboto, sans-serif")
+        .attr("font-weight", 300)
+        .attr("font-size", 26)
+        .text(p.title);
+      g.append("rect")
+        .attr("x", 24)
+        .attr("y", 58)
+        .attr("width", 48)
+        .attr("height", 3)
+        .attr("fill", COLORS.primary);
+      var need = g
+        .append("text")
+        .attr("x", 24)
+        .attr("y", 100)
+        .attr("fill", p.ok ? COLORS.primary : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .text(p.need);
+      texts.push(need.node());
+      p.why.split("\n").forEach(function (line, i) {
+        texts.push(
+          g
+            .append("text")
+            .attr("x", 24)
+            .attr("y", 148 + i * 28)
+            .attr("fill", COLORS.gray)
+            .attr("font-family", "Roboto, system-ui, sans-serif")
+            .attr("font-size", 16)
+            .text(line)
+            .node()
+        );
+      });
+      var badge = g
+        .append("g")
+        .attr("transform", "translate(290,28)");
+      badge
+        .append("circle")
+        .attr("r", 22)
+        .attr("fill", p.ok ? COLORS.primary : COLORS.negro);
+      badge
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", 6)
+        .attr("fill", COLORS.white)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .text(p.ok ? "OK" : "?");
+      cards.push(g.node());
+      marks.push(badge.node());
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 330)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Kleinberg et al. (2015): ¿tu sistema solo anticipa, o pretende intervenir?")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(cards.concat(marks).concat(texts).concat([foot]), { opacity: 0 });
+      tl.to(cards[0], { opacity: 1, duration: 0.4 }, 0.05)
+        .to(marks[0], { opacity: 1, duration: 0.3 }, 0.25)
+        .to(texts.slice(0, 4), { opacity: 1, duration: 0.35, stagger: 0.06 }, 0.35)
+        .to(cards[1], { opacity: 1, duration: 0.4 }, 0.7)
+        .to(marks[1], { opacity: 1, duration: 0.3 }, 0.95)
+        .to(texts.slice(4), { opacity: 1, duration: 0.35, stagger: 0.06 }, 1.05)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.45);
+    } else {
+      d3.selectAll(cards.concat(marks).concat(texts).concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -3979,6 +4104,7 @@
     "agent-budget": vizAgentBudget,
     "multimodal-surface": vizMultimodalSurface,
     "regression-suite": vizRegressionSuite,
+    "prediction-policy": vizPredictionPolicy,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

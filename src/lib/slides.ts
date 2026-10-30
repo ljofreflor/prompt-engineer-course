@@ -40,7 +40,8 @@ export type VizId =
   | "self-consistency"
   | "agent-budget"
   | "multimodal-surface"
-  | "regression-suite";
+  | "regression-suite"
+  | "prediction-policy";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
