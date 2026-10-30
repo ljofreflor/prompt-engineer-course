@@ -23,10 +23,10 @@ export const changelogQuarters: ChangelogQuarter[] = [
     items: [
       {
         date: "2026-10-30",
-        title: "Densidad viz 09",
+        title: "Densidad viz 08/09",
         detail:
-          "self-consistency (u03), guardrails (u06), agent-budget (u04) — topes del loop.",
-        tags: ["09", "viz"],
+          "multimodal-surface (08/u07); self-consistency, agent-budget, guardrails (09).",
+        tags: ["08", "09", "viz"],
       },
       {
         date: "2026-10-29",

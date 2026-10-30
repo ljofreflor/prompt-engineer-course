@@ -45,6 +45,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Más canales, más fallas",
+    viz: "multimodal-surface",
+    caption: "Texto e imagen entran al mismo modelo; OCR ≠ razonamiento — medir por separado.",
+  },
+  {
     type: "section",
     title: "Bloque 2",
     subtitle: "60 min — Imagen",

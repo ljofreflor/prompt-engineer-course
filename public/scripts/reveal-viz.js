@@ -2815,6 +2815,153 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Multimodal: texto + imagen → modelo; OCR ≠ razonamiento. */
+  function vizMultimodalSurface(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Canales multimodal: texto e imagen al mismo modelo");
+
+    var nodes = [];
+    var inputs = [
+      { y: 50, title: "Imagen / PDF", sub: "píxeles · OCR" },
+      { y: 180, title: "Texto", sub: "tokens" },
+    ];
+    inputs.forEach(function (inp) {
+      var g = svg.append("g").attr("transform", "translate(70," + inp.y + ")");
+      g.append("rect")
+        .attr("width", 200)
+        .attr("height", 100)
+        .attr("rx", 2)
+        .attr("fill", COLORS.soft)
+        .attr("stroke", COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 100)
+        .attr("y", 42)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 17)
+        .text(inp.title);
+      g.append("text")
+        .attr("x", 100)
+        .attr("y", 72)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .text(inp.sub);
+      nodes.push(g.node());
+      svg
+        .append("line")
+        .attr("x1", 280)
+        .attr("y1", inp.y + 50)
+        .attr("x2", 420)
+        .attr("y2", 180)
+        .attr("stroke", COLORS.border)
+        .attr("stroke-width", 2);
+    });
+
+    var gModel = svg.append("g").attr("transform", "translate(430,110)");
+    gModel
+      .append("rect")
+      .attr("width", 200)
+      .attr("height", 140)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro);
+    gModel
+      .append("text")
+      .attr("x", 100)
+      .attr("y", 55)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 18)
+      .text("Modelo");
+    gModel
+      .append("text")
+      .attr("x", 100)
+      .attr("y", 90)
+      .attr("text-anchor", "middle")
+      .attr("fill", "rgba(255,255,255,0.75)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("espacio común");
+    nodes.push(gModel.node());
+
+    svg
+      .append("line")
+      .attr("x1", 640)
+      .attr("y1", 180)
+      .attr("x2", 700)
+      .attr("y2", 180)
+      .attr("stroke", COLORS.border)
+      .attr("stroke-width", 2);
+
+    var gOut = svg.append("g").attr("transform", "translate(710,120)");
+    gOut
+      .append("rect")
+      .attr("width", 160)
+      .attr("height", 120)
+      .attr("rx", 2)
+      .attr("fill", COLORS.primary);
+    gOut
+      .append("text")
+      .attr("x", 80)
+      .attr("y", 50)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .text("Salida");
+    gOut
+      .append("text")
+      .attr("x", 80)
+      .attr("y", 82)
+      .attr("text-anchor", "middle")
+      .attr("fill", "rgba(255,255,255,0.9)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 12)
+      .text("medir OCR ≠ CoT");
+    nodes.push(gOut.node());
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 330)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Más modalidad → más superficie; costo/latencia suelen subir")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes.slice(0, 2), { opacity: 1, duration: 0.35, stagger: 0.12 }, 0.05)
+        .to(nodes[2], { opacity: 1, duration: 0.35 }, 0.4)
+        .to(nodes[3], { opacity: 1, duration: 0.35 }, 0.65)
+        .to(foot, { opacity: 1, duration: 0.25 }, 0.95);
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(60 + i * 120))
+          .duration(tDur(360))
+          .attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(600)).duration(tDur(280)).attr("opacity", 1);
+    }
+  }
+
   /** Presupuesto del agente: pasos, tiempo, costo, HITL. */
   function vizAgentBudget(el) {
     cineManual(el);
@@ -3714,6 +3861,7 @@
     "judge-bias": vizJudgeBias,
     "self-consistency": vizSelfConsistency,
     "agent-budget": vizAgentBudget,
+    "multimodal-surface": vizMultimodalSurface,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

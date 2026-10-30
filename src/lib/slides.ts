@@ -38,7 +38,8 @@ export type VizId =
   | "context-stack"
   | "judge-bias"
   | "self-consistency"
-  | "agent-budget";
+  | "agent-budget"
+  | "multimodal-surface";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
