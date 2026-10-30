@@ -7,11 +7,13 @@ Entregable único de cohorte: un problema real (empresa / sector público / domi
 | Curso | Aporte al capstone | Evidencia en el repo |
 |------:|--------------------|----------------------|
 | **08** | Make/buy, costo, soberanía, vía de adaptación (prompt / RAG / FT) | Sección en `DESIGN.md` + hoja de cruce o supuestos |
-| **09** | Prompt/agente versionado + golden set + rúbrica (`labs/09/RUBRIC.md`) | `prompts/`, `cases.yaml`, report JSON de regresión |
+| **09** | Prompt/agente versionado + golden set + rúbrica ([`labs/RUBRIC.md`](../RUBRIC.md) / 09) | `prompts/`, `cases.yaml`, report JSON de regresión |
 | **10** | Design doc completo + claims con métrica/umbral | Este `DESIGN.md` (plantilla abajo) |
 | **11** | Despliegue mínimo, obs, runbook / kill-switch | Sección operación + captura o run |
 
 Copiá `DESIGN.md` a tu repo de proyecto (o carpeta de cohorte) y versioná cada iteración.
+
+Eval-first del programa: [`labs/RUBRIC.md`](../RUBRIC.md) (formato · calidad · seguridad · costo).
 
 Matriz del programa: sitio `/competencias/` (fuente `src/data/competencies.ts`).
 
