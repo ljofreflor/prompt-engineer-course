@@ -169,7 +169,7 @@ Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño 
 
 Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar citas ni papers para “rellenar” casos LATAM.
 
-**Transfer de referentes (issue #1):** corpus público/OA = capas congeladas; UAI solo ajusta la **última capa** (presentación Reveal, español, casos Chile, rúbricas). No scrape de pago; índice en `references/referents/`.
+**Transfer de referentes (issue #1):** corpus público/OA = capas congeladas; UAI solo ajusta la **última capa** (presentación Reveal, español, casos Chile, rúbricas). No scrape de pago. Índice + outlines: `references/referents/` (`INDEX.md`, `cs329z-outline.md`, `anthropic-agents-outline.md`, `hf-agents-outline.md`, `dlai-genai-llm-outline.md`); fetch → `python3 scripts/referents_fetch.py` / `make referents-fetch`.
 
 **Referentes internacionales (corte 2026-10):** tres capas — (M) MOOC fluency (Google Prompting Essentials, DL.AI Prompt Eng, Claude 101); (B*) MOOC build (DL.AI GenAI+LLMs, IBM GenAI Eng, HF Agents, LangChain shorts); (E) elite (Stanford CS329Z compound/agents/eval/MCP, Anthropic Academy context+evals). Propuesta Chile: no otro Coursera — magíster = rigor E + design doc + AIOps + casos LATAM + dual-stack. Gaps a cerrar vs E: eval-first en todos los labs, context engineering explícito (prompt ⊂ contexto), agente from-scratch + harness, defensa pública del design doc. No competir en capa M; distinguir Certificate Prompt UAI del curso 09.
 
