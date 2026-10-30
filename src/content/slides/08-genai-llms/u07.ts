@@ -51,6 +51,18 @@ export const slides: Slide[] = [
     viz: "multimodal-surface",
     caption: "Texto e imagen entran al mismo modelo; OCR ≠ razonamiento — medir por separado.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de riesgos",
+    items: [
+      "Multimodal — el modelo acepta más de un canal (texto, imagen, …); cada canal añade fallas propias.",
+      "Memorización / extracción — el modelo puede regurgitar datos de entrenamiento (Carlini et al., 2021).",
+      "Riesgo de modelo — falla inherente al artefacto (alucinación, extracción, jailbreak).",
+      "Riesgo de sistema — falla de producto/proceso (PII en logs, falta de HITL, prompt como único control).",
+    ],
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -88,6 +100,14 @@ export const slides: Slide[] = [
       "Bommasani et al. (2021): riesgos sistémicos del modelo base ≠ controles del producto.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Superficie",
+    title: "El prompt no es el perímetro",
+    viz: "injection-surface",
+    caption: "Contenido externo e instrucciones del usuario compiten; hace falta control de sistema.",
+  },
   {
     type: "bullets",
     kicker: "Detalle",
@@ -118,7 +138,7 @@ export const slides: Slide[] = [
     kicker: "Taller",
     title: "Mapa de riesgos modelo vs sistema",
     items: [
-      "Elegir un caso (Chile/LATAM): listar 3 riesgos de modelo y 3 de sistema.",
+      "Caso Chile: trámite con cédula/escaneo — 3 riesgos de modelo y 3 de sistema.",
       "Para cada uno: control fuera del prompt (filtro, log, HITL).",
       "Entregar tabla de una página — puente a 09/10.",
     ],
