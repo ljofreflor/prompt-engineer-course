@@ -1,0 +1,92 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+import SitemapBranch from "../../components/SitemapBranch.astro";
+import { courses } from "../../data/courses";
+import { asset } from "../../lib/base";
+import { siteMap } from "../../data/sitemap";
+
+const courseTree = courses.map((c) => ({
+  code: c.code,
+  title: c.title,
+  href: asset(`cursos/${c.slug}/`),
+  units: c.units.map((u) => ({
+    id: u.id,
+    title: u.title,
+    href: asset(`cursos/${c.slug}/${u.id}/`),
+    clase: asset(`cursos/${c.slug}/${u.id}/clase/`),
+  })),
+}));
+---
+<StudentLayout title="Mapa del sitio — Magíster IA UAI" current="mapa">
+  <section class="section">
+    <div class="container prose">
+      <p class="label-uai" style="margin-bottom:0.5rem">Navegación</p>
+      <h1>Mapa del sitio</h1>
+      <p>
+        Rutas del material de apoyo al Magíster (base
+        <code>/prompt-engineer-course/</code>). La barra superior muestra solo
+        las rutas principales; competencias, cambios y señal viven aquí y en el pie.
+        Fuente de verdad: <code>src/data/sitemap.ts</code>.
+      </p>
+
+      <h2>Estructura</h2>
+      <ul class="sitemap-tree">
+        {
+          siteMap.map((node) => (
+            <li>
+              <SitemapBranch node={node} />
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>Cursos 08–11 (expandido)</h2>
+      <p>Cada unidad tiene página de contenido y clase proyectable.</p>
+      {
+        courseTree.map((c) => (
+          <div class="sitemap-course">
+            <h3>
+              <a href={c.href}>
+                Curso {c.code} — {c.title}
+              </a>
+            </h3>
+            <ul>
+              {c.units.map((u) => (
+                <li>
+                  <a href={u.href}>
+                    {u.id} · {u.title}
+                  </a>
+                  {" · "}
+                  <a href={u.clase}>Clase</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</StudentLayout>
+
+<style>
+  .sitemap-tree,
+  .sitemap-tree :global(ul) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  .sitemap-tree > li + li {
+    margin-top: 1.25rem;
+  }
+  .sitemap-tree :global(ul) {
+    padding-left: 1.25rem;
+    margin-top: 0.75rem;
+    border-left: 2px solid var(--uai-primary, #00afd8);
+  }
+  .sitemap-course {
+    margin-top: 1.5rem;
+  }
+  .sitemap-course h3 {
+    margin-bottom: 0.5rem;
+  }
+</style>

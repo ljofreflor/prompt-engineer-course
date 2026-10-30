@@ -1,5 +1,6 @@
 ---
 import { asset } from "../lib/base";
+import { primaryNav } from "../data/sitemap";
 
 interface Props {
   current?: string;
@@ -8,17 +9,11 @@ interface Props {
 const { current } = Astro.props;
 const home = asset("");
 
-const links = [
-  { href: home, id: "home", label: "Inicio" },
-  { href: asset("cursos/"), id: "cursos", label: "Cursos" },
-  { href: asset("clases/"), id: "clases", label: "Clases" },
-  { href: asset("herramientas/"), id: "herramientas", label: "Stack" },
-  { href: asset("bibliografia/"), id: "bibliografia", label: "Bibliografía" },
-  { href: asset("cambios/"), id: "cambios", label: "Cambios" },
-  { href: asset("competencias/"), id: "competencias", label: "Competencias" },
-  { href: asset("senal/"), id: "senal", label: "Señal" },
-  { href: asset("profesor/"), id: "profesor", label: "Profesor" },
-];
+const links = primaryNav().map((n) => ({
+  href: n.path === "" ? home : asset(n.path),
+  id: n.id,
+  label: n.label,
+}));
 ---
 <header class="site-header">
   <div class="container site-header__inner">

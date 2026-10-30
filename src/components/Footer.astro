@@ -1,5 +1,8 @@
 ---
 import { asset } from "../lib/base";
+import { secondaryNav } from "../data/sitemap";
+
+const meta = secondaryNav();
 ---
 <footer class="site-footer">
   <div class="container site-footer__inner">
@@ -17,6 +20,30 @@ import { asset } from "../lib/base";
       <a href="https://www.uai.cl/postgrados/magisteres/magister-en-inteligencia-artificial">Ficha del programa</a>
       ·
       <a href={asset("profesor/")}>Vista profesor</a>
+      ·
+      <a href={asset("mapa/")}>Mapa del sitio</a>
     </span>
+    <nav class="footer__meta" aria-label="Secciones del programa">
+      {
+        meta.map((n) => (
+          <a href={asset(n.path)}>{n.label}</a>
+        ))
+      }
+    </nav>
   </div>
 </footer>
+
+<style>
+  .footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+  }
+  .footer__meta a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+</style>

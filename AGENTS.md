@@ -90,7 +90,7 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 
 ## Content model
 
-- Course meta: `src/data/courses.ts` · programs/syllabi: `src/data/programs.ts` · stack: `src/data/stack.ts`
+- Course meta: `src/data/courses.ts` · programs/syllabi: `src/data/programs.ts` · stack: `src/data/stack.ts` · **mapa del sitio:** `src/data/sitemap.ts` → `/mapa/` (nav primary/secondary; no hardcodear rutas en Header)
 - Unit copy: `src/content/units/` · Reveal overrides: `src/content/slides/<course>/<unit>.ts`
 - Labs under `labs/`; LM Studio default `http://localhost:1234` (OpenAI-compatible). Prefer `content` then fall back to `reasoning_content` for models that only emit reasoning
 - **Labs 1 comando:** `Makefile` en la raíz (`make smoke`, `make lab-09-u02`, `make labs-09`). Documentar nuevos labs ahí y en `/herramientas`

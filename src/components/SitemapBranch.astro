@@ -1,0 +1,76 @@
+---
+import { asset } from "../lib/base";
+import type { SiteNode } from "../data/sitemap";
+
+interface Props {
+  node: SiteNode;
+}
+
+const { node } = Astro.props;
+
+function hrefFor(path: string): string | null {
+  if (path.includes(":")) return null;
+  if (path === "") return asset("");
+  return asset(path);
+}
+
+function audienceLabel(a: SiteNode["audience"]): string {
+  if (a === "teacher") return "Profesor";
+  if (a === "both") return "Alumno y profesor";
+  return "Público";
+}
+
+const href = hrefFor(node.path);
+const pathLabel = node.path === "" ? "/" : `/${node.path}`;
+---
+<div class="sitemap-node">
+  <div class="sitemap-node__row">
+    {
+      href ? (
+        <a href={href}>
+          <strong>{node.label}</strong>
+        </a>
+      ) : (
+        <strong>{node.label}</strong>
+      )
+    }
+    <code class="sitemap-node__path">{pathLabel}</code>
+    <span class="sitemap-node__aud">{audienceLabel(node.audience)}</span>
+  </div>
+  <p class="sitemap-node__purpose">{node.purpose}</p>
+  {
+    node.children?.length ? (
+      <ul>
+        {node.children.map((ch) => (
+          <li>
+            <Astro.self node={ch} />
+          </li>
+        ))}
+      </ul>
+    ) : null
+  }
+</div>
+
+<style>
+  .sitemap-node__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+  }
+  .sitemap-node__path {
+    font-size: 0.85em;
+    color: var(--uai-gray, #616365);
+  }
+  .sitemap-node__aud {
+    font-size: 0.75rem;
+    font-weight: 800;
+    font-family: Roboto, system-ui, sans-serif;
+    color: var(--uai-primary, #00afd8);
+  }
+  .sitemap-node__purpose {
+    margin: 0.35rem 0 0;
+    color: var(--uai-gray, #616365);
+    max-width: 52ch;
+  }
+</style>
