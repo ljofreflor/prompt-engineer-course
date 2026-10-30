@@ -41,7 +41,8 @@ export type VizId =
   | "agent-budget"
   | "multimodal-surface"
   | "regression-suite"
-  | "prediction-policy";
+  | "prediction-policy"
+  | "inference-regimes";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

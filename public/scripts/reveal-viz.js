@@ -4085,6 +4085,106 @@
     }
   }
 
+
+  /** Regímenes de inferencia: batch / online / streaming / precómputo (desde NFR). */
+  function vizInferenceRegimes(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 360;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Cuatro regímenes de inferencia elegidos por NFR, no por moda");
+
+    var modes = [
+      { title: "Batch", nfr: "Costo ↓", trade: "Frescura limitada", fill: COLORS.soft },
+      { title: "Online", nfr: "Latencia estricta", trade: "Costo / request", fill: COLORS.negro },
+      { title: "Streaming", nfr: "UX de tokens", trade: "Otra curva de falla", fill: COLORS.primary },
+      { title: "Precómputo", nfr: "Carga anticipada", trade: "Frescura vs store", fill: COLORS.soft },
+    ];
+    var cardW = 200;
+    var gap = 20;
+    var startX = (w - (modes.length * cardW + (modes.length - 1) * gap)) / 2;
+    var cards = [];
+    var texts = [];
+
+    modes.forEach(function (m, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",56)");
+      var dark = m.fill === COLORS.negro || m.fill === COLORS.primary;
+      var ink = dark ? COLORS.white : COLORS.negro;
+      var muted = dark ? "rgba(255,255,255,0.8)" : COLORS.gray;
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 210)
+        .attr("rx", 2)
+        .attr("fill", m.fill)
+        .attr("stroke", m.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 48)
+        .attr("text-anchor", "middle")
+        .attr("fill", ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .text(m.title);
+      g.append("rect")
+        .attr("x", cardW / 2 - 24)
+        .attr("y", 62)
+        .attr("width", 48)
+        .attr("height", 3)
+        .attr("fill", dark ? COLORS.white : COLORS.primary);
+      texts.push(
+        g
+          .append("text")
+          .attr("x", cardW / 2)
+          .attr("y", 110)
+          .attr("text-anchor", "middle")
+          .attr("fill", dark ? COLORS.white : COLORS.primary)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-weight", 800)
+          .attr("font-size", 13)
+          .text(m.nfr)
+          .node()
+      );
+      texts.push(
+        g
+          .append("text")
+          .attr("x", cardW / 2)
+          .attr("y", 150)
+          .attr("text-anchor", "middle")
+          .attr("fill", muted)
+          .attr("font-family", "Roboto, system-ui, sans-serif")
+          .attr("font-size", 13)
+          .text(m.trade)
+          .node()
+      );
+      cards.push(g.node());
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 320)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Huyen (2022): el régimen se deriva del presupuesto NFR, no del modelo de moda")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(cards.concat(texts).concat([foot]), { opacity: 0 });
+      tl.to(cards, { opacity: 1, duration: 0.35, stagger: 0.12 }, 0.05)
+        .to(texts, { opacity: 1, duration: 0.3, stagger: 0.04 }, 0.35)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.0);
+    } else {
+      d3.selectAll(cards.concat(texts).concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4105,6 +4205,7 @@
     "multimodal-surface": vizMultimodalSurface,
     "regression-suite": vizRegressionSuite,
     "prediction-policy": vizPredictionPolicy,
+    "inference-regimes": vizInferenceRegimes,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

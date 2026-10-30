@@ -56,6 +56,25 @@ export const slides: Slide[] = [
       "Precómputo / feature store: frescura vs carga.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de patrones",
+    items: [
+      "Régimen de inferencia — cuándo y con qué frescura se calcula la predicción (batch, online, streaming, precómputo).",
+      "Sistema compuesto — varios componentes (modelo, reglas, retrieval, humano) bajo control explícito (Zaharia et al., 2024).",
+      "Degradación elegante — comportamiento seguro y útil cuando el modelo o el proveedor fallan.",
+      "RAG (patrón) — retrieval + generación como arquitectura con NFR por etapa, no como “mejor prompt”.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Concepto",
+    title: "El régimen sale del NFR",
+    viz: "inference-regimes",
+    caption: "Batch · online · streaming · precómputo — cada uno cambia costo, latencia y frescura.",
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -117,8 +136,8 @@ export const slides: Slide[] = [
     items: [
       "Caché, timeouts, reintentos, rate limits, breakers.",
       "Degradación elegante y default seguro.",
-      "Estrategia de reversión.",
-      "Ejercicio: rediseñar bajo un NFR más duro.",
+      "Caso Chile: asistente de consultas a normativa SII — ¿batch nocturno del índice o online con timeout?",
+      "Ejercicio: rediseñar bajo un NFR más duro (latencia o costo) y declarar supuestos.",
     ],
   },
   {
