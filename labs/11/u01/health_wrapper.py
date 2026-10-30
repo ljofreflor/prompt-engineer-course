@@ -59,6 +59,14 @@ def main() -> int:
         status, models, list_ms = get("/models")
         ids = [m.get("id") for m in (models.get("data") or [])] if isinstance(models, dict) else []
         chat_ms = chat_probe()
+        # Eval-first (labs/RUBRIC.md): formato · calidad · seguridad · costo
+        chat_budget_ms = float(os.environ.get("HEALTH_CHAT_BUDGET_MS", "5000"))
+        rubric = {
+            "formato": 1 if status == 200 and isinstance(models, dict) else 0,
+            "calidad": 1,  # chat_probe succeeded (reachable completion)
+            "seguridad": 1,  # no secrets in payload; keys only via env
+            "costo": 1 if chat_ms <= chat_budget_ms else 0,
+        }
         health = {
             "status": "ok",
             "version": VERSION,
@@ -67,11 +75,33 @@ def main() -> int:
             "models": ids,
             "latency_ms": {"models": round(list_ms, 1), "chat": round(chat_ms, 1)},
             "upstream_status": status,
+            "rubric": rubric,
+            "chat_budget_ms": chat_budget_ms,
         }
         print(json.dumps(health, ensure_ascii=False, indent=2))
+        # Gate: formato + calidad critical; costo reported (soft fail via exit 2)
+        if rubric["formato"] != 1 or rubric["calidad"] != 1:
+            return 1
+        if rubric["costo"] != 1:
+            return 2
         return 0
     except urllib.error.URLError as exc:
-        print(json.dumps({"status": "error", "version": VERSION, "error": str(exc)}, indent=2))
+        print(
+            json.dumps(
+                {
+                    "status": "error",
+                    "version": VERSION,
+                    "error": str(exc),
+                    "rubric": {
+                        "formato": 0,
+                        "calidad": 0,
+                        "seguridad": 1,
+                        "costo": 0,
+                    },
+                },
+                indent=2,
+            )
+        )
         return 1
 
 

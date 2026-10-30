@@ -23,6 +23,13 @@ export const changelogQuarters: ChangelogQuarter[] = [
     items: [
       {
         date: "2026-10-30",
+        title: "Piso 3 viz + eval-first 11 + referentes",
+        detail:
+          "Todas las unidades 08–11 con ≥3 ilustraciones; health 11/u01 reporta rúbrica; índice transfer issue #1.",
+        tags: ["viz", "11", "eval", "referentes"],
+      },
+      {
+        date: "2026-10-30",
         title: "Editor pedagógico + regression-suite",
         detail:
           "Agente editor (rule + trends); compliance outcomes/formative; viz regression-suite en 09/u02.",
