@@ -4725,6 +4725,133 @@
     }
   }
 
+
+  /** Portabilidad: borde de contrato (API/artefactos) vs interior del vendor. */
+  function vizPortabilityEdge(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("El borde portable es el contrato API y los artefactos versionados");
+
+    // vendor blob
+    var vendor = svg.append("g").attr("transform", "translate(420,40)");
+    vendor
+      .append("rect")
+      .attr("width", 440)
+      .attr("height", 240)
+      .attr("rx", 2)
+      .attr("fill", COLORS.soft)
+      .attr("stroke", COLORS.gray)
+      .attr("stroke-width", 1.5)
+      .attr("stroke-dasharray", "6 4");
+    vendor
+      .append("text")
+      .attr("x", 220)
+      .attr("y", 36)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 14)
+      .attr("font-weight", 700)
+      .text("Interior del vendor (acopla)");
+    var inn = [
+      { y: 70, t: "UI / notebooks managed" },
+      { y: 120, t: "Autoscaling opaco" },
+      { y: 170, t: "Billing / idle" },
+    ];
+    var innN = [];
+    inn.forEach(function (row) {
+      var g = vendor.append("g").attr("transform", "translate(40," + row.y + ")");
+      g.append("rect")
+        .attr("width", 360)
+        .attr("height", 36)
+        .attr("rx", 2)
+        .attr("fill", COLORS.white)
+        .attr("stroke", COLORS.border)
+        .attr("stroke-width", 1);
+      g.append("text")
+        .attr("x", 16)
+        .attr("y", 24)
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 14)
+        .text(row.t);
+      innN.push(g.node());
+    });
+
+    var edge = svg.append("g").attr("transform", "translate(60,70)");
+    edge
+      .append("rect")
+      .attr("width", 300)
+      .attr("height", 180)
+      .attr("rx", 2)
+      .attr("fill", COLORS.negro);
+    edge
+      .append("text")
+      .attr("x", 150)
+      .attr("y", 40)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.white)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 800)
+      .attr("font-size", 16)
+      .text("Borde portable");
+    edge
+      .append("text")
+      .attr("x", 150)
+      .attr("y", 85)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.primary)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-weight", 700)
+      .attr("font-size", 14)
+      .text("API OpenAI-compatible");
+    edge
+      .append("text")
+      .attr("x", 150)
+      .attr("y", 120)
+      .attr("text-anchor", "middle")
+      .attr("fill", "rgba(255,255,255,0.8)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("Imagen + pesos versionados");
+    edge
+      .append("text")
+      .attr("x", 150)
+      .attr("y", 150)
+      .attr("text-anchor", "middle")
+      .attr("fill", "rgba(255,255,255,0.8)")
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .text("Config · secretos fuera");
+    var edgeN = edge.node();
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 310)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Plan de salida = lo que podés migrar en 90 días sin reescribir el producto")
+      .node();
+
+    var vendorN = vendor.node();
+    var tl = cineTl();
+    if (tl) {
+      gsap.set([edgeN, vendorN].concat(innN).concat([foot]), { opacity: 0 });
+      tl.to(edgeN, { opacity: 1, duration: 0.4 }, 0.05)
+        .to(vendorN, { opacity: 1, duration: 0.35 }, 0.35)
+        .to(innN, { opacity: 1, duration: 0.25, stagger: 0.08 }, 0.55)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.0);
+    } else {
+      d3.selectAll([edgeN, vendorN].concat(innN).concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4751,6 +4878,7 @@
     "repro-bundle": vizReproBundle,
     "container-artifact": vizContainerArtifact,
     "concept-drift": vizConceptDrift,
+    "portability-edge": vizPortabilityEdge,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

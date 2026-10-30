@@ -91,6 +91,25 @@ export const slides: Slide[] = [
       "Config por ambiente; secretos fuera del repo.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico make vs buy",
+    items: [
+      "Plataforma gestionada — el proveedor opera infra; vos operás el contrato y el riesgo de acoplamiento.",
+      "Lock-in — costo de salida (tiempo, dinero, datos) si el vendor falla o cambia precio.",
+      "Borde portable — API/artefactos que podés migrar sin reescribir el producto.",
+      "Plan de salida — pasos y plazo (p. ej. 90 días) para operar sin ese vendor.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Portabilidad",
+    title: "Contrato en el borde, moda adentro",
+    viz: "portability-edge",
+    caption: "Lo que no está en el borde no cuenta como plan de salida.",
+  },
   {
     type: "section",
     title: "Bloque 4",
@@ -101,7 +120,7 @@ export const slides: Slide[] = [
     kicker: "Taller",
     title: "Elegir y justificar",
     items: [
-      "Caso: servicio de chat interno con PII.",
+      "Caso Chile: chat interno con PII / ClaveÚnica — residencia y auditoría mandatorias.",
       "Tabla: managed vs local+CI vs híbrido.",
       "Plan de salida de 90 días si el vendor falla.",
     ],

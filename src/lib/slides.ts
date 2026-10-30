@@ -47,7 +47,8 @@ export type VizId =
   | "design-doc-spine"
   | "repro-bundle"
   | "container-artifact"
-  | "concept-drift";
+  | "concept-drift"
+  | "portability-edge";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
