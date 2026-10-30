@@ -76,6 +76,25 @@ export const slides: Slide[] = [
       "Criterios de reversión automática.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Despliegue",
+    title: "Canaria con rollback explícito",
+    viz: "canary-deploy",
+    caption: "Sin criterio de reversión no hay experimentación online, hay ruleta.",
+  },
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de evaluación en producción",
+    items: [
+      "Nivel de evaluación — componente, sistema u organización; cada uno con métricas propias (Huyen, 2022).",
+      "Canaria — exponer una fracción del tráfico a la nueva versión con promoción o rollback automático.",
+      "Shadow — correr el nuevo sistema en paralelo sin afectar la decisión del usuario.",
+      "Superficie de riesgo — vías por las que el sistema puede fallar o ser abusado (OOD, inyección, fuga).",
+    ],
+  },
   {
     type: "section",
     title: "Bloque 3",
@@ -116,6 +135,17 @@ export const slides: Slide[] = [
       "Inyección indirecta en sistemas que leen contenido.",
       "Fuga por la salida.",
       "Diseño proporcional al riesgo de la decisión.",
+    ],
+  },
+  {
+    type: "bullets",
+    kicker: "Taller",
+    title: "Estrategia de eval del design doc",
+    items: [
+      "Caso banca Chile: score de riesgo de crédito — qué mide componente vs organización.",
+      "Definir canaria (% tráfico) y umbral de rollback (error / latencia / costo).",
+      "Listar 3 controles proporcionales al riesgo de la decisión.",
+      "Sin números inventados: declarar supuestos.",
     ],
   },
   {
