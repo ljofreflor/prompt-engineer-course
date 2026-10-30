@@ -129,6 +129,7 @@ export const slides: Slide[] = [
       "Contra LM Studio gemma-4-e4b: lee readme.txt del sandbox, calcula 17+25 y cierra con finish.",
       "Traza observada: file_read → calculator → finish. FINAL OK en ≤4 pasos.",
       "Lab: labs/09/u04/run_agent.py",
+      "Lab: labs/09/u04/run_from_scratch_vs_harness.py — decidir from-scratch vs framework (caso ClaveÚnica); make lab-09-u04-harness.",
     ],
   },
   {

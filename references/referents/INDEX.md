@@ -10,6 +10,9 @@ Metáfora: capas de conocimiento congeladas; **última capa** = decks UAI / caso
 | anthropic-agents | E | https://www.anthropic.com/engineering/building-effective-agents | público web | 09 | mirror + [outline transfer](anthropic-agents-outline.md) |
 | hf-agents | B* | https://huggingface.co/learn/agents-course | HF Learn | 09 | mirror + [outline](hf-agents-outline.md) |
 | dlai-genai-llm | B* | https://www.deeplearning.ai/courses/generative-ai-with-llms | página curso | 08 | mirror + [outline](dlai-genai-llm-outline.md) |
+| chile-uc-gai | M | https://educacioncontinua.uc.cl/ | ficha pública (bookmark) | vs 08–09 | solo URL + nota; no scrape |
+| chile-desafio-latam | M | https://desafiolatam.com/ | ficha pública (bookmark) | vs 09 | bootcamp build; gap = eval→prod |
+| chile-certificate-uai | M | (Certificate Prompt UAI — messaging interno) | N/A | vs 09 | distinguir magíster 09 del certificate corto |
 
 Dumps binarios / HTML crudo → `tmp/referents/` (gitignored). No versionar scrape de pago.
 
@@ -19,7 +22,7 @@ Fetch: `python3 scripts/referents_fetch.py` (opcional: ids del catálogo).
 
 | Tema referente (congelado) | Ya en UAI | Gap / solo presentación |
 |----------------------------|-----------|-------------------------|
-| Compound AI / agents (CS329Z) | 09 u04–u06, viz ReAct/multiagent | Lab from-scratch vs harness; MCP en más de una slide |
+| Compound AI / agents (CS329Z) | 09 u04–u06, viz ReAct/multiagent + `lab-09-u04-harness` | MCP en más de una slide (sigue abierto) |
 | Context engineering (Anthropic/CS329Z) | 09/u01 defs + context-stack + context-compaction | Lab: `make lab-09-u01-compaction` (caso SII/boletas) |
 | Eval 4-tuple / judges (CS329Z) | labs/RUBRIC.md, judge-bias, 08/u06 | Extender golden sets a 10/11 |
 | RAG + tools (CS329Z/HF) | 08/u03, 10/u02, 09 tools | Dual-stack abierto/cerrado en un lab |

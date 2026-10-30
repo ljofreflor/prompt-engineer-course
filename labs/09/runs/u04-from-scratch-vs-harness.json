@@ -1,0 +1,53 @@
+{
+  "lab": "09/u04-from-scratch-vs-harness",
+  "task": {
+    "caso": "Ciudadano pregunta estado de trámite ClaveÚnica; hay tool `consultar_estado(id)`.",
+    "from_scratch": {
+      "loop": "Thought → Action → Observation (máx 4 pasos)",
+      "tools": [
+        "consultar_estado"
+      ],
+      "pros": [
+        "control total",
+        "fácil de auditar",
+        "sin vendor lock"
+      ],
+      "cons": [
+        "reimplementar retries/timeouts",
+        "sin graph viz"
+      ]
+    },
+    "harness": {
+      "loop": "grafo tipado (nodos plan / act / end) vía framework",
+      "tools": [
+        "consultar_estado",
+        "escalar_humano"
+      ],
+      "pros": [
+        "retries/observabilidad de fábrica",
+        "multi-nodo claro"
+      ],
+      "cons": [
+        "acoplamiento al framework",
+        "opacidad si no se lee el grafo"
+      ]
+    }
+  },
+  "decision": {
+    "elegir": "from_scratch",
+    "hasta_que": "el flujo necesite >3 nodos, branching o multiagente",
+    "entonces": "harness (después de demostrar ReAct a mano)",
+    "seguridad": [
+      "sandbox de tools",
+      "HITL si id inválido o PII"
+    ],
+    "presupuesto_pasos": 4
+  },
+  "rubric": {
+    "formato": 1,
+    "calidad": 1,
+    "seguridad": 1,
+    "costo": 1
+  },
+  "note": "Transfer CS329Z: frameworks after from-scratch. Caso ClaveÚnica."
+}
