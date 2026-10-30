@@ -78,6 +78,25 @@ export const slides: Slide[] = [
       "Config declarativa (sin secretos en git).",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de salida a producción",
+    items: [
+      "Artefacto desplegable — paquete reproducible (código, datos, pesos, config), no el notebook.",
+      "Contrato de reproducibilidad — mismos inputs producen el mismo servicio operable.",
+      "Healthcheck — señal de que el servicio responde con versión y dependencia de modelo.",
+      "Secretos fuera de git — credenciales solo en entorno; config declarativa sí se versiona.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Contrato",
+    title: "Los cuatro viajan juntos",
+    viz: "repro-bundle",
+    caption: "Falta uno y la “producción” no es reproducible.",
+  },
   {
     type: "section",
     title: "Bloque 3",
@@ -101,10 +120,10 @@ export const slides: Slide[] = [
     kicker: "Lab",
     title: "Wrapper /health",
     items: [
-      "Endpoint que consulta /v1/models.",
-      "Latencia de un chat mínimo.",
-      "Versión del servicio en la respuesta.",
-      "Sin exponer API keys reales.",
+      "Endpoint que consulta /v1/models (LM Studio local).",
+      "Latencia de un chat mínimo + versión en la respuesta.",
+      "Caso Chile: wrapper de consulta a normativa interna (sin PII en logs).",
+      "Sin exponer API keys reales; config en env.",
     ],
   },
   {

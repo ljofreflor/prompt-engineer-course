@@ -4370,6 +4370,113 @@
     }
   }
 
+
+  /** Artefactos versionados juntos: código, datos, pesos, config. */
+  function vizReproBundle(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Contrato de reproducibilidad: código, datos, pesos y config versionados juntos");
+
+    var parts = [
+      { t: "Código", s: "+ lockfile", fill: COLORS.soft },
+      { t: "Datos", s: "ref / hash", fill: COLORS.soft },
+      { t: "Pesos", s: "id / endpoint", fill: COLORS.negro },
+      { t: "Config", s: "sin secretos", fill: COLORS.primary },
+    ];
+    var cardW = 180;
+    var gap = 28;
+    var startX = (w - (parts.length * cardW + (parts.length - 1) * gap)) / 2;
+    var cards = [];
+    var pluses = [];
+
+    // outer contract frame
+    var frame = svg
+      .append("rect")
+      .attr("x", startX - 20)
+      .attr("y", 48)
+      .attr("width", parts.length * cardW + (parts.length - 1) * gap + 40)
+      .attr("height", 200)
+      .attr("rx", 2)
+      .attr("fill", "none")
+      .attr("stroke", COLORS.primary)
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "6 4")
+      .attr("opacity", 0)
+      .node();
+
+    parts.forEach(function (p, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",78)");
+      var dark = p.fill !== COLORS.soft;
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 140)
+        .attr("rx", 2)
+        .attr("fill", p.fill)
+        .attr("stroke", dark ? "none" : COLORS.negro)
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 55)
+        .attr("text-anchor", "middle")
+        .attr("fill", dark ? COLORS.white : COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 18)
+        .text(p.t);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 95)
+        .attr("text-anchor", "middle")
+        .attr("fill", dark ? "rgba(255,255,255,0.8)" : COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .text(p.s);
+      cards.push(g.node());
+      if (i < parts.length - 1) {
+        pluses.push(
+          svg
+            .append("text")
+            .attr("x", x + cardW + gap / 2)
+            .attr("y", 155)
+            .attr("text-anchor", "middle")
+            .attr("fill", COLORS.gray)
+            .attr("font-family", "Roboto, system-ui, sans-serif")
+            .attr("font-weight", 800)
+            .attr("font-size", 22)
+            .attr("opacity", 0)
+            .text("+")
+            .node()
+        );
+      }
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 290)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Sin los cuatro, no hay reproducibilidad — solo “corre en mi laptop”")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set([frame].concat(cards).concat(pluses).concat([foot]), { opacity: 0 });
+      tl.to(frame, { opacity: 1, duration: 0.35 }, 0.05)
+        .to(cards, { opacity: 1, duration: 0.35, stagger: 0.1 }, 0.25)
+        .to(pluses, { opacity: 1, duration: 0.2, stagger: 0.1 }, 0.4)
+        .to(foot, { opacity: 1, duration: 0.35 }, 1.0);
+    } else {
+      d3.selectAll([frame].concat(cards).concat(pluses).concat([foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4393,6 +4500,7 @@
     "inference-regimes": vizInferenceRegimes,
     "data-cascades": vizDataCascades,
     "design-doc-spine": vizDesignDocSpine,
+    "repro-bundle": vizReproBundle,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
