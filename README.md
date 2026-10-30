@@ -44,5 +44,5 @@ Configurá el secret `TEACHER_PASSWORD` (y opcional `TEACHER_USER`) en el reposi
 - `src/pages/` — sitio alumno/profesor
 - `src/content/units/` — desarrollo de unidades (09 completo en v1)
 - `labs/` — scripts OpenAI-compatible
-- `public/brand/` — logos UAI
+- `public/brand/` — logos UAI + hero campus (ver `CREDITS.md`)
 - `references/` — bibliografía / papers OA

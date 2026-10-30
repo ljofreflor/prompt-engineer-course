@@ -5,6 +5,8 @@ Scores each syllabus unit (src/data/programs/*.json) against delivered
 artifacts: unit pages, Reveal decks, theory/citations, labs, viz.
 
 Writes: tmp/compliance.md (gitignored scratch)
+Optional: src/data/compliance-snapshot.json (--snapshot / make compliance-snapshot)
+  → UI at /cumplimiento/
 Prints: summary table to stdout
 
 Levels (per unit):
@@ -14,7 +16,22 @@ Levels (per unit):
   L3 practice   — lab present when declared / Lab: in deck; viz ids valid
   L4 polish     — manual (brand + pedagogy-editor critique) — not fully auto-scored here
 
-Exit 0 always unless --strict and any unit < L2.
+Soft (reported, do not gate L2/L3 yet):
+  prelectura_thesis      — kicker Tesis / Tesis de la sesión
+  title_no_path          — title slide title/subtitle has no labs/ or filesystem-ish path
+  lab_declared_in_deck   — unit lab: ⇒ Lab: prose or labs/ path in deck
+  outcomes_keyword_hit   — ≥1 significant token from learningOutcomes in Al finalizar
+  viz_density_hint       — soft-fail if 0 viz and unit has ≥4 blocks
+
+Also emits a soft Pedagogy metrics block (COMPLIANCE.md §8) — rates across units;
+does not add new L gates.
+
+Dashboard exigence (devil layer in --snapshot only; never gates --strict):
+  Per-unit devil_score 0–100 (higher = more debt) + flags (viz below block quota,
+  lab without run JSON, course process hole, hours unaudited, soft/floor passes,
+  L4 unpaid). Objections list for /cumplimiento/ — abogado del diablo, not victory lap.
+
+Framework: COMPLIANCE.md (repo root). Exit 0 always unless --strict and any unit < L2.
 """
 
 from __future__ import annotations
@@ -25,6 +42,7 @@ import re
 import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +55,14 @@ PAPERS_CFG = ROOT / "references" / "papers_config.json"
 LABS = ROOT / "labs"
 VIZ_JS = ROOT / "public" / "scripts" / "reveal-viz.js"
 OUT = ROOT / "tmp" / "compliance.md"
+SNAPSHOT = ROOT / "src" / "data" / "compliance-snapshot.json"
+HOURS_AUDIT = ROOT / "tmp" / "hours-audit.md"
+PRACTICE_AUDIT = ROOT / "tmp" / "practice-audit.md"
+
+# Aspirational viz quota for devil layer (AGENTS: ≥1 fuerte / bloque ~60 min).
+# Soft check viz_density_hint stays lenient (0 viz + ≥4 blocks); devil flags dens < 1.0.
+DEVIL_VIZ_PER_BLOCK = 1.0
+DEVIL_TITLE_CHARS = 72  # portada risk: long Corporativo titles wrap / look tip-dump
 
 COURSES = [
     "08-genai-llms",
@@ -44,6 +70,33 @@ COURSES = [
     "10-diseno-sistemas-ia",
     "11-aiops-cloud",
 ]
+
+SOFT_CHECK_IDS = frozenset(
+    {
+        "prelectura_thesis",
+        "title_no_path",
+        "lab_declared_in_deck",
+        "outcomes_keyword_hit",
+        "viz_density_hint",
+    }
+)
+
+STOPWORDS_ES = frozenset(
+    """
+    a al algo alguna alguno algunas algunos ante antes aquel aquella aquellas aquellos
+    aqui asi aunque bajo bien cada casi como con contra cual cuales cuando cuanto de del
+    desde donde dos el ella ellas ellos en entre era eran es esa esas ese eso esos esta
+    estaba estaban estan estar este esto estos fin fue fueron ha haber hace hacia han
+    hasta hay la las le les lo los mas me mi mis muy nada ni no nos nosotros o otra otras
+    otro otros para pero poco por porque que quien quienes se ser si sin sobre son su sus
+    te tener ti tiene tienen todo todos tu tus un una unas uno unos usted ustedes y ya
+    the and for with from that this into onto than then also can may must should will
+    explicar describir determinar configurar medir estructurar seleccionar especificar
+    aplicar evaluar usar utilizar construir diseñar implementar
+    """.split()
+)
+
+TOKEN_RE = re.compile(r"[a-záéíóúñü]{5,}", re.I)
 
 BIB_KEY_RE = re.compile(r"(?:^|[\s—\-])([a-z][a-z0-9]+(?:20\d{2}|19\d{2})[a-z0-9]*)\b")
 DEF_KICKER_RE = re.compile(
@@ -66,6 +119,15 @@ FORMATIVE_KICKER_RE = re.compile(
     re.I,
 )
 LAB_PROSE_RE = re.compile(r"[Ll]ab:\s*")
+THESIS_KICKER_RE = re.compile(
+    r'kicker:\s*"(Tesis(?:\s+de\s+la\s+sesi[oó]n)?|Tesis\s+central)"',
+    re.I,
+)
+# Filesystem / lab path dump on portada (title slide fields only)
+TITLE_PATH_RE = re.compile(
+    r"(?:labs/[^\s\"']+|/[^\s\"']+\.(?:py|ts|ipynb|md)|https?://localhost)",
+    re.I,
+)
 SLIDE_OVERRIDE_RE = re.compile(
     r'"(08-genai-llms|09-prompt-engineering|10-diseno-sistemas-ia|11-aiops-cloud)/(u\d{2})"'
 )
@@ -95,7 +157,8 @@ class UnitScore:
     def add(self, cid: str, ok: bool, detail: str = "", *, fail: str = "") -> None:
         msg = detail if ok else (fail or detail)
         self.checks.append(Check(cid, ok, msg))
-        if not ok:
+        # Soft gaps are visible but not "blockers" for level narrative
+        if not ok and cid not in SOFT_CHECK_IDS:
             self.blockers.append(f"{cid}: {msg}" if msg else cid)
 
 
@@ -140,17 +203,83 @@ def parse_unit_pages() -> dict[tuple[str, str], dict]:
             reading_lines = re.findall(r'"([^"]+)"', readings[0])
         has_lab = bool(re.search(r"\blab:\s*\{", part))
         blocks = len(re.findall(r"title:\s*\"", part.split("blocks:")[-1].split("readings:")[0])) if "blocks:" in part else 0
-        outcomes = 0
+        outcome_texts: list[str] = []
         if "learningOutcomes:" in part:
             chunk = part.split("learningOutcomes:")[1].split("blocks:")[0]
-            outcomes = len(re.findall(r'"([^"]+)"', chunk))
+            outcome_texts = re.findall(r'"([^"]+)"', chunk)
         out[(slug, uid)] = {
             "readings": reading_lines,
             "has_lab": has_lab,
             "n_blocks": blocks,
-            "n_outcomes": outcomes,
+            "n_outcomes": len(outcome_texts),
+            "outcome_texts": outcome_texts,
         }
     return out
+
+
+def significant_tokens(texts: list[str]) -> set[str]:
+    toks: set[str] = set()
+    for t in texts:
+        for m in TOKEN_RE.findall(t.lower()):
+            if m not in STOPWORDS_ES:
+                toks.add(m)
+    return toks
+
+
+def extract_outcomes_slide_items(text: str) -> list[str]:
+    """Items under Al finalizar / Resultados kickers (best-effort)."""
+    items: list[str] = []
+    for m in re.finditer(
+        r'kicker:\s*"(?:Al finalizar|Resultados|Objetivos|Aprendizaje)"[\s\S]*?items:\s*\[([\s\S]*?)\]',
+        text,
+        re.I,
+    ):
+        items.extend(re.findall(r'"([^"]+)"', m.group(1)))
+    if items:
+        return items
+    for m in re.finditer(
+        r'title:\s*"(?:Resultados de aprendizaje|Al finalizar[^"]*|Objetivos de aprendizaje)"[\s\S]*?items:\s*\[([\s\S]*?)\]',
+        text,
+        re.I,
+    ):
+        items.extend(re.findall(r'"([^"]+)"', m.group(1)))
+    return items
+
+
+def outcomes_keyword_hit(outcome_texts: list[str], deck_text: str) -> tuple[bool, str]:
+    """Conservative lexical overlap: unit outcomes ↔ Al finalizar items."""
+    if not outcome_texts:
+        return True, "n/a (no unit outcomes)"
+    slide_items = extract_outcomes_slide_items(deck_text)
+    if not slide_items:
+        return False, "no Al finalizar items to compare"
+    need = significant_tokens(outcome_texts)
+    have = significant_tokens(slide_items)
+    if not need:
+        return True, "n/a (no significant tokens)"
+    hits = sorted(need & have)
+    # Pass if ≥1 content token overlaps (soft; full alignment is manual)
+    if hits:
+        return True, f"hits={hits[:5]}{'…' if len(hits) > 5 else ''}"
+    return False, "no significant token overlap unit outcomes ↔ Al finalizar"
+
+
+def lab_declared_in_deck(has_lab: bool, deck_text: str | None) -> tuple[bool, str]:
+    if not has_lab:
+        return True, "n/a (no lab: on unit)"
+    if not deck_text:
+        return False, "lab: on unit but no deck"
+    # Lab: prose, or any labs/ path (incl. labs/capstone/)
+    if LAB_PROSE_RE.search(deck_text) or re.search(r"\blabs/", deck_text):
+        return True, "Lab: / labs/ path in deck"
+    return False, "lab: on unit but no Lab: prose or labs/ path in deck"
+
+
+def viz_density_hint(n_viz: int, n_blocks: int) -> tuple[bool, str]:
+    detail = f"viz={n_viz} blocks≈{n_blocks}"
+    if n_blocks >= 4 and n_viz == 0:
+        return False, f"{detail}; prefer ≥1 viz when ≥4 blocks"
+    return True, detail
 
 
 def analyze_definitions(text: str) -> tuple[bool, str]:
@@ -176,6 +305,35 @@ def analyze_pedagogy(text: str) -> dict:
     }
 
 
+def analyze_prelectura(text: str) -> dict:
+    """Soft prelectura signals (Reveal as prep material). See COMPLIANCE.md §4.4."""
+    thesis = bool(THESIS_KICKER_RE.search(text))
+    # First title slide block only — avoid false positives from Lab: prose later
+    title_ok = True
+    title_detail = "title slide clean"
+    m = re.search(
+        r'type:\s*"title"\s*,\s*([\s\S]*?)(?=type:\s*"|$)',
+        text,
+    )
+    if m:
+        block = m.group(1)
+        # Only scan title / subtitle string values in this block
+        fields = re.findall(r'(?:title|subtitle):\s*"([^"]*)"', block)
+        bad = [f for f in fields if TITLE_PATH_RE.search(f) or f.strip().startswith("labs/")]
+        if bad:
+            title_ok = False
+            title_detail = f"path-like on portada: {bad[0][:48]}"
+    else:
+        title_ok = False
+        title_detail = "no title slide"
+    return {
+        "prelectura_thesis": thesis,
+        "thesis_detail": "kicker Tesis" if thesis else "missing kicker Tesis / Tesis de la sesión",
+        "title_no_path": title_ok,
+        "title_detail": title_detail,
+    }
+
+
 def analyze_deck(path: Path) -> dict:
     text = path.read_text(encoding="utf-8")
     teoria = bool(re.search(r'kicker:\s*"Teoría"', text))
@@ -188,6 +346,7 @@ def analyze_deck(path: Path) -> dict:
     cited = bool(re.search(r"\([12]\d{3}\)", text)) or bool(BIB_KEY_RE.search(text))
     defs_ok, defs_detail = analyze_definitions(text)
     ped = analyze_pedagogy(text)
+    pre = analyze_prelectura(text)
     return {
         "teoria": teoria,
         "lecturas": lecturas,
@@ -197,6 +356,7 @@ def analyze_deck(path: Path) -> dict:
         "definitions": defs_ok,
         "definitions_detail": defs_detail,
         **ped,
+        **pre,
         "n_slides": len(re.findall(r"type:\s*\"", text)),
     }
 
@@ -294,6 +454,19 @@ def score_unit(
             fail=deck["formative_detail"],
         )
         s.add("citations_present", deck["cited"], fail="no (Author, year) / bib keys in deck")
+        # Soft prelectura — reported; not in L2/L3 gate (COMPLIANCE.md §2)
+        s.add(
+            "prelectura_thesis",
+            deck["prelectura_thesis"],
+            detail=deck["thesis_detail"],
+            fail=deck["thesis_detail"],
+        )
+        s.add(
+            "title_no_path",
+            deck["title_no_path"],
+            detail=deck["title_detail"],
+            fail=deck["title_detail"],
+        )
         bad_viz = [v for v in deck["viz"] if v not in viz_ids]
         s.add(
             "viz_valid",
@@ -308,26 +481,34 @@ def score_unit(
         s.add("outcomes_slide", False, fail="no deck")
         s.add("formative_activity", False, fail="no deck")
         s.add("citations_present", False, fail="no deck")
+        s.add("prelectura_thesis", False, fail="no deck")
+        s.add("title_no_path", False, fail="no deck")
         s.add("viz_valid", True, detail="n/a")
 
-    # bib keys from unit readings + Lecturas slide strings
-    reading_lines = list(page["readings"]) if page else []
-    if deck_path.exists():
-        text = deck_path.read_text(encoding="utf-8")
-        reading_lines += re.findall(r'kicker:\s*"Lecturas"[\s\S]*?items:\s*\[([\s\S]*?)\]', text)
-        # flatten items from that blob
-        flat = []
-        for blob in reading_lines[-1:]:
-            if isinstance(blob, str) and "\n" in blob:
-                flat.extend(re.findall(r'"([^"]+)"', blob))
-        reading_lines = [x for x in reading_lines if isinstance(x, str) and "—" in x or BIB_KEY_RE.search(x or "")]
-        reading_lines = (page["readings"] if page else []) + flat
+    deck_text = deck_path.read_text(encoding="utf-8") if deck_path.exists() else None
 
+    # Soft: program/unit promise → deck (COMPLIANCE.md §4.8)
+    has_lab_field = bool(page and page["has_lab"])
+    lab_deck_ok, lab_deck_detail = lab_declared_in_deck(has_lab_field, deck_text)
+    s.add("lab_declared_in_deck", lab_deck_ok, lab_deck_detail, fail=lab_deck_detail)
+
+    outcome_texts = list(page["outcome_texts"]) if page else []
+    if deck_text is not None:
+        ok_hit, hit_detail = outcomes_keyword_hit(outcome_texts, deck_text)
+    else:
+        ok_hit, hit_detail = (True, "n/a (no deck)") if not outcome_texts else (False, "no deck")
+    s.add("outcomes_keyword_hit", ok_hit, hit_detail, fail=hit_detail)
+
+    n_viz = len(deck["viz"]) if deck else 0
+    n_blocks = page["n_blocks"] if page else 0
+    dens_ok, dens_detail = viz_density_hint(n_viz, n_blocks)
+    s.add("viz_density_hint", dens_ok, dens_detail, fail=dens_detail)
+
+    # bib keys from unit readings + Lecturas slide strings
     keys = extract_bib_keys_from_strings(page["readings"] if page else [])
-    if deck_path.exists():
-        text = deck_path.read_text(encoding="utf-8")
+    if deck_text is not None:
         # Lecturas items only
-        m = re.search(r'kicker:\s*"Lecturas"[\s\S]*?items:\s*\[([\s\S]*?)\]', text)
+        m = re.search(r'kicker:\s*"Lecturas"[\s\S]*?items:\s*\[([\s\S]*?)\]', deck_text)
         if m:
             keys += extract_bib_keys_from_strings(re.findall(r'"([^"]+)"', m.group(1)))
     keys = list(dict.fromkeys(keys))
@@ -339,7 +520,6 @@ def score_unit(
     )
 
     mentions = deck["labs"] if deck else []
-    has_lab_field = bool(page and page["has_lab"])
     lab_ok, lab_detail = lab_exists(course_num, uid, mentions, has_lab_field)
     # If syllabus session mentions taller/lab strongly we still only require when declared
     s.add("lab_ok", lab_ok, lab_detail)
@@ -388,6 +568,792 @@ def load_programs() -> dict[str, list[dict]]:
     return out
 
 
+def _check_ok(s: UnitScore, cid: str) -> bool | None:
+    for c in s.checks:
+        if c.id == cid:
+            return c.ok
+    return None
+
+
+def _check_detail(s: UnitScore, cid: str) -> str:
+    for c in s.checks:
+        if c.id == cid:
+            return c.detail
+    return ""
+
+
+def count_lab_runs() -> dict[str, int]:
+    """JSON run artifacts under labs/<NN>/runs/ (process+product evidence)."""
+    out: dict[str, int] = {}
+    if not LABS.is_dir():
+        return out
+    for course_dir in sorted(LABS.iterdir()):
+        if not course_dir.is_dir() or not course_dir.name.isdigit():
+            continue
+        runs = course_dir / "runs"
+        n = len(list(runs.glob("*.json"))) if runs.is_dir() else 0
+        out[course_dir.name] = n
+    return out
+
+
+def list_lab_run_files() -> dict[str, list[str]]:
+    """Basenames of JSON runs per course number."""
+    out: dict[str, list[str]] = {}
+    if not LABS.is_dir():
+        return out
+    for course_dir in sorted(LABS.iterdir()):
+        if not course_dir.is_dir() or not course_dir.name.isdigit():
+            continue
+        runs = course_dir / "runs"
+        out[course_dir.name] = (
+            sorted(p.name for p in runs.glob("*.json")) if runs.is_dir() else []
+        )
+    return out
+
+
+def parse_hours_audit_units() -> dict[str, dict]:
+    """Units mentioned in tmp/hours-audit.md (evidence only; do not invent)."""
+    found: dict[str, dict] = {}
+    if not HOURS_AUDIT.is_file():
+        return found
+    text = HOURS_AUDIT.read_text(encoding="utf-8")
+    m = re.search(
+        r"Course/unit:\s*\*\*(\d{2})/(u\d{2})\*\*[^\n]*",
+        text,
+    )
+    if not m:
+        return found
+    key = f"{m.group(1)}/{m.group(2)}"
+    dry = bool(re.search(r"DRY-RUN|Measured MP4 \(s\)\s*\|\s*—", text, re.I))
+    within = bool(re.search(r"Within ±20%\s*\|\s*True", text, re.I))
+    found[key] = {"dry_run": dry, "within_tol": within and not dry}
+    return found
+
+
+def _viz_blocks_from_score(s: UnitScore) -> tuple[int, int]:
+    detail = _check_detail(s, "viz_density_hint")
+    m = re.search(r"viz=(\d+)\s+blocks≈(\d+)", detail)
+    if m:
+        return int(m.group(1)), int(m.group(2))
+    return 0, 0
+
+
+def _unit_has_lab(s: UnitScore) -> bool:
+    return _check_detail(s, "lab_declared_in_deck") != "n/a (no lab: on unit)"
+
+
+def _defs_barely(s: UnitScore) -> bool:
+    """True when definitions_present passes on minimum bullet count (thin defs)."""
+    if not _check_ok(s, "definitions_present"):
+        return False
+    d = _check_detail(s, "definitions_present")
+    if "kicker" in d.lower():
+        return False
+    m = re.search(r"dash=(\d+)\s+es=(\d+)", d)
+    if not m:
+        return False
+    dash, es = int(m.group(1)), int(m.group(2))
+    # Minimum gate: dash≥3 or es≥2 or (dash≥2 and es≥1)
+    return (dash == 3 and es == 0) or (dash < 3 and es == 2) or (dash == 2 and es == 1)
+
+
+def devil_grade(score: int) -> str:
+    if score <= 12:
+        return "A"
+    if score <= 24:
+        return "B"
+    if score <= 40:
+        return "C"
+    if score <= 58:
+        return "D"
+    return "F"
+
+
+def score_unit_devil(
+    s: UnitScore,
+    *,
+    course_runs: dict[str, int],
+    run_files: dict[str, list[str]],
+    hours_units: dict[str, dict],
+) -> dict:
+    """Harsh exigence score for dashboard — does not change s.level / --strict."""
+    code = s.course.split("-", 1)[0]
+    n_viz, n_blocks = _viz_blocks_from_score(s)
+    dens = n_viz / max(n_blocks, 1)
+    has_lab = _unit_has_lab(s)
+    flags: list[dict] = []
+    debt = 0
+
+    hard_n = sum(1 for c in s.checks if not c.ok and c.id not in SOFT_CHECK_IDS)
+    soft_n = sum(1 for c in s.checks if not c.ok and c.id in SOFT_CHECK_IDS)
+
+    if s.level < 3:
+        pts = (3 - s.level) * 18
+        debt += pts
+        flags.append(
+            {
+                "id": "below_l3",
+                "severity": "high",
+                "pts": pts,
+                "detail": f"nivel auto L{s.level} (ship gate pide ≥L2; práctica pide L3)",
+            }
+        )
+
+    for c in s.checks:
+        if c.ok:
+            continue
+        if c.id in SOFT_CHECK_IDS:
+            pts = 10
+            debt += pts
+            flags.append(
+                {
+                    "id": f"soft_{c.id}",
+                    "severity": "med",
+                    "pts": pts,
+                    "detail": c.detail or c.id,
+                }
+            )
+        else:
+            pts = 16
+            debt += pts
+            flags.append(
+                {
+                    "id": f"hard_{c.id}",
+                    "severity": "high",
+                    "pts": pts,
+                    "detail": c.detail or c.id,
+                }
+            )
+
+    # Soft floor pass: hint OK but aspirational quota missed (1 viz / bloque)
+    if _check_ok(s, "viz_density_hint") and dens < DEVIL_VIZ_PER_BLOCK:
+        pts = 14 if dens < 0.5 else 10
+        debt += pts
+        flags.append(
+            {
+                "id": "viz_below_block_quota",
+                "severity": "med",
+                "pts": pts,
+                "detail": (
+                    f"dens={dens:.2f} (viz={n_viz} blocks≈{n_blocks}); "
+                    f"soft hint pasa, cuota aspiracional ≥{DEVIL_VIZ_PER_BLOCK:.0f}/bloque no"
+                ),
+            }
+        )
+    elif dens == 0 and n_blocks >= 4:
+        # already soft-failed; reinforce
+        pass
+
+    if _defs_barely(s):
+        pts = 6
+        debt += pts
+        flags.append(
+            {
+                "id": "defs_bare_minimum",
+                "severity": "low",
+                "pts": pts,
+                "detail": _check_detail(s, "definitions_present"),
+            }
+        )
+
+    if len(s.title) > DEVIL_TITLE_CHARS:
+        pts = 5
+        debt += pts
+        flags.append(
+            {
+                "id": "title_portada_risk",
+                "severity": "low",
+                "pts": pts,
+                "detail": f"título {len(s.title)} chars (> {DEVIL_TITLE_CHARS}); riesgo wrap portada",
+            }
+        )
+
+    runs_n = course_runs.get(code, 0)
+    files = run_files.get(code, [])
+    unit_run = any(
+        re.search(rf"(?:^|[-_]){re.escape(s.unit)}(?:[-_.]|$)", name, re.I)
+        for name in files
+    )
+    if has_lab and not unit_run:
+        pts = 12
+        debt += pts
+        flags.append(
+            {
+                "id": "lab_no_run_json",
+                "severity": "high",
+                "pts": pts,
+                "detail": f"lab: en unit sin JSON en labs/{code}/runs/ que mencione {s.unit}",
+            }
+        )
+    if has_lab and runs_n == 0:
+        pts = 8
+        debt += pts
+        flags.append(
+            {
+                "id": "course_no_process_json",
+                "severity": "high",
+                "pts": pts,
+                "detail": f"curso {code} con labs y 0 JSON en labs/{code}/runs/",
+            }
+        )
+
+    hkey = f"{code}/{s.unit}"
+    hau = hours_units.get(hkey)
+    if hau is None:
+        pts = 7
+        debt += pts
+        flags.append(
+            {
+                "id": "hours_unaudited",
+                "severity": "med",
+                "pts": pts,
+                "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)",
+            }
+        )
+    elif hau.get("dry_run"):
+        pts = 5
+        debt += pts
+        flags.append(
+            {
+                "id": "hours_dry_run_only",
+                "severity": "med",
+                "pts": pts,
+                "detail": "hours-audit dry-run (sin MP4 medido)",
+            }
+        )
+
+    # L4 unpaid — brand + editor never auto-green
+    pts = 4
+    debt += pts
+    flags.append(
+        {
+            "id": "l4_unpaid",
+            "severity": "low",
+            "pts": pts,
+            "detail": "L4 brand + editor pedagógico no auto-scored",
+        }
+    )
+
+    debt = min(100, debt)
+    flags.sort(key=lambda f: (-f["pts"], f["id"]))
+    return {
+        "devil_score": debt,
+        "devil_grade": devil_grade(debt),
+        "n_viz": n_viz,
+        "n_blocks": n_blocks,
+        "viz_density": round(dens, 3),
+        "has_lab": has_lab,
+        "lab_run_evidence": unit_run,
+        "flags": flags,
+        "flag_ids": [f["id"] for f in flags],
+    }
+
+
+def build_objections(
+    units_devil: list[dict],
+    pedagogy: list[dict],
+    *,
+    course_runs: dict[str, int],
+    hours_units: dict[str, dict],
+    scores: list[UnitScore],
+) -> list[dict]:
+    """Top program-level objections for the adversarial dashboard."""
+    objections: list[dict] = []
+    n = len(units_devil) or 1
+
+    below_quota = sum(
+        1 for u in units_devil if "viz_below_block_quota" in u.get("flag_ids", [])
+    )
+    if below_quota:
+        objections.append(
+            {
+                "id": "viz_quota",
+                "severity": "high",
+                "title": f"{below_quota}/{n} unidades bajo cuota aspiracional de viz",
+                "detail": (
+                    "Soft `viz_density_hint` solo falla con 0 viz y ≥4 bloques; "
+                    f"el diablo exige dens ≥{DEVIL_VIZ_PER_BLOCK:.0f} viz/bloque "
+                    "(AGENTS: ≥1 diagrama fuerte / ~60 min)."
+                ),
+            }
+        )
+
+    lab_no_run = sum(1 for u in units_devil if "lab_no_run_json" in u.get("flag_ids", []))
+    if lab_no_run:
+        objections.append(
+            {
+                "id": "lab_runs",
+                "severity": "high",
+                "title": f"{lab_no_run} labs sin JSON de corrida por unidad",
+                "detail": (
+                    "Hay `lab:` en la unit page pero no hay artefacto en "
+                    "`labs/<NN>/runs/` que evidencie process+product para esa unidad."
+                ),
+            }
+        )
+
+    hole_courses = [
+        c
+        for c, nrun in course_runs.items()
+        if nrun == 0
+        and any(u["code"] == c and u.get("has_lab") for u in units_devil)
+    ]
+    if hole_courses:
+        objections.append(
+            {
+                "id": "course_process_hole",
+                "severity": "high",
+                "title": f"Cursos con labs y 0 runs JSON: {', '.join(sorted(hole_courses))}",
+                "detail": (
+                    "Target §8 `m_process_product`: ≥1 JSON run/curso con labs. "
+                    "Un curso en verde global no absuelve el agujero."
+                ),
+            }
+        )
+
+    audited = len(hours_units)
+    if audited < n:
+        objections.append(
+            {
+                "id": "hours_fidelity",
+                "severity": "high",
+                "title": f"Horas casi sin auditar ({audited}/{n} en hours-audit)",
+                "detail": (
+                    "`m_hours_fidelity` es manual/próximo; sin Manim medido la "
+                    "honestidad de `hours` del programa queda sin evidencia."
+                ),
+            }
+        )
+    dry = sum(1 for v in hours_units.values() if v.get("dry_run"))
+    if dry:
+        objections.append(
+            {
+                "id": "hours_dry_run",
+                "severity": "med",
+                "title": f"{dry} audit(s) de horas solo dry-run",
+                "detail": "Sin MP4 medido no hay fidelidad real vs plan.",
+            }
+        )
+
+    soft_total = sum(u.get("soft_gaps", 0) for u in units_devil)
+    if soft_total == 0 and below_quota >= n * 0.5:
+        objections.append(
+            {
+                "id": "soft_too_lenient",
+                "severity": "med",
+                "title": "Soft checks en 0 gaps: falso verde",
+                "detail": (
+                    "Cero soft ✗ no implica calidad: la barra soft es piso. "
+                    "El dashboard marca deuda de piso (floor pass) aparte de L3."
+                ),
+            }
+        )
+
+    for m in pedagogy:
+        if m.get("manual"):
+            objections.append(
+                {
+                    "id": f"metric_{m['id']}",
+                    "severity": "med" if m["id"] == "m_hours_fidelity" else "low",
+                    "title": f"Métrica manual pendiente: {m['label']}",
+                    "detail": m.get("note") or m.get("target") or m["id"],
+                }
+            )
+        elif m.get("ok") is False:
+            objections.append(
+                {
+                    "id": f"metric_{m['id']}",
+                    "severity": "high",
+                    "title": f"Meta §8 incumplida: {m['label']}",
+                    "detail": f"{m.get('value')} · target {m.get('target')}",
+                }
+            )
+
+    l3 = sum(1 for s in scores if s.level >= 3)
+    if l3 == n:
+        objections.append(
+            {
+                "id": "l3_not_l4",
+                "severity": "med",
+                "title": f"25× L3 auto ≠ listo: L4 sigue sin cobrar ({l3}/{n})",
+                "detail": (
+                    "Brand UAI + editor P1–P8 + prelectura cualitativa + LaTeX §4.9 "
+                    "son manuales. L3 shippable no es veredicto de excelencia."
+                ),
+            }
+        )
+
+    objections.append(
+        {
+            "id": "equations_latex",
+            "severity": "low",
+            "title": "LaTeX / ecuaciones: TODO §4.9 (sin KaTeX en clase)",
+            "detail": (
+                "Fórmulas deben escribirse en LaTeX ya; renderer y check "
+                "`equations_latex` siguen pendientes (no gatean L2)."
+            ),
+        }
+    )
+
+    if not PRACTICE_AUDIT.is_file():
+        objections.append(
+            {
+                "id": "practice_audit_missing",
+                "severity": "med",
+                "title": "Sin `tmp/practice-audit.md` reciente",
+                "detail": (
+                    "El auditor de práctica (tip-theater vs producción) no ha "
+                    "corrido o no dejó scratch; riesgo de L3 tip-like sin señal externa."
+                ),
+            }
+        )
+
+    sev = {"high": 0, "med": 1, "low": 2}
+    objections.sort(key=lambda o: (sev.get(o["severity"], 9), o["id"]))
+    return objections[:12]
+
+
+def pedagogy_metrics_data(scores: list[UnitScore]) -> list[dict]:
+    """Soft pedagogy rates as structured rows — COMPLIANCE.md §8. No new L gates."""
+    n = len(scores) or 1
+    both = sum(
+        1
+        for s in scores
+        if _check_ok(s, "outcomes_slide") and _check_ok(s, "formative_activity")
+    )
+    defs = sum(1 for s in scores if _check_ok(s, "definitions_present"))
+    thesis = sum(1 for s in scores if _check_ok(s, "prelectura_thesis"))
+    blocks_ok = sum(1 for s in scores if _check_ok(s, "blocks"))
+
+    dens_pass = sum(1 for s in scores if _check_ok(s, "viz_density_hint"))
+    dens_ratios: list[float] = []
+    for s in scores:
+        detail = _check_detail(s, "viz_density_hint")
+        m = re.search(r"viz=(\d+)\s+blocks≈(\d+)", detail)
+        if m:
+            nv, nb = int(m.group(1)), int(m.group(2))
+            dens_ratios.append(nv / max(nb, 1))
+    dens_mean = sum(dens_ratios) / len(dens_ratios) if dens_ratios else 0.0
+
+    lab_units = [
+        s
+        for s in scores
+        if _check_detail(s, "lab_declared_in_deck") != "n/a (no lab: on unit)"
+    ]
+    lab_align = sum(1 for s in lab_units if _check_ok(s, "lab_declared_in_deck"))
+    lab_n = len(lab_units)
+
+    runs = count_lab_runs()
+    runs_total = sum(runs.values())
+    # Courses that promise labs (any unit with lab:) must each have ≥1 JSON run.
+    lab_course_codes = sorted(
+        {
+            s.course.split("-", 1)[0]
+            for s in scores
+            if _check_detail(s, "lab_declared_in_deck") != "n/a (no lab: on unit)"
+        }
+    )
+    lab_courses_ok = sum(1 for c in lab_course_codes if runs.get(c, 0) > 0)
+    lab_courses_n = len(lab_course_codes) or 1
+    courses_with_runs = sum(1 for v in runs.values() if v > 0)
+
+    def rate(k: int, d: int = n) -> float:
+        return round(100.0 * k / d, 1) if d else 0.0
+
+    def value_pct(k: int, d: int = n) -> str:
+        return f"{rate(k, d):.0f}% ({k}/{d})"
+
+    return [
+        {
+            "id": "m_outcomes_formative",
+            "label": "Outcomes + formativa",
+            "value": value_pct(both),
+            "pct": rate(both),
+            "target": "100%",
+            "ok": both == len(scores),
+            "manual": False,
+        },
+        {
+            "id": "m_definitions",
+            "label": "Definiciones",
+            "value": value_pct(defs),
+            "pct": rate(defs),
+            "target": "100%",
+            "ok": defs == len(scores),
+            "manual": False,
+        },
+        {
+            "id": "m_viz_density",
+            "label": "Densidad viz",
+            "value": f"mean={dens_mean:.2f}; hint {value_pct(dens_pass)}",
+            "pct": round(min(100.0, dens_mean / 0.25 * 100.0), 1) if dens_mean else rate(dens_pass),
+            "target": "mean ≥0.25; hint ≥80%",
+            "ok": dens_mean >= 0.25 and dens_pass / n >= 0.8,
+            "manual": False,
+        },
+        {
+            "id": "m_prelectura_thesis",
+            "label": "Tesis de prelectura",
+            "value": value_pct(thesis),
+            "pct": rate(thesis),
+            "target": "≥90%",
+            "ok": thesis / n >= 0.9,
+            "manual": False,
+        },
+        {
+            "id": "m_lab_deck_align",
+            "label": "Lab en deck",
+            "value": value_pct(lab_align, lab_n) if lab_n else "n/a (0 lab: units)",
+            "pct": rate(lab_align, lab_n) if lab_n else 100.0,
+            "target": "100% of lab: units",
+            "ok": lab_n == 0 or lab_align == lab_n,
+            "manual": False,
+        },
+        {
+            "id": "m_blocks_structure",
+            "label": "Estructura (≥3 bloques)",
+            "value": value_pct(blocks_ok),
+            "pct": rate(blocks_ok),
+            "target": "100% (≥3 blocks)",
+            "ok": blocks_ok == len(scores),
+            "manual": False,
+            "note": "time honesty = manual",
+        },
+        {
+            "id": "m_process_product",
+            "label": "Evidencia process+product",
+            "value": (
+                f"{runs_total} JSON; lab-courses ok={lab_courses_ok}/{len(lab_course_codes)}"
+                f" ({', '.join(f'{k}:{v}' for k, v in sorted(runs.items())) or '∅'})"
+            ),
+            "pct": rate(lab_courses_ok, lab_courses_n),
+            "target": "≥1 JSON run/course with labs",
+            "ok": lab_courses_ok == len(lab_course_codes) and len(lab_course_codes) > 0,
+            "manual": False,
+            "note": (
+                f"courses_with_any_run={courses_with_runs}; "
+                "ok exige todos los cursos con lab: (no basta 1 curso verde)"
+            ),
+        },
+        {
+            "id": "m_hours_fidelity",
+            "label": "Fidelidad de horas",
+            "value": "próximo",
+            "pct": 0.0,
+            "target": "≥80% auditadas (Manim)",
+            "ok": False,
+            "manual": True,
+            "note": "m_hours_fidelity — ver COMPLIANCE.md §4.10 / §8 · deuda hasta rotación Manim",
+        },
+        {
+            "id": "m_two_lane",
+            "label": "Two-lane (editor P5)",
+            "value": "—",
+            "pct": 0.0,
+            "target": "units GenAI-critical on editor rotation",
+            "ok": False,
+            "manual": True,
+            "note": "sin evidencia de rotación editor → deuda adversaria",
+        },
+    ]
+
+
+def pedagogy_metrics(scores: list[UnitScore]) -> list[str]:
+    """Markdown block for tmp/compliance.md."""
+    rows = pedagogy_metrics_data(scores)
+
+    def mark(ok: bool | None) -> str:
+        if ok is None:
+            return "manual"
+        return "✓" if ok else "✗ vs target"
+
+    lines = [
+        "## Pedagogy metrics",
+        "",
+        "Soft rates across all syllabus units (`COMPLIANCE.md` §8). Do **not** gate L2/L3.",
+        "Manual: `m_hours_fidelity` · `m_two_lane` (editor P5) · full process+product audit.",
+        "Dashboard: `/cumplimiento/` ← `src/data/compliance-snapshot.json` (`make compliance-snapshot`).",
+        "",
+        "| Metric | Value | Target | Status |",
+        "|--------|------:|--------|--------|",
+    ]
+    for r in rows:
+        note = f" · {r['note']}" if r.get("note") and not r.get("manual") else ""
+        lines.append(
+            f"| `{r['id']}` | {r['value']} | {r['target']} | {mark(r['ok'])}{note} |"
+        )
+    lines.append("")
+    return lines
+
+
+def build_snapshot(scores: list[UnitScore]) -> dict:
+    """JSON for /cumplimiento/ (committed after make compliance-snapshot)."""
+    by_course: dict[str, list[UnitScore]] = defaultdict(list)
+    for s in scores:
+        by_course[s.course].append(s)
+
+    level_hist = {f"L{k}": 0 for k in range(4)}
+    for s in scores:
+        level_hist[f"L{min(s.level, 3)}"] += 1
+    avg = sum(s.level for s in scores) / len(scores) if scores else 0.0
+
+    soft_gap_counts: dict[str, int] = {cid: 0 for cid in sorted(SOFT_CHECK_IDS)}
+    hard_gap_counts: dict[str, int] = defaultdict(int)
+    for s in scores:
+        for c in s.checks:
+            if c.ok:
+                continue
+            if c.id in SOFT_CHECK_IDS:
+                soft_gap_counts[c.id] = soft_gap_counts.get(c.id, 0) + 1
+            else:
+                hard_gap_counts[c.id] += 1
+
+    course_runs = count_lab_runs()
+    run_files = list_lab_run_files()
+    hours_units = parse_hours_audit_units()
+    pedagogy = pedagogy_metrics_data(scores)
+
+    units_out = []
+    for s in scores:
+        failed = [
+            {"id": c.id, "soft": c.id in SOFT_CHECK_IDS, "detail": c.detail}
+            for c in s.checks
+            if not c.ok
+        ]
+        hard_n = sum(1 for f in failed if not f["soft"])
+        soft_n = sum(1 for f in failed if f["soft"])
+        devil = score_unit_devil(
+            s,
+            course_runs=course_runs,
+            run_files=run_files,
+            hours_units=hours_units,
+        )
+        units_out.append(
+            {
+                "course": s.course,
+                "code": s.course.split("-", 1)[0],
+                "unit": s.unit,
+                "title": s.title,
+                "level": s.level,
+                "failed": failed,
+                "hard_gaps": hard_n,
+                "soft_gaps": soft_n,
+                "blockers": list(s.blockers),
+                **devil,
+            }
+        )
+
+    courses_summary = []
+    for course in COURSES:
+        ss = by_course[course]
+        hist = [0, 0, 0, 0]
+        for s in ss:
+            hist[min(s.level, 3)] += 1
+        cavg = sum(s.level for s in ss) / len(ss) if ss else 0.0
+        code = course.split("-", 1)[0]
+        course_units = [u for u in units_out if u["course"] == course]
+        devil_avg = (
+            sum(u["devil_score"] for u in course_units) / len(course_units)
+            if course_units
+            else 0.0
+        )
+        worst_u = max(course_units, key=lambda u: u["devil_score"]) if course_units else None
+        courses_summary.append(
+            {
+                "course": course,
+                "code": code,
+                "units": len(ss),
+                "L0": hist[0],
+                "L1": hist[1],
+                "L2": hist[2],
+                "L3": hist[3],
+                "avg": round(cavg, 2),
+                "devil_avg": round(devil_avg, 1),
+                "devil_max": worst_u["devil_score"] if worst_u else 0,
+                "worst_unit": f"{worst_u['unit']}" if worst_u else None,
+                "runs_json": course_runs.get(code, 0),
+            }
+        )
+
+    # Ship-level worst (L gaps) — keep for compatibility
+    worst = sorted(
+        units_out,
+        key=lambda u: (u["level"], -u["hard_gaps"], -u["soft_gaps"], u["course"], u["unit"]),
+    )
+    worst_gaps = [u for u in worst if u["hard_gaps"] or u["soft_gaps"] or u["level"] < 3][:12]
+
+    # Adversarial ranking: highest devil debt first
+    by_debt = sorted(
+        units_out,
+        key=lambda u: (-u["devil_score"], u["code"], u["unit"]),
+    )
+    top_debt = by_debt[:12]
+
+    objections = build_objections(
+        units_out,
+        pedagogy,
+        course_runs=course_runs,
+        hours_units=hours_units,
+        scores=scores,
+    )
+
+    devil_scores = [u["devil_score"] for u in units_out]
+    devil_mean = sum(devil_scores) / len(devil_scores) if devil_scores else 0.0
+    grade_hist = {g: 0 for g in ("A", "B", "C", "D", "F")}
+    for u in units_out:
+        grade_hist[u["devil_grade"]] = grade_hist.get(u["devil_grade"], 0) + 1
+
+    flag_counts: dict[str, int] = defaultdict(int)
+    for u in units_out:
+        for fid in u.get("flag_ids", []):
+            flag_counts[fid] += 1
+
+    return {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "framework": "COMPLIANCE.md",
+        "regenerate": "make compliance-snapshot",
+        "dashboard": "/cumplimiento/",
+        "stance": "devil",
+        "stance_note": (
+            "L0–L3 = shippable auto; devil_score = exigencia adversaria (deuda). "
+            "Alto devil ≠ bajar L; prioriza tick / L4 / evidencia."
+        ),
+        "unit_count": len(scores),
+        "levels": level_hist,
+        "avg_level": round(avg, 2),
+        "l3_count": level_hist["L3"],
+        "soft_gap_total": sum(soft_gap_counts.values()),
+        "hard_gap_total": sum(hard_gap_counts.values()),
+        "soft_gap_counts": soft_gap_counts,
+        "hard_gap_counts": dict(sorted(hard_gap_counts.items(), key=lambda kv: -kv[1])),
+        "devil": {
+            "mean_score": round(devil_mean, 1),
+            "max_score": max(devil_scores) if devil_scores else 0,
+            "min_score": min(devil_scores) if devil_scores else 0,
+            "grade_hist": grade_hist,
+            "flag_counts": dict(sorted(flag_counts.items(), key=lambda kv: -kv[1])),
+            "verdict": (
+                "L3 shippable con deuda estructural"
+                if level_hist["L3"] == len(scores) and devil_mean >= 18
+                else "Mezcla de niveles y deuda"
+                if level_hist["L3"] < len(scores)
+                else "L3 con poca deuda adversaria — sospechar soft floor"
+                if level_hist["L3"] == len(scores)
+                else "Exigencia moderada"
+            ),
+        },
+        "objections": objections,
+        "courses": courses_summary,
+        "courses_by_debt": sorted(
+            courses_summary, key=lambda c: (-c["devil_avg"], c["code"])
+        ),
+        "pedagogy": pedagogy,
+        "units": units_out,
+        "worst": worst_gaps,
+        "top_debt": top_debt,
+    }
+
+
 def render_md(scores: list[UnitScore]) -> str:
     by_course: dict[str, list[UnitScore]] = defaultdict(list)
     for s in scores:
@@ -396,7 +1362,10 @@ def render_md(scores: list[UnitScore]) -> str:
     lines = [
         "# Program compliance",
         "",
-        "Auto-generated by `scripts/compliance_check.py`. Levels: L0 absent/partial · L1 skeleton · L2 theory · L3 practice (+ L4 polish = manual brand critique).",
+        "Auto-generated by `scripts/compliance_check.py`. Framework: `COMPLIANCE.md`.",
+        "Levels: L0 absent/partial · L1 skeleton · L2 theory · L3 practice (+ L4 polish = manual).",
+        "Soft (no level gate): `prelectura_thesis`, `title_no_path`, "
+        "`lab_declared_in_deck`, `outcomes_keyword_hit`, `viz_density_hint`.",
         "",
     ]
     # summary table
@@ -420,9 +1389,12 @@ def render_md(scores: list[UnitScore]) -> str:
             lines.append(f"### {s.unit} — {s.title} · **L{s.level}** ({status})")
             for c in s.checks:
                 mark = "✓" if c.ok else "✗"
+                soft = " _(soft)_" if c.id in SOFT_CHECK_IDS else ""
                 extra = f" — {c.detail}" if c.detail else ""
-                lines.append(f"- {mark} `{c.id}`{extra}")
+                lines.append(f"- {mark} `{c.id}`{soft}{extra}")
             lines.append("")
+
+    lines += pedagogy_metrics(scores)
     return "\n".join(lines)
 
 
@@ -430,6 +1402,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--strict", action="store_true", help="exit 1 if any unit < L2")
     ap.add_argument("--min-level", type=int, default=2, help="with --strict, minimum level")
+    ap.add_argument(
+        "--snapshot",
+        action="store_true",
+        help=f"also write {SNAPSHOT.relative_to(ROOT)} for /cumplimiento/",
+    )
     args = ap.parse_args()
 
     programs = load_programs()
@@ -448,6 +1425,13 @@ def main() -> int:
 
     # stdout summary
     print(f"Wrote {OUT.relative_to(ROOT)}")
+    if args.snapshot:
+        SNAPSHOT.parent.mkdir(parents=True, exist_ok=True)
+        SNAPSHOT.write_text(
+            json.dumps(build_snapshot(scores), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        print(f"Wrote {SNAPSHOT.relative_to(ROOT)}")
     print(f"{'course':<28} {'unit':<5} {'L':>2}  gaps")
     print("-" * 72)
     below = []
@@ -466,6 +1450,26 @@ def main() -> int:
         "levels:",
         " ".join(f"L{k}={hist[k]}" for k in range(4)),
         f"avg={sum(s.level for s in scores)/len(scores):.2f}",
+    )
+
+    # Soft pedagogy metrics one-liner (full table in tmp/compliance.md § Pedagogy metrics)
+    n = len(scores) or 1
+    both = sum(
+        1
+        for s in scores
+        if _check_ok(s, "outcomes_slide") and _check_ok(s, "formative_activity")
+    )
+    defs = sum(1 for s in scores if _check_ok(s, "definitions_present"))
+    thesis = sum(1 for s in scores if _check_ok(s, "prelectura_thesis"))
+    dens_pass = sum(1 for s in scores if _check_ok(s, "viz_density_hint"))
+    print(
+        "pedagogy metrics:",
+        f"outcomes+formative={both}/{n}",
+        f"definitions={defs}/{n}",
+        f"thesis={thesis}/{n}",
+        f"viz_hint_pass={dens_pass}/{n}",
+        f"runs_json={sum(count_lab_runs().values())}",
+        "(see tmp/compliance.md)",
     )
 
     if args.strict and below:

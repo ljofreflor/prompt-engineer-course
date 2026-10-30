@@ -24,9 +24,11 @@ export const slides: Slide[] = [
     kicker: "Al finalizar",
     title: "Resultados de aprendizaje",
     items: [
-      "Redactar un contrato de datos (esquema, semántica, SLAs).",
-      "Prevenir desalineación entrenamiento–servicio.",
-      "Diseñar captura de etiquetas y reserva no intervenida.",
+      "Redactar un contrato de datos (esquema, semántica, frecuencia, completitud, estabilidad).",
+      "Identificar y prevenir arquitectónicamente la desalineación entrenamiento–servicio.",
+      "Detectar fuga de información temporal o estructural en el entrenamiento.",
+      "Diseñar captura de etiquetas (latencia, completitud, proxy).",
+      "Anticipar bucles de retroalimentación e especificar cómo medir su efecto.",
     ],
   },
   {
@@ -131,10 +133,11 @@ export const slides: Slide[] = [
     kicker: "Entregable",
     title: "Sección de datos del design doc",
     items: [
+      "Lab: labs/10/u03/contrato_datos.md — plantilla de contrato (sin datos reales / PII).",
       "Contratos del caso propio (p. ej. feeds de precios o tickets en retail Chile).",
       "Puntos de desalineación potencial train/serve.",
       "Versionar en Git; diagramar con Mermaid/draw.io.",
-      "Declarar supuestos: sin inventar volúmenes ni SLAs.",
+      "Entregable: sección de datos del design doc; sin inventar volúmenes ni SLAs.",
     ],
   },
   {

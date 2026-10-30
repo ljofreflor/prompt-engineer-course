@@ -5,7 +5,10 @@ export OPENAI_BASE_URL ?= http://localhost:1234/v1
 export OPENAI_API_KEY ?= lm-studio
 export OPENAI_MODEL ?= local-model
 
-.PHONY: help smoke lab-08-u04 lab-09-u01 lab-09-u01-compaction lab-09-u02 lab-09-u03 lab-09-u04 lab-09-u04-harness labs-09 lab-11-u01 referents-fetch
+.PHONY: help smoke lab-08-u04 lab-09-u01 lab-09-u01-compaction lab-09-u02 lab-09-u03 lab-09-u04 lab-09-u04-harness labs-09 lab-11-u01 referents-fetch hours-audit-demo compliance-snapshot
+
+# Optional: make hours-audit-demo RENDER=1  (requires manim + ffmpeg)
+RENDER ?=
 
 help:
 	@echo "Targets:"
@@ -19,6 +22,8 @@ help:
 	@echo "  make lab-09-u04-harness — from-scratch vs harness (ClaveÚnica) + rúbrica"
 	@echo "  make labs-09          — u01→u04 + compaction + harness"
 	@echo "  make lab-11-u01       — health + rúbrica (formato·calidad·seguridad·costo)"
+	@echo "  make hours-audit-demo — Manim horas lectivas dry-run (08/u01 → tmp/hours-audit.md); RENDER=1 si manim"
+	@echo "  make compliance-snapshot — tmp/compliance.md + src/data/compliance-snapshot.json (/cumplimiento/)"
 	@echo "  make referents-fetch  — HTML público → tmp/referents/ (issue #1)"
 
 smoke:
@@ -49,6 +54,12 @@ labs-09: lab-09-u01 lab-09-u01-compaction lab-09-u02 lab-09-u03 lab-09-u04 lab-0
 
 lab-11-u01:
 	python3 labs/11/u01/health_wrapper.py
+
+hours-audit-demo:
+	python3 scripts/hours_audit.py --course 08 --unit u01 $(if $(RENDER),--render,)
+
+compliance-snapshot:
+	python3 scripts/compliance_check.py --snapshot
 
 referents-fetch:
 	python3 scripts/referents_fetch.py

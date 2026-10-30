@@ -496,6 +496,7 @@ const units10: UnitContent[] = [
       "Identificar la decisión organizacional y su línea base medible.",
       "Distinguir predicción, decisión y acción en la cadena de valor.",
       "Establecer presupuestos de latencia, costo, disponibilidad y error.",
+      "Argumentar cuándo un problema no justifica aprendizaje automático.",
       "Redactar una especificación evaluable por un tercero.",
     ],
     blocks: [
@@ -571,9 +572,11 @@ const units10: UnitContent[] = [
     courseSlug: "10-diseno-sistemas-ia",
     unitId: "u03",
     learningOutcomes: [
-      "Redactar un contrato de datos con esquema, semántica y SLAs.",
-      "Prevenir desalineación entrenamiento–servicio.",
-      "Diseñar captura de etiquetas y reserva no intervenida.",
+      "Redactar un contrato de datos (esquema, semántica, frecuencia, completitud, estabilidad).",
+      "Identificar y prevenir arquitectónicamente la desalineación entrenamiento–servicio.",
+      "Detectar fuga de información temporal o estructural en el entrenamiento.",
+      "Diseñar captura de etiquetas (latencia, completitud, proxy).",
+      "Anticipar bucles de retroalimentación e especificar cómo medir su efecto.",
     ],
     blocks: [
       {

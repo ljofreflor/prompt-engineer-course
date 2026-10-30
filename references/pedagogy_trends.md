@@ -12,6 +12,7 @@ Documento vivo. Actualizar cuando el editor pedagógico valide una tendencia con
 5. **AI literacy** — capacidades, límites, inyección, costo; criticar salidas del modelo.
 6. **Proceso + producto** — versionar prompts, golden sets, design docs, defensa; no solo demos.
 7. **Carga cognitiva sobria** — 1 idea / viz; motion D3 que aclara, no ornamenta.
+8. **Prelectura Reveal** — el deck enseña antes de la clase (tesis, definiciones, teoría, lecturas); la sesión viva demo/lab/feedback. Marco: `COMPLIANCE.md` §4.4. Métricas agregadas: §8.
 
 ## Fuentes (orientativas)
 
@@ -28,3 +29,5 @@ Documento vivo. Actualizar cuando el editor pedagógico valide una tendencia con
 | Fecha | Cambio |
 |-------|--------|
 | 2026-10-30 | Bootstrap del archivo + cable del agente editor; checks `outcomes_slide` / `formative_activity` en compliance |
+| 2026-10-30 | Prelectura Reveal durable (`COMPLIANCE.md` §4.4); soft checks `prelectura_thesis` / `title_no_path` |
+| 2026-10-30 | Gobernanza anti-bloat `COMPLIANCE.md` §2 + métricas pedagógicas §8 (tasas en `compliance_check.py`) |

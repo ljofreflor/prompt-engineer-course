@@ -98,6 +98,14 @@ export const siteMap: SiteNode[] = [
     nav: "secondary",
   },
   {
+    id: "cumplimiento",
+    path: "cumplimiento/",
+    label: "Cumplimiento",
+    purpose: "Dashboard L0–L4, gaps y métricas pedagógicas (snapshot del checker).",
+    audience: "public",
+    nav: "secondary",
+  },
+  {
     id: "cambios",
     path: "cambios/",
     label: "Cambios",

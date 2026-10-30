@@ -66,6 +66,7 @@ Reveal theme: `public/styles/reveal-uai.css` (keep in sync with `src/styles/reve
 - **D3 siempre en marcha:** ejemplificar conceptos con animaciones D3 (+ GSAP sobrio) es trabajo **continuo**, no un sprint puntual. Prioridad permanente del loop: unidad con 1 viz / 4 bloques → añadir el siguiente diagrama que enseña; no sustituir con más bullets. Si el bloque es teoría abstracta (pipeline, sesgo, tope, trade-off), **primero** dibujar; el texto acompaña
 - D3 illustrations: `type: "viz"` + `viz` id from `VizId` in `src/lib/slides.ts`; registry in `public/scripts/reveal-viz.js` (vendor `public/vendor/d3/d3.min.js`). Colors from UAI tokens only. Remount on `slidechanged` so animations replay when revisiting. One idea per viz — sparse, large type, readable from the back row
 - Viz contrast: avoid white fills on `#f3f5f7`; use soft fills / negro / primary on white `.uai-viz` canvas. No unicode-subscript-only labels (use `x_t`)
+- **Ecuaciones → LaTeX** (contenido): fórmulas en slides/unit en LaTeX, no unicode-hack / ASCII `x^2` / PNG de ecuación — marco en `COMPLIANCE.md` §4.9. Clase hoy **sin** KaTeX/MathJax (follow-up); viz labels siguen en `x_t` ASCII
 - Available viz ids: `react-loop`, `prompt-anatomy`, `prompt-sensitivity`, `cot-verify`, `injection-surface`, `automation-levels`, `abstain-escalate`, `lost-middle`, `sft-align`, `lora-adapters`, `openness-axes`, `quant-ladder`, `context-stack`, `context-compaction`, `judge-bias`, `self-consistency`, `agent-budget`, `multimodal-surface`, `regression-suite`, `prediction-policy`, `inference-regimes`, `data-cascades`, `design-doc-spine`, `repro-bundle`, `container-artifact`, `concept-drift`, `portability-edge`, `decode-controls`, `align-tax`, `autoregressive`, `eval-levels`, `notebook-to-service`, `multiagent`, `claim-evidence`, `make-buy`, `guardrails`, `reliability-product`, `decision-chain`, `rag-pipeline`, `train-serve-skew`, `ci-pipeline`, `canary-deploy`, `obs-layers`, `posttrain-pipeline`, `adapt-routes`, `cost-crossover`, `latency-ttft-tpot`, `eval-domain`, `risk-layers` — **expand the registry** when adding concepts; do not leave theory-only blocks without a visual
 - Thesis slides: keep stack/tool paths out of the hero bullets — put Colab/HF/LM in `Lab:` prose or práctica; otherwise the portada reads like a tooling dump
 - Slide bullets stay human prose — no bare repo paths or hash URLs as list items (put links in `Lab:` prose or unit pages)
@@ -106,9 +107,14 @@ Default path: **D3 draws → GSAP timelines the enter/exit**. Do not add librari
 
 ## Program compliance (coverage × quality)
 
-Fuente de verdad del **qué** debe existir: syllabi en `src/data/programs/<slug>.json` (`unidades[]`). El **cómo de calidad** se mide por niveles por unidad — no basta “hay deck”.
+**Fuente de verdad del marco de calidad / barrido:** [`COMPLIANCE.md`](./COMPLIANCE.md) (niveles, prelectura, programa↔deck, **gobernanza §2**, **métricas pedagógicas §8**, TODOs).  
+**Qué** debe existir: syllabi en `src/data/programs/<slug>.json` (`unidades[]`). No basta “hay deck”.  
+**Auditor compliance (giant sweep / program vs presentación):** skill [`.cursor/skills/course-compliance-auditor/SKILL.md`](./.cursor/skills/course-compliance-auditor/SKILL.md) → `tmp/compliance-audit.md`.  
+**Auditor práctica / relevancia (web + market, no L0–L4):** skill [`.cursor/skills/course-practice-auditor/SKILL.md`](./.cursor/skills/course-practice-auditor/SKILL.md) → `tmp/practice-audit.md` — tip-theater vs producción; no sustituye al compliance auditor.
 
-### Levels (per unit)
+### Levels (per unit) — resumen
+
+Detalle, checklist por dimensión y criterios de **prelectura** → `COMPLIANCE.md`.
 
 | Level | Name | Meaning |
 |------:|------|---------|
@@ -116,24 +122,29 @@ Fuente de verdad del **qué** debe existir: syllabi en `src/data/programs/<slug>
 | L1 | skeleton | Deck registered + unit page with ≥3 blocks and learning outcomes |
 | L2 | theory | L1 + `Teoría`/`Lecturas` + **definiciones** + **outcomes en deck** + **actividad formativa** (Lab/Taller/Eval); claims cited; bib keys resolve |
 | L3 | practice | L2 + valid `viz` ids (if any) + lab present when `lab:` is declared on the unit (or `Lab:` path in deck) |
-| L4 | polish | Manual: UAI brand critique (portada ≤2 lines, chrome, tokens, viz contrast) — not auto-scored |
+| L4 | polish | Manual: UAI brand + editor pedagógico — not auto-scored |
 
-Target for shippable class material: **≥ L2 for every unit**; prefer **L3** where the syllabus expects taller/lab. L4 is the brand loop, not a bib check.
+Target: **≥ L2** every unit; prefer **L3** where syllabus expects taller/lab. L4 = brand/pedagogy loop (rules in this file + `COMPLIANCE.md` §4.4–4.6).
 
 ### Automated check
 
 ```bash
-python3 scripts/compliance_check.py          # writes tmp/compliance.md
+python3 scripts/compliance_check.py          # writes tmp/compliance.md (+ Pedagogy metrics)
 python3 scripts/compliance_check.py --strict # exit 1 if any unit < L2
+make compliance-snapshot                     # + src/data/compliance-snapshot.json → /cumplimiento/
 ```
 
-Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `definitions_present`, `outcomes_slide`, `formative_activity`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.
+Checks (auto L1–L3): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `definitions_present`, `outcomes_slide`, `formative_activity`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.  
+Soft (reportan gap, aún no gatean nivel): `prelectura_thesis`, `title_no_path`, `lab_declared_in_deck`, `outcomes_keyword_hit`, `viz_density_hint` — ver `COMPLIANCE.md` §3–§7.  
+Métricas pedagógicas (tasas / densidades, soft): bloque final de `tmp/compliance.md` — marco `COMPLIANCE.md` §8.  
+Horas lectivas: validar con simulación Manim del deck vs `hours`/bloques del programa (`m_hours_fidelity`; detalle `COMPLIANCE.md` §4.10; scaffold `labs/hours/` · `make hours-audit-demo`) — no inventar audits.  
+Notación: ecuaciones en LaTeX = **manual** hoy (`equations_latex` TODO en `COMPLIANCE.md` §7 / §4.9); no gatea L2.
 
 `definitions_present` (L2): kicker `Definición(es)` / `Concepto(s)` / `Glosario` / `Léxico`, **o** ≥3 bullets `Término — definición` / ≥2 `X es un/una…` en el deck.
 
 `outcomes_slide` + `formative_activity` (L2, pedagogía): slide “Al finalizar” / Resultados **y** señal Lab:/Taller/Eval/Entregable (alineación constructiva).
 
-**Peor caso primero (regla permanente):** cada tick mejora el peor eslabón, no el más fácil ni el más reciente. Orden: (1) menor L / más ✗ en compliance → (2) peor densidad viz (1 viz / muchos bloques) → (3) mayor severidad en crítica pedagógica/brand → (4) market backlog más atrasado. Dentro del mismo nivel, curso 08→11. No inventar readings para “pasar” L2 — solo OA / licensed; books (Huyen, etc.) pueden citarse sin PDF local. Al subir L2: **definiciones** y **señales pedagógicas** antes que más tips.
+**Peor caso primero (regla permanente):** cada tick mejora el peor eslabón, no el más fácil ni el más reciente. Orden: (1) menor L / más ✗ en compliance → (2) peor densidad viz (1 viz / muchos bloques) → (3) mayor severidad en crítica pedagógica/brand → (4) market backlog más atrasado. Dentro del mismo nivel, curso 08→11. No inventar readings para “pasar” L2 — solo OA / licensed; books (Huyen, etc.) pueden citarse sin PDF local. Al subir L2: **definiciones** y **señales pedagógicas** antes que más tips. Barrido completo por dimensiones: `COMPLIANCE.md`.
 
 ### Pedagogy editor agent
 
@@ -141,16 +152,18 @@ Rol: criticar curso y forma de presentar vs objetivos de aprendizaje; actualizar
 
 - Rule Cursor: `.cursor/rules/pedagogy-editor.mdc` (globs slides/units/labs)
 - Tendencias vivas: `references/pedagogy_trends.md` (two-lane, constructive alignment, AI literacy/readiness, process+product) — **no inventar** fuentes
-- Cada tick: además de L4 brand, **una** crítica de editor en la unidad **peor** (menor L / más gaps pedagógicos; empate → 08→11); aplicar el fix de mayor severidad; si durable → bullet aquí + check en `compliance_check.py` + nota en `pedagogy_trends.md`
-- Log scratch: `tmp/pedagogy-critique.md` (gitignored)
+- Cada tick: además de L4 brand, **una** crítica de editor en la unidad **peor** (menor L / más gaps pedagógicos; empate → 08→11); aplicar el fix de mayor severidad; si durable → `COMPLIANCE.md` **con presupuesto anti-bloat §2** (add ⇒ merge/retire) (+ soft/gate en `compliance_check.py` cuando estabilice) + nota en `pedagogy_trends.md`; bullet corto aquí solo si es regla operativa del loop
+- Log scratch: `tmp/pedagogy-critique.md` (gitignored); tasas: `COMPLIANCE.md` §8 / final de `tmp/compliance.md`
 
 ### Manual L4 (brand) — still required in the loop
 
-Screenshot title + section + content; verify Corporativo/Roboto, `.slide-topbar`, no purple/tech-dark. Log in `tmp/reveal-uai-critique.md`; promote durable rules here.
+Screenshot title + section + content; verify Corporativo/Roboto, `.slide-topbar`, no purple/tech-dark. Log in `tmp/reveal-uai-critique.md`; promote durable brand rules here; promote quality/prelectura criteria to `COMPLIANCE.md` (respetando §2 gobernanza).
 
 ## Market differentiation (avance gradual)
 
 Objetivo: magíster que forme gente que **lleva GenAI a producción con criterio** (no short-course de tips). Competencia: DL.AI (labs cortos), HF (open models), Stanford CS329Z / Anthropic (agentes + context engineering), bootcamps con capstone. Demanda LATAM: AI fluency × rediseño de procesos + gobernanza (McKinsey / avisos Chile).
+
+**Dos auditores (roles distintos):** `course-compliance-auditor` = ¿el deck cumple el programa / L0–L4? · `course-practice-auditor` = ¿enseñamos lo que la práctica GenAI 2025–26 exige? (web search + gaps de market; salida `tmp/practice-audit.md`). No conflacionar.
 
 Cada tick del loop, **además** de compliance/L4, avanzar **un** ítem pequeño de esta lista (rotar; no intentar todo de golpe). Marcar progreso en `tmp/market-backlog.md` (gitignored); promover a durable aquí solo cuando el patrón ya está en el repo.
 
@@ -181,11 +194,11 @@ Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar
 
 Every loop tick should:
 
-1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗) — **work these first**
+1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗) — **work these first** (marco: `COMPLIANCE.md`). For a **giant sweep / program vs deck**, use skill `course-compliance-auditor` → `tmp/compliance-audit.md`
 2. Screenshot + critique one Reveal clase vs UAI brand (L4); fix the highest-severity issue
-3. **Pedagogy editor:** critique one unit vs learning outcomes + `references/pedagogy_trends.md` (rule `.cursor/rules/pedagogy-editor.mdc`); log `tmp/pedagogy-critique.md`; apply highest-severity fix; promote durable checks to compliance/`AGENTS.md`
+3. **Pedagogy editor:** critique one unit vs learning outcomes + `references/pedagogy_trends.md` (rule `.cursor/rules/pedagogy-editor.mdc`); log `tmp/pedagogy-critique.md`; apply highest-severity fix; promote durable criteria to `COMPLIANCE.md` (+ checker when stable)
 4. **D3 exemplify (mandatory unless blocked):** add or upgrade ≥1 ilustración animada (`type: "viz"` + registry) en la unidad con peor densidad (1 viz / muchos bloques, orden 08→11). Concepto primero; no relleno ornamental
-5. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
-6. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md` — el slice #8 (D3) puede coincidir con el paso 4
-7. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion, market pattern shipped) — short bullet under the right section; do not dump tick noise here
-8. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/market-backlog.md`, `tmp/pedagogy-critique.md`)
+5. Advance the worst compliance gaps (raise units toward L2, then L3; incluir gaps soft prelectura / programa↔deck) **and** theory OA downloads when keys are missing
+6. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md` — el slice #8 (D3) puede coincidir con el paso 4. For an **external practice / tip-theater sweep**, use skill `course-practice-auditor` → `tmp/practice-audit.md` (does not replace step 1)
+7. **Update docs when a learning is durable:** calidad/prelectura/auditor compliance → `COMPLIANCE.md` (**§2 add⇒merge/retire**; prefer ≤320 líneas); brand/Astro/LM/loop ops → `AGENTS.md` (short); do not dump tick noise
+8. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/compliance-audit.md`, `tmp/practice-audit.md`, `tmp/market-backlog.md`, `tmp/pedagogy-critique.md`, `tmp/hours-audit.md`, `tmp/hours/`)

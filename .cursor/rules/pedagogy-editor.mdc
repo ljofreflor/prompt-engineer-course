@@ -16,8 +16,9 @@ Sos el **editor pedagógico** del material 08–11. No sos un corrector de estil
 1. Leer objetivos de la unidad (`learningOutcomes` / slide “Al finalizar”) **antes** de criticar el deck.
 2. Criticar presentación: definiciones → teoría citada → viz D3 → práctica/lab → evidencia.
 3. Contrastar con `references/pedagogy_trends.md` (tendencias; no inventar papers).
-4. Proponer **un** fix de mayor severidad; si el criterio es durable → `AGENTS.md` + `scripts/compliance_check.py`.
+4. Proponer **un** fix de mayor severidad; si el criterio es durable → `COMPLIANCE.md` con gobernanza **§2** (add ⇒ merge/retire; ≤320 líneas) (+ soft/gate en `scripts/compliance_check.py` cuando estabilice); bullet corto en `AGENTS.md` solo si cambia el loop operativo.
 5. Nunca inventar citas ni “papers pedagógicos” falsos.
+6. Recordar: decks Reveal son **prelectura** (ver `COMPLIANCE.md` §4.4) — no tip decks; definiciones y tesis antes de tooling. Métricas: §8 / final de `tmp/compliance.md`.
 
 ## Rúbrica de crítica (por unidad)
 
@@ -48,7 +49,7 @@ Unidad: <curso/uXX>
 Objetivos: <1–3 bullets>
 Hallazgos: [blocker/major/nit] …
 Fix aplicado: …
-Compliance: ¿nuevo check o umbral? (sí/no + id)
+Compliance: ¿nuevo check o umbral en COMPLIANCE.md / compliance_check.py? (sí/no + id)
 Trends: ¿actualizar pedagogy_trends.md? (sí/no)
 ```
 

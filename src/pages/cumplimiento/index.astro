@@ -1,0 +1,979 @@
+---
+import StudentLayout from "../../layouts/StudentLayout.astro";
+import { asset } from "../../lib/base";
+import snapshot from "../../data/compliance-snapshot.json";
+
+type FailedCheck = { id: string; soft: boolean; detail: string };
+type DevilFlag = { id: string; severity: string; pts: number; detail: string };
+type UnitRow = {
+  course: string;
+  code: string;
+  unit: string;
+  title: string;
+  level: number;
+  failed: FailedCheck[];
+  hard_gaps: number;
+  soft_gaps: number;
+  devil_score?: number;
+  devil_grade?: string;
+  n_viz?: number;
+  n_blocks?: number;
+  viz_density?: number;
+  has_lab?: boolean;
+  lab_run_evidence?: boolean;
+  flags?: DevilFlag[];
+  flag_ids?: string[];
+};
+type Objection = { id: string; severity: string; title: string; detail: string };
+type CourseRow = {
+  course: string;
+  code: string;
+  units: number;
+  L0: number;
+  L1: number;
+  L2: number;
+  L3: number;
+  avg: number;
+  devil_avg?: number;
+  devil_max?: number;
+  worst_unit?: string | null;
+  runs_json?: number;
+};
+
+const courseCodes = ["08", "09", "10", "11"] as const;
+const unitsByCourse = new Map<string, UnitRow[]>();
+for (const code of courseCodes) {
+  unitsByCourse.set(
+    code,
+    (snapshot.units as UnitRow[])
+      .filter((u) => u.code === code)
+      .sort((a, b) => a.unit.localeCompare(b.unit)),
+  );
+}
+const maxUnits = Math.max(...[...unitsByCourse.values()].map((u) => u.length), 0);
+const unitCols = Array.from({ length: maxUnits }, (_, i) => `u${String(i + 1).padStart(2, "0")}`);
+
+const softEntries = Object.entries(snapshot.soft_gap_counts as Record<string, number>).sort(
+  (a, b) => b[1] - a[1],
+);
+const hardEntries = Object.entries(snapshot.hard_gap_counts as Record<string, number>).sort(
+  (a, b) => b[1] - a[1],
+);
+
+const levelLabel: Record<number, string> = {
+  0: "Ausente / parcial",
+  1: "Esqueleto",
+  2: "Teoría",
+  3: "Práctica",
+};
+
+const generated = snapshot.generated_at?.replace("T", " ").replace("Z", " UTC") ?? "—";
+const devil = (snapshot as { devil?: {
+  mean_score: number;
+  max_score: number;
+  min_score: number;
+  grade_hist: Record<string, number>;
+  flag_counts: Record<string, number>;
+  verdict: string;
+} }).devil;
+const objections = ((snapshot as { objections?: Objection[] }).objections ?? []) as Objection[];
+const topDebt = ((snapshot as { top_debt?: UnitRow[] }).top_debt ?? []) as UnitRow[];
+const coursesByDebt = ((snapshot as { courses_by_debt?: CourseRow[] }).courses_by_debt
+  ?? (snapshot.courses as CourseRow[])) as CourseRow[];
+const stanceNote = (snapshot as { stance_note?: string }).stance_note
+  ?? "L0–L3 = ship; devil_score = deuda adversaria.";
+
+function debtBand(score: number | undefined): string {
+  const s = score ?? 0;
+  if (s <= 12) return "low";
+  if (s <= 24) return "mid";
+  if (s <= 40) return "high";
+  return "crit";
+}
+
+function metricStatus(m: { ok: boolean | null; manual?: boolean }): string {
+  if (m.ok === true) return "ok";
+  if (m.manual && m.ok !== false) return "manual";
+  if (m.ok === false) return "gap";
+  return m.manual ? "manual" : "gap";
+}
+---
+<StudentLayout title="Cumplimiento — Magíster IA UAI" current="cumplimiento">
+  <section class="section">
+    <div class="container prose">
+      <p class="label-uai" style="margin-bottom:0.5rem">Abogado del diablo · L0–L4 + exigencia</p>
+      <h1>Cumplimiento adversario</h1>
+      <p>
+        Vista para builders: qué está débil, flojo o sin evidencia — no un lapso de victoria.
+        <strong>L0–L3</strong> siguen siendo el gate de ship (<code>--strict</code> ≥ L2).
+        <strong>devil_score</strong> (0–100, más alto = más deuda) es la capa de exigencia:
+        soft floor-pass, viz bajo cuota, labs sin run JSON, horas sin auditar, L4 impago.
+        Snapshot <time datetime={snapshot.generated_at}>{generated}</time>.
+        Regenerar: <code>make compliance-snapshot</code>.
+      </p>
+      <p class="cmp-lede">{stanceNote}</p>
+
+      <div class="cmp-verdict" role="status">
+        <p class="cmp-verdict__kicker">Veredicto adversario</p>
+        <p class="cmp-verdict__text">{devil?.verdict ?? "Sin capa devil en este snapshot"}</p>
+        <div class="cmp-summary" role="group" aria-label="Resumen adversario">
+          <div class="cmp-stat cmp-stat--debt">
+            <span class="cmp-stat__n">{devil?.mean_score?.toFixed(0) ?? "—"}</span>
+            <span class="cmp-stat__l">deuda media</span>
+          </div>
+          <div class="cmp-stat cmp-stat--debt">
+            <span class="cmp-stat__n">{devil?.max_score ?? "—"}</span>
+            <span class="cmp-stat__l">deuda máxima</span>
+          </div>
+          <div class="cmp-stat">
+            <span class="cmp-stat__n">{snapshot.l3_count}/{snapshot.unit_count}</span>
+            <span class="cmp-stat__l">L3 ship (no absuelve)</span>
+          </div>
+          <div class="cmp-stat">
+            <span class="cmp-stat__n">{snapshot.soft_gap_total}</span>
+            <span class="cmp-stat__l">soft ✗ (piso)</span>
+          </div>
+          <div class="cmp-stat cmp-stat--levels">
+            <span class="cmp-stat__l">Grados devil (A→F, F = peor)</span>
+            <span class="cmp-hist">
+              {
+                (["A", "B", "C", "D", "F"] as const).map((g) => (
+                  <span class={`cmp-hist__chip cmp-hist__chip--g${g.toLowerCase()}`}>
+                    {g} {devil?.grade_hist?.[g] ?? 0}
+                  </span>
+                ))
+              }
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container prose">
+      <h2>Por qué objeta el abogado del diablo</h2>
+      <p class="cmp-lede">
+        Objeciones de programa (top). Severidad alta primero. No son fallos de
+        <code>--strict</code>; son deuda de calidad / evidencia.
+      </p>
+      {
+        objections.length === 0 ? (
+          <p class="cmp-empty">Sin objeciones en el snapshot — regenerar o revisar el checker.</p>
+        ) : (
+          <ol class="cmp-objections">
+            {objections.map((o, i) => (
+              <li class={`cmp-obj cmp-obj--${o.severity}`}>
+                <span class="cmp-obj__n">{i + 1}</span>
+                <div>
+                  <p class="cmp-obj__title">
+                    <span class={`cmp-sev cmp-sev--${o.severity}`}>{o.severity}</span>
+                    {o.title}
+                  </p>
+                  <p class="cmp-obj__detail">{o.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose">
+      <h2>Top riesgos por unidad</h2>
+      <p class="cmp-lede">
+        Ordenados por <code>devil_score</code>. L3 con deuda alta = “apenas shippable”.
+      </p>
+      <div class="cmp-worst">
+        {
+          topDebt.length === 0 ? (
+            <p class="cmp-empty">Sin ranking de deuda (snapshot antiguo sin capa devil).</p>
+          ) : (
+            topDebt.map((u) => (
+              <details class={`cmp-gap cmp-gap--${debtBand(u.devil_score)}`}>
+                <summary>
+                  <span class={`cmp-badge cmp-badge--d${debtBand(u.devil_score)}`}>
+                    {u.devil_grade ?? "?"} {u.devil_score ?? "—"}
+                  </span>
+                  <span class={`cmp-badge cmp-badge--l${u.level}`}>L{u.level}</span>
+                  <strong>
+                    {u.code}/{u.unit}
+                  </strong>
+                  <span class="cmp-gap__title">{u.title}</span>
+                  <span class="cmp-gap__count">
+                    dens {(u.viz_density ?? 0).toFixed(2)}
+                    {" · "}
+                    {u.hard_gaps} duro{u.hard_gaps === 1 ? "" : "s"}
+                    {" · "}
+                    {u.soft_gaps} soft
+                    {u.has_lab ? (u.lab_run_evidence ? " · run✓" : " · run✗") : ""}
+                  </span>
+                </summary>
+                {
+                  (u.flags ?? []).length === 0 ? (
+                    <p>Sin flags adversarios.</p>
+                  ) : (
+                    <ul>
+                      {(u.flags ?? []).map((f) => (
+                        <li>
+                          <code>{f.id}</code>
+                          {" · +"}
+                          {f.pts}
+                          {" · "}
+                          {f.detail}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                }
+                {
+                  u.failed.length > 0 && (
+                    <ul>
+                      {u.failed.map((f) => (
+                        <li>
+                          check <code>{f.id}</code>
+                          {f.soft ? " (soft)" : ""}
+                          {f.detail ? ` — ${f.detail}` : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                }
+                <p>
+                  <a href={asset(`cursos/${u.course}/${u.unit}/`)}>Unidad</a>
+                  {" · "}
+                  <a href={asset(`cursos/${u.course}/${u.unit}/clase/`)}>Clase</a>
+                </p>
+              </details>
+            ))
+          )
+        }
+      </div>
+
+      <h3>Cursos por deuda media</h3>
+      <ul class="cmp-course-debt">
+        {
+          coursesByDebt.map((c) => (
+            <li>
+              <strong>{c.code}</strong>
+              {" — deuda media "}
+              {(c.devil_avg ?? 0).toFixed(0)}
+              {" (máx "}
+              {c.devil_max ?? "—"}
+              {c.worst_unit ? ` en ${c.worst_unit}` : ""}
+              {") · runs JSON "}
+              {c.runs_json ?? 0}
+              {" · L3 "}
+              {c.L3}/{c.units}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container prose">
+      <h2>Métricas pedagógicas (§8)</h2>
+      <p class="cmp-lede">
+        Metas incumplidas o manuales = ámbar/negro. Cyan solo si está realmente en meta.
+        <code>m_hours_fidelity</code> / <code>m_two_lane</code> cuentan como deuda hasta evidencia.
+      </p>
+      <ul class="cmp-metrics">
+        {
+          snapshot.pedagogy.map((m) => {
+            const pct = typeof m.pct === "number" ? Math.max(0, Math.min(100, m.pct)) : null;
+            const status = metricStatus(m);
+            return (
+              <li class={`cmp-metric cmp-metric--${status}`}>
+                <div class="cmp-metric__head">
+                  <span class="cmp-metric__id">{m.label}</span>
+                  <span class="cmp-metric__val">{m.value}</span>
+                </div>
+                {
+                  pct !== null ? (
+                    <div class="cmp-bar" aria-hidden="true">
+                      <span class="cmp-bar__fill" style={`width:${pct}%`} />
+                    </div>
+                  ) : (
+                    <div class="cmp-bar cmp-bar--empty" aria-hidden="true" />
+                  )
+                }
+                <p class="cmp-metric__meta">
+                  Meta: {m.target}
+                  {status === "ok"
+                    ? " · en meta"
+                    : status === "manual"
+                      ? " · manual / deuda"
+                      : " · bajo meta"}
+                  {m.note ? ` · ${m.note}` : ""}
+                </p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose">
+      <h2>Mapa por curso × unidad</h2>
+      <p class="cmp-lede">
+        Color = banda de <code>devil_score</code> (no solo L). Celda muestra grado + L.
+        Clic abre la clase.
+      </p>
+      <div class="cmp-grid-wrap">
+        <table class="cmp-grid" aria-label="Deuda adversaria por curso y unidad">
+          <thead>
+            <tr>
+              <th scope="col">Curso</th>
+              {unitCols.map((u) => <th scope="col">{u}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              courseCodes.map((code) => {
+                const rows = unitsByCourse.get(code) ?? [];
+                const byUnit = new Map(rows.map((r) => [r.unit, r]));
+                return (
+                  <tr>
+                    <th scope="row">{code}</th>
+                    {unitCols.map((uid) => {
+                      const u = byUnit.get(uid);
+                      if (!u) {
+                        return <td class="cmp-cell cmp-cell--empty">—</td>;
+                      }
+                      const href = asset(`cursos/${u.course}/${u.unit}/clase/`);
+                      const band = debtBand(u.devil_score);
+                      return (
+                        <td class={`cmp-cell cmp-cell--d${band}`}>
+                          <a
+                            href={href}
+                            title={`${u.unit} · ${u.title} · L${u.level} · devil ${u.devil_score ?? "—"} (${u.devil_grade ?? "?"})`}
+                          >
+                            <span class="cmp-cell__g">{u.devil_grade ?? "?"}</span>
+                            <span class="cmp-cell__l">L{u.level}</span>
+                          </a>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
+      <ul class="cmp-legend" aria-label="Leyenda de deuda">
+        <li>
+          <span class="cmp-swatch cmp-cell--dlow" aria-hidden="true" />
+          Deuda baja (≤12)
+        </li>
+        <li>
+          <span class="cmp-swatch cmp-cell--dmid" aria-hidden="true" />
+          Media (13–24)
+        </li>
+        <li>
+          <span class="cmp-swatch cmp-cell--dhigh" aria-hidden="true" />
+          Alta (25–40)
+        </li>
+        <li>
+          <span class="cmp-swatch cmp-cell--dcrit" aria-hidden="true" />
+          Crítica (&gt;40)
+        </li>
+        {
+          [0, 1, 2, 3].map((L) => (
+            <li class="cmp-legend--muted">
+              L{L} — {levelLabel[L]} (ship)
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container prose">
+      <h2>Detalle ship (gaps L / soft)</h2>
+      <p class="cmp-lede">
+        Lista clásica por nivel y gaps duros. Si está vacía y todo es L3, mirá
+        <em>Top riesgos</em> — el diablo no celebra el verde soft.
+      </p>
+      <div class="cmp-worst">
+        {
+          (snapshot.worst as UnitRow[]).length === 0 ? (
+            <p class="cmp-empty">
+              Sin gaps duros ni soft en el checker. Eso <em>no</em> cierra el caso:
+              hay deuda adversaria arriba (viz cuota, runs, horas, L4).
+            </p>
+          ) : (
+            (snapshot.worst as UnitRow[]).map((u) => (
+              <details class="cmp-gap">
+                <summary>
+                  <span class={`cmp-badge cmp-badge--l${u.level}`}>L{u.level}</span>
+                  <strong>
+                    {u.code}/{u.unit}
+                  </strong>
+                  <span class="cmp-gap__title">{u.title}</span>
+                  <span class="cmp-gap__count">
+                    {u.hard_gaps} duro{u.hard_gaps === 1 ? "" : "s"}
+                    {" · "}
+                    {u.soft_gaps} soft
+                  </span>
+                </summary>
+                {
+                  u.failed.length === 0 ? (
+                    <p>Sin gaps reportados (bajo L3 por umbral de práctica).</p>
+                  ) : (
+                    <ul>
+                      {u.failed.map((f) => (
+                        <li>
+                          <code>{f.id}</code>
+                          {f.soft ? " (soft)" : ""}
+                          {f.detail ? ` — ${f.detail}` : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                }
+              </details>
+            ))
+          )
+        }
+      </div>
+
+      {
+        (snapshot.hard_gap_total > 0 ||
+          softEntries.some(([, n]) => n > 0) ||
+          Object.keys(devil?.flag_counts ?? {}).length > 0) && (
+          <>
+            <h3>Conteos</h3>
+            <div class="cmp-counts">
+              {hardEntries.length > 0 && (
+                <div>
+                  <p class="label-uai" style="margin-bottom:0.35rem">Duros</p>
+                  <ul>
+                    {hardEntries.map(([id, n]) => (
+                      <li>
+                        <code>{id}</code> · {n}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {softEntries.some(([, n]) => n > 0) && (
+                <div>
+                  <p class="label-uai" style="margin-bottom:0.35rem">Soft</p>
+                  <ul>
+                    {softEntries
+                      .filter(([, n]) => n > 0)
+                      .map(([id, n]) => (
+                        <li>
+                          <code>{id}</code> · {n}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
+              {Object.keys(devil?.flag_counts ?? {}).length > 0 && (
+                <div>
+                  <p class="label-uai" style="margin-bottom:0.35rem">Flags devil</p>
+                  <ul>
+                    {Object.entries(devil?.flag_counts ?? {}).map(([id, n]) => (
+                      <li>
+                        <code>{id}</code> · {n}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </>
+        )
+      }
+
+      <p style="margin-top:2rem">
+        <a href={asset("mapa/")}>Mapa</a>
+        {" · "}
+        <a href={asset("competencias/")}>Competencias</a>
+        {" · "}
+        <a href={asset("herramientas/")}>Stack / labs</a>
+        {" · "}
+        <a href={asset("clases/")}>Clases</a>
+      </p>
+    </div>
+  </section>
+</StudentLayout>
+
+<style>
+  .cmp-lede {
+    color: var(--uai-gray, #616365);
+    margin-top: -0.35rem;
+  }
+
+  .cmp-empty {
+    border-top: 2px solid #c4a35a;
+    padding-top: 0.75rem;
+    color: var(--uai-gray, #616365);
+  }
+
+  .cmp-verdict {
+    margin-top: 1.5rem;
+    padding: 1rem 0 0;
+    border-top: 3px solid var(--uai-negro, #15171a);
+  }
+
+  .cmp-verdict__kicker {
+    margin: 0;
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--uai-primary, #00afd8);
+  }
+
+  .cmp-verdict__text {
+    margin: 0.35rem 0 1rem;
+    font-family: var(--font-corp, "UAI Corporativo", Roboto, sans-serif);
+    font-weight: 300;
+    font-size: 1.65rem;
+    line-height: 1.25;
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 0.75rem 1rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cmp-stat {
+    border-top: 2px solid #c4a35a;
+    padding-top: 0.65rem;
+  }
+
+  .cmp-stat--debt {
+    border-top-color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-stat__n {
+    display: block;
+    font-family: var(--font-corp, "UAI Corporativo", Roboto, sans-serif);
+    font-weight: 300;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-stat__l {
+    display: block;
+    font-family: Roboto, system-ui, sans-serif;
+    font-size: 0.85rem;
+    color: var(--uai-gray, #616365);
+    margin-top: 0.2rem;
+  }
+
+  .cmp-stat--levels {
+    grid-column: span 2;
+    min-width: 12rem;
+  }
+
+  .cmp-hist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.45rem;
+  }
+
+  .cmp-hist__chip {
+    font-family: Roboto, system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.2rem 0.45rem;
+    border: 1px solid var(--uai-border, #e5e7eb);
+    background: var(--uai-blanco, #fff);
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-hist__chip--ga {
+    border-color: var(--uai-primary, #00afd8);
+    background: rgba(0, 175, 216, 0.08);
+  }
+  .cmp-hist__chip--gb {
+    border-color: #8a9eab;
+  }
+  .cmp-hist__chip--gc {
+    border-color: #c4a35a;
+    background: rgba(196, 163, 90, 0.12);
+  }
+  .cmp-hist__chip--gd,
+  .cmp-hist__chip--gf {
+    border-color: var(--uai-negro, #15171a);
+    background: #e8eaec;
+  }
+
+  .cmp-objections {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cmp-obj {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.65rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--uai-border, #e5e7eb);
+  }
+
+  .cmp-obj--high {
+    border-top-width: 2px;
+    border-top-color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-obj--med {
+    border-top-color: #c4a35a;
+  }
+
+  .cmp-obj__n {
+    font-family: var(--font-corp, "UAI Corporativo", Roboto, sans-serif);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-obj__title {
+    margin: 0;
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: 800;
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-obj__detail {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: var(--uai-gray, #616365);
+  }
+
+  .cmp-sev {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 0.45rem;
+    padding: 0.1rem 0.35rem;
+    border: 1px solid var(--uai-border, #e5e7eb);
+    vertical-align: middle;
+  }
+
+  .cmp-sev--high {
+    background: var(--uai-negro, #15171a);
+    color: #fff;
+    border-color: var(--uai-negro, #15171a);
+  }
+  .cmp-sev--med {
+    background: rgba(196, 163, 90, 0.25);
+    border-color: #c4a35a;
+    color: var(--uai-negro, #15171a);
+  }
+  .cmp-sev--low {
+    color: var(--uai-gray, #616365);
+  }
+
+  .cmp-course-debt {
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  .cmp-metrics {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .cmp-metric__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .cmp-metric__id {
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: 800;
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-metric__val {
+    font-size: 0.9rem;
+    color: var(--uai-gray, #616365);
+    text-align: right;
+  }
+
+  .cmp-metric__meta {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: var(--uai-gray, #616365);
+  }
+
+  .cmp-bar {
+    height: 4px;
+    background: #e5e7eb;
+    margin-top: 0.4rem;
+  }
+
+  .cmp-bar--empty {
+    background: transparent;
+    border-bottom: 1px dashed #c4c7ca;
+  }
+
+  .cmp-bar__fill {
+    display: block;
+    height: 100%;
+    background: var(--uai-primary, #00afd8);
+  }
+
+  .cmp-metric--gap .cmp-bar__fill {
+    background: var(--uai-negro, #15171a);
+  }
+
+  .cmp-metric--gap .cmp-metric__id {
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-metric--manual .cmp-bar__fill {
+    background: #c4a35a;
+  }
+
+  .cmp-metric--manual .cmp-metric__id {
+    color: #8a7340;
+  }
+
+  .cmp-metric--ok .cmp-bar__fill {
+    background: var(--uai-primary, #00afd8);
+  }
+
+  .cmp-grid-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+  }
+
+  .cmp-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    table-layout: fixed;
+  }
+
+  .cmp-grid th,
+  .cmp-grid td {
+    border: 1px solid var(--uai-border, #e5e7eb);
+    padding: 0;
+    text-align: center;
+  }
+
+  .cmp-grid thead th {
+    background: var(--uai-bg-soft, #f3f5f7);
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: 800;
+    padding: 0.5rem 0.35rem;
+    color: var(--uai-negro, #15171a);
+  }
+
+  .cmp-grid tbody th {
+    background: var(--uai-bg-soft, #f3f5f7);
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: 800;
+    padding: 0.55rem 0.65rem;
+    text-align: left;
+    width: 3.5rem;
+  }
+
+  .cmp-cell a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    padding: 0.55rem 0.25rem;
+    text-decoration: none;
+    font-weight: 700;
+    color: inherit;
+  }
+
+  .cmp-cell a:hover {
+    outline: 2px solid var(--uai-primary, #00afd8);
+    outline-offset: -2px;
+  }
+
+  .cmp-cell__g {
+    font-size: 0.95rem;
+  }
+
+  .cmp-cell__l {
+    font-size: 0.7rem;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+
+  .cmp-cell--empty {
+    color: #c4c7ca;
+    padding: 0.65rem;
+  }
+
+  /* Debt bands: amber/negro; cyan only for truly low debt */
+  .cmp-cell--dlow {
+    background: rgba(0, 175, 216, 0.18);
+    color: #15171a;
+  }
+  .cmp-cell--dmid {
+    background: #e8e0cc;
+    color: #15171a;
+  }
+  .cmp-cell--dhigh {
+    background: #d4c4a0;
+    color: #15171a;
+  }
+  .cmp-cell--dcrit {
+    background: #c4c7ca;
+    color: #15171a;
+  }
+
+  .cmp-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--uai-gray, #616365);
+  }
+
+  .cmp-legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .cmp-legend--muted {
+    opacity: 0.75;
+  }
+
+  .cmp-swatch {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    border: 1px solid var(--uai-border, #e5e7eb);
+  }
+
+  .cmp-worst {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+  }
+
+  .cmp-gap {
+    border: 1px solid var(--uai-border, #e5e7eb);
+    background: var(--uai-blanco, #fff);
+    padding: 0;
+  }
+
+  .cmp-gap--high,
+  .cmp-gap--crit {
+    border-color: #a89b7a;
+  }
+
+  .cmp-gap summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+    padding: 0.65rem 0.85rem;
+    font-family: Roboto, system-ui, sans-serif;
+  }
+
+  .cmp-gap summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cmp-gap[open] summary {
+    border-bottom: 1px solid var(--uai-border, #e5e7eb);
+  }
+
+  .cmp-gap__title {
+    flex: 1 1 12rem;
+    color: var(--uai-gray, #616365);
+    font-weight: 400;
+  }
+
+  .cmp-gap__count {
+    font-size: 0.85rem;
+    color: var(--uai-gray, #616365);
+  }
+
+  .cmp-gap ul,
+  .cmp-gap p {
+    margin: 0.75rem 0.85rem;
+  }
+
+  .cmp-badge {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.15rem 0.4rem;
+    border: 1px solid var(--uai-border, #e5e7eb);
+  }
+
+  .cmp-badge--l0 {
+    background: #e8eaec;
+  }
+  .cmp-badge--l1 {
+    background: #d5dde3;
+  }
+  .cmp-badge--l2 {
+    background: #b8d4e4;
+  }
+  .cmp-badge--l3 {
+    background: rgba(0, 175, 216, 0.15);
+  }
+
+  .cmp-badge--dlow {
+    background: rgba(0, 175, 216, 0.2);
+  }
+  .cmp-badge--dmid {
+    background: #e8e0cc;
+  }
+  .cmp-badge--dhigh {
+    background: #d4c4a0;
+  }
+  .cmp-badge--dcrit {
+    background: #c4c7ca;
+    border-color: #15171a;
+  }
+
+  .cmp-counts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .cmp-counts ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+  }
+</style>

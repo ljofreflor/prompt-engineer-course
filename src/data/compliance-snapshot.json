@@ -1,0 +1,2026 @@
+{
+  "generated_at": "2026-10-30T21:03:43Z",
+  "framework": "COMPLIANCE.md",
+  "regenerate": "make compliance-snapshot",
+  "dashboard": "/cumplimiento/",
+  "stance": "devil",
+  "stance_note": "L0–L3 = shippable auto; devil_score = exigencia adversaria (deuda). Alto devil ≠ bajar L; prioriza tick / L4 / evidencia.",
+  "unit_count": 25,
+  "levels": {
+    "L0": 0,
+    "L1": 0,
+    "L2": 0,
+    "L3": 25
+  },
+  "avg_level": 3.0,
+  "l3_count": 25,
+  "soft_gap_total": 0,
+  "hard_gap_total": 0,
+  "soft_gap_counts": {
+    "lab_declared_in_deck": 0,
+    "outcomes_keyword_hit": 0,
+    "prelectura_thesis": 0,
+    "title_no_path": 0,
+    "viz_density_hint": 0
+  },
+  "hard_gap_counts": {},
+  "devil": {
+    "mean_score": 24.0,
+    "max_score": 41,
+    "min_score": 11,
+    "grade_hist": {
+      "A": 1,
+      "B": 18,
+      "C": 4,
+      "D": 2,
+      "F": 0
+    },
+    "flag_counts": {
+      "l4_unpaid": 25,
+      "viz_below_block_quota": 24,
+      "hours_unaudited": 24,
+      "lab_no_run_json": 6,
+      "course_no_process_json": 2,
+      "hours_dry_run_only": 1
+    },
+    "verdict": "L3 shippable con deuda estructural"
+  },
+  "objections": [
+    {
+      "id": "course_process_hole",
+      "severity": "high",
+      "title": "Cursos con labs y 0 runs JSON: 10",
+      "detail": "Target §8 `m_process_product`: ≥1 JSON run/curso con labs. Un curso en verde global no absuelve el agujero."
+    },
+    {
+      "id": "hours_fidelity",
+      "severity": "high",
+      "title": "Horas casi sin auditar (1/25 en hours-audit)",
+      "detail": "`m_hours_fidelity` es manual/próximo; sin Manim medido la honestidad de `hours` del programa queda sin evidencia."
+    },
+    {
+      "id": "lab_runs",
+      "severity": "high",
+      "title": "6 labs sin JSON de corrida por unidad",
+      "detail": "Hay `lab:` en la unit page pero no hay artefacto en `labs/<NN>/runs/` que evidencie process+product para esa unidad."
+    },
+    {
+      "id": "metric_m_process_product",
+      "severity": "high",
+      "title": "Meta §8 incumplida: Evidencia process+product",
+      "detail": "7 JSON; lab-courses ok=3/4 (08:1, 09:5, 10:0, 11:1) · target ≥1 JSON run/course with labs"
+    },
+    {
+      "id": "viz_quota",
+      "severity": "high",
+      "title": "24/25 unidades bajo cuota aspiracional de viz",
+      "detail": "Soft `viz_density_hint` solo falla con 0 viz y ≥4 bloques; el diablo exige dens ≥1 viz/bloque (AGENTS: ≥1 diagrama fuerte / ~60 min)."
+    },
+    {
+      "id": "hours_dry_run",
+      "severity": "med",
+      "title": "1 audit(s) de horas solo dry-run",
+      "detail": "Sin MP4 medido no hay fidelidad real vs plan."
+    },
+    {
+      "id": "l3_not_l4",
+      "severity": "med",
+      "title": "25× L3 auto ≠ listo: L4 sigue sin cobrar (25/25)",
+      "detail": "Brand UAI + editor P1–P8 + prelectura cualitativa + LaTeX §4.9 son manuales. L3 shippable no es veredicto de excelencia."
+    },
+    {
+      "id": "metric_m_hours_fidelity",
+      "severity": "med",
+      "title": "Métrica manual pendiente: Fidelidad de horas",
+      "detail": "m_hours_fidelity — ver COMPLIANCE.md §4.10 / §8 · deuda hasta rotación Manim"
+    },
+    {
+      "id": "practice_audit_missing",
+      "severity": "med",
+      "title": "Sin `tmp/practice-audit.md` reciente",
+      "detail": "El auditor de práctica (tip-theater vs producción) no ha corrido o no dejó scratch; riesgo de L3 tip-like sin señal externa."
+    },
+    {
+      "id": "soft_too_lenient",
+      "severity": "med",
+      "title": "Soft checks en 0 gaps: falso verde",
+      "detail": "Cero soft ✗ no implica calidad: la barra soft es piso. El dashboard marca deuda de piso (floor pass) aparte de L3."
+    },
+    {
+      "id": "equations_latex",
+      "severity": "low",
+      "title": "LaTeX / ecuaciones: TODO §4.9 (sin KaTeX en clase)",
+      "detail": "Fórmulas deben escribirse en LaTeX ya; renderer y check `equations_latex` siguen pendientes (no gatean L2)."
+    },
+    {
+      "id": "metric_m_two_lane",
+      "severity": "low",
+      "title": "Métrica manual pendiente: Two-lane (editor P5)",
+      "detail": "sin evidencia de rotación editor → deuda adversaria"
+    }
+  ],
+  "courses": [
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "units": 7,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 7,
+      "avg": 3.0,
+      "devil_avg": 22.4,
+      "devil_max": 33,
+      "worst_unit": "u04",
+      "runs_json": 1
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "units": 6,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 6,
+      "avg": 3.0,
+      "devil_avg": 21.3,
+      "devil_max": 33,
+      "worst_unit": "u03",
+      "runs_json": 5
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "units": 6,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 6,
+      "avg": 3.0,
+      "devil_avg": 27.7,
+      "devil_max": 41,
+      "worst_unit": "u01",
+      "runs_json": 0
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "units": 6,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 6,
+      "avg": 3.0,
+      "devil_avg": 25.0,
+      "devil_max": 33,
+      "worst_unit": "u02",
+      "runs_json": 1
+    }
+  ],
+  "courses_by_debt": [
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "units": 6,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 6,
+      "avg": 3.0,
+      "devil_avg": 27.7,
+      "devil_max": 41,
+      "worst_unit": "u01",
+      "runs_json": 0
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "units": 6,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 6,
+      "avg": 3.0,
+      "devil_avg": 25.0,
+      "devil_max": 33,
+      "worst_unit": "u02",
+      "runs_json": 1
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "units": 7,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 7,
+      "avg": 3.0,
+      "devil_avg": 22.4,
+      "devil_max": 33,
+      "worst_unit": "u04",
+      "runs_json": 1
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "units": 6,
+      "L0": 0,
+      "L1": 0,
+      "L2": 0,
+      "L3": 6,
+      "avg": 3.0,
+      "devil_avg": 21.3,
+      "devil_max": 33,
+      "worst_unit": "u03",
+      "runs_json": 5
+    }
+  ],
+  "pedagogy": [
+    {
+      "id": "m_outcomes_formative",
+      "label": "Outcomes + formativa",
+      "value": "100% (25/25)",
+      "pct": 100.0,
+      "target": "100%",
+      "ok": true,
+      "manual": false
+    },
+    {
+      "id": "m_definitions",
+      "label": "Definiciones",
+      "value": "100% (25/25)",
+      "pct": 100.0,
+      "target": "100%",
+      "ok": true,
+      "manual": false
+    },
+    {
+      "id": "m_viz_density",
+      "label": "Densidad viz",
+      "value": "mean=0.76; hint 100% (25/25)",
+      "pct": 100.0,
+      "target": "mean ≥0.25; hint ≥80%",
+      "ok": true,
+      "manual": false
+    },
+    {
+      "id": "m_prelectura_thesis",
+      "label": "Tesis de prelectura",
+      "value": "100% (25/25)",
+      "pct": 100.0,
+      "target": "≥90%",
+      "ok": true,
+      "manual": false
+    },
+    {
+      "id": "m_lab_deck_align",
+      "label": "Lab en deck",
+      "value": "100% (11/11)",
+      "pct": 100.0,
+      "target": "100% of lab: units",
+      "ok": true,
+      "manual": false
+    },
+    {
+      "id": "m_blocks_structure",
+      "label": "Estructura (≥3 bloques)",
+      "value": "100% (25/25)",
+      "pct": 100.0,
+      "target": "100% (≥3 blocks)",
+      "ok": true,
+      "manual": false,
+      "note": "time honesty = manual"
+    },
+    {
+      "id": "m_process_product",
+      "label": "Evidencia process+product",
+      "value": "7 JSON; lab-courses ok=3/4 (08:1, 09:5, 10:0, 11:1)",
+      "pct": 75.0,
+      "target": "≥1 JSON run/course with labs",
+      "ok": false,
+      "manual": false,
+      "note": "courses_with_any_run=3; ok exige todos los cursos con lab: (no basta 1 curso verde)"
+    },
+    {
+      "id": "m_hours_fidelity",
+      "label": "Fidelidad de horas",
+      "value": "próximo",
+      "pct": 0.0,
+      "target": "≥80% auditadas (Manim)",
+      "ok": false,
+      "manual": true,
+      "note": "m_hours_fidelity — ver COMPLIANCE.md §4.10 / §8 · deuda hasta rotación Manim"
+    },
+    {
+      "id": "m_two_lane",
+      "label": "Two-lane (editor P5)",
+      "value": "—",
+      "pct": 0.0,
+      "target": "units GenAI-critical on editor rotation",
+      "ok": false,
+      "manual": true,
+      "note": "sin evidencia de rotación editor → deuda adversaria"
+    }
+  ],
+  "units": [
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u01",
+      "title": "Arquitectura y comportamiento del transformer generativo",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 19,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_dry_run_only",
+          "severity": "med",
+          "pts": 5,
+          "detail": "hours-audit dry-run (sin MP4 medido)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_dry_run_only",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u02",
+      "title": "El pipeline de post-entrenamiento",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u03",
+      "title": "Vías de adaptación y criterio de decisión",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u04",
+      "title": "Modelos abiertos y cerrados — la decisión de aprovisionamiento",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/08/runs/ que mencione u04"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u05",
+      "title": "Inferencia — costo, latencia y contexto",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u06",
+      "title": "Evaluación de modelos generativos",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u07",
+      "title": "Multimodalidad, riesgos del modelo e integración",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u01",
+      "title": "La instrucción como especificación",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 11,
+      "devil_grade": "A",
+      "n_viz": 4,
+      "n_blocks": 4,
+      "viz_density": 1.0,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "flags": [
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u02",
+      "title": "El prompt como artefacto de ingeniería",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u03",
+      "title": "Razonamiento, descomposición y verificación",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/09/runs/ que mencione u03"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u04",
+      "title": "Del prompt al agente",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u05",
+      "title": "Sistemas multiagentes",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u06",
+      "title": "Evaluación del comportamiento agéntico, robustez y límites del control",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u01",
+      "title": "De la decisión al sistema — especificación y requisitos",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 41,
+      "devil_grade": "D",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/10/runs/ que mencione u01"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "course_no_process_json",
+          "severity": "high",
+          "pts": 8,
+          "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "course_no_process_json",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u02",
+      "title": "Patrones de arquitectura para sistemas de IA",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u03",
+      "title": "Datos como infraestructura del sistema",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 41,
+      "devil_grade": "D",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/10/runs/ que mencione u03"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "course_no_process_json",
+          "severity": "high",
+          "pts": 8,
+          "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "course_no_process_json",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u04",
+      "title": "Diseño de la interacción humano-IA",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u05",
+      "title": "Evaluación del sistema, monitoreo y superficie de riesgo",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u06",
+      "title": "Documento de diseño, revisión crítica y defensa",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u01",
+      "title": "Del cuaderno a producción — reproducibilidad y fundamentos",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u02",
+      "title": "Empaquetado y automatización del ciclo",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/11/runs/ que mencione u02"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u03",
+      "title": "Servicio de inferencia y estrategias de despliegue",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/11/runs/ que mencione u03"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u04",
+      "title": "Observabilidad, deriva y respuesta ante incidentes",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u05",
+      "title": "Plataformas gestionadas y criterio de selección",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u06",
+      "title": "Operación de sistemas generativos",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    }
+  ],
+  "worst": [],
+  "top_debt": [
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u01",
+      "title": "De la decisión al sistema — especificación y requisitos",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 41,
+      "devil_grade": "D",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/10/runs/ que mencione u01"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "course_no_process_json",
+          "severity": "high",
+          "pts": 8,
+          "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "course_no_process_json",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "10-diseno-sistemas-ia",
+      "code": "10",
+      "unit": "u03",
+      "title": "Datos como infraestructura del sistema",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 41,
+      "devil_grade": "D",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/10/runs/ que mencione u03"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "course_no_process_json",
+          "severity": "high",
+          "pts": 8,
+          "detail": "curso 10 con labs y 0 JSON en labs/10/runs/"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "course_no_process_json",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u04",
+      "title": "Modelos abiertos y cerrados — la decisión de aprovisionamiento",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/08/runs/ que mencione u04"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u03",
+      "title": "Razonamiento, descomposición y verificación",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/09/runs/ que mencione u03"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u02",
+      "title": "Empaquetado y automatización del ciclo",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/11/runs/ que mencione u02"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "11-aiops-cloud",
+      "code": "11",
+      "unit": "u03",
+      "title": "Servicio de inferencia y estrategias de despliegue",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 33,
+      "devil_grade": "C",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "lab_no_run_json",
+          "severity": "high",
+          "pts": 12,
+          "detail": "lab: en unit sin JSON en labs/11/runs/ que mencione u03"
+        },
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "lab_no_run_json",
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u02",
+      "title": "El pipeline de post-entrenamiento",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u03",
+      "title": "Vías de adaptación y criterio de decisión",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u05",
+      "title": "Inferencia — costo, latencia y contexto",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u06",
+      "title": "Evaluación de modelos generativos",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "08-genai-llms",
+      "code": "08",
+      "unit": "u07",
+      "title": "Multimodalidad, riesgos del modelo e integración",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": false,
+      "lab_run_evidence": false,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    },
+    {
+      "course": "09-prompt-engineering",
+      "code": "09",
+      "unit": "u02",
+      "title": "El prompt como artefacto de ingeniería",
+      "level": 3,
+      "failed": [],
+      "hard_gaps": 0,
+      "soft_gaps": 0,
+      "blockers": [],
+      "devil_score": 21,
+      "devil_grade": "B",
+      "n_viz": 3,
+      "n_blocks": 4,
+      "viz_density": 0.75,
+      "has_lab": true,
+      "lab_run_evidence": true,
+      "flags": [
+        {
+          "id": "viz_below_block_quota",
+          "severity": "med",
+          "pts": 10,
+          "detail": "dens=0.75 (viz=3 blocks≈4); soft hint pasa, cuota aspiracional ≥1/bloque no"
+        },
+        {
+          "id": "hours_unaudited",
+          "severity": "med",
+          "pts": 7,
+          "detail": "sin fila Manim en tmp/hours-audit.md (m_hours_fidelity)"
+        },
+        {
+          "id": "l4_unpaid",
+          "severity": "low",
+          "pts": 4,
+          "detail": "L4 brand + editor pedagógico no auto-scored"
+        }
+      ],
+      "flag_ids": [
+        "viz_below_block_quota",
+        "hours_unaudited",
+        "l4_unpaid"
+      ]
+    }
+  ]
+}
