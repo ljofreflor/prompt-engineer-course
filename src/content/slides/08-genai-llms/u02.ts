@@ -101,6 +101,25 @@ export const slides: Slide[] = [
       "Atribuir el síntoma a pretrain / SFT / alineación antes de “más prompt”.",
     ],
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico del pipeline",
+    items: [
+      "Pre-entrenamiento — objetivo auto-supervisado de continuación; base de conocimiento y few-shot.",
+      "SFT — fine-tune con instrucciones etiquetadas; enseña formato y tareas, no hechos frescos garantizados.",
+      "Alineación (RLHF/DPO) — optimiza preferencias humanas; puede imponer impuesto de alineación.",
+      "Impuesto de alineación — pérdida de capacidad o diversidad al ganar preferencia / rechazo.",
+    ],
+  },
+  {
+    type: "viz",
+    kicker: "Trade-off",
+    title: "Preferencia ↑ no es gratis",
+    viz: "align-tax",
+    caption: "Antes de “más prompt”, atribuí el síntoma a la etapa.",
+  },
   {
     type: "viz",
     kicker: "Ilustración",
@@ -115,13 +134,13 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
-    kicker: "Práctica",
-    title: "Stack del dictado",
+    kicker: "Taller",
+    title: "Atribuir el síntoma",
     items: [
-      "Colab/Kaggle para demos con pesos abiertos (HF).",
-      "API cerrada para comparación (clave de equipo).",
-      "LM Studio si cae la cuota GPU — contenido de U5.",
-      "Detalle del stack en la página Herramientas (curso 08).",
+      "3 fallos (schema, hecho fresco, rechazo de tono): ¿pretrain, SFT o alineación?",
+      "Caso Chile: asistente SII que “no quiere” dar montos — ¿política o conocimiento?",
+      "Lab: comparar abierto (HF/LM) vs cerrado en la misma consigna.",
+      "Eval-first: anotar etapa atribuida + evidencia (labs/RUBRIC.md).",
     ],
   },
   {

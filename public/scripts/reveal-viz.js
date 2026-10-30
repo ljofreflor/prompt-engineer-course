@@ -4925,6 +4925,86 @@
     }
   }
 
+
+  /** Impuesto de alineación: ganar preferencia puede costar capacidad. */
+  function vizAlignTax(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 320;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Alineación mueve preferencias; puede imponer costo en capacidad");
+
+    var cols = [
+      { x: 160, h: 180, label: "Capacidad", sub: "pretrain / SFT", fill: COLORS.soft },
+      { x: 480, h: 120, label: "Tras alineación", sub: "preferencia ↑", fill: COLORS.primary },
+    ];
+    var nodes = [];
+    cols.forEach(function (c) {
+      var g = svg.append("g").attr("transform", "translate(" + c.x + ",40)");
+      g.append("rect")
+        .attr("y", 200 - c.h)
+        .attr("width", 200)
+        .attr("height", c.h)
+        .attr("rx", 2)
+        .attr("fill", c.fill)
+        .attr("stroke", c.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", 100)
+        .attr("y", 230)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.negro)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 16)
+        .text(c.label);
+      g.append("text")
+        .attr("x", 100)
+        .attr("y", 258)
+        .attr("text-anchor", "middle")
+        .attr("fill", COLORS.gray)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 13)
+        .text(c.sub);
+      nodes.push(g.node());
+    });
+
+    var arrow = svg
+      .append("text")
+      .attr("x", 400)
+      .attr("y", 130)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-weight", 800)
+      .attr("font-size", 28)
+      .attr("opacity", 0)
+      .text("→")
+      .node();
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 300)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("Diagnosticar: ¿no sabe (pretrain/SFT) o no quiere (alineación)?")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes.concat([arrow, foot]), { opacity: 0 });
+      tl.to(nodes[0], { opacity: 1, duration: 0.4 }, 0.05)
+        .to(arrow, { opacity: 1, duration: 0.25 }, 0.35)
+        .to(nodes[1], { opacity: 1, duration: 0.4 }, 0.5)
+        .to(foot, { opacity: 1, duration: 0.35 }, 0.95);
+    } else {
+      d3.selectAll(nodes.concat([arrow, foot])).attr("opacity", 1);
+    }
+  }
+
   var registry = {
     "react-loop": vizReactLoop,
     "prompt-anatomy": vizPromptAnatomy,
@@ -4953,6 +5033,7 @@
     "concept-drift": vizConceptDrift,
     "portability-edge": vizPortabilityEdge,
     "decode-controls": vizDecodeControls,
+    "align-tax": vizAlignTax,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,

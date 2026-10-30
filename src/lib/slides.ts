@@ -49,7 +49,8 @@ export type VizId =
   | "container-artifact"
   | "concept-drift"
   | "portability-edge"
-  | "decode-controls";
+  | "decode-controls"
+  | "align-tax";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }
