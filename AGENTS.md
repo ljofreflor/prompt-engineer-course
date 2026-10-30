@@ -133,7 +133,7 @@ Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`
 
 `outcomes_slide` + `formative_activity` (L2, pedagogía): slide “Al finalizar” / Resultados **y** señal Lab:/Taller/Eval/Entregable (alineación constructiva).
 
-Prioritize loop work by **lowest level first**, then by course order 08→11. Do not invent readings to “pass” L2 — only OA / licensed sources; books (Huyen, etc.) may be cited without local PDF. When raising L2, fix missing **definitions** and **pedagogy signals** before adding more tips.
+**Peor caso primero (regla permanente):** cada tick mejora el peor eslabón, no el más fácil ni el más reciente. Orden: (1) menor L / más ✗ en compliance → (2) peor densidad viz (1 viz / muchos bloques) → (3) mayor severidad en crítica pedagógica/brand → (4) market backlog más atrasado. Dentro del mismo nivel, curso 08→11. No inventar readings para “pasar” L2 — solo OA / licensed; books (Huyen, etc.) pueden citarse sin PDF local. Al subir L2: **definiciones** y **señales pedagógicas** antes que más tips.
 
 ### Pedagogy editor agent
 
@@ -141,7 +141,7 @@ Rol: criticar curso y forma de presentar vs objetivos de aprendizaje; actualizar
 
 - Rule Cursor: `.cursor/rules/pedagogy-editor.mdc` (globs slides/units/labs)
 - Tendencias vivas: `references/pedagogy_trends.md` (two-lane, constructive alignment, AI literacy/readiness, process+product) — **no inventar** fuentes
-- Cada tick del loop: además de L4 brand, correr **una** crítica de editor en una unidad (rotar 08→11); aplicar el fix de mayor severidad; si el aprendizaje es durable → bullet aquí + check en `compliance_check.py` + nota en `pedagogy_trends.md`
+- Cada tick: además de L4 brand, **una** crítica de editor en la unidad **peor** (menor L / más gaps pedagógicos; empate → 08→11); aplicar el fix de mayor severidad; si durable → bullet aquí + check en `compliance_check.py` + nota en `pedagogy_trends.md`
 - Log scratch: `tmp/pedagogy-critique.md` (gitignored)
 
 ### Manual L4 (brand) — still required in the loop
@@ -171,9 +171,11 @@ Prioridad 90 días si hay que elegir: **1 → 3 → 2 → 5 → 7**. No inventar
 
 ## Continuous improvement (coursebuild loop)
 
+**Tendencia = mejorar el peor de los casos.** No pulir lo que ya está bien si hay unidades en L0–L1, bloques sin viz, o gaps formativos. El tick elige el peor gap y lo sube un escalón.
+
 Every loop tick should:
 
-1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗)
+1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗) — **work these first**
 2. Screenshot + critique one Reveal clase vs UAI brand (L4); fix the highest-severity issue
 3. **Pedagogy editor:** critique one unit vs learning outcomes + `references/pedagogy_trends.md` (rule `.cursor/rules/pedagogy-editor.mdc`); log `tmp/pedagogy-critique.md`; apply highest-severity fix; promote durable checks to compliance/`AGENTS.md`
 4. **D3 exemplify (mandatory unless blocked):** add or upgrade ≥1 ilustración animada (`type: "viz"` + registry) en la unidad con peor densidad (1 viz / muchos bloques, orden 08→11). Concepto primero; no relleno ornamental
