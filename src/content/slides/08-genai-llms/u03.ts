@@ -49,6 +49,14 @@ export const slides: Slide[] = [
       "Falla típica: fine-tune para hechos que cambian — el peso no es un índice.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "RAG",
+    title: "Hechos fuera del peso",
+    viz: "rag-pipeline",
+    caption: "Actualizás el índice; no el checkpoint — vía típica cuando los hechos cambian.",
+  },
   {
     type: "bullets",
     kicker: "Regla",
@@ -57,6 +65,18 @@ export const slides: Slide[] = [
       "Comportamiento / formato → prompting o SFT liviano.",
       "Conocimiento externo / trazabilidad → RAG.",
       "Estilo o dominio estable con datos → fine-tune.",
+    ],
+  },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de vías de adaptación",
+    items: [
+      "Prompting — adaptar el comportamiento vía instrucción en contexto, sin cambiar pesos.",
+      "RAG — recuperar evidencia externa y condicionar la generación; el índice se actualiza sin reentrenar.",
+      "Fine-tuning (LoRA/QLoRA) — adaptar pesos (o adaptadores de bajo rango) a un dominio/estilo estable.",
+      "Olvido catastrófico — degradación en tareas de control tras el ajuste; se mide, no se asume.",
     ],
   },
   {
@@ -117,9 +137,9 @@ export const slides: Slide[] = [
     kicker: "Taller",
     title: "Ajuste vs instrucción",
     items: [
-      "Mismo set de evaluación de dominio.",
-      "Reportar costo, latencia y calidad.",
-      "Contingencia CPU/local si cae la GPU gestionada.",
+      "Caso Chile: normativa SII que cambia — ¿RAG, FT o prompt? Justificar.",
+      "Mismo golden set de dominio; reportar formato · calidad · costo (labs/RUBRIC.md).",
+      "Contingencia: LM Studio / CPU si cae la GPU gestionada.",
     ],
   },
   {

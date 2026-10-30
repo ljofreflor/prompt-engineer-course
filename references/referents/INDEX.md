@@ -7,7 +7,7 @@ Metáfora: capas de conocimiento congeladas; **última capa** = decks UAI / caso
 | id | capa | fuente | licencia | mapeo UAI | estado |
 |----|------|--------|----------|-----------|--------|
 | cs329z | E | https://cs329z.github.io/ | syllabus/slides públicos | 09–10 | mirror 2026-10-30 → tmp/referents/cs329z/ |
-| anthropic-agents | E | https://www.anthropic.com/engineering/building-effective-agents | público web | 09 | bookmark |
+| anthropic-agents | E | https://www.anthropic.com/engineering/building-effective-agents | público web | 09 | mirror 2026-10-30 → tmp/referents/anthropic-agents/ |
 | hf-agents | B* | https://huggingface.co/learn/agents-course | HF Learn | 09 | bookmark |
 | dlai-genai-llm | B* | https://www.deeplearning.ai/courses/generative-ai-with-llms | página curso | 08 | bookmark |
 
