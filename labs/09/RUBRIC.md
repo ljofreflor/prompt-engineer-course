@@ -1,5 +1,8 @@
 # Rúbrica labs curso 09 (eval-first)
 
+
+Programa completo (08–11): [`../RUBRIC.md`](../RUBRIC.md).
+
 Usar en scripts de regresión y en el taller. Cada caso y cada corrida reportan dimensiones 0/1 (o score parcial) — no solo “se ve bien”.
 
 | Dimensión | Pregunta | Señal automatizable |

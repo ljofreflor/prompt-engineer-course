@@ -63,6 +63,18 @@ export const slides: Slide[] = [
     viz: "context-stack",
     caption: "Escribir el prompt es necesario; curar qué entra al contexto cada turno es el siguiente oficio.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Ingeniería de contexto",
+    items: [
+      "Context engineering — curar qué entra a la ventana cada turno (prompt, tools, retrieval, historial, memoria); el prompt es una capa.",
+      "MCP — Model Context Protocol: interfaz estándar para exponer tools/recursos al modelo sin acoplar el prompt a un vendor.",
+      "Bloat de contexto — información irrelevante que diluye la tarea (Anthropic / CS329Z: focus + continuity).",
+      "Compaction — resumir o enmascarar historial/tool output para preservar señal y caché.",
+    ],
+  },
   {
     type: "bullets",
     kicker: "Errores frecuentes",
