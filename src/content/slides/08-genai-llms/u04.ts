@@ -115,6 +115,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Entregable",
+    title: "Hoja de cruce abierto vs cerrado",
+    items: [
+      "Volumen, idle, licencia y plan de salida en una página.",
+      "Declarar supuestos; sin números inventados.",
+      "Artefacto versionado → sección 08 del capstone (labs/capstone/).",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Lecturas",
     title: "Para profundizar",
     items: [

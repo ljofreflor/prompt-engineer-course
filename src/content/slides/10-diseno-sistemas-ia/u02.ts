@@ -112,7 +112,7 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
-    kicker: "Resiliencia",
+    kicker: "Taller",
     title: "Comportamiento cuando algo cae",
     items: [
       "Caché, timeouts, reintentos, rate limits, breakers.",

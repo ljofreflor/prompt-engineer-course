@@ -129,11 +129,21 @@ export const slides: Slide[] = [
   },
   {
     type: "image",
-    kicker: "Stack del curso",
+    kicker: "Lab",
     title: "Labs locales medibles",
     src: "labs/screenshots/lab-u01-lmstudio-result.png",
     alt: "Evidencia lab local",
-    caption: "Sin datos productivos · stack en Herramientas (curso 09)",
+    caption: "Lab: labs/09/ — rúbrica formato·calidad·seguridad·costo · sin datos productivos",
+  },
+  {
+    type: "bullets",
+    kicker: "Entregable",
+    title: "Suite de robustez del agente",
+    items: [
+      "Casos de inyección directa e indirecta + expectativa de abstención/bloqueo.",
+      "Correr make lab-09-u04 (o script del agente) y adjuntar traza.",
+      "Una página: qué controló el runtime vs qué quedó solo en el prompt.",
+    ],
   },
   {
     type: "bullets",

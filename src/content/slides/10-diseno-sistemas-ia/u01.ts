@@ -102,7 +102,7 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
-    kicker: "Producto",
+    kicker: "Taller",
     title: "Sección 1 del design doc",
     items: [
       "Ficha de especificación del caso propio.",

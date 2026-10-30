@@ -98,7 +98,7 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
-    kicker: "Ejercicio",
+    kicker: "Taller",
     title: "Elegir y justificar",
     items: [
       "Caso: servicio de chat interno con PII.",

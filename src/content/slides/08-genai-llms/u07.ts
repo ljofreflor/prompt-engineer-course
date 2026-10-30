@@ -115,6 +115,16 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
+    kicker: "Taller",
+    title: "Mapa de riesgos modelo vs sistema",
+    items: [
+      "Elegir un caso (Chile/LATAM): listar 3 riesgos de modelo y 3 de sistema.",
+      "Para cada uno: control fuera del prompt (filtro, log, HITL).",
+      "Entregar tabla de una página — puente a 09/10.",
+    ],
+  },
+  {
+    type: "bullets",
     kicker: "Lecturas",
     title: "Para profundizar",
     items: [

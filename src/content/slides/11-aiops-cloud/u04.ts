@@ -108,7 +108,7 @@ export const slides: Slide[] = [
   },
   {
     type: "bullets",
-    kicker: "Operación",
+    kicker: "Entregable",
     title: "SLOs y runbooks",
     items: [
       "Presupuestos de error.",

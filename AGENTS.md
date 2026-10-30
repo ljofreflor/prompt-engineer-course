@@ -114,7 +114,7 @@ Fuente de verdad del **qué** debe existir: syllabi en `src/data/programs/<slug>
 |------:|------|---------|
 | L0 | absent / partial | Missing deck override or file, or only placeholder |
 | L1 | skeleton | Deck registered + unit page with ≥3 blocks and learning outcomes |
-| L2 | theory | L1 + slides `Teoría` and `Lecturas`; **definiciones de conceptos**; claims cited (author/year); reading keys resolve in `bibliography.bib` / `papers_config.json` |
+| L2 | theory | L1 + `Teoría`/`Lecturas` + **definiciones** + **outcomes en deck** + **actividad formativa** (Lab/Taller/Eval); claims cited; bib keys resolve |
 | L3 | practice | L2 + valid `viz` ids (if any) + lab present when `lab:` is declared on the unit (or `Lab:` path in deck) |
 | L4 | polish | Manual: UAI brand critique (portada ≤2 lines, chrome, tokens, viz contrast) — not auto-scored |
 
@@ -127,11 +127,22 @@ python3 scripts/compliance_check.py          # writes tmp/compliance.md
 python3 scripts/compliance_check.py --strict # exit 1 if any unit < L2
 ```
 
-Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `definitions_present`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.
+Checks (auto): `deck_registered`, `deck_file`, `unit_page`, `outcomes`, `blocks`, `readings_listed`, `teoria_slide`, `lecturas_slide`, `definitions_present`, `outcomes_slide`, `formative_activity`, `citations_present`, `bib_keys_resolve`, `viz_valid`, `lab_ok`.
 
 `definitions_present` (L2): kicker `Definición(es)` / `Concepto(s)` / `Glosario` / `Léxico`, **o** ≥3 bullets `Término — definición` / ≥2 `X es un/una…` en el deck.
 
-Prioritize loop work by **lowest level first**, then by course order 08→11. Do not invent readings to “pass” L2 — only OA / licensed sources; books (Huyen, etc.) may be cited without local PDF. When raising L2, fix missing **definitions** before adding more tips.
+`outcomes_slide` + `formative_activity` (L2, pedagogía): slide “Al finalizar” / Resultados **y** señal Lab:/Taller/Eval/Entregable (alineación constructiva).
+
+Prioritize loop work by **lowest level first**, then by course order 08→11. Do not invent readings to “pass” L2 — only OA / licensed sources; books (Huyen, etc.) may be cited without local PDF. When raising L2, fix missing **definitions** and **pedagogy signals** before adding more tips.
+
+### Pedagogy editor agent
+
+Rol: criticar curso y forma de presentar vs objetivos de aprendizaje; actualizar compliance cuando un criterio sea durable.
+
+- Rule Cursor: `.cursor/rules/pedagogy-editor.mdc` (globs slides/units/labs)
+- Tendencias vivas: `references/pedagogy_trends.md` (two-lane, constructive alignment, AI literacy/readiness, process+product) — **no inventar** fuentes
+- Cada tick del loop: además de L4 brand, correr **una** crítica de editor en una unidad (rotar 08→11); aplicar el fix de mayor severidad; si el aprendizaje es durable → bullet aquí + check en `compliance_check.py` + nota en `pedagogy_trends.md`
+- Log scratch: `tmp/pedagogy-critique.md` (gitignored)
 
 ### Manual L4 (brand) — still required in the loop
 
@@ -164,8 +175,9 @@ Every loop tick should:
 
 1. Run `python3 scripts/compliance_check.py` and note the worst units (lowest L / most ✗)
 2. Screenshot + critique one Reveal clase vs UAI brand (L4); fix the highest-severity issue
-3. **D3 exemplify (mandatory unless blocked):** add or upgrade ≥1 ilustración animada (`type: "viz"` + registry) en la unidad con peor densidad (1 viz / muchos bloques, orden 08→11). Concepto primero; no relleno ornamental
-4. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
-5. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md` — el slice #8 (D3) puede coincidir con el paso 3
-6. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion, market pattern shipped) — short bullet under the right section; do not dump tick noise here
-7. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/market-backlog.md`)
+3. **Pedagogy editor:** critique one unit vs learning outcomes + `references/pedagogy_trends.md` (rule `.cursor/rules/pedagogy-editor.mdc`); log `tmp/pedagogy-critique.md`; apply highest-severity fix; promote durable checks to compliance/`AGENTS.md`
+4. **D3 exemplify (mandatory unless blocked):** add or upgrade ≥1 ilustración animada (`type: "viz"` + registry) en la unidad con peor densidad (1 viz / muchos bloques, orden 08→11). Concepto primero; no relleno ornamental
+5. Advance the worst compliance gaps (raise units toward L2, then L3) **and** theory OA downloads when keys are missing
+6. Advance **one** small slice of **Market differentiation** (table above); log in `tmp/market-backlog.md` — el slice #8 (D3) puede coincidir con el paso 4
+7. **Update `AGENTS.md` when a learning is durable** (brand rule, Astro pitfall, LM quirk, compliance criterion, market pattern shipped) — short bullet under the right section; do not dump tick noise here
+8. Build + push if there are repo changes; never version `tmp/` (incl. `tmp/compliance.md`, `tmp/market-backlog.md`, `tmp/pedagogy-critique.md`)

@@ -10,9 +10,9 @@ Prints: summary table to stdout
 Levels (per unit):
   L0 absent     — no slide override
   L1 skeleton   — deck + unit page with blocks/outcomes
-  L2 theory     — Teoría + Lecturas + concept definitions; bib keys resolve
+  L2 theory     — Teoría + Lecturas + definitions + pedagogy signals (outcomes + formative)
   L3 practice   — lab present when declared / Lab: in deck; viz ids valid
-  L4 polish     — manual (brand critique) — not auto-scored here
+  L4 polish     — manual (brand + pedagogy-editor critique) — not fully auto-scored here
 
 Exit 0 always unless --strict and any unit < L2.
 """
@@ -53,6 +53,19 @@ DEF_KICKER_RE = re.compile(
 # "Término — definición…" or "X es un/una …"
 DEF_DASH_RE = re.compile(r'"[^"]{1,48}\s+[—–]\s+[^"]{8,}"')
 DEF_ES_RE = re.compile(r'"[^"]{2,60}\s+es\s+(?:un|una|el|la)\s+[^"]{5,}"', re.I)
+OUTCOMES_KICKER_RE = re.compile(
+    r'kicker:\s*"(Al finalizar|Resultados|Objetivos|Aprendizaje)"',
+    re.I,
+)
+OUTCOMES_TITLE_RE = re.compile(
+    r'title:\s*"(Resultados de aprendizaje|Al finalizar[^"]*|Objetivos de aprendizaje)"',
+    re.I,
+)
+FORMATIVE_KICKER_RE = re.compile(
+    r'kicker:\s*"(Lab(?:\s+vivo)?|Taller|Eval\b[^"]*|Entregable|Práctica|Demo viva|Capstone)"',
+    re.I,
+)
+LAB_PROSE_RE = re.compile(r"[Ll]ab:\s*")
 SLIDE_OVERRIDE_RE = re.compile(
     r'"(08-genai-llms|09-prompt-engineering|10-diseno-sistemas-ia|11-aiops-cloud)/(u\d{2})"'
 )
@@ -151,6 +164,18 @@ def analyze_definitions(text: str) -> tuple[bool, str]:
     return False, f"need Definición slide or ≥3 'Término — def' / ≥2 'X es un…' (dash={dash_n} es={es_n})"
 
 
+def analyze_pedagogy(text: str) -> dict:
+    """Signals of constructive alignment (outcomes + formative activity)."""
+    outcomes = bool(OUTCOMES_KICKER_RE.search(text) or OUTCOMES_TITLE_RE.search(text))
+    formative = bool(FORMATIVE_KICKER_RE.search(text) or LAB_PROSE_RE.search(text))
+    return {
+        "outcomes_slide": outcomes,
+        "outcomes_detail": "Al finalizar / Resultados" if outcomes else "missing outcomes slide in deck",
+        "formative_activity": formative,
+        "formative_detail": "Lab/Taller/Eval/Entregable" if formative else "no Lab:/Taller/Eval/Entregable signal",
+    }
+
+
 def analyze_deck(path: Path) -> dict:
     text = path.read_text(encoding="utf-8")
     teoria = bool(re.search(r'kicker:\s*"Teoría"', text))
@@ -162,6 +187,7 @@ def analyze_deck(path: Path) -> dict:
     # citation-ish: Author (20xx) or bib keys
     cited = bool(re.search(r"\([12]\d{3}\)", text)) or bool(BIB_KEY_RE.search(text))
     defs_ok, defs_detail = analyze_definitions(text)
+    ped = analyze_pedagogy(text)
     return {
         "teoria": teoria,
         "lecturas": lecturas,
@@ -170,6 +196,7 @@ def analyze_deck(path: Path) -> dict:
         "cited": cited,
         "definitions": defs_ok,
         "definitions_detail": defs_detail,
+        **ped,
         "n_slides": len(re.findall(r"type:\s*\"", text)),
     }
 
@@ -254,6 +281,18 @@ def score_unit(
             detail=deck["definitions_detail"],
             fail=deck["definitions_detail"],
         )
+        s.add(
+            "outcomes_slide",
+            deck["outcomes_slide"],
+            detail=deck["outcomes_detail"],
+            fail=deck["outcomes_detail"],
+        )
+        s.add(
+            "formative_activity",
+            deck["formative_activity"],
+            detail=deck["formative_detail"],
+            fail=deck["formative_detail"],
+        )
         s.add("citations_present", deck["cited"], fail="no (Author, year) / bib keys in deck")
         bad_viz = [v for v in deck["viz"] if v not in viz_ids]
         s.add(
@@ -266,6 +305,8 @@ def score_unit(
         s.add("teoria_slide", False, fail="no deck")
         s.add("lecturas_slide", False, fail="no deck")
         s.add("definitions_present", False, fail="no deck")
+        s.add("outcomes_slide", False, fail="no deck")
+        s.add("formative_activity", False, fail="no deck")
         s.add("citations_present", False, fail="no deck")
         s.add("viz_valid", True, detail="n/a")
 
@@ -317,6 +358,8 @@ def score_unit(
             "teoria_slide",
             "lecturas_slide",
             "definitions_present",
+            "outcomes_slide",
+            "formative_activity",
             "citations_present",
             "readings_listed",
             "bib_keys_resolve",

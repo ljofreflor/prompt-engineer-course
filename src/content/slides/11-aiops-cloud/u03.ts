@@ -112,11 +112,21 @@ export const slides: Slide[] = [
   },
   {
     type: "image",
-    kicker: "Contingencia",
+    kicker: "Lab",
     title: "Backend local medible",
     src: "labs/screenshots/lmstudio-server-status.png",
     alt: "LM Studio server status",
-    caption: "Misma API OpenAI-compatible que el serving en nube",
+    caption: "Lab: labs/11/u01/health_wrapper.py · misma API OpenAI-compatible que la nube",
+  },
+  {
+    type: "bullets",
+    kicker: "Entregable",
+    title: "Smoke de despliegue",
+    items: [
+      "Health check verde en local (make smoke o wrapper 11/u01).",
+      "Anotar imagen/tag y fallback si cae el proveedor cloud.",
+      "Evidencia en labs/runs/ o captura en /herramientas.",
+    ],
   },
   {
     type: "bullets",
