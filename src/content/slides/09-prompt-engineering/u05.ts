@@ -82,11 +82,11 @@ export const slides: Slide[] = [
   {
     type: "bullets",
     kicker: "Patrones",
-    title: "Supervisor · cadena · pares · crítica",
+    title: "Workflows primero; agente si hace falta",
     items: [
-      "Supervisor: ruteo central; SPOF en el orquestador.",
-      "Cadena: simple; error se propaga aguas abajo.",
-      "Pares / debate: costo alto; útil en desacuerdo medible.",
+      "Workflow (Anthropic): chain, router, paralelo, orquestador-evaluador — grafo fijo.",
+      "Agente: el modelo elige el siguiente paso; solo si el flujo no se puede fijar.",
+      "Supervisor / cadena / pares: topologías multiagente con modos de falla distintos.",
       "Revisión cruzada: segundo agente como filtro, no oráculo.",
     ],
   },
