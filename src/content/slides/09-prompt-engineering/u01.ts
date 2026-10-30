@@ -143,6 +143,7 @@ export const slides: Slide[] = [
     paragraphs: [
       "Mostrar un prompt vago vs uno con schema + abstención. Medir tasa de parseo OK en 10 entradas (incluidas OOD).",
       "Lab: labs/09/u01/run_structured.py contra LM Studio (google/gemma-4-e4b · localhost:1234).",
+      "Context eng (2 min): si el ticket trae historial largo, compactar a 3 bullets antes del schema — menos bloat, mismo contrato.",
     ],
   },
   {

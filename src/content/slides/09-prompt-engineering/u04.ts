@@ -86,8 +86,8 @@ export const slides: Slide[] = [
     items: [
       "Granularidad: ni demasiado ancha ni demasiado frágil.",
       "Schemas claros; resultados vacíos y errores tipados.",
-      "Sandbox: paths, calculadora, stubs — sin secretos.",
-      "Nunca inventar Observation: el runtime la inyecta.",
+      "MCP / OpenAPI: el borde portable de tools (mismo contrato, otro runtime).",
+      "Nunca inventar Observation: el runtime la inyecta; sandbox sin secretos.",
     ],
   },
   {
