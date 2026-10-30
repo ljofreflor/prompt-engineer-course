@@ -62,6 +62,18 @@ export const slides: Slide[] = [
     viz: "react-loop",
     caption: "Thought → Action → Observation; Finish sale del ciclo con tope de pasos/tiempo/costo.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico de agentes",
+    items: [
+      "Agente — loop razón→acción→observación con tools y criterio de terminación.",
+      "ReAct — patrón Thought / Action / Observation anclado al entorno (Yao et al., 2023).",
+      "Tool — API tipada para el modelo; la Observation la inyecta el runtime, no el LM.",
+      "Presupuesto del loop — topes duros de pasos, tiempo, tokens/costo y HITL en irreversibles.",
+    ],
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -93,6 +105,14 @@ export const slides: Slide[] = [
       "Presupuesto de tokens / costo.",
       "Confirmación humana para efectos irreversibles.",
     ],
+  },
+
+  {
+    type: "viz",
+    kicker: "Control",
+    title: "Cuánto automatizar",
+    viz: "automation-levels",
+    caption: "Acciones irreversibles: confirmación fuera del prompt (HITL).",
   },
   {
     type: "viz",
@@ -129,10 +149,10 @@ export const slides: Slide[] = [
     kicker: "Entregable",
     title: "Agente mínimo operable",
     items: [
-      "≥ 3 tools (incl. una que pueda fallar).",
-      "Manejo de Observation de error.",
-      "Topes de pasos y tiempo en el runtime.",
-      "Registro de trayectoria para evaluación (Unidad 6).",
+      "Caso Chile: consulta saldo/cupo (stub) — tool que puede fallar + HITL si “transferir”.",
+      "≥ 3 tools; Observation de error tipada; topes en el runtime (no solo en el prompt).",
+      "From-scratch mínimo (lab u04) antes de envolver en un framework.",
+      "Trayectoria logueada → eval Unidad 6 / labs/RUBRIC.md.",
     ],
   },
   {
