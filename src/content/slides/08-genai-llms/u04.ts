@@ -54,11 +54,12 @@ export const slides: Slide[] = [
   {
     type: "bullets",
     kicker: "Definiciones",
-    title: "Qué significa abierto",
+    title: "Léxico abierto / cerrado",
     items: [
-      "Pesos descargables ≠ licencia permisiva.",
-      "Restricciones comerciales y de uso en Chile.",
-      "Documentación y reproducibilidad como parte del paquete.",
+      "Apertura — ejes separados: pesos, código, datos, licencia (no un booleano).",
+      "Soberanía — capacidad de operar y auditar sin depender de un único proveedor externo.",
+      "Punto de cruce — volumen donde el costo total abierto (incl. idle) iguala al cerrado.",
+      "Plan de salida — alternativa evaluada + contrato portable (p. ej. OpenAI-compatible).",
     ],
   },
   {
@@ -113,12 +114,20 @@ export const slides: Slide[] = [
       "Plan de cambio de proveedor en el design doc.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Dependencia",
+    title: "Salida = borde portable",
+    viz: "portability-edge",
+    caption: "Nombrar un vendor open sin evaluarlo no es mitigación.",
+  },
   {
     type: "bullets",
     kicker: "Entregable",
     title: "Hoja de cruce abierto vs cerrado",
     items: [
-      "Volumen, idle, licencia y plan de salida en una página.",
+      "Caso Chile: datos sensibles / sector público — residencia + licencia comercial.",
       "Declarar supuestos; sin números inventados.",
       "Artefacto versionado → sección 08 del capstone (labs/capstone/).",
     ],
