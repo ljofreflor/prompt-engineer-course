@@ -62,6 +62,18 @@ export const slides: Slide[] = [
     viz: "multiagent",
     caption: "Más hops = más costo y más modos de falla; justificar cada agente.",
   },
+
+  {
+    type: "bullets",
+    kicker: "Definiciones",
+    title: "Léxico multiagente",
+    items: [
+      "Sistema multiagente — varios roles con mensajes/contratos; la topología define el modo de falla.",
+      "Supervisor — orquestador central que rutea; SPOF si no hay degradación.",
+      "Fiabilidad compuesta — con hops independientes ≈ producto de fiabilidades por hop.",
+      "Checkpoint — validación de salida intermedia antes de seguir el grafo.",
+    ],
+  },
   {
     type: "section",
     title: "Bloque 2",
@@ -100,6 +112,14 @@ export const slides: Slide[] = [
       "Degradación: fallback a regla o a humano.",
     ],
   },
+
+  {
+    type: "viz",
+    kicker: "Degradación",
+    title: "Cortar antes de inventar",
+    viz: "abstain-escalate",
+    caption: "Si un agente falla: abstener, reintentar acotado o escalar a humano.",
+  },
   {
     type: "section",
     title: "Bloque 4",
@@ -110,10 +130,10 @@ export const slides: Slide[] = [
     kicker: "Entregable",
     title: "Topología del proyecto final",
     items: [
-      "Diagrama de agentes y contratos de mensaje.",
-      "Cálculo de fiabilidad esperada (supuestos explícitos).",
-      "Dónde cortás el sistema si un agente falla.",
-      "Comparar vs diseño de un solo agente.",
+      "Caso Chile: mesa de ayuda (triage → especialista → cierre) — ¿multiagente o uno solo?",
+      "Diagrama + contratos; fiabilidad esperada con supuestos explícitos.",
+      "Dónde cortás si falla un hop (checkpoint / HITL).",
+      "Comparar costo vs agente único (Kapoor: medir costo, no solo success).",
     ],
   },
   {
