@@ -37,7 +37,8 @@ export type VizId =
   | "quant-ladder"
   | "context-stack"
   | "judge-bias"
-  | "self-consistency";
+  | "self-consistency"
+  | "agent-budget";
 
 export type Slide =
   | { type: "title"; kicker: string; title: string; subtitle?: string }

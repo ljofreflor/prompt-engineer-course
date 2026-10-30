@@ -25,7 +25,7 @@ export const changelogQuarters: ChangelogQuarter[] = [
         date: "2026-10-30",
         title: "Densidad viz 09",
         detail:
-          "self-consistency en 09/u03; guardrails reutilizado en controles de 09/u06.",
+          "self-consistency (u03), guardrails (u06), agent-budget (u04) — topes del loop.",
         tags: ["09", "viz"],
       },
       {

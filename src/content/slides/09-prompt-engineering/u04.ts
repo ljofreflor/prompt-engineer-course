@@ -95,6 +95,13 @@ export const slides: Slide[] = [
     ],
   },
   {
+    type: "viz",
+    kicker: "Ilustración",
+    title: "Cuatro topes del loop",
+    viz: "agent-budget",
+    caption: "Sin pasos / tiempo / costo / HITL, el agente no es un sistema operable.",
+  },
+  {
     type: "prose",
     kicker: "Lab vivo",
     title: "Agente ReAct mínimo",

@@ -2815,6 +2815,99 @@
   }
 
   /** SFT vs alineación: dos objetivos distintos. */
+  /** Presupuesto del agente: pasos, tiempo, costo, HITL. */
+  function vizAgentBudget(el) {
+    cineManual(el);
+    var w = 920;
+    var h = 340;
+    var svg = svgRoot(el, w, h);
+    svg.append("title").text("Topes del agente: pasos, tiempo, costo, confirmación humana");
+
+    var caps = [
+      { title: "Pasos", sub: "máx. N", fill: COLORS.soft },
+      { title: "Tiempo", sub: "timeout pared", fill: COLORS.soft },
+      { title: "Costo", sub: "tokens / $", fill: COLORS.soft },
+      { title: "HITL", sub: "irreversible", fill: COLORS.primary },
+    ];
+    var cardW = 180;
+    var gap = 28;
+    var startX = (w - (caps.length * cardW + (caps.length - 1) * gap)) / 2;
+    var nodes = [];
+
+    caps.forEach(function (c, i) {
+      var x = startX + i * (cardW + gap);
+      var g = svg.append("g").attr("transform", "translate(" + x + ",70)");
+      var ink = c.fill === COLORS.primary ? COLORS.white : COLORS.negro;
+      var muted = c.fill === COLORS.primary ? "rgba(255,255,255,0.85)" : COLORS.gray;
+      g.append("rect")
+        .attr("width", cardW)
+        .attr("height", 180)
+        .attr("rx", 2)
+        .attr("fill", c.fill)
+        .attr("stroke", c.fill === COLORS.soft ? COLORS.negro : "none")
+        .attr("stroke-width", 1.5);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 70)
+        .attr("text-anchor", "middle")
+        .attr("fill", ink)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 800)
+        .attr("font-size", 22)
+        .text(c.title);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 110)
+        .attr("text-anchor", "middle")
+        .attr("fill", muted)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-size", 14)
+        .text(c.sub);
+      g.append("text")
+        .attr("x", cardW / 2)
+        .attr("y", 150)
+        .attr("text-anchor", "middle")
+        .attr("fill", c.fill === COLORS.primary ? COLORS.white : COLORS.primary)
+        .attr("font-family", "Roboto, system-ui, sans-serif")
+        .attr("font-weight", 700)
+        .attr("font-size", 13)
+        .text("tope " + (i + 1));
+      nodes.push(g.node());
+    });
+
+    var foot = svg
+      .append("text")
+      .attr("x", w / 2)
+      .attr("y", 300)
+      .attr("text-anchor", "middle")
+      .attr("fill", COLORS.gray)
+      .attr("font-family", "Roboto, system-ui, sans-serif")
+      .attr("font-size", 13)
+      .attr("opacity", 0)
+      .text("El runtime corta el loop — el prompt solo no basta")
+      .node();
+
+    var tl = cineTl();
+    if (tl) {
+      gsap.set(nodes, { opacity: 0 });
+      tl.to(nodes, { opacity: 1, duration: 0.32, stagger: 0.1 }, 0.05).to(
+        foot,
+        { opacity: 1, duration: 0.28 },
+        0.55
+      );
+    } else {
+      nodes.forEach(function (n, i) {
+        d3.select(n)
+          .attr("opacity", 0)
+          .transition()
+          .delay(tDelay(70 + i * 110))
+          .duration(tDur(360))
+          .attr("opacity", 1);
+      });
+      d3.select(foot).transition().delay(tDelay(550)).duration(tDur(280)).attr("opacity", 1);
+    }
+  }
+
   /** Self-consistency: varias cadenas → voto (Wang et al. 2023). */
   function vizSelfConsistency(el) {
     cineManual(el);
@@ -3620,6 +3713,7 @@
     "context-stack": vizContextStack,
     "judge-bias": vizJudgeBias,
     "self-consistency": vizSelfConsistency,
+    "agent-budget": vizAgentBudget,
     autoregressive: vizAutoregressive,
     "eval-levels": vizEvalLevels,
     "notebook-to-service": vizNotebookToService,
